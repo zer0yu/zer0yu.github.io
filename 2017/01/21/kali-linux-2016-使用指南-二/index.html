@@ -1,0 +1,1079 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ZEROYU, SEC" />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="ZEROYU" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="虚拟机安装增强1.Kali 官方安装更新 /etc/apt/sources.list
+你所添加的源，请确保是我在一中写的所有
+然后在线安装增强功能
+12345apt-get updateapt-get install -y virtualbox-guest-x11reboot
+2.VirtualBox自带包安装123456789apt-get update &amp;amp;&amp;amp; apt-get i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kali linux 2016 使用指南(二)">
+<meta property="og:url" content="http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/index.html">
+<meta property="og:site_name" content="ZEROYU">
+<meta property="og:description" content="虚拟机安装增强1.Kali 官方安装更新 /etc/apt/sources.list
+你所添加的源，请确保是我在一中写的所有
+然后在线安装增强功能
+12345apt-get updateapt-get install -y virtualbox-guest-x11reboot
+2.VirtualBox自带包安装123456789apt-get update &amp;amp;&amp;amp; apt-get i">
+<meta property="og:updated_time" content="2017-01-21T14:47:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="kali linux 2016 使用指南(二)">
+<meta name="twitter:description" content="虚拟机安装增强1.Kali 官方安装更新 /etc/apt/sources.list
+你所添加的源，请确保是我在一中写的所有
+然后在线安装增强功能
+12345apt-get updateapt-get install -y virtualbox-guest-x11reboot
+2.VirtualBox自带包安装123456789apt-get update &amp;amp;&amp;amp; apt-get i">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/"/>
+
+
+
+
+
+  <title> kali linux 2016 使用指南(二) | ZEROYU </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?414e74bab07e7101a26a8ca95416288a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ZEROYU</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ZEROYU">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ZEROYU">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                kali linux 2016 使用指南(二)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-21T22:11:00+08:00">
+                2017-01-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/21/kali-linux-2016-使用指南-二/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/21/kali-linux-2016-使用指南-二/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/21/kali-linux-2016-使用指南-二/" class="leancloud_visitors" data-flag-title="kali linux 2016 使用指南(二)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="虚拟机安装增强"><a href="#虚拟机安装增强" class="headerlink" title="虚拟机安装增强"></a>虚拟机安装增强</h4><h5 id="1-Kali-官方安装"><a href="#1-Kali-官方安装" class="headerlink" title="1.Kali 官方安装"></a>1.Kali 官方安装</h5><p>更新 /etc/apt/sources.list</p>
+<p>你所添加的源，请确保是我在一中写的所有</p>
+<p>然后在线安装增强功能</p>
+<figure class="highlight q"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">apt-<span class="built_in">get</span> <span class="keyword">update</span></div><div class="line"></div><div class="line">apt-<span class="built_in">get</span> install -y virtualbox-guest-x11</div><div class="line"></div><div class="line">reboot</div></pre></td></tr></table></figure>
+<h5 id="2-VirtualBox自带包安装"><a href="#2-VirtualBox自带包安装" class="headerlink" title="2.VirtualBox自带包安装"></a>2.VirtualBox自带包安装</h5><figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">apt-get <span class="keyword">update</span> &amp;&amp; apt-get install -y linux-headers-$(uname-r)</div><div class="line"></div><div class="line">cp /media/<span class="keyword">cd</span>-rom/VBoxLinuxAdditions.<span class="keyword">run</span> /root/</div><div class="line"></div><div class="line">chmod 755 /root/VBoxLinuxAdditions.<span class="keyword">run</span></div><div class="line"></div><div class="line"><span class="keyword">cd</span>/root</div><div class="line"></div><div class="line">./VBoxLinuxAdditions.<span class="keyword">run</span></div></pre></td></tr></table></figure>
+<h4 id="内核头有问题自己手动安装过程"><a href="#内核头有问题自己手动安装过程" class="headerlink" title="内核头有问题自己手动安装过程"></a>内核头有问题自己手动安装过程</h4><p>打开 <a href="http://http.kali.org/kali/pool/main/l/linux/%20" target="_blank" rel="external">http://http.kali.org/kali/pool/main/l/linux/</a></p>
+<p>下载对应自己内核版本的 linux-kbuild</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">wget http:<span class="regexp">//</span>http.kali.org<span class="regexp">/kali/</span>pool<span class="regexp">/main/</span>l<span class="regexp">/linux/</span>linux-kbuild-<span class="number">4.6</span>_4.<span class="number">6.4</span>-<span class="number">1</span>kali1_amd64.deb</div><div class="line"></div><div class="line">dpkg -i linux-kbuild-<span class="number">4.6</span>_4.<span class="number">6.4</span>-<span class="number">1</span>kali1_amd64.deb</div><div class="line"></div><div class="line">wget http:<span class="regexp">//</span>http.kali.org<span class="regexp">/kali/</span>pool<span class="regexp">/main/</span>l<span class="regexp">/linux/</span>linux-headers-<span class="number">4.6</span>.<span class="number">0</span>-kali1-common_4.<span class="number">6.4</span>-<span class="number">1</span>kali1_amd64.deb</div><div class="line"></div><div class="line">wget http:<span class="regexp">//</span>http.kali.org<span class="regexp">/kali/</span>pool<span class="regexp">/main/</span>l<span class="regexp">/linux/</span>http:<span class="regexp">//</span>http.kali.org<span class="regexp">/kali/</span>pool<span class="regexp">/main/</span>l<span class="regexp">/linux/</span>linux-headers-<span class="number">4.6</span>.<span class="number">0</span>-kali1-amd64_4.<span class="number">6.4</span>-<span class="number">1</span>kali1_amd64.deb</div><div class="line"></div><div class="line">dpkg -i linux-headers-<span class="number">4.6</span>.<span class="number">0</span>-kali1-common_4.<span class="number">6.4</span>-<span class="number">1</span>kali1_amd64.deb</div><div class="line"></div><div class="line">dpkg -i linux-headers-<span class="number">4.6</span>.<span class="number">0</span>-kali1-amd64_4.<span class="number">6.4</span>-<span class="number">1</span>kali1_amd64.deb</div><div class="line"></div><div class="line">apt-get -f install</div></pre></td></tr></table></figure>
+<h4 id="开启SSH服务"><a href="#开启SSH服务" class="headerlink" title="开启SSH服务"></a>开启SSH服务</h4><p>首先：编辑sshd_config文件</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim <span class="regexp">/etc/</span>ssh<span class="regexp">/sshd_config</span></div></pre></td></tr></table></figure>
+<p>其次：将sshd_config文件中的语句PermitRootLogin prohibit-password修改为：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">PermitRootLogin</span> <span class="literal">yes</span></div></pre></td></tr></table></figure>
+<p>再次：使用命令启动SSH服务:</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">/etc/init.d/ssh <span class="literal">start</span></div><div class="line"><span class="comment"># 或者</span></div><div class="line">service ssh <span class="literal">start</span></div></pre></td></tr></table></figure>
+<p>最后：设置系统开机自动启动SSH服务:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">update-rc<span class="selector-class">.d</span> ssh enable  <span class="comment">//系统自动启动SSH服务</span></div></pre></td></tr></table></figure>
+<h4 id="mysql重置密码"><a href="#mysql重置密码" class="headerlink" title="mysql重置密码"></a>mysql重置密码</h4><p>1、如果<a href="http://lib.csdn.net/base/linux" target="_blank" rel="external">Linux</a>中未安装<a href="http://lib.csdn.net/base/mysql" target="_blank" rel="external">MySQL</a>，则需要下载安装，<strong>在安装的过程中会要求输入用户名密码</strong>，则无需重置，直接设置</p>
+<p>2、MySQL设置UTF-8编码格式**</p>
+<p>配置文件：</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root<span class="variable">@kali</span><span class="symbol">:~</span><span class="comment"># vim /etc/mysql/my.cnf</span></div></pre></td></tr></table></figure>
+<p>添加默认utf-8编码：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="section">[client]</span></div><div class="line"><span class="attr">default-character-set</span> = utf8</div><div class="line"><span class="section">[mysqld]</span></div><div class="line"><span class="attr">default-storage-engine</span> = INNODB</div><div class="line"><span class="attr">character-set-server</span> = utf8</div><div class="line"><span class="attr">collation-server</span> = utf8_general_ci</div></pre></td></tr></table></figure>
+<p>3、更新MySQL的用户名密码</p>
+<p>首先查看MySQL是否运行，确保MySQL是stop状态，可以使用/etc/init.d/mysql stop停止运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">root@kali:~# /etc/init.d/mysql status</div><div class="line">[info] MySQL is stopped..</div></pre></td></tr></table></figure>
+<p>然后启动MySQL的server/daemon process</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@kali:~# mysqld_safe –skip-grant-tables &amp;</div></pre></td></tr></table></figure>
+<p>使用root用户连接MySQL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">root@kali:~# mysql -u root</div><div class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</div><div class="line">Your MySQL connection id is 1</div><div class="line">Server version: 5.5.44–0+deb7u1 (Debian)</div><div class="line">Copyright (c) 2000, 2015, Oracle and/or its affiliates. All rights reserved.</div><div class="line">Oracle is a registered trademark of Oracle Corporation and/or its</div><div class="line">affiliates. Other names may be trademarks of their respective</div><div class="line">owners.</div><div class="line">Type ‘help;’ or ‘\h’ for help. Type ‘\c’ to clear the current input statement.</div><div class="line">mysql&gt;</div></pre></td></tr></table></figure>
+<p>更改root用户的密码为admin</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; use mysql</div><div class="line">Reading table information for completion of table and column names</div><div class="line">You can turn off this feature to get a quicker startup with -A</div><div class="line">Database changed</div><div class="line">mysql&gt; update user set password=PASSWORD(‘admin’) where User=‘root’;</div><div class="line">Query OK, 4 rows affected (0.01 sec)</div><div class="line">Rows matched: 4  Changed: 4  Warnings: 0</div></pre></td></tr></table></figure>
+<p>执行更新命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; flush privileges;</div><div class="line">Query OK, 0 rows affected (0.00 sec)</div></pre></td></tr></table></figure>
+<p>flush privileges 命令本质上的作用是将当前user和privilige表中的用户信息/权限设置从mysql库(MySQL数据库的内置库)中提取到内存里。MySQL用户数据和权限有修改后，希望在”不重启MySQL服务”的情况下直接生效，那么就需要执行这个命令。通常是在修改ROOT帐号的设置后，怕重启后无法再登录进来，那么直接flush之后就可以看权限设置是否生效。而不必冒太大风险。</p>
+<p>退出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql&gt; quit</div></pre></td></tr></table></figure>
+<p>4、验证用户密码是否更新成功</p>
+<p>重启MySQL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">root@kali:~# /etc/init.d/mysql restart</div><div class="line">[ ok ] Stopping MySQL database server: mysqld.</div><div class="line">[….] Starting MySQL database server: mysqld151015 11:41:36 mysqld_safe mysqld from pid file /var/run/mysqld/mysqld.pid ended</div><div class="line">[ .k</div><div class="line">[info] Checking for tables which need an upgrade, are corrupt or were</div><div class="line">not closed cleanly..</div><div class="line">[1]+  完成                  mysqld_safe –skip-grant-tables</div></pre></td></tr></table></figure>
+<p>使用root用户连接MySQL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">root@kali:~# mysql -u root -p</div><div class="line">Enter password:</div><div class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</div><div class="line">Your MySQL connection id is 43</div><div class="line">Server version: 5.5.44–0+deb7u1 (Debian)</div><div class="line">Copyright (c) 2000, 2015, Oracle and/or its affiliates. All rights reserved.</div><div class="line">Oracle is a registered trademark of Oracle Corporation and/or its</div><div class="line">affiliates. Other names may be trademarks of their respective</div><div class="line">owners.</div><div class="line">Type ‘help;’ or ‘\h’ for help. Type ‘\c’ to clear the current input statement.</div><div class="line">mysql&gt;</div></pre></td></tr></table></figure>
+<h4 id="metasploit-Database-not-connect问题解决"><a href="#metasploit-Database-not-connect问题解决" class="headerlink" title="metasploit Database not connect问题解决"></a>metasploit Database not connect问题解决</h4><p>1、postgresql是本身没有启动的。所以需要启动。</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">service postgresql <span class="literal">start</span></div></pre></td></tr></table></figure>
+<p>2、通过命令进入配置</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo -u postgres psql</div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">USER</span> postgres <span class="keyword">WITH</span> <span class="keyword">PASSWORD</span> ‘<span class="number">123.</span>com’;</div></pre></td></tr></table></figure>
+<p>注意1：‘123.com’这个是密码。<br>注意2：分号！！！！一定要带上分号“；”。<br>注意3：\q：退出数据库</p>
+<p>3、修改linux系统的postgres用户的密码（密码与数据库用户postgres的密码相同）</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">root<span class="variable">@kali</span><span class="symbol">:~</span><span class="comment"># sudo passwd -d postgres</span></div><div class="line">passwd：密码过期信息已更改。</div><div class="line">root<span class="variable">@kali</span><span class="symbol">:~</span><span class="comment"># sudo -u postgres passwd</span></div><div class="line">输入新的 UNIX 密码：</div><div class="line">重新输入新的 UNIX 密码：</div><div class="line">passwd：已成功更新密码</div></pre></td></tr></table></figure>
+<p>4、修改PostgresSQL数据库配置实现远程访问</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">root<span class="variable">@kali</span><span class="symbol">:~</span><span class="comment"># vi /etc/postgresql/9.4/main/postgresql.conf</span></div><div class="line">更改<span class="comment">#listen_addresses = ‘localhost’为 listen_addresses = ‘*’</span></div><div class="line">更改<span class="comment">#password_encryption = on为password_encryption = on</span></div><div class="line">root<span class="variable">@kali</span><span class="symbol">:~</span><span class="comment"># vi /etc/postgresql/9.4/main/pg_hba.conf</span></div><div class="line">在文档末尾加上以下内容</div><div class="line"><span class="comment"># to allow your client visiting postgresql server</span></div><div class="line">host all all <span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span> <span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span> md5</div><div class="line">root<span class="variable">@kali</span><span class="symbol">:~</span><span class="comment"># service postgresql restart</span></div></pre></td></tr></table></figure>
+<p>注意1：“#”号，一定要把“#”删除掉。<br>注意2：在vi编辑模式下点击键盘字母a是进入编辑模式，编辑完成后点击“esc”退出编辑模式然后在最下方输入“：wq”保存并退出。</p>
+<p>5、管理PostgreSQL用户和数据库</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root<span class="variable">@kali</span><span class="symbol">:~</span><span class="comment"># psql -U postgres -h 127.0.0.1</span></div></pre></td></tr></table></figure>
+<p>用户 postgres 的口令：<br>psql (9.4.6)<br>SSL连接 (协议: TLSv1.2, 加密：ECDHE-RSA-AES256-GCM-SHA384，二进制位: 256, 压缩比: 关闭)<br>输入 “help” 来获取帮助信息</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="attr">postgres=</span><span class="comment"># create user “msf123” with password ‘123456’ nocreatedb;</span></div><div class="line">CREATE <span class="keyword">ROLE</span></div><div class="line"><span class="title">postgres</span>=<span class="comment"># create database “msf1” with owner=”msf123”;</span></div><div class="line">ERROR: <span class="keyword">role</span> <span class="title">“”msf123</span>”” does not exist</div><div class="line"><span class="attr">postgres=</span><span class="comment"># create database “msf1″ with owner=”msf123”;</span></div><div class="line">CREATE DATABASE</div><div class="line"><span class="attr">postgres=</span><span class="comment"># \q</span></div></pre></td></tr></table></figure>
+<p>注意1：还是要注意分号！！！没有分号命令就无法执行。<br>注意2：注意复制的时候“”符号问题。<br>注意3：user后面是用户名，password后面是用户名对应的密码。<br>注意4：命令执行后有返回结果才是执行成功了。</p>
+<p>6、msf配置连接</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">root<span class="variable">@kali</span><span class="symbol">:~</span><span class="comment"># msfconsole</span></div><div class="line">msf &gt; db_status</div><div class="line">[*] postgresql selected, no connection</div><div class="line">msf &gt; db_connect <span class="symbol">msf123:</span><span class="number">123456</span><span class="variable">@127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>/msf1</div><div class="line">[*] Rebuilding the <span class="keyword">module</span> cache <span class="keyword">in</span> the background…</div><div class="line">msf &gt; db_status</div><div class="line">[*] postgresql connected to msf1</div><div class="line">msf &gt;</div></pre></td></tr></table></figure>
+<p>在msf启动后连接数据库就好。<br>注意1：“msf123:123456”这个是步骤5中的<br>“create user “msf123” with password ‘123456’ nocreatedb;”所建立的。<br>“127.0.0.1”是指本机。<br>“msf1”这个是库名。<br>注意2：“[*] postgresql connected to msf1”这个是说明以链接成功数据库。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/21/kali-linux-2016-使用指南-一/" rel="next" title="kali linux 2016 使用指南(一)">
+                <i class="fa fa-chevron-left"></i> kali linux 2016 使用指南(一)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/21/基于CSI的移动目标侦测研究学习/" rel="prev" title="基于CSI的移动目标侦测研究学习">
+                基于CSI的移动目标侦测研究学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/01/21/kali-linux-2016-使用指南-二/"
+           data-title="kali linux 2016 使用指南(二)" data-url="http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="ZEROYU" />
+          <p class="site-author-name" itemprop="name">ZEROYU</p>
+          <p class="site-description motion-element" itemprop="description">一只单线程HACKER</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zer0yu" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/Z3r0yu" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="zeroyu.xyz@gmail.com" target="_blank" title="Email">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Email
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/zeroyu_xyz" title="我的CSDN博客" target="_blank">我的CSDN博客</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#虚拟机安装增强"><span class="nav-number">1.</span> <span class="nav-text">虚拟机安装增强</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-Kali-官方安装"><span class="nav-number">1.1.</span> <span class="nav-text">1.Kali 官方安装</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-VirtualBox自带包安装"><span class="nav-number">1.2.</span> <span class="nav-text">2.VirtualBox自带包安装</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内核头有问题自己手动安装过程"><span class="nav-number">2.</span> <span class="nav-text">内核头有问题自己手动安装过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#开启SSH服务"><span class="nav-number">3.</span> <span class="nav-text">开启SSH服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mysql重置密码"><span class="nav-number">4.</span> <span class="nav-text">mysql重置密码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#metasploit-Database-not-connect问题解决"><span class="nav-number">5.</span> <span class="nav-text">metasploit Database not connect问题解决</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZEROYU</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">ZEROYU</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    bp.src = '//push.zhanzhang.baidu.com/push.js';
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zeroyu.duoshuo.com"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("KY6fzHpNYVDAlWLyfhKdz5OA-gzGzoHsz", "IlxIqswmBd92jfiSvOIQSLf5");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>

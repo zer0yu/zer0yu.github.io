@@ -296,6 +296,652 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/21/基于CSI的移动目标侦测研究学习/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ZEROYU">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ZEROYU">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/21/基于CSI的移动目标侦测研究学习/" itemprop="url">
+                  基于CSI的移动目标侦测研究学习
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-21T22:48:58+08:00">
+                2017-01-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/21/基于CSI的移动目标侦测研究学习/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/21/基于CSI的移动目标侦测研究学习/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/21/基于CSI的移动目标侦测研究学习/" class="leancloud_visitors" data-flag-title="基于CSI的移动目标侦测研究学习">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="环境安装"><a href="#环境安装" class="headerlink" title="环境安装"></a>环境安装</h4><p>需要用到<a href="http://dhalperi.github.io/linux-80211n-csitool/" target="_blank" rel="external">CSI tool</a>，这是一个运行在Ubuntu上的利用Intel Wi-Fi Wireless Link 5300 802.11n来做分析的程序。这里可以使用作者网站中方法来安装，也可以下载<a href="http://pan.baidu.com/s/1dDhFuNJ" target="_blank" rel="external">清华的版本</a>。清华的版本附带了安装说明书，参考说明书上的方法，安装即可。</p>
+<p>需要注意的是，发射源路由器需要选择单天线支持802.11n的路由器，我使用的是TP-LINK TL-WR742N。</p>
+<h4 id="获取数据"><a href="#获取数据" class="headerlink" title="获取数据"></a>获取数据</h4><p>cd进入csitools文件夹，进入linux-80211n-csitool-supplementary/netlink，运行</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">sudo</span> ./log_to_file tmp.dat</div></pre></td></tr></table></figure>
+<p>打开另一个终端，运行</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">ping</span> 192<span class="selector-class">.168</span><span class="selector-class">.1</span><span class="selector-class">.1</span> <span class="selector-tag">-i</span> 0<span class="selector-class">.2</span></div></pre></td></tr></table></figure>
+<p>netlink文件夹中的tmp.dat就是采集的原始数据。</p>
+<h4 id="读取数据"><a href="#读取数据" class="headerlink" title="读取数据"></a>读取数据</h4><p>使用Matlab读取数据，进入linux-80211n-csitool-supplementary/matlab文件夹，使用read_bf_file函数可以读取数据。</p>
+<p>一个例子数据包里包含</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">timestamp_low: <span class="number">4</span> (In the sample trace, timestamp_low is invalid and always <span class="number">4.</span>)</div><div class="line">bfee_count: <span class="number">72</span></div><div class="line">Nrx: <span class="number">3</span></div><div class="line">Ntx: <span class="number">1</span></div><div class="line">rssi_a: <span class="number">33</span></div><div class="line">rssi_b: <span class="number">37</span></div><div class="line">rssi_c: <span class="number">41</span></div><div class="line">noise: <span class="number">-127</span></div><div class="line">agc: <span class="number">38</span></div><div class="line">perm: [<span class="number">3</span> <span class="number">2</span> <span class="number">1</span>]</div><div class="line">rate: <span class="number">256</span></div><div class="line">csi: [<span class="number">1</span>x3x30 double]</div></pre></td></tr></table></figure>
+<h2 id="环境安装-1"><a href="#环境安装-1" class="headerlink" title="环境安装"></a>环境安装</h2><p>需要用到<a href="http://dhalperi.github.io/linux-80211n-csitool/" target="_blank" rel="external">CSI tool</a>，这是一个运行在Ubuntu上的利用Intel Wi-Fi Wireless Link 5300 802.11n来做分析的程序。这里可以使用作者网站中方法来安装，也可以下载<a href="http://pan.baidu.com/s/1dDhFuNJ" target="_blank" rel="external">清华的版本</a>。清华的版本附带了安装说明书，参考说明书上的方法，安装即可。</p>
+<p>需要注意的是，发射源路由器需要选择单天线支持802.11n的路由器，我使用的是TP-LINK TL-WR742N。</p>
+<h2 id="获取数据-1"><a href="#获取数据-1" class="headerlink" title="获取数据"></a>获取数据</h2><p>cd进入csitools文件夹，进入linux-80211n-csitool-supplementary/netlink，运行</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">sudo</span> ./log_to_file tmp.dat</div></pre></td></tr></table></figure>
+<p>打开另一个终端，运行</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">ping</span> 192<span class="selector-class">.168</span><span class="selector-class">.1</span><span class="selector-class">.1</span> <span class="selector-tag">-i</span> 0<span class="selector-class">.2</span></div></pre></td></tr></table></figure>
+<p>netlink文件夹中的tmp.dat就是采集的原始数据。</p>
+<h2 id="读取数据-1"><a href="#读取数据-1" class="headerlink" title="读取数据"></a>读取数据</h2><p>使用Matlab读取数据，进入linux-80211n-csitool-supplementary/matlab文件夹，使用read_bf_file函数可以读取数据。</p>
+<p>一个例子数据包里包含</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">timestamp_low: <span class="number">4</span> (In the sample trace, timestamp_low is invalid and always <span class="number">4.</span>)</div><div class="line">bfee_count: <span class="number">72</span></div><div class="line">Nrx: <span class="number">3</span></div><div class="line">Ntx: <span class="number">1</span></div><div class="line">rssi_a: <span class="number">33</span></div><div class="line">rssi_b: <span class="number">37</span></div><div class="line">rssi_c: <span class="number">41</span></div><div class="line">noise: <span class="number">-127</span></div><div class="line">agc: <span class="number">38</span></div><div class="line">perm: [<span class="number">3</span> <span class="number">2</span> <span class="number">1</span>]</div><div class="line">rate: <span class="number">256</span></div><div class="line">csi: [<span class="number">1</span>x3x30 double]</div></pre></td></tr></table></figure>
+<p>其中:</p>
+<ul>
+<li><strong>timestamp_low</strong> 是时间戳</li>
+<li><strong>bfee_count</strong> 数据包数量</li>
+<li><strong>Nrx,Ntx</strong> 分别表示接收端和发送端的天线数量</li>
+<li><strong>rssi_a, rssi_b, rssi_c</strong> 每个天线的RSSI数据，单位dB，</li>
+<li><strong>agc</strong> Automatic Gain Control</li>
+<li><strong>perm</strong> NIC重排列后的顺序结果，代表RF链路的顺序</li>
+<li><strong>rate</strong> 发送包的rate</li>
+<li><strong>csi</strong> CSI原始数据，是个Ntx×Nrx×30复数矩阵</li>
+</ul>
+<p>主要提取出CSI数据和timestamp_low。</p>
+<h4 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h4><p>为了避免相位的偏移的影响，需要将相位进行线性变换，参考论文，写出了以下Python代码:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> math <span class="keyword">import</span> *</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">import</span> copy</div><div class="line">N = <span class="number">1000</span> <span class="comment"># N为采集的数据包数量</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">complexDecoding</span><span class="params">(raw_data)</span>:</span></div><div class="line">“””</div><div class="line">将原始数据转化为Python可识别的复数</div><div class="line">这里使用了第一个天线的数据raw_data[<span class="number">0</span>]</div><div class="line">第二根第三根天线数据下标分别为<span class="number">1</span>, <span class="number">2</span></div><div class="line">原始数据为a + bi, python为a + bj</div><div class="line">返回处理后的数据</div><div class="line">“””</div><div class="line"><span class="keyword">for</span> n <span class="keyword">in</span> range(N):</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">30</span>): <span class="comment"># 30 代表子载波数量，固定为30</span></div><div class="line"><span class="keyword">if</span> raw_data[<span class="number">0</span>][<span class="number">-1</span>] == ‘i’:</div><div class="line">data.append(complex(raw_data[<span class="number">0</span>][:<span class="number">-1</span>]+‘j’))</div><div class="line"><span class="keyword">else</span>:</div><div class="line">data.append(complex(raw_data[<span class="number">0</span>]))</div><div class="line"><span class="keyword">return</span> data</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getAP</span><span class="params">(data)</span>:</span></div><div class="line">“””</div><div class="line">根据复数计算振幅和相位</div><div class="line">“””</div><div class="line">amplitudes = [([] * <span class="number">30</span>) <span class="keyword">for</span> i <span class="keyword">in</span> range(N)]</div><div class="line">phases = [([] * <span class="number">30</span>) <span class="keyword">for</span> i <span class="keyword">in</span> range(N)]</div><div class="line"><span class="keyword">for</span> m <span class="keyword">in</span> range(N):</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">30</span>):</div><div class="line">r = sqrt((data[i + m * <span class="number">30</span>].real) ** <span class="number">2</span> + (data[i + m * <span class="number">30</span>].imag) ** <span class="number">2</span>)</div><div class="line">amplitudes[m].append(r)</div><div class="line">phases[m].append(np.angle(data[i + m * <span class="number">30</span>]))</div><div class="line"><span class="keyword">return</span> (amplitudes, phases)</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">preprocessingPhase</span><span class="params">(phases)</span>:</span></div><div class="line">“””</div><div class="line">将相位进行线性变换</div><div class="line">index是 <span class="number">-28</span> 到 <span class="number">28</span> 根据 IEEE <span class="number">802.11</span>n 协议</div><div class="line">返回变换后的相位</div><div class="line">“””</div><div class="line">index = range(<span class="number">-28</span>,<span class="number">0</span>,<span class="number">2</span>) + [<span class="number">-1</span>, <span class="number">1</span>] + range(<span class="number">3</span>,<span class="number">28</span>, <span class="number">2</span>) + [<span class="number">28</span>]</div><div class="line"><span class="keyword">for</span> m <span class="keyword">in</span> range(N):</div><div class="line"><span class="keyword">for</span> l <span class="keyword">in</span> range(<span class="number">10</span>):</div><div class="line">clear = <span class="keyword">True</span></div><div class="line">base = <span class="number">0</span></div><div class="line">tphases[m][<span class="number">0</span>] = phases[m][<span class="number">0</span>]</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">30</span>):</div><div class="line"><span class="keyword">if</span> phases[m][i] – phases[m][i<span class="number">-1</span>] &gt; pi:</div><div class="line">base += <span class="number">1</span></div><div class="line">clear = <span class="keyword">False</span></div><div class="line"><span class="keyword">elif</span> phases[m][i] – phases[m][i<span class="number">-1</span>] &lt; -pi:</div><div class="line">base –= <span class="number">1</span></div><div class="line">clear = <span class="keyword">False</span></div><div class="line">tphases[m][i] = phases[m][i] – <span class="number">2</span> * pi * base</div><div class="line"><span class="keyword">if</span> clear == <span class="keyword">True</span>:</div><div class="line"><span class="keyword">break</span></div><div class="line"><span class="keyword">else</span>:</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">30</span>):</div><div class="line">phases[m][i] = tphases[m][i] – (tphases[m][<span class="number">29</span>] – tphases[m][<span class="number">0</span>])</div><div class="line">* <span class="number">1.0</span> /(<span class="number">28</span> – (<span class="number">-28</span>)) * (index[i])</div><div class="line">– <span class="number">1.0</span> / <span class="number">30</span> * sum([tphases[m][j] <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">30</span>)])</div><div class="line"><span class="keyword">return</span> phases</div></pre></td></tr></table></figure>
+<h4 id="参考论文"><a href="#参考论文" class="headerlink" title="参考论文"></a>参考论文</h4><ol>
+<li>PADS Passive Detection of Moving Targets with Dynamic Speed using PHY Layer Information</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ZEROYU">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ZEROYU">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/21/kali-linux-2016-使用指南-二/" itemprop="url">
+                  kali linux 2016 使用指南(二)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-21T22:11:00+08:00">
+                2017-01-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/21/kali-linux-2016-使用指南-二/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/21/kali-linux-2016-使用指南-二/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/21/kali-linux-2016-使用指南-二/" class="leancloud_visitors" data-flag-title="kali linux 2016 使用指南(二)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="虚拟机安装增强"><a href="#虚拟机安装增强" class="headerlink" title="虚拟机安装增强"></a>虚拟机安装增强</h4><h5 id="1-Kali-官方安装"><a href="#1-Kali-官方安装" class="headerlink" title="1.Kali 官方安装"></a>1.Kali 官方安装</h5><p>更新 /etc/apt/sources.list</p>
+<p>你所添加的源，请确保是我在一中写的所有</p>
+<p>然后在线安装增强功能</p>
+<figure class="highlight q"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">apt-<span class="built_in">get</span> <span class="keyword">update</span></div><div class="line"></div><div class="line">apt-<span class="built_in">get</span> install -y virtualbox-guest-x11</div><div class="line"></div><div class="line">reboot</div></pre></td></tr></table></figure>
+<h5 id="2-VirtualBox自带包安装"><a href="#2-VirtualBox自带包安装" class="headerlink" title="2.VirtualBox自带包安装"></a>2.VirtualBox自带包安装</h5><figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">apt-get <span class="keyword">update</span> &amp;&amp; apt-get install -y linux-headers-$(uname-r)</div><div class="line"></div><div class="line">cp /media/<span class="keyword">cd</span>-rom/VBoxLinuxAdditions.<span class="keyword">run</span> /root/</div><div class="line"></div><div class="line">chmod 755 /root/VBoxLinuxAdditions.<span class="keyword">run</span></div><div class="line"></div><div class="line"><span class="keyword">cd</span>/root</div><div class="line"></div><div class="line">./VBoxLinuxAdditions.<span class="keyword">run</span></div></pre></td></tr></table></figure>
+<h4 id="内核头有问题自己手动安装过程"><a href="#内核头有问题自己手动安装过程" class="headerlink" title="内核头有问题自己手动安装过程"></a>内核头有问题自己手动安装过程</h4><p>打开 <a href="http://http.kali.org/kali/pool/main/l/linux/%20" target="_blank" rel="external">http://http.kali.org/kali/pool/main/l/linux/</a></p>
+<p>下载对应自己内核版本的 linux-kbuild</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">wget http:<span class="regexp">//</span>http.kali.org<span class="regexp">/kali/</span>pool<span class="regexp">/main/</span>l<span class="regexp">/linux/</span>linux-kbuild-<span class="number">4.6</span>_4.<span class="number">6.4</span>-<span class="number">1</span>kali1_amd64.deb</div><div class="line"></div><div class="line">dpkg -i linux-kbuild-<span class="number">4.6</span>_4.<span class="number">6.4</span>-<span class="number">1</span>kali1_amd64.deb</div><div class="line"></div><div class="line">wget http:<span class="regexp">//</span>http.kali.org<span class="regexp">/kali/</span>pool<span class="regexp">/main/</span>l<span class="regexp">/linux/</span>linux-headers-<span class="number">4.6</span>.<span class="number">0</span>-kali1-common_4.<span class="number">6.4</span>-<span class="number">1</span>kali1_amd64.deb</div><div class="line"></div><div class="line">wget http:<span class="regexp">//</span>http.kali.org<span class="regexp">/kali/</span>pool<span class="regexp">/main/</span>l<span class="regexp">/linux/</span>http:<span class="regexp">//</span>http.kali.org<span class="regexp">/kali/</span>pool<span class="regexp">/main/</span>l<span class="regexp">/linux/</span>linux-headers-<span class="number">4.6</span>.<span class="number">0</span>-kali1-amd64_4.<span class="number">6.4</span>-<span class="number">1</span>kali1_amd64.deb</div><div class="line"></div><div class="line">dpkg -i linux-headers-<span class="number">4.6</span>.<span class="number">0</span>-kali1-common_4.<span class="number">6.4</span>-<span class="number">1</span>kali1_amd64.deb</div><div class="line"></div><div class="line">dpkg -i linux-headers-<span class="number">4.6</span>.<span class="number">0</span>-kali1-amd64_4.<span class="number">6.4</span>-<span class="number">1</span>kali1_amd64.deb</div><div class="line"></div><div class="line">apt-get -f install</div></pre></td></tr></table></figure>
+<h4 id="开启SSH服务"><a href="#开启SSH服务" class="headerlink" title="开启SSH服务"></a>开启SSH服务</h4><p>首先：编辑sshd_config文件</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim <span class="regexp">/etc/</span>ssh<span class="regexp">/sshd_config</span></div></pre></td></tr></table></figure>
+<p>其次：将sshd_config文件中的语句PermitRootLogin prohibit-password修改为：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">PermitRootLogin</span> <span class="literal">yes</span></div></pre></td></tr></table></figure>
+<p>再次：使用命令启动SSH服务:</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">/etc/init.d/ssh <span class="literal">start</span></div><div class="line"><span class="comment"># 或者</span></div><div class="line">service ssh <span class="literal">start</span></div></pre></td></tr></table></figure>
+<p>最后：设置系统开机自动启动SSH服务:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">update-rc<span class="selector-class">.d</span> ssh enable  <span class="comment">//系统自动启动SSH服务</span></div></pre></td></tr></table></figure>
+<h4 id="mysql重置密码"><a href="#mysql重置密码" class="headerlink" title="mysql重置密码"></a>mysql重置密码</h4><p>1、如果<a href="http://lib.csdn.net/base/linux" target="_blank" rel="external">Linux</a>中未安装<a href="http://lib.csdn.net/base/mysql" target="_blank" rel="external">MySQL</a>，则需要下载安装，<strong>在安装的过程中会要求输入用户名密码</strong>，则无需重置，直接设置</p>
+<p>2、MySQL设置UTF-8编码格式**</p>
+<p>配置文件：</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root<span class="variable">@kali</span><span class="symbol">:~</span><span class="comment"># vim /etc/mysql/my.cnf</span></div></pre></td></tr></table></figure>
+<p>添加默认utf-8编码：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="section">[client]</span></div><div class="line"><span class="attr">default-character-set</span> = utf8</div><div class="line"><span class="section">[mysqld]</span></div><div class="line"><span class="attr">default-storage-engine</span> = INNODB</div><div class="line"><span class="attr">character-set-server</span> = utf8</div><div class="line"><span class="attr">collation-server</span> = utf8_general_ci</div></pre></td></tr></table></figure>
+<p>3、更新MySQL的用户名密码</p>
+<p>首先查看MySQL是否运行，确保MySQL是stop状态，可以使用/etc/init.d/mysql stop停止运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">root@kali:~# /etc/init.d/mysql status</div><div class="line">[info] MySQL is stopped..</div></pre></td></tr></table></figure>
+<p>然后启动MySQL的server/daemon process</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@kali:~# mysqld_safe –skip-grant-tables &amp;</div></pre></td></tr></table></figure>
+<p>使用root用户连接MySQL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">root@kali:~# mysql -u root</div><div class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</div><div class="line">Your MySQL connection id is 1</div><div class="line">Server version: 5.5.44–0+deb7u1 (Debian)</div><div class="line">Copyright (c) 2000, 2015, Oracle and/or its affiliates. All rights reserved.</div><div class="line">Oracle is a registered trademark of Oracle Corporation and/or its</div><div class="line">affiliates. Other names may be trademarks of their respective</div><div class="line">owners.</div><div class="line">Type ‘help;’ or ‘\h’ for help. Type ‘\c’ to clear the current input statement.</div><div class="line">mysql&gt;</div></pre></td></tr></table></figure>
+<p>更改root用户的密码为admin</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; use mysql</div><div class="line">Reading table information for completion of table and column names</div><div class="line">You can turn off this feature to get a quicker startup with -A</div><div class="line">Database changed</div><div class="line">mysql&gt; update user set password=PASSWORD(‘admin’) where User=‘root’;</div><div class="line">Query OK, 4 rows affected (0.01 sec)</div><div class="line">Rows matched: 4  Changed: 4  Warnings: 0</div></pre></td></tr></table></figure>
+<p>执行更新命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; flush privileges;</div><div class="line">Query OK, 0 rows affected (0.00 sec)</div></pre></td></tr></table></figure>
+<p>flush privileges 命令本质上的作用是将当前user和privilige表中的用户信息/权限设置从mysql库(MySQL数据库的内置库)中提取到内存里。MySQL用户数据和权限有修改后，希望在”不重启MySQL服务”的情况下直接生效，那么就需要执行这个命令。通常是在修改ROOT帐号的设置后，怕重启后无法再登录进来，那么直接flush之后就可以看权限设置是否生效。而不必冒太大风险。</p>
+<p>退出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql&gt; quit</div></pre></td></tr></table></figure>
+<p>4、验证用户密码是否更新成功</p>
+<p>重启MySQL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">root@kali:~# /etc/init.d/mysql restart</div><div class="line">[ ok ] Stopping MySQL database server: mysqld.</div><div class="line">[….] Starting MySQL database server: mysqld151015 11:41:36 mysqld_safe mysqld from pid file /var/run/mysqld/mysqld.pid ended</div><div class="line">[ .k</div><div class="line">[info] Checking for tables which need an upgrade, are corrupt or were</div><div class="line">not closed cleanly..</div><div class="line">[1]+  完成                  mysqld_safe –skip-grant-tables</div></pre></td></tr></table></figure>
+<p>使用root用户连接MySQL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">root@kali:~# mysql -u root -p</div><div class="line">Enter password:</div><div class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</div><div class="line">Your MySQL connection id is 43</div><div class="line">Server version: 5.5.44–0+deb7u1 (Debian)</div><div class="line">Copyright (c) 2000, 2015, Oracle and/or its affiliates. All rights reserved.</div><div class="line">Oracle is a registered trademark of Oracle Corporation and/or its</div><div class="line">affiliates. Other names may be trademarks of their respective</div><div class="line">owners.</div><div class="line">Type ‘help;’ or ‘\h’ for help. Type ‘\c’ to clear the current input statement.</div><div class="line">mysql&gt;</div></pre></td></tr></table></figure>
+<h4 id="metasploit-Database-not-connect问题解决"><a href="#metasploit-Database-not-connect问题解决" class="headerlink" title="metasploit Database not connect问题解决"></a>metasploit Database not connect问题解决</h4><p>1、postgresql是本身没有启动的。所以需要启动。</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">service postgresql <span class="literal">start</span></div></pre></td></tr></table></figure>
+<p>2、通过命令进入配置</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo -u postgres psql</div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">USER</span> postgres <span class="keyword">WITH</span> <span class="keyword">PASSWORD</span> ‘<span class="number">123.</span>com’;</div></pre></td></tr></table></figure>
+<p>注意1：‘123.com’这个是密码。<br>注意2：分号！！！！一定要带上分号“；”。<br>注意3：\q：退出数据库</p>
+<p>3、修改linux系统的postgres用户的密码（密码与数据库用户postgres的密码相同）</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">root<span class="variable">@kali</span><span class="symbol">:~</span><span class="comment"># sudo passwd -d postgres</span></div><div class="line">passwd：密码过期信息已更改。</div><div class="line">root<span class="variable">@kali</span><span class="symbol">:~</span><span class="comment"># sudo -u postgres passwd</span></div><div class="line">输入新的 UNIX 密码：</div><div class="line">重新输入新的 UNIX 密码：</div><div class="line">passwd：已成功更新密码</div></pre></td></tr></table></figure>
+<p>4、修改PostgresSQL数据库配置实现远程访问</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">root<span class="variable">@kali</span><span class="symbol">:~</span><span class="comment"># vi /etc/postgresql/9.4/main/postgresql.conf</span></div><div class="line">更改<span class="comment">#listen_addresses = ‘localhost’为 listen_addresses = ‘*’</span></div><div class="line">更改<span class="comment">#password_encryption = on为password_encryption = on</span></div><div class="line">root<span class="variable">@kali</span><span class="symbol">:~</span><span class="comment"># vi /etc/postgresql/9.4/main/pg_hba.conf</span></div><div class="line">在文档末尾加上以下内容</div><div class="line"><span class="comment"># to allow your client visiting postgresql server</span></div><div class="line">host all all <span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span> <span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span> md5</div><div class="line">root<span class="variable">@kali</span><span class="symbol">:~</span><span class="comment"># service postgresql restart</span></div></pre></td></tr></table></figure>
+<p>注意1：“#”号，一定要把“#”删除掉。<br>注意2：在vi编辑模式下点击键盘字母a是进入编辑模式，编辑完成后点击“esc”退出编辑模式然后在最下方输入“：wq”保存并退出。</p>
+<p>5、管理PostgreSQL用户和数据库</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root<span class="variable">@kali</span><span class="symbol">:~</span><span class="comment"># psql -U postgres -h 127.0.0.1</span></div></pre></td></tr></table></figure>
+<p>用户 postgres 的口令：<br>psql (9.4.6)<br>SSL连接 (协议: TLSv1.2, 加密：ECDHE-RSA-AES256-GCM-SHA384，二进制位: 256, 压缩比: 关闭)<br>输入 “help” 来获取帮助信息</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="attr">postgres=</span><span class="comment"># create user “msf123” with password ‘123456’ nocreatedb;</span></div><div class="line">CREATE <span class="keyword">ROLE</span></div><div class="line"><span class="title">postgres</span>=<span class="comment"># create database “msf1” with owner=”msf123”;</span></div><div class="line">ERROR: <span class="keyword">role</span> <span class="title">“”msf123</span>”” does not exist</div><div class="line"><span class="attr">postgres=</span><span class="comment"># create database “msf1″ with owner=”msf123”;</span></div><div class="line">CREATE DATABASE</div><div class="line"><span class="attr">postgres=</span><span class="comment"># \q</span></div></pre></td></tr></table></figure>
+<p>注意1：还是要注意分号！！！没有分号命令就无法执行。<br>注意2：注意复制的时候“”符号问题。<br>注意3：user后面是用户名，password后面是用户名对应的密码。<br>注意4：命令执行后有返回结果才是执行成功了。</p>
+<p>6、msf配置连接</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">root<span class="variable">@kali</span><span class="symbol">:~</span><span class="comment"># msfconsole</span></div><div class="line">msf &gt; db_status</div><div class="line">[*] postgresql selected, no connection</div><div class="line">msf &gt; db_connect <span class="symbol">msf123:</span><span class="number">123456</span><span class="variable">@127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>/msf1</div><div class="line">[*] Rebuilding the <span class="keyword">module</span> cache <span class="keyword">in</span> the background…</div><div class="line">msf &gt; db_status</div><div class="line">[*] postgresql connected to msf1</div><div class="line">msf &gt;</div></pre></td></tr></table></figure>
+<p>在msf启动后连接数据库就好。<br>注意1：“msf123:123456”这个是步骤5中的<br>“create user “msf123” with password ‘123456’ nocreatedb;”所建立的。<br>“127.0.0.1”是指本机。<br>“msf1”这个是库名。<br>注意2：“[*] postgresql connected to msf1”这个是说明以链接成功数据库。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-一/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ZEROYU">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ZEROYU">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/21/kali-linux-2016-使用指南-一/" itemprop="url">
+                  kali linux 2016 使用指南(一)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-21T22:10:21+08:00">
+                2017-01-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/21/kali-linux-2016-使用指南-一/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/21/kali-linux-2016-使用指南-一/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/21/kali-linux-2016-使用指南-一/" class="leancloud_visitors" data-flag-title="kali linux 2016 使用指南(一)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>Kali Linux官方于8月30日发布Kali Linux 2016的第二个版本Kali Linux 2016.2。该版本距离Kali Linux 2016.1版本发布，已经有7个月。在这期间，在Kali Linux 2016.2版本发布的这段时间，Kali Linux官方增补了94个更新。</p>
+<p>主要的更新大概是这个样子：</p>
+<ul>
+<li><p>Kali Linux 2016系统中的音量调整按钮归并到右上角的关闭按钮，点击关闭按钮，就可以看到音量调整滑块按钮。</p>
+</li>
+<li><p>使用Kali Linux 2016系统在VMWare虚拟机时，在安装增强工具open-vm-tools后，复制较大文件，会出现复制进度对话框。该对话框消失后，文件并没有出现在目标位置。这时，再次粘贴一次，就可以了。如果还是没有要复制的文件，用户可以在根目录下的/tmp/VMwareDnD中找到临时文件夹。复制的文件保存在该文件夹中。</p>
+</li>
+<li><p>Kali Linux 2016.2默认浏览器不再是Iceweasel，替换为FireFox ESR。该版本不会像FireFox普通版本频繁更新</p>
+<p><img src="https://www.kali.org/wp-content/uploads/2016/08/gnome-1024x768.png" alt="1"></p>
+<p>​</p>
+</li>
+</ul>
+<p>关于kali使用前的一些配置，网上有很多版本，但是不是老就是很不实用。而且现在kali已经更新到了2016.2版，大多新手肯定都想安装最新版进行尝试，那么接下来我就简记一下我安装和使用过程中，对一些问题的解决。</p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>具体的安装步骤就不说了，大家都懂得</p>
+<p>可以参考：<a href="http://jingyan.baidu.com/article/93f9803f04e292e0e46f5533.html" target="_blank" rel="external">《虚拟机安装kali2.0》</a></p>
+<p>不想装的，官方也提供了ova文件，可以一键导入虚拟机。</p>
+<p>在过去的几个月里，kali官方增加了新的相关工具，修复了固定的各种bug和操作系统的改进。一些Busybox添加了HTTPS支持，现在可以设置安全的支持SSL的kali，更方便快捷的安装kali。</p>
+<h4 id="系统更新"><a href="#系统更新" class="headerlink" title="系统更新"></a>系统更新</h4><p>kali linux的更新源很重要，一定要选好，rolling的选rolling的源。</p>
+<p>首先：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">leafpad /etc/apt/sources.list</div></pre></td></tr></table></figure>
+<p>然后复制粘贴下面的源:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">#kali官方源</div><div class="line"></div><div class="line">deb http://http.kali.org/kali kali-rolling main non-free contrib</div><div class="line"></div><div class="line">#中科大的源</div><div class="line"></div><div class="line">deb http://mirrors.ustc.edu.cn/kali kali-rolling main non-free contrib</div><div class="line"></div><div class="line">deb http://mirrors.ustc.edu.cn/kali kali-rolling main contrib non-free</div><div class="line"></div><div class="line">deb-src http://mirrors.ustc.edu.cn/kali kali-rolling main contrib non-free</div><div class="line"></div><div class="line">deb http://mirrors.ustc.edu.cn/kali-security kali-current/updates main contrib non-free</div><div class="line"></div><div class="line">deb-src http://mirrors.ustc.edu.cn/kali-security kali-current/updates main contrib non-free</div><div class="line"></div><div class="line">#阿里云源</div><div class="line"></div><div class="line">deb http://mirrors.aliyun.com/kali sana main non-free contrib</div><div class="line"></div><div class="line">deb http://mirrors.aliyun.com/kali-security/ sana/updates main contrib non-free</div><div class="line"></div><div class="line">deb-src http://mirrors.aliyun.com/kali-security/ sana/updates main contrib non-free</div></pre></td></tr></table></figure>
+<p>然后更新并安装:</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt-<span class="built_in">get</span> update &amp;&amp; apt-<span class="built_in">get</span> <span class="built_in">dist</span>-upgrade</div></pre></td></tr></table></figure>
+<h4 id="安装内核头（这个很多人都在问怎么办）"><a href="#安装内核头（这个很多人都在问怎么办）" class="headerlink" title="安装内核头（这个很多人都在问怎么办）"></a>安装内核头（这个很多人都在问怎么办）</h4><p>我给出我的解决办法，总之还是升级内核</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$ </span>uname -r</div><div class="line"><span class="variable">$ </span><span class="number">4.3</span>.<span class="number">0</span>-kali1-amd64</div></pre></td></tr></table></figure>
+<p>如果你使用我给出的源进行更新的话就会升级到4.6.0-kali1-amd64</p>
+<p>这时候使用命令:</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt-<span class="keyword">get</span> install linux-headers-$(uname -r)</div></pre></td></tr></table></figure>
+<p>就可以了。</p>
+<h4 id="安装浏览器"><a href="#安装浏览器" class="headerlink" title="安装浏览器"></a>安装浏览器</h4><h5 id="1-汉化火狐浏览器"><a href="#1-汉化火狐浏览器" class="headerlink" title="1.汉化火狐浏览器"></a>1.汉化火狐浏览器</h5><figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">apt</span>-<span class="meta">get</span> install iceweasel-l10n-zh-<span class="meta">cn</span></div></pre></td></tr></table></figure>
+<h5 id="2-安装并使用chrome"><a href="#2-安装并使用chrome" class="headerlink" title="2.安装并使用chrome"></a>2.安装并使用chrome</h5><p>先下载chrome的deb安装包</p>
+<p>执行dpkg -i google-chrome-xxx.deb你会发现报错，不用慌接下来执行</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt–<span class="keyword">get</span> install libappindicator1</div></pre></td></tr></table></figure>
+<p>可能还会报错，别慌，执行:</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt-<span class="keyword">get</span> -f install</div></pre></td></tr></table></figure>
+<p>然后安装完成，但是你会发现不能运行，原因是权限问题</p>
+<p>我们添加一个用户:</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">adduser </span>zeroyu</div></pre></td></tr></table></figure>
+<p>然后一路回车，最后敲Y</p>
+<p>之后按次序执行</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$ </span>xhost +</div><div class="line"><span class="variable">$ </span>su zeroyu</div></pre></td></tr></table></figure>
+<p>之后敲入 google-chrome就好了</p>
+<h4 id="安装中文输入法"><a href="#安装中文输入法" class="headerlink" title="安装中文输入法"></a>安装中文输入法</h4><p>个人喜欢搜狗输入法，所以再次给出搜狗输入法的安装方法</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">apt-get install fcitx</div><div class="line">dpkg -<span class="selector-tag">i</span> sougoupinyinXXX<span class="selector-class">.deb</span></div><div class="line">apt-get -f install</div></pre></td></tr></table></figure>
+<p>最后重启电脑就好了。（<a href="http://pinyin.sogou.com/linux/" target="_blank" rel="external">搜狗输入法安装包下载</a>）</p>
+<h4 id="安装百度云"><a href="#安装百度云" class="headerlink" title="安装百度云"></a>安装百度云</h4><p>宝宝的好多小秘密还藏在上面必须安装一下</p>
+<p>依次执行：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git clone https:<span class="comment">//github.com/LiuLang/bcloud-packages</span></div><div class="line">apt-get -f install</div><div class="line">dpkg -<span class="selector-tag">i</span> bcloud-x<span class="selector-class">.x</span><span class="selector-class">.x</span><span class="selector-class">.deb</span></div></pre></td></tr></table></figure>
+<h4 id="安装为知笔记"><a href="#安装为知笔记" class="headerlink" title="安装为知笔记"></a>安装为知笔记</h4><p>到<a href="http://ppa.launchpad.net/wiznote-team/ppa/ubuntu/pool/main/w/wiznote/" target="_blank" rel="external">wiznote安装包下载地址</a>找到相应的deb安装包</p>
+<p>然后：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">dpkg</span> –<span class="selector-tag">i</span> <span class="selector-tag">wiznote_2</span><span class="selector-class">.3xxxx</span><span class="selector-class">.deb</span></div></pre></td></tr></table></figure>
+<h4 id="安装shadowsocks"><a href="#安装shadowsocks" class="headerlink" title="安装shadowsocks"></a>安装shadowsocks</h4><figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">pip</span> installshadowsocks–gtk</div></pre></td></tr></table></figure>
+<p>终端输入shadowsocks-gtk敲回车就可以看到ui界面了。</p>
+<h4 id="解决字体重叠问题"><a href="#解决字体重叠问题" class="headerlink" title="解决字体重叠问题"></a>解决字体重叠问题</h4><p>这里先解决下碰到的坑</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt–<span class="keyword">get</span> install ttf–wqy–microhei ttf–wqy–zenhei xfonts–wqy</div></pre></td></tr></table></figure>
+<p>重启终端就好了，这个最好在安装内核头之前完成！</p>
+<h4 id="VPN安装"><a href="#VPN安装" class="headerlink" title="VPN安装"></a>VPN安装</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">leafpad <span class="regexp">/etc/</span>NetworkManager<span class="regexp">/NetworkManager.conf</span></div></pre></td></tr></table></figure>
+<p>修改最后一行的managed=false改为managed=true</p>
+<p>然后执行下面的命令:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">apt–get <span class="keyword">install</span> network–manager–openvpn–gnome</div><div class="line">apt–<span class="keyword">get</span> <span class="keyword">install</span> network–manager–pptp</div><div class="line">apt–<span class="keyword">get</span> <span class="keyword">install</span> network–manager–pptp–gnome</div><div class="line">apt–<span class="keyword">get</span> <span class="keyword">install</span> network–manager–strongswan</div><div class="line">apt–<span class="keyword">get</span> <span class="keyword">install</span> network–manager–vpnc</div><div class="line">apt–<span class="keyword">get</span> <span class="keyword">install</span> network–manager–vpnc–gnome</div><div class="line">/etc/init.d/network–manager restart</div></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt-get -y install network-manager-gnomemv <span class="regexp">/etc/</span>network<span class="regexp">/interfaces /</span>etc<span class="regexp">/network/i</span>nterfaces.bak touch <span class="regexp">/etc/</span>network<span class="regexp">/interfaces echo “auto lo” &gt; /</span>etc<span class="regexp">/network/i</span>nterfaces echo “iface lo inet loopback” &gt;&gt; <span class="regexp">/etc/</span>network<span class="regexp">/interfaces service network-manager start</span></div></pre></td></tr></table></figure>
+<h4 id="docker安装"><a href="#docker安装" class="headerlink" title="docker安装"></a>docker安装</h4><figure class="highlight q"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">apt–<span class="built_in">get</span> <span class="keyword">update</span></div><div class="line">apt–<span class="built_in">get</span> install docker.io</div></pre></td></tr></table></figure>
+<h4 id="Redis安装"><a href="#Redis安装" class="headerlink" title="Redis安装"></a>Redis安装</h4><p><a href="http://redis.io/download" target="_blank" rel="external">redis下载</a></p>
+<p>下载完后先编译</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">tar xvf redis–x<span class="selector-class">.x</span><span class="selector-class">.x</span><span class="selector-class">.tar</span><span class="selector-class">.gz</span></div><div class="line">cd redis–x<span class="selector-class">.x</span><span class="selector-class">.x</span></div><div class="line">make</div></pre></td></tr></table></figure>
+<p>而后安装:</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo <span class="keyword">make</span> install</div><div class="line"><span class="keyword">cd</span> utils</div><div class="line">sudo ./install_server.<span class="keyword">sh</span></div></pre></td></tr></table></figure>
+<p>接下来一步一步设置就好</p>
+<h4 id="Mac安装后启动问题的解决"><a href="#Mac安装后启动问题的解决" class="headerlink" title="Mac安装后启动问题的解决"></a>Mac安装后启动问题的解决</h4><p>其实安装跟其它都一样，就是安装后启动要等好久（当然你也可以每次启动都按下option进行选择启动）</p>
+<p>解决方法就是</p>
+<p>插入macOS的安装光盘，重新启动，按住option 通过光盘启动 进入安装界面 从菜单选择terminal：</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">bless </span>–device /dev/disk0 –setBoot –legacy –verbose</div></pre></td></tr></table></figure>
+<p>#这里的disk0是安装grub的分区，可以通过diskutil list来进行查看</p>
+<p>最后:</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">reboot</span></div></pre></td></tr></table></figure>
+<p>ok，这样单引导安装就完成了。</p>
+<h4 id="网易云音乐正确安装姿势"><a href="#网易云音乐正确安装姿势" class="headerlink" title="网易云音乐正确安装姿势"></a>网易云音乐正确安装姿势</h4><p>下载<a href="http://music.163.com/#/download" target="_blank" rel="external">网易云音乐（deepin版）</a></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dpkg –<span class="selector-tag">i</span> 网易云.deb</div></pre></td></tr></table></figure>
+<p>注意!之后还要到/usr/share目录下的application目录找到网易云音乐，右键在命令后加一句：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">—<span class="keyword">no</span>–<span class="keyword">sandbox</span></div></pre></td></tr></table></figure>
+<p>这样就ok了。</p>
+<h4 id="安装sun-java"><a href="#安装sun-java" class="headerlink" title="安装sun java"></a>安装sun java</h4><ol>
+<li><h5 id="下载最新的JAVA-JDK"><a href="#下载最新的JAVA-JDK" class="headerlink" title="下载最新的JAVA JDK"></a>下载最新的JAVA JDK</h5></li>
+</ol>
+<p><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="external">jdk-8u91-linux-x64</a></p>
+<ol>
+<li><h5 id="解压缩文件并移动至-opt"><a href="#解压缩文件并移动至-opt" class="headerlink" title="解压缩文件并移动至/opt"></a>解压缩文件并移动至/opt</h5></li>
+</ol>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">tar -xzvf jdk<span class="number">-8</span>u91-linux-x64.tar.gz</div><div class="line">mv jdk1<span class="number">.8</span><span class="number">.0</span>_91 /opt</div><div class="line">cd /opt/jdk1<span class="number">.8</span><span class="number">.0</span>_91</div></pre></td></tr></table></figure>
+<ol>
+<li><h5 id="设置环境变量"><a href="#设置环境变量" class="headerlink" title="设置环境变量"></a>设置环境变量</h5></li>
+</ol>
+<p>1）执行 gedit ~/.bashrc ， 并添加下列内容</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># install JAVA JDK</span></div><div class="line">export JAVA_HOME=<span class="regexp">/opt/jdk</span>1.<span class="number">8.0_91</span></div><div class="line">export CLASSPATH=.:$&#123;JAVA_HOME&#125;/<span class="class"><span class="keyword">lib</span></span></div><div class="line">export PATH=$&#123;JAVA_HOME&#125;/<span class="symbol">bin:</span>$PATH</div></pre></td></tr></table></figure>
+<p>2）执行 source ~/.bashrc</p>
+<ol>
+<li><h5 id="安装并注册"><a href="#安装并注册" class="headerlink" title="安装并注册"></a>安装并注册</h5></li>
+</ol>
+<p>执行：</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">update-alternatives --install <span class="meta-keyword">/usr/</span>bin/java java <span class="meta-keyword">/opt/</span>jdk1<span class="number">.8</span><span class="number">.0</span>_91<span class="meta-keyword">/bin/</span>java <span class="number">1</span></div><div class="line">update-alternatives --install <span class="meta-keyword">/usr/</span>bin/javac javac <span class="meta-keyword">/opt/</span>jdk1<span class="number">.8</span><span class="number">.0</span>_91<span class="meta-keyword">/bin/</span>javac <span class="number">1</span></div><div class="line">update-alternatives --set java <span class="meta-keyword">/opt/</span>jdk1<span class="number">.8</span><span class="number">.0</span>_91<span class="meta-keyword">/bin/</span>java</div><div class="line">update-alternatives --set javac <span class="meta-keyword">/opt/</span>jdk1<span class="number">.8</span><span class="number">.0</span>_91<span class="meta-keyword">/bin/</span>javac</div></pre></td></tr></table></figure>
+<p>查看结果：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">update</span>-alternatives <span class="comment">--config java</span></div><div class="line"><span class="keyword">update</span>-alternatives <span class="comment">--config javac</span></div></pre></td></tr></table></figure>
+<h5 id="5-测试"><a href="#5-测试" class="headerlink" title="5. 测试"></a>5. 测试</h5><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">java </span>-version</div><div class="line"><span class="comment">#output </span></div><div class="line"><span class="keyword">java </span>version <span class="string">"1.8.0_91"</span></div><div class="line"><span class="keyword">Java(TM) </span>SE Runtime Environment (<span class="keyword">build </span><span class="number">1</span>.<span class="number">8</span>.<span class="number">0</span>_91-<span class="keyword">b14)</span></div><div class="line"><span class="keyword">Java </span>HotSpot(TM) <span class="number">64</span>-<span class="keyword">Bit </span>Server VM (<span class="keyword">build </span><span class="number">25</span>.<span class="number">91</span>-<span class="keyword">b14, </span>mixed mode)</div></pre></td></tr></table></figure>
+<h4 id="解决sublime的中文输入问题"><a href="#解决sublime的中文输入问题" class="headerlink" title="解决sublime的中文输入问题"></a>解决sublime的中文输入问题</h4><ol>
+<li>保存下述代码为 <code>sublime-imfix.c</code> 文件</li>
+</ol>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">sublime-imfix.c</div><div class="line">Use LD_PRELOAD to interpose some function to fix sublime input method support for linux.</div><div class="line">By Cjacker Huang</div><div class="line"></div><div class="line">gcc -shared -o libsublime-imfix.so sublime-imfix.c `pkg-config --libs --cflags gtk+-2.0` -fPIC</div><div class="line">LD_PRELOAD=./libsublime-imfix.so subl</div><div class="line">*/</div><div class="line">#include &lt;gtk/gtk.h&gt;</div><div class="line">#include &lt;gdk/gdkx.h&gt;</div><div class="line">typedef GdkSegment GdkRegionBox;</div><div class="line"></div><div class="line">struct _GdkRegion</div><div class="line">&#123;</div><div class="line">  long size;</div><div class="line">  long numRects;</div><div class="line">  GdkRegionBox *rects;</div><div class="line">  GdkRegionBox extents;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">GtkIMContext *local_context;</div><div class="line"></div><div class="line">void</div><div class="line">gdk_region_get_clipbox (const GdkRegion *region,</div><div class="line">            GdkRectangle    *<span class="built_in">rectangle</span>)</div><div class="line">&#123;</div><div class="line">  g_return_if_fail (region != NULL);</div><div class="line">  g_return_if_fail (<span class="built_in">rectangle</span> != NULL);</div><div class="line"></div><div class="line">  <span class="function"><span class="title">rectangle</span>-&gt;</span><span class="function"><span class="title">x</span> = region-&gt;</span>extents.x1;</div><div class="line">  <span class="function"><span class="title">rectangle</span>-&gt;</span><span class="function"><span class="title">y</span> = region-&gt;</span>extents.y1;</div><div class="line">  <span class="function"><span class="title">rectangle</span>-&gt;</span><span class="function"><span class="title">width</span> = region-&gt;</span><span class="function"><span class="title">extents</span>.x2 - region-&gt;</span>extents.x1;</div><div class="line">  <span class="function"><span class="title">rectangle</span>-&gt;</span><span class="function"><span class="title">height</span> = region-&gt;</span><span class="function"><span class="title">extents</span>.y2 - region-&gt;</span>extents.y1;</div><div class="line">  GdkRectangle rect;</div><div class="line">  <span class="function"><span class="title">rect</span>.x = <span class="built_in">rectangle</span>-&gt;</span>x;</div><div class="line">  <span class="function"><span class="title">rect</span>.y = <span class="built_in">rectangle</span>-&gt;</span>y;</div><div class="line">  rect.width = <span class="number">0</span>;</div><div class="line">  <span class="function"><span class="title">rect</span>.height = <span class="built_in">rectangle</span>-&gt;</span>height;</div><div class="line">  <span class="comment">//The caret width is 2;</span></div><div class="line">  <span class="comment">//Maybe sometimes we will make a mistake, but for most of the time, it should be the caret.</span></div><div class="line">  <span class="function"><span class="title">if</span>(<span class="built_in">rectangle</span>-&gt;</span>width == <span class="number">2</span> &amp;&amp; GTK_IS_IM_CONTEXT(local_context)) &#123;</div><div class="line">        gtk_im_context_set_cursor_location(local_context, <span class="built_in">rectangle</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//this is needed, for example, if you input something in file dialog and return back the edit area</span></div><div class="line"><span class="comment">//context will lost, so here we set it again.</span></div><div class="line"></div><div class="line">static GdkFilterReturn event_filter (GdkXEvent *xevent, GdkEvent *event, gpointer im_context)</div><div class="line">&#123;</div><div class="line">    XEvent *xev = (XEvent *)xevent;</div><div class="line">    <span class="function"><span class="title">if</span>(xev-&gt;</span>type == KeyRelease &amp;&amp; GTK_IS_IM_CONTEXT(im_context)) &#123;</div><div class="line">       GdkWindow * win = g_object_get_data(G_OBJECT(im_context),<span class="string">"window"</span>);</div><div class="line">       <span class="keyword">if</span>(GDK_IS_WINDOW(win))</div><div class="line">         gtk_im_context_set_client_window(im_context, win);</div><div class="line">    &#125;</div><div class="line">    return GDK_FILTER_CONTINUE;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void gtk_im_context_set_client_window (GtkIMContext *context,</div><div class="line">          GdkWindow    *window)</div><div class="line">&#123;</div><div class="line">  GtkIMContextClass *klass;</div><div class="line">  g_return_if_fail (GTK_IS_IM_CONTEXT (context));</div><div class="line">  klass = GTK_IM_CONTEXT_GET_CLASS (context);</div><div class="line">  <span class="function"><span class="title">if</span> (klass-&gt;</span>set_client_window)</div><div class="line">    <span class="function"><span class="title">klass</span>-&gt;</span>set_client_window (context, window);</div><div class="line"></div><div class="line">  <span class="keyword">if</span>(!GDK_IS_WINDOW (window))</div><div class="line">    return;</div><div class="line">  g_object_set_data(G_OBJECT(context),<span class="string">"window"</span>,window);</div><div class="line">  int width = gdk_window_get_width(window);</div><div class="line">  int height = gdk_window_get_height(window);</div><div class="line">  <span class="keyword">if</span>(width != <span class="number">0</span> &amp;&amp; height !=<span class="number">0</span>) &#123;</div><div class="line">    gtk_im_context_focus_in(context);</div><div class="line">    local_context = context;</div><div class="line">  &#125;</div><div class="line">  gdk_window_add_filter (window, event_filter, context);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ol>
+<li>安装 C/C++ 的编译环境和 gtk libgtk2.0-dev</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt-get <span class="keyword">install</span> <span class="keyword">build</span>-essential</div><div class="line">sudo apt-<span class="keyword">get</span> <span class="keyword">install</span> libgtk2<span class="number">.0</span>-dev</div></pre></td></tr></table></figure>
+<ol>
+<li>编译共享内库</li>
+</ol>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gcc -shared -o libsublime-imfix<span class="selector-class">.so</span> sublime-imfix<span class="selector-class">.c</span> `pkg-config --libs --cflags gtk+-<span class="number">2.0</span>` -fPIC</div></pre></td></tr></table></figure>
+<ol>
+<li>设置 LD_PRELOAD 并启动 Sublime Text</li>
+</ol>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">LD_PRELOAD</span>=./libsublime-imfix.so subl</div></pre></td></tr></table></figure>
+<ol>
+<li>修改 <code>/usr/share/applications/sublime_text.desktop</code> 为</li>
+</ol>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="section">[Desktop Entry]</span></div><div class="line"><span class="section">[...]</span></div><div class="line"><span class="attr">Exec</span>=env LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so /opt/sublime_text/sublime_text %F</div><div class="line"><span class="section">[...]</span></div><div class="line"><span class="section"></span></div><div class="line">[Desktop Action Window]</div><div class="line"><span class="section">[...]</span></div><div class="line"><span class="attr">Exec</span>=env LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so /opt/sublime_text/sublime_text -n</div><div class="line"><span class="section">[...]</span></div><div class="line"><span class="section"></span></div><div class="line">[Desktop Action Document]</div><div class="line"><span class="section">[...]</span></div><div class="line"><span class="attr">Exec</span>=env LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so /opt/sublime_text/sublime_text --command new_file</div><div class="line"><span class="section">[...]</span></div></pre></td></tr></table></figure>
+<p>不要忘了把 <code>libsublime-imfix.so</code> 放到 <code>/opt/sublime_text/</code> 中</p>
+<ol>
+<li>修改 <code>/usr/bin/subl</code> 为:</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/sh</span></div><div class="line"><span class="built_in">export</span> LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so</div><div class="line"><span class="built_in">exec</span> /opt/sublime_text/sublime_text “<span class="variable">$@</span>”</div></pre></td></tr></table></figure>
+<p>重启电脑，可以看到Sublime能够输入中文了。</p>
+<h4 id="没有声音"><a href="#没有声音" class="headerlink" title="没有声音???"></a>没有声音???</h4><p>其实并不是不支持声卡驱动了。<br>只是root用户下默认关闭。<br>虽然在setting的sounds里没能看到识别的声卡信息。可是其实驱动是装好的。<br>用<code>pulseaudio –start</code>，就有了。</p>
+<p>输入以下一行，就不用每次启动都要输入那行代码了。</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl –<span class="keyword">user</span> <span class="title">enable</span> pulseaudio</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/21/Hexo-3-x-博客搭建指南-NEXT主题/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -970,7 +1616,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
