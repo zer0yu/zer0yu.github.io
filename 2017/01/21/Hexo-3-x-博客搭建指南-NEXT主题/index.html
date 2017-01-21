@@ -1,28 +1,409 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-  <title>ZEROYU</title>
+<!doctype html>
+
+
+
   
-  <link href="/atom.xml" rel="self"/>
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
   
-  <link href="http://zer0yu.github.io/"/>
-  <updated>2017-01-21T14:05:18.000Z</updated>
-  <id>http://zer0yu.github.io/</id>
   
-  <author>
-    <name>ZEROYU</name>
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
     
-  </author>
-  
-  <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>Hexo 3.x 博客搭建指南(NEXT主题)</title>
-    <link href="http://zer0yu.github.io/2017/01/21/Hexo-3-x-%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97-NEXT%E4%B8%BB%E9%A2%98/"/>
-    <id>http://zer0yu.github.io/2017/01/21/Hexo-3-x-博客搭建指南-NEXT主题/</id>
-    <published>2017-01-21T13:43:00.000Z</published>
-    <updated>2017-01-21T14:05:18.000Z</updated>
     
-    <content type="html"><![CDATA[<p>GitHub Pages 本用于介绍托管在 GitHub 的项目，也可以用来搭建博客，有300M免费空间。</p>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ZEROYU, SEC" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ZEROYU" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="GitHub Pages 本用于介绍托管在 GitHub 的项目，也可以用来搭建博客，有300M免费空间。
+hexo是一个基于Node.js的静态博客程序，可以方便的生成静态网页托管在github和Heroku上。作者是来自台湾的tommy351。优势：
+
+生成静态页面快支持 Markdown兼容于 Windows, Mac &amp;amp; Linux部署方便。日常使用仅需五个命令。高扩展性、自订性，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo 3.x 博客搭建指南(NEXT主题)">
+<meta property="og:url" content="http://zer0yu.github.io/2017/01/21/Hexo-3-x-博客搭建指南-NEXT主题/index.html">
+<meta property="og:site_name" content="ZEROYU">
+<meta property="og:description" content="GitHub Pages 本用于介绍托管在 GitHub 的项目，也可以用来搭建博客，有300M免费空间。
+hexo是一个基于Node.js的静态博客程序，可以方便的生成静态网页托管在github和Heroku上。作者是来自台湾的tommy351。优势：
+
+生成静态页面快支持 Markdown兼容于 Windows, Mac &amp;amp; Linux部署方便。日常使用仅需五个命令。高扩展性、自订性，">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/hexo-1.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/hexo-2.png">
+<meta property="og:updated_time" content="2017-01-21T14:05:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo 3.x 博客搭建指南(NEXT主题)">
+<meta name="twitter:description" content="GitHub Pages 本用于介绍托管在 GitHub 的项目，也可以用来搭建博客，有300M免费空间。
+hexo是一个基于Node.js的静态博客程序，可以方便的生成静态网页托管在github和Heroku上。作者是来自台湾的tommy351。优势：
+
+生成静态页面快支持 Markdown兼容于 Windows, Mac &amp;amp; Linux部署方便。日常使用仅需五个命令。高扩展性、自订性，">
+<meta name="twitter:image" content="http://ok44mzy2k.bkt.clouddn.com/hexo-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zer0yu.github.io/2017/01/21/Hexo-3-x-博客搭建指南-NEXT主题/"/>
+
+
+
+
+
+  <title> Hexo 3.x 博客搭建指南(NEXT主题) | ZEROYU </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?414e74bab07e7101a26a8ca95416288a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ZEROYU</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/21/Hexo-3-x-博客搭建指南-NEXT主题/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ZEROYU">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ZEROYU">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Hexo 3.x 博客搭建指南(NEXT主题)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-21T21:43:00+08:00">
+                2017-01-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/21/Hexo-3-x-博客搭建指南-NEXT主题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/21/Hexo-3-x-博客搭建指南-NEXT主题/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/21/Hexo-3-x-博客搭建指南-NEXT主题/" class="leancloud_visitors" data-flag-title="Hexo 3.x 博客搭建指南(NEXT主题)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>GitHub Pages 本用于介绍托管在 GitHub 的项目，也可以用来搭建博客，有300M免费空间。</p>
 <p>hexo是一个基于Node.js的静态博客程序，可以方便的生成静态网页托管在github和Heroku上。作者是来自台湾的<a href="https://github.com/hexojs/hexo" target="_blank" rel="external">tommy351</a>。<br>优势：</p>
 <blockquote>
 <p>生成静态页面快<br>支持 Markdown<br>兼容于 Windows, Mac &amp; Linux<br>部署方便。日常使用仅需五个命令。<br>高扩展性、自订性，文件少、小，易理解</p>
@@ -109,188 +490,612 @@
 <p>我的<code>_config.yml</code>文件：</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div><div class="line">292</div><div class="line">293</div><div class="line">294</div><div class="line">295</div><div class="line">296</div><div class="line">297</div><div class="line">298</div><div class="line">299</div><div class="line">300</div><div class="line">301</div><div class="line">302</div><div class="line">303</div><div class="line">304</div><div class="line">305</div><div class="line">306</div><div class="line">307</div><div class="line">308</div><div class="line">309</div><div class="line">310</div><div class="line">311</div><div class="line">312</div><div class="line">313</div><div class="line">314</div><div class="line">315</div><div class="line">316</div><div class="line">317</div><div class="line">318</div><div class="line">319</div><div class="line">320</div><div class="line">321</div><div class="line">322</div><div class="line">323</div><div class="line">324</div><div class="line">325</div><div class="line">326</div><div class="line">327</div><div class="line">328</div><div class="line">329</div><div class="line">330</div><div class="line">331</div><div class="line">332</div><div class="line">333</div><div class="line">334</div><div class="line">335</div><div class="line">336</div><div class="line">337</div><div class="line">338</div><div class="line">339</div><div class="line">340</div><div class="line">341</div><div class="line">342</div><div class="line">343</div><div class="line">344</div><div class="line">345</div><div class="line">346</div><div class="line">347</div><div class="line">348</div><div class="line">349</div><div class="line">350</div><div class="line">351</div><div class="line">352</div><div class="line">353</div><div class="line">354</div><div class="line">355</div><div class="line">356</div><div class="line">357</div><div class="line">358</div><div class="line">359</div><div class="line">360</div><div class="line">361</div><div class="line">362</div><div class="line">363</div><div class="line">364</div><div class="line">365</div><div class="line">366</div><div class="line">367</div><div class="line">368</div><div class="line">369</div><div class="line">370</div><div class="line">371</div><div class="line">372</div><div class="line">373</div><div class="line">374</div><div class="line">375</div><div class="line">376</div><div class="line">377</div><div class="line">378</div><div class="line">379</div><div class="line">380</div><div class="line">381</div><div class="line">382</div><div class="line">383</div><div class="line">384</div><div class="line">385</div><div class="line">386</div><div class="line">387</div><div class="line">388</div><div class="line">389</div><div class="line">390</div><div class="line">391</div><div class="line">392</div><div class="line">393</div><div class="line">394</div><div class="line">395</div><div class="line">396</div><div class="line">397</div><div class="line">398</div><div class="line">399</div><div class="line">400</div><div class="line">401</div><div class="line">402</div><div class="line">403</div><div class="line">404</div><div class="line">405</div><div class="line">406</div><div class="line">407</div><div class="line">408</div><div class="line">409</div><div class="line">410</div><div class="line">411</div><div class="line">412</div><div class="line">413</div><div class="line">414</div><div class="line">415</div><div class="line">416</div><div class="line">417</div><div class="line">418</div><div class="line">419</div><div class="line">420</div><div class="line">421</div><div class="line">422</div><div class="line">423</div><div class="line">424</div><div class="line">425</div><div class="line">426</div><div class="line">427</div><div class="line">428</div><div class="line">429</div><div class="line">430</div><div class="line">431</div><div class="line">432</div><div class="line">433</div><div class="line">434</div><div class="line">435</div><div class="line">436</div><div class="line">437</div><div class="line">438</div><div class="line">439</div><div class="line">440</div><div class="line">441</div><div class="line">442</div><div class="line">443</div><div class="line">444</div><div class="line">445</div><div class="line">446</div><div class="line">447</div><div class="line">448</div><div class="line">449</div><div class="line">450</div><div class="line">451</div><div class="line">452</div><div class="line">453</div><div class="line">454</div><div class="line">455</div><div class="line">456</div><div class="line">457</div><div class="line">458</div><div class="line">459</div><div class="line">460</div><div class="line">461</div><div class="line">462</div><div class="line">463</div><div class="line">464</div><div class="line">465</div><div class="line">466</div><div class="line">467</div><div class="line">468</div><div class="line">469</div><div class="line">470</div><div class="line">471</div><div class="line">472</div><div class="line">473</div><div class="line">474</div><div class="line">475</div><div class="line">476</div><div class="line">477</div><div class="line">478</div><div class="line">479</div><div class="line">480</div><div class="line">481</div><div class="line">482</div><div class="line">483</div><div class="line">484</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># ---------------------------------------------------------------</span></div><div class="line"><span class="comment"># Site Information Settings</span></div><div class="line"><span class="comment"># ---------------------------------------------------------------</span></div><div class="line"></div><div class="line"><span class="comment"># Put your favicon.ico into `hexo-site/source/` directory.</span></div><div class="line"><span class="attr">favicon:</span> /favicon.ico</div><div class="line"></div><div class="line"><span class="comment"># Set default keywords (Use a comma to separate)</span></div><div class="line"><span class="attr">keywords:</span> <span class="string">"ZEROYU, SEC"</span></div><div class="line"></div><div class="line"><span class="comment"># Set rss to false to disable feed link.</span></div><div class="line"><span class="comment"># Leave rss as empty to use site's feed link.</span></div><div class="line"><span class="comment"># Set rss to specific value if you have burned your feed already.</span></div><div class="line"><span class="attr">rss:</span></div><div class="line"></div><div class="line"><span class="comment"># Specify the date when the site was setup</span></div><div class="line"><span class="comment">#since: 2015</span></div><div class="line"></div><div class="line"><span class="comment"># icon between year and author @Footer</span></div><div class="line"><span class="attr">authoricon:</span> heart</div><div class="line"></div><div class="line"><span class="comment"># Footer `powered-by` and `theme-info` copyright</span></div><div class="line"><span class="attr">copyright:</span> <span class="literal">true</span></div><div class="line"></div><div class="line"><span class="comment"># Canonical, set a canonical link tag in your hexo, you could use it for your SEO of blog.</span></div><div class="line"><span class="comment"># See: https://support.google.com/webmasters/answer/139066</span></div><div class="line"><span class="comment"># Tips: Before you open this tag, remeber set up your URL in hexo _config.yml ( ex. url: http://yourdomain.com )</span></div><div class="line"><span class="attr">canonical:</span> <span class="literal">true</span></div><div class="line"></div><div class="line"><span class="comment"># Change headers hierarchy on site-subtitle (will be main site description) and on all post/pages titles for better SEO-optimization.</span></div><div class="line"><span class="attr">seo:</span> <span class="literal">false</span></div><div class="line"></div><div class="line"><span class="comment"># ---------------------------------------------------------------</span></div><div class="line"><span class="comment"># Menu Settings</span></div><div class="line"><span class="comment"># ---------------------------------------------------------------</span></div><div class="line"></div><div class="line"><span class="comment"># When running the site in a subdirectory (e.g. domain.tld/blog), remove the leading slash (/archives -&gt; archives)</span></div><div class="line"><span class="attr">menu:</span></div><div class="line"><span class="attr">  home:</span> /</div><div class="line"><span class="attr">  categories:</span> /categories</div><div class="line"><span class="attr">  about:</span> /about</div><div class="line"><span class="attr">  archives:</span> /archives</div><div class="line"><span class="attr">  tags:</span> /tags</div><div class="line">  <span class="comment">#sitemap: /sitemap.xml</span></div><div class="line">  <span class="comment">#commonweal: /404.html</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># Enable/Disable menu icons.</span></div><div class="line"><span class="comment"># Icon Mapping:</span></div><div class="line"><span class="comment">#   Map a menu item to a specific FontAwesome icon name.</span></div><div class="line"><span class="comment">#   Key is the name of menu item and value is the name of FontAwsome icon. Key is case-senstive.</span></div><div class="line"><span class="comment">#   When an question mask icon presenting up means that the item has no mapping icon.</span></div><div class="line"><span class="attr">menu_icons:</span></div><div class="line"><span class="attr">  enable:</span> <span class="literal">true</span></div><div class="line">  <span class="comment">#KeyMapsToMenuItemKey: NameOfTheIconFromFontAwesome</span></div><div class="line"><span class="attr">  home:</span> home</div><div class="line"><span class="attr">  about:</span> user</div><div class="line"><span class="attr">  categories:</span> th</div><div class="line"><span class="attr">  schedule:</span> calendar</div><div class="line"><span class="attr">  tags:</span> tags</div><div class="line"><span class="attr">  archives:</span> archive</div><div class="line"><span class="attr">  sitemap:</span> sitemap</div><div class="line"><span class="attr">  commonweal:</span> heartbeat</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># ---------------------------------------------------------------</span></div><div class="line"><span class="comment"># Scheme Settings</span></div><div class="line"><span class="comment"># ---------------------------------------------------------------</span></div><div class="line"></div><div class="line"><span class="comment"># Schemes</span></div><div class="line"><span class="comment">#scheme: Muse</span></div><div class="line"><span class="attr">scheme:</span> Mist</div><div class="line"><span class="comment">#scheme: Pisces</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># ---------------------------------------------------------------</span></div><div class="line"><span class="comment"># Font Settings</span></div><div class="line"><span class="comment"># - Find fonts on Google Fonts (https://www.google.com/fonts)</span></div><div class="line"><span class="comment"># - All fonts set here will have the following styles:</span></div><div class="line"><span class="comment">#     light, light italic, normal, normal intalic, bold, bold italic</span></div><div class="line"><span class="comment"># - Be aware that setting too much fonts will cause site running slowly</span></div><div class="line"><span class="comment"># - Introduce in 5.0.1</span></div><div class="line"><span class="comment"># ---------------------------------------------------------------</span></div><div class="line"><span class="attr">font:</span></div><div class="line"><span class="attr">  enable:</span> <span class="literal">true</span></div><div class="line"></div><div class="line">  <span class="comment"># Uri of fonts host. E.g. //fonts.googleapis.com (Default)</span></div><div class="line"><span class="attr">  host:</span></div><div class="line"></div><div class="line">  <span class="comment"># Global font settings used on &lt;body&gt; element.</span></div><div class="line"><span class="attr">  global:</span></div><div class="line">    <span class="comment"># external: true will load this font family from host.</span></div><div class="line"><span class="attr">    external:</span> <span class="literal">true</span></div><div class="line"><span class="attr">    family:</span> Lato</div><div class="line"></div><div class="line">  <span class="comment"># Font settings for Headlines (h1, h2, h3, h4, h5, h6)</span></div><div class="line">  <span class="comment"># Fallback to `global` font settings.</span></div><div class="line"><span class="attr">  headings:</span></div><div class="line"><span class="attr">    external:</span> <span class="literal">true</span></div><div class="line"><span class="attr">    family:</span></div><div class="line"></div><div class="line">  <span class="comment"># Font settings for posts</span></div><div class="line">  <span class="comment"># Fallback to `global` font settings.</span></div><div class="line"><span class="attr">  posts:</span></div><div class="line"><span class="attr">    external:</span> <span class="literal">true</span></div><div class="line"><span class="attr">    family:</span></div><div class="line"></div><div class="line">  <span class="comment"># Font settings for Logo</span></div><div class="line">  <span class="comment"># Fallback to `global` font settings.</span></div><div class="line">  <span class="comment"># The `size` option use `px` as unit</span></div><div class="line"><span class="attr">  logo:</span></div><div class="line"><span class="attr">    external:</span> <span class="literal">true</span></div><div class="line"><span class="attr">    family:</span></div><div class="line"><span class="attr">    size:</span></div><div class="line"></div><div class="line">  <span class="comment"># Font settings for &lt;code&gt; and code blocks.</span></div><div class="line"><span class="attr">  codes:</span></div><div class="line"><span class="attr">    external:</span> <span class="literal">true</span></div><div class="line"><span class="attr">    family:</span></div><div class="line"><span class="attr">    size:</span></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># ---------------------------------------------------------------</span></div><div class="line"><span class="comment"># Sidebar Settings</span></div><div class="line"><span class="comment"># ---------------------------------------------------------------</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># Social Links</span></div><div class="line"><span class="comment"># Key is the link label showing to end users.</span></div><div class="line"><span class="comment"># Value is the target link (E.g. GitHub: https://github.com/iissnan)</span></div><div class="line"><span class="comment">#social:</span></div><div class="line">  <span class="comment">#LinkLabel: Link</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># Social Links Icons</span></div><div class="line"><span class="comment"># Icon Mapping:</span></div><div class="line"><span class="comment">#   Map a menu item to a specific FontAwesome icon name.</span></div><div class="line"><span class="comment">#   Key is the name of the item and value is the name of FontAwsome icon. Key is case-senstive.</span></div><div class="line"><span class="comment">#   When an globe mask icon presenting up means that the item has no mapping icon.</span></div><div class="line"><span class="attr">social_icons:</span></div><div class="line"><span class="attr">  enable:</span> <span class="literal">true</span></div><div class="line">  <span class="comment"># Icon Mappings.</span></div><div class="line">  <span class="comment"># KeyMapsToSocalItemKey: NameOfTheIconFromFontAwesome</span></div><div class="line"><span class="attr">  GitHub:</span> github</div><div class="line"><span class="attr">  Twitter:</span> twitter</div><div class="line"><span class="attr">  Weibo:</span> weibo</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># Sidebar Avatar</span></div><div class="line"><span class="comment"># in theme directory(source/images): /images/avatar.jpg</span></div><div class="line"><span class="comment"># in site  directory(source/uploads): /uploads/avatar.jpg</span></div><div class="line"><span class="comment">#avatar:</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># Table Of Contents in the Sidebar</span></div><div class="line"><span class="attr">toc:</span></div><div class="line"><span class="attr">  enable:</span> <span class="literal">true</span></div><div class="line"></div><div class="line">  <span class="comment"># Automatically add list number to toc.</span></div><div class="line"><span class="attr">  number:</span> <span class="literal">true</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># Creative Commons 4.0 International License.</span></div><div class="line"><span class="comment"># http://creativecommons.org/</span></div><div class="line"><span class="comment"># Available: by | by-nc | by-nc-nd | by-nc-sa | by-nd | by-sa | zero</span></div><div class="line"><span class="comment">#creative_commons: by-nc-sa</span></div><div class="line"><span class="comment">#creative_commons:</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="attr">sidebar:</span></div><div class="line">  <span class="comment"># Sidebar Position, available value: left | right</span></div><div class="line"><span class="attr">  position:</span> left</div><div class="line">  <span class="comment">#position: right</span></div><div class="line"></div><div class="line">  <span class="comment"># Sidebar Display, available value:</span></div><div class="line">  <span class="comment">#  - post    expand on posts automatically. Default.</span></div><div class="line">  <span class="comment">#  - always  expand for all pages automatically</span></div><div class="line">  <span class="comment">#  - hide    expand only when click on the sidebar toggle icon.</span></div><div class="line">  <span class="comment">#  - remove  Totally remove sidebar including sidebar toggler.</span></div><div class="line"><span class="attr">  display:</span> post</div><div class="line">  <span class="comment">#display: always</span></div><div class="line">  <span class="comment">#display: hide</span></div><div class="line">  <span class="comment">#display: remove</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># Blogrolls</span></div><div class="line"><span class="comment">#links_title: Links</span></div><div class="line"><span class="comment">#links_layout: block</span></div><div class="line"><span class="comment">#links_layout: inline</span></div><div class="line"><span class="comment">#links:</span></div><div class="line">  <span class="comment">#Title: http://example.com/</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># ---------------------------------------------------------------</span></div><div class="line"><span class="comment"># Post Settings</span></div><div class="line"><span class="comment"># ---------------------------------------------------------------</span></div><div class="line"></div><div class="line"><span class="comment"># Automatically scroll page to section which is under &lt;!-- more --&gt; mark.</span></div><div class="line"><span class="attr">scroll_to_more:</span> <span class="literal">true</span></div><div class="line"></div><div class="line"><span class="comment"># Automatically excerpt description in homepage as preamble text.</span></div><div class="line"><span class="attr">excerpt_description:</span> <span class="literal">true</span></div><div class="line"></div><div class="line"><span class="comment"># Automatically Excerpt. Not recommand.</span></div><div class="line"><span class="comment"># Please use &lt;!-- more --&gt; in the post to control excerpt accurately.</span></div><div class="line"><span class="attr">auto_excerpt:</span></div><div class="line"><span class="attr">  enable:</span> <span class="literal">false</span></div><div class="line"><span class="attr">  length:</span> <span class="number">150</span></div><div class="line"></div><div class="line"><span class="comment"># Post meta display settings</span></div><div class="line"><span class="attr">post_meta:</span></div><div class="line"><span class="attr">  item_text:</span> <span class="literal">true</span></div><div class="line"><span class="attr">  created_at:</span> <span class="literal">true</span></div><div class="line"><span class="attr">  updated_at:</span> <span class="literal">false</span></div><div class="line"><span class="attr">  categories:</span> <span class="literal">true</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># Wechat Subscriber</span></div><div class="line"><span class="comment">#wechat_subscriber:</span></div><div class="line">  <span class="comment">#enabled: true</span></div><div class="line">  <span class="comment">#qcode: /path/to/your/wechatqcode ex. /uploads/wechat-qcode.jpg</span></div><div class="line">  <span class="comment">#description: ex. subscribe to my blog by scanning my public wechat account</span></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># ---------------------------------------------------------------</span></div><div class="line"><span class="comment"># Misc Theme Settings</span></div><div class="line"><span class="comment"># ---------------------------------------------------------------</span></div><div class="line"></div><div class="line"><span class="comment"># Custom Logo.</span></div><div class="line"><span class="comment"># !!Only available for Default Scheme currently.</span></div><div class="line"><span class="comment"># Options:</span></div><div class="line"><span class="comment">#   enabled: [true/false] - Replace with specific image</span></div><div class="line"><span class="comment">#   image: url-of-image   - Images's url</span></div><div class="line"><span class="attr">custom_logo:</span></div><div class="line"><span class="attr">  enabled:</span> <span class="literal">false</span></div><div class="line"><span class="attr">  image:</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># Code Highlight theme</span></div><div class="line"><span class="comment"># Available value:</span></div><div class="line"><span class="comment">#    normal | night | night eighties | night blue | night bright</span></div><div class="line"><span class="comment"># https://github.com/chriskempson/tomorrow-theme</span></div><div class="line"><span class="attr">highlight_theme:</span> normal</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># ---------------------------------------------------------------</span></div><div class="line"><span class="comment"># Third Party Services Settings</span></div><div class="line"><span class="comment"># ---------------------------------------------------------------</span></div><div class="line"></div><div class="line"><span class="comment"># MathJax Support</span></div><div class="line"><span class="attr">mathjax:</span></div><div class="line"><span class="attr">  enable:</span> <span class="literal">false</span></div><div class="line"><span class="attr">  per_page:</span> <span class="literal">false</span></div><div class="line"><span class="attr">  cdn:</span> //cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML</div><div class="line"></div><div class="line"><span class="comment">#local search</span></div><div class="line"><span class="attr">search:</span></div><div class="line"><span class="attr">  path:</span> search.xml</div><div class="line"><span class="attr">  field:</span> post</div><div class="line"><span class="attr">  format:</span> html</div><div class="line"><span class="attr">  limit:</span> <span class="number">10000</span></div><div class="line"></div><div class="line"><span class="comment"># Swiftype Search API Key</span></div><div class="line"><span class="comment">#swiftype_key: oUgCiUNA9jix_1j3uXpn</span></div><div class="line"></div><div class="line"><span class="comment"># Baidu Analytics ID</span></div><div class="line"><span class="attr">baidu_analytics:</span> </div><div class="line"></div><div class="line"><span class="comment"># Duoshuo ShortName</span></div><div class="line"><span class="attr">duoshuo_shortname:</span> </div><div class="line"></div><div class="line"><span class="comment"># Disqus</span></div><div class="line"><span class="comment">#disqus_shortname:</span></div><div class="line"></div><div class="line"><span class="comment"># Hypercomments</span></div><div class="line"><span class="comment">#hypercomments_id:</span></div><div class="line"></div><div class="line"><span class="comment"># Gentie productKey</span></div><div class="line"><span class="comment">#gentie_productKey:</span></div><div class="line"></div><div class="line"><span class="comment"># Support for youyan comments system.</span></div><div class="line"><span class="comment"># You can get your uid from http://www.uyan.cc</span></div><div class="line"><span class="comment">#youyan_uid: your uid</span></div><div class="line"></div><div class="line"><span class="comment"># Baidu Share</span></div><div class="line"><span class="comment"># Available value:</span></div><div class="line"><span class="comment">#    button | slide</span></div><div class="line"><span class="comment"># Warning: Baidu Share does not support https.</span></div><div class="line"><span class="comment">#baidushare:</span></div><div class="line"><span class="comment">##  type: button</span></div><div class="line"></div><div class="line"><span class="comment"># Share</span></div><div class="line"><span class="comment">#jiathis:</span></div><div class="line"><span class="comment"># Warning: JiaThis does not support https.</span></div><div class="line"><span class="comment">#add_this_id:</span></div><div class="line"></div><div class="line"><span class="comment"># Share</span></div><div class="line"><span class="comment">#duoshuo_share: true</span></div><div class="line"></div><div class="line"><span class="comment"># Google Webmaster tools verification setting</span></div><div class="line"><span class="comment"># See: https://www.google.com/webmasters/</span></div><div class="line"><span class="comment">#google_site_verification:</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># Google Analytics</span></div><div class="line"><span class="comment">#google_analytics:</span></div><div class="line"></div><div class="line"><span class="comment"># CNZZ count</span></div><div class="line"><span class="comment">#cnzz_siteid:</span></div><div class="line"></div><div class="line"><span class="comment"># Application Insights</span></div><div class="line"><span class="comment"># See https://azure.microsoft.com/en-us/services/application-insights/</span></div><div class="line"><span class="comment"># application_insights:</span></div><div class="line"></div><div class="line"><span class="comment"># Make duoshuo show UA</span></div><div class="line"><span class="comment"># user_id must NOT be null when admin_enable is true!</span></div><div class="line"><span class="comment"># you can visit http://dev.duoshuo.com get duoshuo user id.</span></div><div class="line"><span class="attr">duoshuo_info:</span></div><div class="line"><span class="attr">  ua_enable:</span> <span class="literal">true</span></div><div class="line"><span class="attr">  admin_enable:</span> <span class="literal">false</span></div><div class="line"><span class="attr">  user_id:</span> <span class="number">0</span></div><div class="line">  <span class="comment">#admin_nickname: Author</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># Facebook SDK Support.</span></div><div class="line"><span class="comment"># https://github.com/iissnan/hexo-theme-next/pull/410</span></div><div class="line"><span class="attr">facebook_sdk:</span></div><div class="line"><span class="attr">  enable:</span> <span class="literal">false</span></div><div class="line"><span class="attr">  app_id:</span>       <span class="comment">#&lt;app_id&gt;</span></div><div class="line"><span class="attr">  fb_admin:</span>     <span class="comment">#&lt;user_id&gt;</span></div><div class="line"><span class="attr">  like_button:</span>  <span class="comment">#true</span></div><div class="line"><span class="attr">  webmaster:</span>    <span class="comment">#true</span></div><div class="line"></div><div class="line"><span class="comment"># Facebook comments plugin</span></div><div class="line"><span class="comment"># This plugin depends on Facebook SDK.</span></div><div class="line"><span class="comment"># If facebook_sdk.enable is false, Facebook comments plugin is unavailable.</span></div><div class="line"><span class="attr">facebook_comments_plugin:</span></div><div class="line"><span class="attr">  enable:</span> <span class="literal">false</span></div><div class="line"><span class="attr">  num_of_posts:</span> <span class="number">10</span>  <span class="comment"># min posts num is 1</span></div><div class="line"><span class="attr">  width:</span> <span class="number">100</span>%       <span class="comment"># default width is 550px</span></div><div class="line"><span class="attr">  scheme:</span> light     <span class="comment"># default scheme is light (light or dark)</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># Show number of visitors to each article.</span></div><div class="line"><span class="comment"># You can visit https://leancloud.cn get AppID and AppKey.</span></div><div class="line"><span class="attr">leancloud_visitors:</span></div><div class="line"><span class="attr">  enable:</span> <span class="literal">true</span></div><div class="line"><span class="attr">  app_id:</span>  <span class="comment">#&lt;app_id&gt;</span></div><div class="line"><span class="attr">  app_key:</span> <span class="comment">#&lt;app_key&gt;</span></div><div class="line"></div><div class="line"><span class="comment"># Show PV/UV of the website/page with busuanzi.</span></div><div class="line"><span class="comment"># Get more information on http://ibruce.info/2015/04/04/busuanzi/</span></div><div class="line"><span class="attr">busuanzi_count:</span></div><div class="line">  <span class="comment"># count values only if the other configs are false</span></div><div class="line"><span class="attr">  enable:</span> <span class="literal">false</span></div><div class="line">  <span class="comment"># custom uv span for the whole site</span></div><div class="line"><span class="attr">  site_uv:</span> <span class="literal">true</span></div><div class="line"><span class="attr">  site_uv_header:</span> &lt;i class=<span class="string">"fa fa-user"</span>&gt;&lt;/i<span class="string">&gt;</span></div><div class="line"><span class="attr">  site_uv_footer:</span></div><div class="line">  <span class="comment"># custom pv span for the whole site</span></div><div class="line"><span class="attr">  site_pv:</span> <span class="literal">true</span></div><div class="line"><span class="attr">  site_pv_header:</span> &lt;i class=<span class="string">"fa fa-eye"</span>&gt;&lt;/i<span class="string">&gt;</span></div><div class="line"><span class="attr">  site_pv_footer:</span></div><div class="line">  <span class="comment"># custom pv span for one page only</span></div><div class="line"><span class="attr">  page_pv:</span> <span class="literal">true</span></div><div class="line"><span class="attr">  page_pv_header:</span> &lt;i class=<span class="string">"fa fa-file-o"</span>&gt;&lt;/i<span class="string">&gt;</span></div><div class="line"><span class="attr">  page_pv_footer:</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># Tencent analytics ID</span></div><div class="line"><span class="comment"># tencent_analytics:</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># Enable baidu push so that the blog will push the url to baidu automatically which is very helpful for SEO</span></div><div class="line"><span class="attr">baidu_push:</span> <span class="literal">false</span></div><div class="line"></div><div class="line"><span class="comment"># Google Calendar</span></div><div class="line"><span class="comment"># Share your recent schedule to others via calendar page</span></div><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment"># API Documentation:</span></div><div class="line"><span class="comment"># https://developers.google.com/google-apps/calendar/v3/reference/events/list</span></div><div class="line"><span class="attr">calendar:</span></div><div class="line"><span class="attr">  enable:</span> <span class="literal">false</span></div><div class="line"><span class="attr">  calendar_id:</span> &lt;required<span class="string">&gt;</span></div><div class="line"><span class="attr">  api_key:</span> &lt;required<span class="string">&gt;</span></div><div class="line"><span class="attr">  orderBy:</span> startTime</div><div class="line"><span class="attr">  offsetMax:</span> <span class="number">24</span></div><div class="line"><span class="attr">  offsetMin:</span> <span class="number">4</span></div><div class="line"><span class="attr">  timeZone:</span></div><div class="line"><span class="attr">  showDeleted:</span> <span class="literal">false</span></div><div class="line"><span class="attr">  singleEvents:</span> <span class="literal">true</span></div><div class="line"><span class="attr">  maxResults:</span> <span class="number">250</span></div><div class="line"></div><div class="line"><span class="comment"># Algolia Search</span></div><div class="line"><span class="attr">algolia_search:</span></div><div class="line"><span class="attr">  enable:</span> <span class="literal">false</span></div><div class="line"><span class="attr">  hits:</span></div><div class="line"><span class="attr">    per_page:</span> <span class="number">10</span></div><div class="line"><span class="attr">  labels:</span></div><div class="line"><span class="attr">    input_placeholder:</span> Search for Posts</div><div class="line"><span class="attr">    hits_empty:</span> <span class="string">"We didn't find any results for the search: $&#123;query&#125;"</span></div><div class="line"><span class="attr">    hits_stats:</span> <span class="string">"$&#123;hits&#125; results found in $&#123;time&#125; ms"</span></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">#! ---------------------------------------------------------------</span></div><div class="line"><span class="comment">#! DO NOT EDIT THE FOLLOWING SETTINGS</span></div><div class="line"><span class="comment">#! UNLESS YOU KNOW WHAT YOU ARE DOING</span></div><div class="line"><span class="comment">#! ---------------------------------------------------------------</span></div><div class="line"></div><div class="line"><span class="comment"># Motion</span></div><div class="line"><span class="attr">use_motion:</span> <span class="literal">true</span></div><div class="line"></div><div class="line"><span class="comment"># Fancybox</span></div><div class="line"><span class="attr">fancybox:</span> <span class="literal">true</span></div><div class="line"></div><div class="line"><span class="comment"># Canvas-nest</span></div><div class="line"><span class="attr">canvas_nest:</span> <span class="literal">false</span></div><div class="line"></div><div class="line"><span class="comment"># Script Vendors.</span></div><div class="line"><span class="comment"># Set a CDN address for the vendor you want to customize.</span></div><div class="line"><span class="comment"># For example</span></div><div class="line"><span class="comment">#    jquery: https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js</span></div><div class="line"><span class="comment"># Be aware that you should use the same version as internal ones to avoid potential problems.</span></div><div class="line"><span class="comment"># Please use the https protocol of CDN files when you enable https on your site.</span></div><div class="line"><span class="attr">vendors:</span></div><div class="line">  <span class="comment"># Internal path prefix. Please do not edit it.</span></div><div class="line"><span class="attr">  _internal:</span> lib</div><div class="line"></div><div class="line">  <span class="comment"># Internal version: 2.1.3</span></div><div class="line"><span class="attr">  jquery:</span></div><div class="line"></div><div class="line">  <span class="comment"># Internal version: 2.1.5</span></div><div class="line">  <span class="comment"># See: http://fancyapps.com/fancybox/</span></div><div class="line"><span class="attr">  fancybox:</span></div><div class="line"><span class="attr">  fancybox_css:</span></div><div class="line"></div><div class="line">  <span class="comment"># Internal version: 1.0.6</span></div><div class="line">  <span class="comment"># See: https://github.com/ftlabs/fastclick</span></div><div class="line"><span class="attr">  fastclick:</span></div><div class="line"></div><div class="line">  <span class="comment"># Internal version: 1.9.7</span></div><div class="line">  <span class="comment"># See: https://github.com/tuupola/jquery_lazyload</span></div><div class="line"><span class="attr">  lazyload:</span></div><div class="line"></div><div class="line">  <span class="comment"># Internal version: 1.2.1</span></div><div class="line">  <span class="comment"># See: http://VelocityJS.org</span></div><div class="line"><span class="attr">  velocity:</span></div><div class="line"></div><div class="line">  <span class="comment"># Internal version: 1.2.1</span></div><div class="line">  <span class="comment"># See: http://VelocityJS.org</span></div><div class="line"><span class="attr">  velocity_ui:</span></div><div class="line"></div><div class="line">  <span class="comment"># Internal version: 0.7.9</span></div><div class="line">  <span class="comment"># See: https://faisalman.github.io/ua-parser-js/</span></div><div class="line"><span class="attr">  ua_parser:</span></div><div class="line"></div><div class="line">  <span class="comment"># Internal version: 4.6.2</span></div><div class="line">  <span class="comment"># See: http://fontawesome.io/</span></div><div class="line"><span class="attr">  fontawesome:</span></div><div class="line"></div><div class="line">  <span class="comment"># Internal version: 1</span></div><div class="line">  <span class="comment"># https://www.algolia.com</span></div><div class="line"><span class="attr">  algolia_instant_js:</span></div><div class="line"><span class="attr">  algolia_instant_css:</span></div><div class="line"></div><div class="line">  <span class="comment"># Internal version: 1.0.0</span></div><div class="line">  <span class="comment"># https://github.com/hustcc/canvas-nest.js</span></div><div class="line"><span class="attr">  canvas_nest:</span></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># Assets</span></div><div class="line"><span class="attr">css:</span> css</div><div class="line"><span class="attr">js:</span> js</div><div class="line"><span class="attr">images:</span> images</div><div class="line"></div><div class="line"><span class="comment"># Theme version</span></div><div class="line"><span class="attr">version:</span> <span class="number">5.1</span><span class="number">.0</span></div></pre></td></tr></table></figure>
 <h4 id="个性化设置"><a href="#个性化设置" class="headerlink" title="个性化设置"></a>个性化设置</h4><p>按照<a href="http://theme-next.iissnan.com/" target="_blank" rel="external">NexT 使用文档</a>设置一下，其中的内容下面不再赘述。</p>
-]]></content>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/21/commix-系统命令注入自动化测试实例/" rel="next" title="commix-系统命令注入自动化测试实例">
+                <i class="fa fa-chevron-left"></i> commix-系统命令注入自动化测试实例
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
     
-    <summary type="html">
+      <div class="ds-thread" data-thread-key="2017/01/21/Hexo-3-x-博客搭建指南-NEXT主题/"
+           data-title="Hexo 3.x 博客搭建指南(NEXT主题)" data-url="http://zer0yu.github.io/2017/01/21/Hexo-3-x-博客搭建指南-NEXT主题/">
+      </div>
     
-      &lt;p&gt;GitHub Pages 本用于介绍托管在 GitHub 的项目，也可以用来搭建博客，有300M免费空间。&lt;/p&gt;
-&lt;p&gt;hexo是一个基于Node.js的静态博客程序，可以方便的生成静态网页托管在github和Heroku上。作者是来自台湾的&lt;a href=&quot;https:
-    
-    </summary>
-    
-    
-  </entry>
+  </div>
+
+
+        </div>
+        
+          
   
-  <entry>
-    <title>commix-系统命令注入自动化测试实例</title>
-    <link href="http://zer0yu.github.io/2017/01/21/commix-%E7%B3%BB%E7%BB%9F%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%AE%9E%E4%BE%8B/"/>
-    <id>http://zer0yu.github.io/2017/01/21/commix-系统命令注入自动化测试实例/</id>
-    <published>2017-01-21T13:14:09.000Z</published>
-    <updated>2017-01-21T13:31:04.000Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h4><p>​    commix是一款很好用的命令注入的工具，前几天看了看国内对其的介绍和使用示例挺少的，所以最近有空就写了这一篇文章来列举几个使用的栗子。</p>
-<h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><p>​    命令注入就是部分Web应用程序提供了一些命令执行的操作，那么在Web应用程序底层去调用系统操作命令时，如果没有过滤好用户输入的数据，就很有可能形成系统命令执行漏洞来直接执行操作系统命令。详细讲解参考<a href="https://www.owasp.org/index.php/Command_Injection" target="_blank" rel="external">Command Injection</a></p>
-<h4 id="commix简介"><a href="#commix简介" class="headerlink" title="commix简介"></a>commix简介</h4><p>​    此处就不详细介绍了如果想要了解可以看这两篇文章：</p>
-<p>​    <a href="http://www.mottoin.com/91981.html" target="_blank" rel="external">http://www.mottoin.com/91981.html</a></p>
-<p>​    <a href="http://www.mottoin.com/91806.html" target="_blank" rel="external">http://www.mottoin.com/91806.html</a></p>
-<h4 id="测试环境搭建"><a href="#测试环境搭建" class="headerlink" title="测试环境搭建"></a>测试环境搭建</h4><p>​    在这里你可以使用DVWA或者DWAPP来实战，当然我觉得要尽可能全的包含各种类型的命令注入漏洞才算完美所以我们在此处使用commix提供的一个测试平台<a href="https://github.com/commixproject/commix-testbed" target="_blank" rel="external">commix-testbed</a>。</p>
-<p>1.如果你在使用windows平台那么我推荐<a href="http://www.phpstudy.net/" target="_blank" rel="external">PHPStudy</a>来搭建环境</p>
-<p>安装完成后你只需要在phpstudy的www目录下打开cmd键入：</p>
-<p><code>git clone https://github.com/commixproject/commix-testbed.git</code></p>
-<p>(当然你要确保你安装了Git)</p>
-<p>之后只要启动phpstudy就可以在浏览器中访问了</p>
-<p>2.如果你使用的是Linux或者MacOS平台我推荐用xampp来搭建环境</p>
-<p>搭建好之后你就可以看到如下界面</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-1.png" alt="1"></p>
-<p>环境搭建好后我们来进行渗透测试</p>
-<h4 id="示例一：Results-based命令注入攻击"><a href="#示例一：Results-based命令注入攻击" class="headerlink" title="示例一：Results-based命令注入攻击"></a>示例一：Results-based命令注入攻击</h4><p>我们选择GET方式的Classic regular example</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-2.png" alt="2"></p>
-<p>ping下127.0.0.1试下</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-3.png" alt="3"></p>
-<p>复制url并打开commix开始hack</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-4.png" alt="4"></p>
-<p>渗透主机为win后期可以借助empire（不知道empire？？？没关系<a href="http://www.mottoin.com/?s=empire" target="_blank" rel="external">戳我</a>）</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-5.png" alt="5"></p>
-<p>可以使用</p>
-<p><code>commix -u &quot;http://192.168.1.108/commix-testbed/scenarios/regular/GET/classic.php?addr=127.0.0.1&quot; --hostname --current-user --sys-info</code></p>
-<p>含义：显示当前测试主机的主机名，用户名和系统信息</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-8.png" alt="8"></p>
-<p>如果渗透主机为Linux则后期可以借助msf(不会msf？？？没关系<a href="http://www.mottoin.com/18517.html" target="_blank" rel="external">戳我</a>)</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-9.png" alt="9"></p>
-<h4 id="示例二：User-Agent-HTTP头注入攻击"><a href="#示例二：User-Agent-HTTP头注入攻击" class="headerlink" title="示例二：User-Agent HTTP头注入攻击"></a>示例二：User-Agent HTTP头注入攻击</h4><p>选择User-Agent HTTP Header中的第一个Classic user-agent-based example</p>
-<p><code>http://192.168.1.108/commix-testbed/scenarios/user-agent/ua(classic).php</code></p>
-<p>然后开始使用commix注入：</p>
-<p><code>commix -u &quot;http://192.168.1.108/commix-testbed/scenarios/user-agent/ua(classic).php&quot; --data=&quot;addr=192.168.1.121&quot; --technique=&quot;c&quot;</code></p>
-<p>含义：post参数addr=192.168.1.121并指定要使用的进样技术</p>
-<p>效果如下：</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-10.png" alt="10"></p>
-<h4 id="示例三：Referer-HTTP头注入攻击"><a href="#示例三：Referer-HTTP头注入攻击" class="headerlink" title="示例三：Referer HTTP头注入攻击"></a>示例三：Referer HTTP头注入攻击</h4><p>选择Referer HTTP Header中的第一个Classic referer-based example</p>
-<p><code>http://192.168.1.108/commix-testbed/scenarios/referer/referer(classic).php</code></p>
-<p>然后开始使用commix注入：</p>
-<p><code>commix -u &quot;http://192.168.1.108/commix-testbed/scenarios/referer/referer(classic).php&quot; --data=&quot;addr=192.168.1.121&quot; --technique=&quot;c&quot;</code></p>
-<p>和上面的差不多不解释了</p>
-<p>效果如下：</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-11.png" alt="11"></p>
-<h4 id="示例四：Blind-命令注入攻击"><a href="#示例四：Blind-命令注入攻击" class="headerlink" title="示例四：Blind 命令注入攻击"></a>示例四：Blind 命令注入攻击</h4><p>选择Regular (GET / POST)中的Blind regular example</p>
-<p><code>http://192.168.1.108/commix-testbed/scenarios/regular/GET/blind.php?addr=127.0.0.1</code></p>
-<p>然后开始使用commix注入：</p>
-<p><code>commix -u &quot;http://192.168.1.108/commix-testbed/scenarios/regular/GET/blind.php?addr=127.0.0.1&quot; --technique=&quot;tf&quot; -v 1</code></p>
-<p>效果如下：</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-12.png" alt="12"></p>
-<p>执行命令：</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-13.png" alt="13"></p>
-<h4 id="彩蛋"><a href="#彩蛋" class="headerlink" title="彩蛋"></a>彩蛋</h4><p>上面的例子不是很全，有几个使用commix进行命令注入的视频，有兴趣可以下载看下</p>
-<p>链接: <a href="https://pan.baidu.com/s/1qXMNjZm" target="_blank" rel="external">https://pan.baidu.com/s/1qXMNjZm</a> 密码: 5peb</p>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="https://github.com/commixproject/commix-testbed" target="_blank" rel="external">https://github.com/commixproject/commix-testbed</a></p>
-<p><a href="https://github.com/commixproject/commix" target="_blank" rel="external">https://github.com/commixproject/commix</a></p>
-<p><a href="http://www.commixproject.com/" target="_blank" rel="external">http://www.commixproject.com/</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot; title=&quot;引言&quot;&gt;&lt;/a&gt;引言&lt;/h4&gt;&lt;p&gt;​    commix是一款很好用的命令注入的工具，前几天看了看国内对其的介绍和使用示例挺少的，所以最近有空就写了这一篇文章来列举几个使用的
-    
-    </summary>
-    
-    
-  </entry>
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="ZEROYU" />
+          <p class="site-author-name" itemprop="name">ZEROYU</p>
+          <p class="site-description motion-element" itemprop="description">一只单线程HACKER</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zer0yu" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/Z3r0yu" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="zeroyu.xyz@gmail.com" target="_blank" title="Email">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Email
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/zeroyu_xyz" title="我的CSDN博客" target="_blank">我的CSDN博客</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置SSH"><span class="nav-number">1.</span> <span class="nav-text">配置SSH</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#搭建博客"><span class="nav-number">2.</span> <span class="nav-text">搭建博客</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hexo使用"><span class="nav-number">3.</span> <span class="nav-text">hexo使用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#生成静态页面"><span class="nav-number">3.1.</span> <span class="nav-text">生成静态页面</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#本地启动"><span class="nav-number">3.2.</span> <span class="nav-text">本地启动</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#新建文章"><span class="nav-number">3.3.</span> <span class="nav-text">新建文章</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#新建页面"><span class="nav-number">3.4.</span> <span class="nav-text">新建页面</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#编辑文章"><span class="nav-number">3.5.</span> <span class="nav-text">编辑文章</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#简单命令"><span class="nav-number">3.6.</span> <span class="nav-text">简单命令</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#插入图片"><span class="nav-number">3.7.</span> <span class="nav-text">插入图片</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置博客"><span class="nav-number">4.</span> <span class="nav-text">配置博客</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#全站配置"><span class="nav-number">4.1.</span> <span class="nav-text">全站配置</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更换主题"><span class="nav-number">5.</span> <span class="nav-text">更换主题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#个性化设置"><span class="nav-number">6.</span> <span class="nav-text">个性化设置</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  <entry>
-    <title>3xp10it搭建指南</title>
-    <link href="http://zer0yu.github.io/2017/01/21/3xp10it%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/"/>
-    <id>http://zer0yu.github.io/2017/01/21/3xp10it搭建指南/</id>
-    <published>2017-01-21T13:05:18.000Z</published>
-    <updated>2017-01-21T13:08:09.000Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h4><p>​    突然想到前几天看到<a href="https://github.com/We5ter/Scanners-Box/blob/master/README_CN.md" target="_blank" rel="external">Scanners-Box</a>有一款扫描器<a href="https://github.com/3xp10it/3xp10it" target="_blank" rel="external">3xp10it</a>于是就搭建使用了一下，刚觉还不错，就简要记录下我的搭建过程。（bing api key目前已经无法注册）</p>
-<h4 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h4><p>kali linux rolling 2016.2</p>
-<h4 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h4><p>1.安装git</p>
-<p><code>apt-get install git</code></p>
-<p>2.把3xp10it克隆到本合适的位置</p>
-<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="keyword">clone</span> <span class="title">https</span>://github.com/<span class="number">3</span>xp10it/<span class="number">3</span>xp10it.git</div></pre></td></tr></table></figure>
-<p>3.安装相关依赖,第一次使用工具时需要运行,以后不用再运行</p>
-<figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">bash </span><span class="keyword">beforeWork.sh</span></div></pre></td></tr></table></figure>
-<p>4.python3安装</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">apt-<span class="built_in">get</span> install <span class="keyword">python3</span></div><div class="line">或:</div><div class="line">wget http<span class="variable">s:</span>//www.<span class="keyword">python</span>.org/ftp/<span class="keyword">python</span>/<span class="number">3.5</span>.<span class="number">2</span>/Python-<span class="number">3.5</span>.<span class="number">2</span>.tar.xz</div><div class="line">tar xJf Python-<span class="number">3.5</span>.<span class="number">2</span>.tar.xz</div><div class="line"><span class="keyword">cd</span> Python-<span class="number">3.5</span>.<span class="number">2</span></div><div class="line">./configure --prefix=/<span class="keyword">opt</span>/<span class="keyword">python3</span></div><div class="line"><span class="keyword">make</span> &amp;&amp; <span class="keyword">make</span> install</div><div class="line"><span class="keyword">ln</span> -s /<span class="keyword">opt</span>/<span class="keyword">python3</span>/bin/<span class="keyword">python3</span>.<span class="number">5</span> /usr/local/bin/<span class="keyword">python3</span></div></pre></td></tr></table></figure>
-<p>5.pip3安装</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">echo</span> <span class="string">"deb-src http://http.kali.org/kali kali main non-free contrib"</span> &gt;&gt; /etc/apt/sources.<span class="keyword">list</span></div><div class="line"><span class="keyword">echo</span> <span class="string">"deb-src http://security.kali.org/kali-security kali/updates main contrib non-free"</span> &gt;&gt;/etc/apt/sources.<span class="keyword">list</span></div><div class="line">apt-<span class="built_in">get</span> <span class="keyword">update</span></div><div class="line">apt-<span class="built_in">get</span> install <span class="keyword">python3</span>-pip</div></pre></td></tr></table></figure>
-<p>6.mysql</p>
-<p>需要mysql，如果mysql密码忘记了可以参考这篇文章<a href="http://zeroyu.xyz/2017/01/05/kali-linux-2016-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97%E4%BA%8C/" target="_blank" rel="external">《kali-linux-2016-使用指南二》</a></p>
-<p>7.运行主程序,工作时运行,第一次运行时需要先运行上面的beforeWork.sh</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">python3</span> <span class="number">3</span>xp10it.<span class="keyword">py</span></div></pre></td></tr></table></figure>
-<p>8.要新开一个终端运行以便于查看相关输出信息,该工具为web后台</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">python3</span> web.<span class="keyword">py</span></div></pre></td></tr></table></figure>
-<h4 id="效果示例"><a href="#效果示例" class="headerlink" title="效果示例"></a>效果示例</h4><p><img src="http://ok44mzy2k.bkt.clouddn.com/3xp10it.png" alt="2"></p>
-<h4 id="关于这款工具"><a href="#关于这款工具" class="headerlink" title="关于这款工具"></a>关于这款工具</h4><p>a)3xp10it是一个自动化渗透测试框架,目前没有做到完全自动化[自动上传漏洞利用框架和自动fuzz框架暂时没有加入]</p>
-<p>b)支持功能列表</p>
-<ul>
-<li>cdn真实ip查找模块</li>
-<li>旁站获取[如果在cdn模块中发现有cdn但是没有获取到真实ip则不进行旁站获取]</li>
-<li>子站获取</li>
-<li>高危漏洞扫描模块</li>
-<li>爬虫模块</li>
-<li>目标网站脚本类型检测</li>
-<li>目录扫描模块</li>
-<li>sqli扫描模块</li>
-<li>robots/sitemap自动收集</li>
-<li>cms识别与cms漏洞扫描模块</li>
-<li>自动识别管理员页面并爆破[支持自动识别简单验证码]</li>
-<li>webshell自动查找与爆破,支持asp,php,aspx,jsp,支持chopper一句话webshell和大马类型webshell</li>
-</ul>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">a)apache,iis,nginx,lighttpd在phpstudy中测试默认可接收<span class="number">1000</span>个post参数  </div><div class="line">b)一句话类型webshell根据上面的特点可以正常情况下(单线程)的<span class="number">1000</span>倍速度来爆破,可用大字典爆破,但是不能用多线程,</div><div class="line">  可能是因为用多线程会太快而让web server觉得每次的参数不止<span class="number">1000</span>个  </div><div class="line">c)其他类型web server未测试,暂用多线程<span class="number">1</span>倍速爆破,用最常用的webshell较小字典,<span class="number">17659</span>个左右  </div><div class="line">d)大马类型webshell由于表单名是一定的,所以不能以<span class="number">1000</span>倍速爆破,于是也用和c)中一样的小字典多线程<span class="number">1</span>倍速爆破</div></pre></td></tr></table></figure>
-<ul>
-<li>资源文件收集</li>
-<li>端口扫描模块</li>
-<li>whois信息收集</li>
-<li>支持人工渗透时记录笔记</li>
-</ul>
-<figure class="highlight coq"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">笔记功能需要额外安装phpmyadmin等可以编辑数据库的工具,访问数据库,在targets|<span class="type">xxx_pang</span>|<span class="type">xxx_sub</span>表中有一个note列可用</div><div class="line">于记录人工渗透时的笔记,查看扫描结果最好也用phpmyadmin来查看数据库的targets表和xxx_pang和xxx_sub表,如果不安装</div><div class="line">phpmyadmin也可由web.py在web后台中查看扫描结果</div></pre></td></tr></table></figure>
-<p>c)可选工作模式</p>
-<p>模式一:扫描目标和目标的所有旁站<br>模式二:扫描目标和目标的所有子站<br>模式三:扫描目标和目标的所有旁站和所有子站<br>模式四:只扫描目标</p>
-<figure class="highlight inform7"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">默认使用模式一扫描<span class="comment">[在运行3xp10it后可自选]</span>,上面四种模式中的<span class="comment">[扫描目标]</span>里的目标支持批量导入多个目标和手工录入多个</div><div class="line">目标.四种工作模式中与旁站和子站相关的由程序自动完成<span class="comment">[eg.选择模式三工作时,将自动获取导入的目标的所有旁站和所有子</span></div><div class="line">站,并对这些旁站和子站依次遍历上面的各个扫描模块]</div></pre></td></tr></table></figure>
-<p>d)特点</p>
-<ul>
-<li>可在中断后重新运行时从断点附近接着上次的过程扫描,不用重新扫描</li>
-<li>运行3xp10it后自动从数据库中取出待完成的扫描任务进行扫描</li>
-<li>支持正常扫描和优先扫描两个扫描组,如果优先扫描组里有任务则先扫描优先扫描组里的目标,在添加任务时可选择将目标是 正常扫描还是优先扫描</li>
-<li>上述支持功能列表中的功能默认全部遍历扫描,如果要使用单个模块可在web界面使用</li>
-<li>3xp10it配备一个web后台,web页面可查询当前扫描结果与使用单个模块功能</li>
-<li>3xp10it独立于web运行,也即没有目录下的pannel文件夹也可运行</li>
-<li>目录下的pannel文件夹是Django为3xp10it写的一些相关界面,web界面使用在下面介绍</li>
-<li>支持找到高危漏洞邮件通知[eg.sqli,webshell爆破成功等]</li>
-</ul>
-<ul>
-<li>web后台相当于3xp10it的部分界面+分割的模块化工具+exp10it中没有的功能的附加工具的集合</li>
-<li>web后台由Django==1.10.3开发</li>
-<li>web后台中支持工具列表<ul>
-<li>targets:查看扫描目标,新增/删除扫描目标</li>
-<li>获取旁[子]站:获取旁站或子站模块</li>
-<li>xcdn:尝试识别cdn背后的真实ip</li>
-<li>高危漏扫:高危漏洞扫描模块</li>
-<li>sqli:sql注入模块</li>
-<li>扫目录:目录扫描模块</li>
-<li>cms漏扫:cms漏洞扫描模块</li>
-<li>webshell爆破:webshell爆破模块</li>
-<li>管理员登录爆破:管理员登录爆破模块</li>
-<li>waf爆破:waf自动爆破模块[3xp10it中没有这个功能]</li>
-<li>dbquery:数据库语句执行接口</li>
-<li>扫描结果:查看当前扫描结果</li>
-</ul>
-</li>
-</ul>
-<h4 id="详细"><a href="#详细" class="headerlink" title="详细"></a>详细</h4><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="number">1.3</span>xp10it需要用到bingapi,需要先申请好bingapi</div><div class="line"><span class="number">2</span>.上面的web.<span class="keyword">py</span>不一定要运行,核心功能在<span class="number">3</span>xp10it.<span class="keyword">py</span>文件中</div><div class="line"><span class="number">3</span>.如果要后台功能需运行<span class="keyword">python3</span> web.<span class="keyword">py</span></div><div class="line"><span class="number">4</span>.如果要使用web.<span class="keyword">py</span>,重新开机后需要重新运行web.<span class="keyword">py</span></div><div class="line"><span class="number">5</span>.运行web.<span class="keyword">py</span>常见错误:端口被占用.解决方法:</div><div class="line"><span class="keyword">a</span>)netstat -ntlp | <span class="keyword">grep</span> <span class="number">8000</span></div><div class="line"><span class="keyword">b</span>)在<span class="keyword">a</span>)中找到pid后kill -<span class="number">9</span> pid</div><div class="line"><span class="keyword">c</span>)重新运行<span class="keyword">python3</span> web.<span class="keyword">py</span></div><div class="line"><span class="number">6.3</span>xp10it中调用的是关键模块exp10it中的exp10itScanner,exp10it模块由pip3 install exp10it安装,安装路径一般如下:</div><div class="line">/usr/local/lib/<span class="keyword">python3</span>.<span class="number">5</span>/dist-packages</div><div class="line"><span class="number">7</span>.文件分布结构如下:</div><div class="line"></div><div class="line">当前目录</div><div class="line">.</div><div class="line">├── <span class="number">3</span>xp10it.<span class="keyword">py</span></div><div class="line">├── pannel</div><div class="line">│   ├── ghostdriver.<span class="built_in">log</span></div><div class="line">│   ├── manage.<span class="keyword">py</span></div><div class="line">│   ├── models.<span class="keyword">py</span>[web后台没有用django的模型]</div><div class="line">│   ├── pages[web页面的html文件,相当于django的template]</div><div class="line">│   └── pannel[django相关文件]</div><div class="line">│       ├── __init__.<span class="keyword">py</span></div><div class="line">│       ├── settings.<span class="keyword">py</span></div><div class="line">│       ├── urls.<span class="keyword">py</span>[django配置的访问与响应规则]</div><div class="line">│       ├── views.<span class="keyword">py</span>[django配置的关键函数]</div><div class="line">│       └── wsgi.<span class="keyword">py</span></div><div class="line">├── readme.md</div><div class="line">├── uninstall.<span class="keyword">py</span></div><div class="line">└── web.<span class="keyword">py</span></div><div class="line"></div><div class="line"></div><div class="line">/usr/local/lib/<span class="keyword">python3</span>.<span class="number">5</span>/dist-packages路径下相关文件</div><div class="line"></div><div class="line">├── cms_identify[cms识别模块相关文件]</div><div class="line">├── cms_scan[cms漏洞扫描模块相关文件]</div><div class="line">├── config.ini[配置文件]</div><div class="line">├── dicts[字典文件]</div><div class="line">├── dirsearch[目录扫描模块相关文件]</div><div class="line">├── exp10it.<span class="keyword">py</span>[关键模块文件]</div><div class="line">├── exps[<span class="built_in">exp</span>模块相关文件]</div><div class="line">├── <span class="built_in">log</span>[日志文件夹]</div><div class="line">├── tools[web后台中的各个工具]</div></pre></td></tr></table></figure>
-<h4 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h4><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">Q0:</span>config.ini 这个文件怎么没有找到?</div><div class="line"><span class="symbol">A0:</span>config.ini在python3 <span class="number">3</span>xp10it.py初次运行后会自动生成,用于设置bing API key,发邮件的帐号,数据库连接配置,扫描模式</div><div class="line">   等信息,一般会在/usr/local/<span class="class"><span class="keyword">lib</span>/<span class="title">python3</span>.5/<span class="title">dist</span>-<span class="title">packages</span>/<span class="title">config</span>.<span class="title">ini</span>这里,与<span class="title">python3</span>的安装路径有关</span></div><div class="line"></div><div class="line"><span class="symbol">Q1:</span>单个模块怎么使用?</div><div class="line"><span class="symbol">A1:</span>单个模块执行有<span class="number">2</span>种方法:</div><div class="line">   <span class="number">1</span>)web后台</div><div class="line">   <span class="number">2</span>)cd /usr/local/<span class="class"><span class="keyword">lib</span>/<span class="title">python3</span>.5/<span class="title">dist</span>-<span class="title">packages</span>/<span class="title">tools</span> &amp;&amp; <span class="title">ls</span> -<span class="title">al</span></span></div><div class="line"></div><div class="line"><span class="symbol">Q2:</span>为什么需要连接google才能用?</div><div class="line"><span class="symbol">A2:</span>要保证能直接ping通google证明可以绕过GFW,有些domain不连vpn会无法访问,这样的domain在正常情况下被GFW拦截时会影响</div><div class="line">   代码获取真实ip的效果,代码中强制要求连接vpn</div><div class="line"></div><div class="line"><span class="symbol">Q3:</span>bing api key怎么注册?网上的教程都是错的?</div><div class="line"><span class="symbol">A3:</span>好像是bing暂停注册了,这样的话只能向以前注册过的人要,如果bing一直这样,将考虑在代码中修改这个接口,但<span class="number">3</span>个月内暂</div><div class="line">   时不修改</div></pre></td></tr></table></figure>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="https://github.com/3xp10it/3xp10it" target="_blank" rel="external">https://github.com/3xp10it/3xp10it</a></p>
-<p><a href="http://zeroyu.xyz/2017/01/05/kali-linux-2016-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97%E4%BA%8C/" target="_blank" rel="external">http://zeroyu.xyz/2017/01/05/kali-linux-2016-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97%E4%BA%8C/</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot; title=&quot;引言&quot;&gt;&lt;/a&gt;引言&lt;/h4&gt;&lt;p&gt;​    突然想到前几天看到&lt;a href=&quot;https://github.com/We5ter/Scanners-Box/blob/mas
-    
-    </summary>
-    
-    
-  </entry>
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZEROYU</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">ZEROYU</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    bp.src = '//push.zhanzhang.baidu.com/push.js';
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
   
-</feed>
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zeroyu.duoshuo.com"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("KY6fzHpNYVDAlWLyfhKdz5OA-gzGzoHsz", "IlxIqswmBd92jfiSvOIQSLf5");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>

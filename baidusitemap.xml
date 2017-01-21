@@ -3,6 +3,21 @@
 
     
   <url>
+    <loc>http://zer0yu.github.io/2017/01/21/Hexo-3-x-%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97-NEXT%E4%B8%BB%E9%A2%98/</loc>
+    <lastmod>2017-01-21T14:05:18.000Z</lastmod>
+    <data>
+        <display>
+        <title>Hexo 3.x 博客搭建指南(NEXT主题)</title>
+        <pubTime>2017-01-21T13:43:00.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://zer0yu.github.io/2017/01/21/commix-%E7%B3%BB%E7%BB%9F%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%AE%9E%E4%BE%8B/</loc>
     <lastmod>2017-01-21T13:31:04.000Z</lastmod>
     <data>
@@ -24,21 +39,6 @@
         <display>
         <title>3xp10it搭建指南</title>
         <pubTime>2017-01-21T13:05:18.000Z</pubTime>
-        
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://zer0yu.github.io/2017/01/21/hello-world/</loc>
-    <lastmod>2017-01-21T08:39:24.000Z</lastmod>
-    <data>
-        <display>
-        <title>Hello World</title>
-        <pubTime>2017-01-21T08:39:24.000Z</pubTime>
         
          
            
