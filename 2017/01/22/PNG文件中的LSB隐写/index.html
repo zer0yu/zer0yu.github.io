@@ -86,24 +86,31 @@
 
 
 
-<meta name="description" content="其实很简单一个命令就搞定（前提是你有这个脚本）
-12345678910111213#下载之后先解压：unzip RuijieForLinux.zip#之后cd 进去#在然后呢sudo chmod +x ./rjsupplicant.sh#再然后呢sudo ./rjsupplicant.sh -u 你的学号 -p 你的密码 -s 收费资源/免费资源
-第一次使用时，可以通过 –help命令查看使用帮助">
+<meta name="description" content="看到MottoIn的一篇文章时关于LSB隐写的，正好赶上中秋攒了一堆月饼没处放，就想由此出个题送送月饼。
+环境：win10        python27
+lsb脚本使用了https://github.com/cyberinc/cloacked-pixel
+在使用之前需要几个python包，主要说下win10下如何安装这些包
+1.PIL
+这个包你按廖雪峰官网上的方法可能安装不上，所以我给出我自己的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux下使用锐捷的方法">
-<meta property="og:url" content="http://zer0yu.github.io/2017/01/22/Linux下使用锐捷的方法/index.html">
+<meta property="og:title" content="PNG文件中的LSB隐写">
+<meta property="og:url" content="http://zer0yu.github.io/2017/01/22/PNG文件中的LSB隐写/index.html">
 <meta property="og:site_name" content="ZEROYU">
-<meta property="og:description" content="其实很简单一个命令就搞定（前提是你有这个脚本）
-12345678910111213#下载之后先解压：unzip RuijieForLinux.zip#之后cd 进去#在然后呢sudo chmod +x ./rjsupplicant.sh#再然后呢sudo ./rjsupplicant.sh -u 你的学号 -p 你的密码 -s 收费资源/免费资源
-第一次使用时，可以通过 –help命令查看使用帮助">
-<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/linux-rj.png">
-<meta property="og:updated_time" content="2017-01-22T02:48:08.000Z">
+<meta property="og:description" content="看到MottoIn的一篇文章时关于LSB隐写的，正好赶上中秋攒了一堆月饼没处放，就想由此出个题送送月饼。
+环境：win10        python27
+lsb脚本使用了https://github.com/cyberinc/cloacked-pixel
+在使用之前需要几个python包，主要说下win10下如何安装这些包
+1.PIL
+这个包你按廖雪峰官网上的方法可能安装不上，所以我给出我自己的">
+<meta property="og:updated_time" content="2017-01-22T03:20:44.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Linux下使用锐捷的方法">
-<meta name="twitter:description" content="其实很简单一个命令就搞定（前提是你有这个脚本）
-12345678910111213#下载之后先解压：unzip RuijieForLinux.zip#之后cd 进去#在然后呢sudo chmod +x ./rjsupplicant.sh#再然后呢sudo ./rjsupplicant.sh -u 你的学号 -p 你的密码 -s 收费资源/免费资源
-第一次使用时，可以通过 –help命令查看使用帮助">
-<meta name="twitter:image" content="http://ok44mzy2k.bkt.clouddn.com/linux-rj.png">
+<meta name="twitter:title" content="PNG文件中的LSB隐写">
+<meta name="twitter:description" content="看到MottoIn的一篇文章时关于LSB隐写的，正好赶上中秋攒了一堆月饼没处放，就想由此出个题送送月饼。
+环境：win10        python27
+lsb脚本使用了https://github.com/cyberinc/cloacked-pixel
+在使用之前需要几个python包，主要说下win10下如何安装这些包
+1.PIL
+这个包你按廖雪峰官网上的方法可能安装不上，所以我给出我自己的">
 
 
 
@@ -131,13 +138,13 @@
 
 
 
-  <link rel="canonical" href="http://zer0yu.github.io/2017/01/22/Linux下使用锐捷的方法/"/>
+  <link rel="canonical" href="http://zer0yu.github.io/2017/01/22/PNG文件中的LSB隐写/"/>
 
 
 
 
 
-  <title> Linux下使用锐捷的方法 | ZEROYU </title>
+  <title> PNG文件中的LSB隐写 | ZEROYU </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -303,7 +310,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/Linux下使用锐捷的方法/">
+  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/PNG文件中的LSB隐写/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="ZEROYU">
@@ -327,7 +334,7 @@
             
             
               
-                Linux下使用锐捷的方法
+                PNG文件中的LSB隐写
               
             
           </h1>
@@ -342,7 +349,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T10:45:46+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T11:19:59+08:00">
                 2017-01-22
               </time>
             
@@ -361,8 +368,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/01/22/Linux下使用锐捷的方法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/Linux下使用锐捷的方法/" itemprop="commentCount"></span>
+                <a href="/2017/01/22/PNG文件中的LSB隐写/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/PNG文件中的LSB隐写/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -372,7 +379,7 @@
 
           
           
-             <span id="/2017/01/22/Linux下使用锐捷的方法/" class="leancloud_visitors" data-flag-title="Linux下使用锐捷的方法">
+             <span id="/2017/01/22/PNG文件中的LSB隐写/" class="leancloud_visitors" data-flag-title="PNG文件中的LSB隐写">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -399,11 +406,19 @@
       
 
       
-        <p>其实很简单一个命令就搞定（前提是你有这个<a href="https://pan.baidu.com/s/1bo13wYF" target="_blank" rel="external">脚本</a>）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">#下载之后先解压：</div><div class="line"></div><div class="line">unzip RuijieForLinux.zip</div><div class="line"></div><div class="line">#之后cd 进去</div><div class="line"></div><div class="line">#在然后呢</div><div class="line"></div><div class="line">sudo chmod +x ./rjsupplicant.sh</div><div class="line"></div><div class="line">#再然后呢</div><div class="line"></div><div class="line">sudo ./rjsupplicant.sh -u 你的学号 -p 你的密码 -s 收费资源/免费资源</div></pre></td></tr></table></figure>
-<p>第一次使用时，可以通过 –help命令查看使用帮助文档</p>
-<p>贴个效果图：</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/linux-rj.png" alt="1"></p>
+        <p>看到<a href="http://www.mottoin.com/88380.html" target="_blank" rel="external">Mott</a><a href="http://www.mottoin.com/88380.html" target="_blank" rel="external">oIn</a>的一篇文章时关于LSB隐写的，正好赶上中秋攒了一堆月饼没处放，就想由此出个题送送月饼。</p>
+<p>环境：<strong>win10        python27</strong></p>
+<p>lsb脚本使用了<a href="https://github.com/cyberinc/cloacked-pixel" target="_blank" rel="external">https://github.com/cyberinc/cloacked-pixel</a></p>
+<p>在使用之前需要几个python包，主要说下win10下如何安装这些包</p>
+<p><strong>1.PIL</strong></p>
+<p>这个包你按廖雪峰官网上的方法可能安装不上，所以我给出我自己的解决办法：</p>
+<p>到<a href="https://pypi.python.org/pypi/Pillow/2.7.0找到exe安装包双击" target="_blank" rel="external">https://pypi.python.org/pypi/Pillow/2.7.0找到exe安装包双击</a></p>
+<p>主要是PIL官方编译包有bug，所以最好下载第三方组织编译包，强烈推荐pillow的确好用</p>
+<p><strong>2.matplotlib</strong></p>
+<p>这个包的安装直接参考官方网站的方法，注意一步一步来。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">python -m pip install --upgrade pip</div><div class="line">python -m pip install --upgrade numpy</div><div class="line">python -m pip install --upgrade pytz</div><div class="line">python -m pip install --upgrade pyparsing</div><div class="line">python -m pip install --upgrade cycler</div><div class="line">python -m pip install --upgrade matplotlib</div></pre></td></tr></table></figure>
+<p>这就ok了，很简单。</p>
+<p>接下来按照MottoIn这个玩就好了。</p>
 
       
     </div>
@@ -430,8 +445,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/22/Weblogic-SSRF/" rel="next" title="Weblogic_SSRF">
-                <i class="fa fa-chevron-left"></i> Weblogic_SSRF
+              <a href="/2017/01/22/win10只有edge可以打开网页/" rel="next" title="win10只有edge可以打开网页">
+                <i class="fa fa-chevron-left"></i> win10只有edge可以打开网页
               </a>
             
           </div>
@@ -440,8 +455,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/01/22/PyCharm2016-2专业版注册码/" rel="prev" title="PyCharm2016.2专业版注册码">
-                PyCharm2016.2专业版注册码 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/01/22/XSS姿势——文件上传XSS/" rel="prev" title="XSS姿势——文件上传XSS">
+                XSS姿势——文件上传XSS <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -468,8 +483,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/01/22/Linux下使用锐捷的方法/"
-           data-title="Linux下使用锐捷的方法" data-url="http://zer0yu.github.io/2017/01/22/Linux下使用锐捷的方法/">
+      <div class="ds-thread" data-thread-key="2017/01/22/PNG文件中的LSB隐写/"
+           data-title="PNG文件中的LSB隐写" data-url="http://zer0yu.github.io/2017/01/22/PNG文件中的LSB隐写/">
       </div>
     
   </div>

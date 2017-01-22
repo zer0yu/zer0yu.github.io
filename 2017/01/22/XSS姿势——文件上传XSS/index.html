@@ -86,24 +86,39 @@
 
 
 
-<meta name="description" content="其实很简单一个命令就搞定（前提是你有这个脚本）
-12345678910111213#下载之后先解压：unzip RuijieForLinux.zip#之后cd 进去#在然后呢sudo chmod +x ./rjsupplicant.sh#再然后呢sudo ./rjsupplicant.sh -u 你的学号 -p 你的密码 -s 收费资源/免费资源
-第一次使用时，可以通过 –help命令查看使用帮助">
+<meta name="description" content="0x01 简单介绍
+一个文件上传点是执行XSS应用程序的绝佳机会。很多网站都有用户权限上传个人资料图片的上传点，你有很多机会找到相关漏洞。如果碰巧是一个self XSS，你可以看看这篇文章。
+0x02 实例分析
+首先基本上我们都可以找到类似下面的一个攻击入口点，我觉得这个并不难。
+姿势一：文件名方式文件名本身可能会反映在页面所以一个带有XSS命名的文件便可以起到攻击作用。
+
+虽然我没有准备靶场，但">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux下使用锐捷的方法">
-<meta property="og:url" content="http://zer0yu.github.io/2017/01/22/Linux下使用锐捷的方法/index.html">
+<meta property="og:title" content="XSS姿势——文件上传XSS">
+<meta property="og:url" content="http://zer0yu.github.io/2017/01/22/XSS姿势——文件上传XSS/index.html">
 <meta property="og:site_name" content="ZEROYU">
-<meta property="og:description" content="其实很简单一个命令就搞定（前提是你有这个脚本）
-12345678910111213#下载之后先解压：unzip RuijieForLinux.zip#之后cd 进去#在然后呢sudo chmod +x ./rjsupplicant.sh#再然后呢sudo ./rjsupplicant.sh -u 你的学号 -p 你的密码 -s 收费资源/免费资源
-第一次使用时，可以通过 –help命令查看使用帮助">
-<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/linux-rj.png">
-<meta property="og:updated_time" content="2017-01-22T02:48:08.000Z">
+<meta property="og:description" content="0x01 简单介绍
+一个文件上传点是执行XSS应用程序的绝佳机会。很多网站都有用户权限上传个人资料图片的上传点，你有很多机会找到相关漏洞。如果碰巧是一个self XSS，你可以看看这篇文章。
+0x02 实例分析
+首先基本上我们都可以找到类似下面的一个攻击入口点，我觉得这个并不难。
+姿势一：文件名方式文件名本身可能会反映在页面所以一个带有XSS命名的文件便可以起到攻击作用。
+
+虽然我没有准备靶场，但">
+<meta property="og:image" content="http://static.wooyun.org/upload/image/201604/2016041510130259461.gif">
+<meta property="og:image" content="http://static.wooyun.org//drops/20160414/2016041415305935841.jpg">
+<meta property="og:image" content="http://static.wooyun.org//drops/20160415/2016041501523324712.gif">
+<meta property="og:image" content="http://static.wooyun.org//drops/20160414/2016041415280360223pic42.png">
+<meta property="og:updated_time" content="2017-01-22T03:21:29.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Linux下使用锐捷的方法">
-<meta name="twitter:description" content="其实很简单一个命令就搞定（前提是你有这个脚本）
-12345678910111213#下载之后先解压：unzip RuijieForLinux.zip#之后cd 进去#在然后呢sudo chmod +x ./rjsupplicant.sh#再然后呢sudo ./rjsupplicant.sh -u 你的学号 -p 你的密码 -s 收费资源/免费资源
-第一次使用时，可以通过 –help命令查看使用帮助">
-<meta name="twitter:image" content="http://ok44mzy2k.bkt.clouddn.com/linux-rj.png">
+<meta name="twitter:title" content="XSS姿势——文件上传XSS">
+<meta name="twitter:description" content="0x01 简单介绍
+一个文件上传点是执行XSS应用程序的绝佳机会。很多网站都有用户权限上传个人资料图片的上传点，你有很多机会找到相关漏洞。如果碰巧是一个self XSS，你可以看看这篇文章。
+0x02 实例分析
+首先基本上我们都可以找到类似下面的一个攻击入口点，我觉得这个并不难。
+姿势一：文件名方式文件名本身可能会反映在页面所以一个带有XSS命名的文件便可以起到攻击作用。
+
+虽然我没有准备靶场，但">
+<meta name="twitter:image" content="http://static.wooyun.org/upload/image/201604/2016041510130259461.gif">
 
 
 
@@ -131,13 +146,13 @@
 
 
 
-  <link rel="canonical" href="http://zer0yu.github.io/2017/01/22/Linux下使用锐捷的方法/"/>
+  <link rel="canonical" href="http://zer0yu.github.io/2017/01/22/XSS姿势——文件上传XSS/"/>
 
 
 
 
 
-  <title> Linux下使用锐捷的方法 | ZEROYU </title>
+  <title> XSS姿势——文件上传XSS | ZEROYU </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -303,7 +318,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/Linux下使用锐捷的方法/">
+  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/XSS姿势——文件上传XSS/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="ZEROYU">
@@ -327,7 +342,7 @@
             
             
               
-                Linux下使用锐捷的方法
+                XSS姿势——文件上传XSS
               
             
           </h1>
@@ -342,7 +357,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T10:45:46+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T11:20:58+08:00">
                 2017-01-22
               </time>
             
@@ -361,8 +376,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/01/22/Linux下使用锐捷的方法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/Linux下使用锐捷的方法/" itemprop="commentCount"></span>
+                <a href="/2017/01/22/XSS姿势——文件上传XSS/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/XSS姿势——文件上传XSS/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -372,7 +387,7 @@
 
           
           
-             <span id="/2017/01/22/Linux下使用锐捷的方法/" class="leancloud_visitors" data-flag-title="Linux下使用锐捷的方法">
+             <span id="/2017/01/22/XSS姿势——文件上传XSS/" class="leancloud_visitors" data-flag-title="XSS姿势——文件上传XSS">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -399,11 +414,28 @@
       
 
       
-        <p>其实很简单一个命令就搞定（前提是你有这个<a href="https://pan.baidu.com/s/1bo13wYF" target="_blank" rel="external">脚本</a>）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">#下载之后先解压：</div><div class="line"></div><div class="line">unzip RuijieForLinux.zip</div><div class="line"></div><div class="line">#之后cd 进去</div><div class="line"></div><div class="line">#在然后呢</div><div class="line"></div><div class="line">sudo chmod +x ./rjsupplicant.sh</div><div class="line"></div><div class="line">#再然后呢</div><div class="line"></div><div class="line">sudo ./rjsupplicant.sh -u 你的学号 -p 你的密码 -s 收费资源/免费资源</div></pre></td></tr></table></figure>
-<p>第一次使用时，可以通过 –help命令查看使用帮助文档</p>
-<p>贴个效果图：</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/linux-rj.png" alt="1"></p>
+        <h1 id="0x01-简单介绍"><a href="#0x01-简单介绍" class="headerlink" title="0x01 简单介绍"></a>0x01 简单介绍</h1><hr>
+<p>一个文件上传点是执行XSS应用程序的绝佳机会。很多网站都有用户权限上传个人资料图片的上传点，你有很多机会找到相关漏洞。如果碰巧是一个self XSS，你可以看看这篇文章。</p>
+<h1 id="0x02-实例分析"><a href="#0x02-实例分析" class="headerlink" title="0x02 实例分析"></a>0x02 实例分析</h1><hr>
+<p>首先基本上我们都可以找到类似下面的一个攻击入口点，我觉得这个并不难。</p>
+<h3 id="姿势一：文件名方式"><a href="#姿势一：文件名方式" class="headerlink" title="姿势一：文件名方式"></a>姿势一：文件名方式</h3><p>文件名本身可能会反映在页面所以一个带有XSS命名的文件便可以起到攻击作用。</p>
+<p><img src="http://static.wooyun.org/upload/image/201604/2016041510130259461.gif" alt="p1"></p>
+<p>虽然我没有准备靶场，但是你可以选择在<a href="http://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_fileupload_value" target="_blank" rel="external">W3Schools</a>练习这种XSS 。</p>
+<h3 id="姿势二：Metadata"><a href="#姿势二：Metadata" class="headerlink" title="姿势二：Metadata"></a>姿势二：Metadata</h3><p>使用<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/" target="_blank" rel="external">exiftool</a>这个工具可以通过改变EXIF  metadata进而一定几率引起某处反射：</p>
+<p>例如：</p>
+<p><img src="http://static.wooyun.org//drops/20160414/2016041415305935841.jpg" alt="p2"></p>
+<h3 id="姿势三：Content"><a href="#姿势三：Content" class="headerlink" title="姿势三：Content"></a>姿势三：Content</h3><p>如果应用允许上传SVG格式的文件（其实就是一个图像类型的），那么带有以下content的文件可以被用来触发XSS：</p>
+<p>一个 PoC用来验证。你可以通过访问brutelogic.com.br/poc.svg看到效果</p>
+<h3 id="姿势四：Source"><a href="#姿势四：Source" class="headerlink" title="姿势四：Source"></a>姿势四：Source</h3><p>建立一个携带有JavaScript payload的GIF图像用作一个脚本的源。这对绕过CSP（内容安全策略）保护“script-src ‘self’”（即不允许使用示例的这种xss方式进行攻击<code>alert(1)</code>）是很有用的，但前提是我们能够成功地在相同的域注入，如下所示。</p>
+<p><img src="http://static.wooyun.org//drops/20160415/2016041501523324712.gif" alt="p3"></p>
+<p>要创建这样的图像需要这个作为content 和 name，并使用.gif扩展名：</p>
+<p>这个GIF的图片头——GIF89a，作为alert function的变量分配给alert function。但是他们之间，还有一个被标注的XSS变量用来防止图片被恢复为text/HTML MIME文件类型，因此只需发送一个对这个文件的请求payload 就可以被执行。</p>
+<p>正如我们下面看到的，文件类unix命令和PHP函数中的exif_imagetype（）和getimagesize（）会将其识别为一个GIF文件。所以如果一个应用程序仅仅是使用这些方式验证是否是一个图像，那么该文件将可以上传成功（但可能在上传后被杀掉）。</p>
+<p><img src="http://static.wooyun.org//drops/20160414/2016041415280360223pic42.png" alt="p4"></p>
+<h1 id="0x03-最后"><a href="#0x03-最后" class="headerlink" title="0x03 最后"></a>0x03 最后</h1><hr>
+<p>如果你想知道更多的有其标志性ASCII字符可以用于一个javascript变量赋值的文件类型，看我随后的文章。</p>
+<p>也有很多比较详细的使用XSS和图像文件相结合绕过图形处理函数库过滤的例子。这方面的一个很好的例子是<a href="https://github.com/d0lph1n98/Defeating-PHP-GD-imagecreatefromgif" target="_blank" rel="external">here</a></p>
+<p>原文链接：<a href="http://brutelogic.com.br/blog/" target="_blank" rel="external">http://brutelogic.com.br/blog/</a></p>
 
       
     </div>
@@ -430,8 +462,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/22/Weblogic-SSRF/" rel="next" title="Weblogic_SSRF">
-                <i class="fa fa-chevron-left"></i> Weblogic_SSRF
+              <a href="/2017/01/22/PNG文件中的LSB隐写/" rel="next" title="PNG文件中的LSB隐写">
+                <i class="fa fa-chevron-left"></i> PNG文件中的LSB隐写
               </a>
             
           </div>
@@ -440,8 +472,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/01/22/PyCharm2016-2专业版注册码/" rel="prev" title="PyCharm2016.2专业版注册码">
-                PyCharm2016.2专业版注册码 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/01/22/POWERSHELL-EMPIRE-CVE-2016-0189-PROFIT/" rel="prev" title="POWERSHELL EMPIRE + CVE-2016-0189 = PROFIT">
+                POWERSHELL EMPIRE + CVE-2016-0189 = PROFIT <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -468,8 +500,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/01/22/Linux下使用锐捷的方法/"
-           data-title="Linux下使用锐捷的方法" data-url="http://zer0yu.github.io/2017/01/22/Linux下使用锐捷的方法/">
+      <div class="ds-thread" data-thread-key="2017/01/22/XSS姿势——文件上传XSS/"
+           data-title="XSS姿势——文件上传XSS" data-url="http://zer0yu.github.io/2017/01/22/XSS姿势——文件上传XSS/">
       </div>
     
   </div>
@@ -493,8 +525,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -586,6 +627,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0x01-简单介绍"><span class="nav-number">1.</span> <span class="nav-text">0x01 简单介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x02-实例分析"><span class="nav-number">2.</span> <span class="nav-text">0x02 实例分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#姿势一：文件名方式"><span class="nav-number">2.0.1.</span> <span class="nav-text">姿势一：文件名方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#姿势二：Metadata"><span class="nav-number">2.0.2.</span> <span class="nav-text">姿势二：Metadata</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#姿势三：Content"><span class="nav-number">2.0.3.</span> <span class="nav-text">姿势三：Content</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#姿势四：Source"><span class="nav-number">2.0.4.</span> <span class="nav-text">姿势四：Source</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x03-最后"><span class="nav-number">3.</span> <span class="nav-text">0x03 最后</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>

