@@ -86,19 +86,22 @@
 
 
 
-<meta name="description" content="我采用old installation instruction 的方法，并对里面个别几个地方有所修改，以适应国内有墙的现状。参考了一部分这个博客。打开终端把代码复制到终端运行即可。
-准备工作我安装了Ubuntu10.04 desktop-i386版，使用的是刻录光盘镜像的方法，大家也可以制作启动u盘或者用虚拟机安装到物理硬盘（我最喜欢的方式）。注意/home分区要留足够的空间（建议10gb以上），">
+<meta name="description" content="摘要: 介绍一种Linux内核的信息泄漏漏洞检测方法。没什么内容，语义分析，可以集成在Coverity等静态扫描工具中。
+1  Information Leak漏洞风险从应用层软件，到hypervisor再到kernel代码，都存在Information Leak的风险。下面给出一些示例：
+应用层软件：通常是应用敏感数据泄漏，比如从远程客户端获取服务端敏感数据。CVE-2012-0053，Open">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linux-csi-tools部署记录">
-<meta property="og:url" content="http://zer0yu.github.io/2017/01/21/linux-csi-tools部署记录/index.html">
+<meta property="og:title" content="Linux内核info leak漏洞">
+<meta property="og:url" content="http://zer0yu.github.io/2017/01/22/Linux内核info-leak漏洞/index.html">
 <meta property="og:site_name" content="ZEROYU">
-<meta property="og:description" content="我采用old installation instruction 的方法，并对里面个别几个地方有所修改，以适应国内有墙的现状。参考了一部分这个博客。打开终端把代码复制到终端运行即可。
-准备工作我安装了Ubuntu10.04 desktop-i386版，使用的是刻录光盘镜像的方法，大家也可以制作启动u盘或者用虚拟机安装到物理硬盘（我最喜欢的方式）。注意/home分区要留足够的空间（建议10gb以上），">
-<meta property="og:updated_time" content="2017-01-21T15:19:09.000Z">
+<meta property="og:description" content="摘要: 介绍一种Linux内核的信息泄漏漏洞检测方法。没什么内容，语义分析，可以集成在Coverity等静态扫描工具中。
+1  Information Leak漏洞风险从应用层软件，到hypervisor再到kernel代码，都存在Information Leak的风险。下面给出一些示例：
+应用层软件：通常是应用敏感数据泄漏，比如从远程客户端获取服务端敏感数据。CVE-2012-0053，Open">
+<meta property="og:updated_time" content="2017-01-22T02:24:52.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="linux-csi-tools部署记录">
-<meta name="twitter:description" content="我采用old installation instruction 的方法，并对里面个别几个地方有所修改，以适应国内有墙的现状。参考了一部分这个博客。打开终端把代码复制到终端运行即可。
-准备工作我安装了Ubuntu10.04 desktop-i386版，使用的是刻录光盘镜像的方法，大家也可以制作启动u盘或者用虚拟机安装到物理硬盘（我最喜欢的方式）。注意/home分区要留足够的空间（建议10gb以上），">
+<meta name="twitter:title" content="Linux内核info leak漏洞">
+<meta name="twitter:description" content="摘要: 介绍一种Linux内核的信息泄漏漏洞检测方法。没什么内容，语义分析，可以集成在Coverity等静态扫描工具中。
+1  Information Leak漏洞风险从应用层软件，到hypervisor再到kernel代码，都存在Information Leak的风险。下面给出一些示例：
+应用层软件：通常是应用敏感数据泄漏，比如从远程客户端获取服务端敏感数据。CVE-2012-0053，Open">
 
 
 
@@ -126,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://zer0yu.github.io/2017/01/21/linux-csi-tools部署记录/"/>
+  <link rel="canonical" href="http://zer0yu.github.io/2017/01/22/Linux内核info-leak漏洞/"/>
 
 
 
 
 
-  <title> linux-csi-tools部署记录 | ZEROYU </title>
+  <title> Linux内核info leak漏洞 | ZEROYU </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -298,7 +301,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/21/linux-csi-tools部署记录/">
+  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/Linux内核info-leak漏洞/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="ZEROYU">
@@ -322,7 +325,7 @@
             
             
               
-                linux-csi-tools部署记录
+                Linux内核info leak漏洞
               
             
           </h1>
@@ -337,8 +340,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-21T23:07:59+08:00">
-                2017-01-21
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T10:22:51+08:00">
+                2017-01-22
               </time>
             
 
@@ -356,8 +359,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/01/21/linux-csi-tools部署记录/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/21/linux-csi-tools部署记录/" itemprop="commentCount"></span>
+                <a href="/2017/01/22/Linux内核info-leak漏洞/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/Linux内核info-leak漏洞/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -367,7 +370,7 @@
 
           
           
-             <span id="/2017/01/21/linux-csi-tools部署记录/" class="leancloud_visitors" data-flag-title="linux-csi-tools部署记录">
+             <span id="/2017/01/22/Linux内核info-leak漏洞/" class="leancloud_visitors" data-flag-title="Linux内核info leak漏洞">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -394,54 +397,41 @@
       
 
       
-        <p>我采用<a href="http://dhalperi.github.io/linux-80211n-csitool/old_installation.html" target="_blank" rel="external">old installation instruction</a> 的方法，并对里面个别几个地方有所修改，以适应国内有墙的现状。<br>参考了一部分<a href="http://blog.csdn.net/sodleave/article/details/44219291" target="_blank" rel="external">这个博客</a>。<br>打开终端把代码复制到终端运行即可。</p>
-<h4 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h4><p>我安装了Ubuntu10.04 desktop-i386版，使用的是刻录光盘镜像的方法，大家也可以制作启动u盘或者用虚拟机安装到物理硬盘（我最喜欢的方式）。注意/home分区要留足够的空间（建议10gb以上），/分区也要足够大，建议5gb以上。其他部分很简单，按照安装包的指示一步步来就可以。因为要编译新内核，根目录空间不足的话会不成功。<br>安装的时候注意几个问题，linux碎片化严重，用不受支持的linux发行版或版本会导致编译失败，非常令人头疼。而ubuntu lts版支持时间也不长，安装软件的话如果apt用不了可以试着去百度或launchpad找deb包。</p>
-<p>到<a href="https://github.com/dhalperi/linux-80211n-csitool/" target="_blank" rel="external">对方提供的github网址</a>里面，下载源代码，到右栏可以找到download zip file，下载完毕之后解压放到～/下面，文件夹改名为linux-80211n-csitool<br>（放到别的地方也可以，不过需要修改下面每一条引用它的代码），由于国内网络环境不好，文件过大，用git clone的话及其容易失败，其他的小文件没关系，大家自己解决vpn吧，到网上搜索linvpn应该可以用一阵子，不过ubuntu的vpn设置方面有几点需要注意，百度上面也有介绍。<br><strong>现在比较好用的解决网络问题的方案是lantern和hosts</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo gedit /etc/modprobe.d/blacklist.conf</div></pre></td></tr></table></figure>
-<p>把下面内容粘贴进去，保存。</p>
-<figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># <span class="keyword">blacklist </span>modules under active development</div><div class="line">        <span class="keyword">blacklist </span>iwldvm</div><div class="line">        <span class="keyword">blacklist </span>iwlwifi</div><div class="line">        <span class="keyword">blacklist </span>mac80211</div><div class="line">        <span class="keyword">blacklist </span>cfg80211</div></pre></td></tr></table></figure>
-<p>该步骤是为了禁止wifi，这样做的目的是让安装驱动的时候不容易出问题</p>
-<h4 id="Install-necessary-packages-on-Ubuntu"><a href="#Install-necessary-packages-on-Ubuntu" class="headerlink" title="Install necessary packages on Ubuntu"></a>Install necessary packages on Ubuntu</h4><p>安装内核组件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get -y install git-core kernel-package fakeroot build-essential ncurses-dev</div></pre></td></tr></table></figure>
-<p>它们是用来编译用户空间工具的库</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get -y install libnl-dev libssl-dev    # Install some necessary libraries</div></pre></td></tr></table></figure>
-<p>iw可以用来在命令行界面开启wifi的监控模式和开启40mhz信道。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get -y install iw</div></pre></td></tr></table></figure>
-<h4 id="Download-configure-compile-and-install-our-custom-Linux-kernel"><a href="#Download-configure-compile-and-install-our-custom-Linux-kernel" class="headerlink" title="Download, configure, compile, and install our custom Linux kernel"></a>Download, configure, compile, and install our custom Linux kernel</h4><p>下载附加的工具</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone git://github.com/dhalperi/linux-80211n-csitool-supplementary.git</div></pre></td></tr></table></figure>
-<p>设置内核</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd linux-80211n-csitool                 # Go into the kernel src directory</div><div class="line">make oldconfig                          # Use our optimized kernel config</div><div class="line">make menuconfig                         # Enable your system-specific hardware</div></pre></td></tr></table></figure>
-<p>编译内核</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">make -j3 bzImage modules                # -j3 here is 3-way parallelism, try #cores+1</div><div class="line">sudo make install modules_install       # INSTALL</div><div class="line">sudo mkinitramfs -o /boot/initrd.img-`cat include/config/kernel.release` \</div><div class="line">        `cat include/config/kernel.release`     # create ramdisk used to boot</div><div class="line">sudo update-grub</div></pre></td></tr></table></figure>
-<p>我在这些步骤里面出现了编译错误的情况，原因是里面的一些头文件和源代码文件名大小写不一致，解决方法是想办法把它复制一下，然后改成大小写一致的文件名（原来的不要删掉）</p>
-<p><del>在一篇csdn blog里面，有人还这么说，如果编译出错，可以试着按照这里来做（关于这一部分，先在窗口输入cat include/config/kernel.release（注意是在 linux-80211n-csitool目录下）获取版本号，一般为3.5.7-csitool。将上述指令改为：sudo mkinitramfs -o /boot/initrd.img-3.5.7-csitool 3.5.7-csitool （注意空格）即可。后续的指令中均要将‘cat include/config/kernel.release’改为3.5.7-csitool）<strong>然而这个方法并不好用</strong></del></p>
-<p>下面安装头文件，记录csi的软件需要用它来编译</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo mkdir /usr/src/linux-headers-`cat include/config/kernel.release`</div><div class="line">sudo cp -rf usr/include /usr/src/linux-headers-`cat include/config/kernel.release`/include</div></pre></td></tr></table></figure>
-<p>编译成功之后重启，就会进入修改过的内核</p>
-<h4 id="Install-our-custom-firmware"><a href="#Install-our-custom-firmware" class="headerlink" title="Install our custom firmware."></a>Install our custom firmware.</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo gedit /etc/modprobe.d/blacklist.conf</div></pre></td></tr></table></figure>
-<p>这一步把blacklist iwlwifi删掉，否则无法连接wifi，删掉之后只能连接没密码的wifi。<br>运行下面的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">#backup original firmware, good for reference</div><div class="line">sudo cp /lib/firmware/iwlwifi-5000-2.ucode /lib/firmware/iwlwifi-5000-2.ucode.orig</div><div class="line">sudo mv /lib/firmware/iwlwifi-5000-2.ucode /lib/firmware/iwlwifi-5000-2.ucode.orig</div><div class="line"># copy ours in separately, keeping name for reference</div><div class="line">sudo cp iwlwifi-5000-2.ucode.sigcomm2010 /lib/firmware/</div><div class="line"># install ours</div><div class="line">sudo cp iwlwifi-5000-2.ucode.sigcomm2010 /lib/firmware/iwlwifi-5000-2.ucode</div></pre></td></tr></table></figure>
-<p>这一步也有点小问题，这里面的文件名可能是有些小问题，如果出错的话，把固件改名，复制到该文件夹里。<br>我的电脑里面iwlwifi系列如下所示</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">iwlwifi-1000-3.ucode    iwlwifi-5000-2.ucode.orig</div><div class="line">iwlwifi-3945-2.ucode    iwlwifi-5000-2.ucode.sigcomm2010</div><div class="line">iwlwifi-4965-2.ucode    iwlwifi-5150-2.ucode</div><div class="line">iwlwifi-5000-1.ucode.orig    iwlwifi-6000-4.ucode</div><div class="line">iwlwifi-5000-2.ucode</div></pre></td></tr></table></figure>
-<h4 id="Download-and-compile-hostap"><a href="#Download-and-compile-hostap" class="headerlink" title="Download and compile hostap"></a>Download and compile hostap</h4><p>At the time of writing, hostap 0.7 is the stable version.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">cd                                              # Back out of the kernel tree</div><div class="line">git clone git://w1.fi/srv/git/hostap-07.git     # Get the code</div><div class="line">cd hostap-07/hostapd</div><div class="line">cp &lt;hostap-dotconfig&gt; .config                   # Our hostap config from linux-80211n-csitool-supplementary/hostap-config-files/</div><div class="line">make</div><div class="line">cp &lt;hostapd.conf-test&gt; hostapd.conf             # Install the vanilla hostap conf we provide</div></pre></td></tr></table></figure>
-<p>这一步没有问题，安装hostapd，把电脑当作access point，功能相当于无线路由器，也可以直接用路由器，省略这一步</p>
-<h4 id="Install-the-userspace-logging-utility"><a href="#Install-the-userspace-logging-utility" class="headerlink" title="Install the userspace logging utility"></a>Install the userspace logging utility</h4><p>The userspace netlink tool that logs CSI is located in the supplementary material git at linux-80211n-csitool-supplementary/netlink/.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd ~/linux-80211n-csitool-supplementary/netlink         # We assume you install into your home directory</div><div class="line">make                                                    # hopefully the make succeeds!</div><div class="line"># If not, figure out why it didn&apos;t compile. Did you install the Linux headers above?</div></pre></td></tr></table></figure>
-<p>编译hostap，实际上这个不编译也没关系，因为有路由器或者安桌手机就可以充当ap</p>
-<h4 id="Let’s-try-it-out"><a href="#Let’s-try-it-out" class="headerlink" title="Let’s try it out!"></a>Let’s try it out!</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo modprobe iwlwifi   # did it work?  Do you see logs about iwlwifi in the dmesg?</div><div class="line">sudo iwlist scanning    # 扫描ap，窗口中会出现可以扫描到的无线网络。</div><div class="line">sudo ~/hostap-07/hostapd/hostapd ~/hostap-07/hostapd/hostapd.conf</div><div class="line"># 是启动hostap，此时本机电脑作为ap（相当于路由器的功能）。此时无线网络若还处于连接状态就会出错</div></pre></td></tr></table></figure>
-<p>测试hostap时：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ~/hostap-07/hostapd/hostapd ~/hostap-07/hostapd/hostapd.conf</div></pre></td></tr></table></figure>
-<p>是启动hostap，此时本机电脑作为ap（相当于路由器的功能）。此时无线网络若还处于连接状态就会出错：<br>所以执行该命令前必须将无线网络连接断开，此时作为路由功能开启(出现结果)：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">using interface wlan0 with hwaddr 00:21:6a:35:4f:00 and ssid &apos;csitool-test&apos;</div><div class="line">wlan0:STA 38:bc:1a:0d:69:9f IEEE 802.11:authenticated</div><div class="line">wlan0:STA 38:bc:1a:0d:69:9f IEEE 802.11:associated(aid 1)</div></pre></td></tr></table></figure>
-<p>手机可以连上‘csitool-test’的网络，状态一直是正在获取ip<br>Make sure to kill hostapd when you’re done. Then put 802.11n-enabled hostapd config file in place:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cp &lt;hostapd.conf-real&gt; hostapd.conf             # Install the real hostap conf we provide</div></pre></td></tr></table></figure>
-<p>采集csi数据部分（关闭本机电脑作为路由的功能，保证连无线网的功能即可，用另一台电脑开启hostapd作为ap）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo rmmod iwlwifi mac80211 cfg80211        # remove the modules</div><div class="line">sudo modprobe iwlwifi connector_log=0x1      #load the modules and set userspace beamforming logging</div><div class="line">#first,associate and set up IP to an AP that will send you HT packets</div><div class="line">#需要用另外一台电脑作为ap并设置好IP地址，当前电脑连上那个ap</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd ~/linux-80211n-csitool-supplementary/netlink</div><div class="line">sudo ./log_to_file tmp.dat                   #当前电脑相当于dp（探测点），log_to_file tmp.dat可以记录csi的值</div></pre></td></tr></table></figure>
-<p>再打开另一个终端（命令行窗口）ping ，ping所连ap的ip地址，ping多次过后便会有csi数据</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo rmmod iwlwifi mac80211 cfg80211 </div><div class="line">sudo modprobe iwlwifi connector_log=0x1</div><div class="line">cd ~/wifil/netlink</div><div class="line">sudo ./log_to_file  &lt;地址/文件名&gt;</div></pre></td></tr></table></figure>
-<p>最后，使用该软件的时候，现一行一行地把上面代码部分粘贴到terminal里面，再连接没密码的wifi，然后再打开另一个terminal，ping 该ap的ap地址就可以运行<br>另外，安卓手机ping的ap地址是192.168.43.1<br>用路由器的话设置成接入点模式。</p>
+        <p>摘要: 介绍一种Linux内核的信息泄漏漏洞检测方法。没什么内容，语义分析，可以集成在Coverity等静态扫描工具中。</p>
+<h4 id="1-Information-Leak漏洞风险"><a href="#1-Information-Leak漏洞风险" class="headerlink" title="1  Information Leak漏洞风险"></a>1  Information Leak漏洞风险</h4><p>从应用层软件，到hypervisor再到kernel代码，都存在Information <strong>Leak</strong>的风险。下面给出一些示例：</p>
+<p>应用层软件：通常是应用敏感数据泄漏，比如从远程客户端获取服务端敏感数据。CVE-2012-0053，Openssl的心脏滴血等。</p>
+<p>Hypervisor：主要是向guest泄漏hypervisor数据。CVE-2010-4525.</p>
+<p>Kernel代码：泄漏内核地址，空间布局等，如CVE-2013-2147.</p>
+<p>这里主要分析内核中的Information <strong>Leak</strong>漏洞所带来的风险。内核中的Information <strong>Leak</strong>通常都是用来绕过内核中的保护机制（利用缓解：StackGuard, ASLR），由于本身并不能直接用来形成提权等高风险操作，因此Information <strong>Leak</strong>漏洞经常被人忽视。</p>
+<p>先来看一下这些保护机制。</p>
+<p>StackGuard.</p>
+<p>StackGuard是一种编译器实现的保护技术，它在栈函数返回地址前插入一个“canary”，当发生溢出“canary”值被破坏，将触发系统的异常处理流程。它的安全性依赖于“canary”的保密，也就是“canary”不能被攻击者预测或取到。</p>
+<p>ASLR.</p>
+<p>ASLR技术是将进程等的加载地址随机化，它的安全性依赖于加载基地址的不可预测，使exploit不能精确进行地址覆盖。</p>
+<p>无论“canary”还是ASLR的基地址，对攻击者来说都是“秘密”。也就是在没有Information <strong>Leak</strong>漏洞前提下，这些都是用户不可直接获取的。但Information <strong>Leak</strong>漏洞可以辅助攻击者获取到这些“秘密”，进而绕过内核中的保护机制，成功实现漏洞利用。</p>
+<h4 id="2-Information-Leak漏洞分类"><a href="#2-Information-Leak漏洞分类" class="headerlink" title="2  Information Leak漏洞分类"></a>2  Information Leak漏洞分类</h4><p>根据漏洞成因，可以对Information <strong>Leak</strong>漏洞进行分类。这里同样只关注内核中的情况。</p>
+<p>字节对齐带来的内存“空洞”.</p>
+<p>为了程序性能，编译器在编译代码时会对变量进行字节对齐，从而引入了一些内存“空洞”。比如结构体使用sizeof计算的大小一般会大于各个成员占用空间大小的和。当这些内核中的内存“空洞”没有被初始化（ABI没有规定函数退栈时要清理这些栈空间），通过copy_to_user等函数拷贝到用户空间时，就会造成Information <strong>Leak</strong>漏洞，泄漏内核栈中的数据，比如泄漏了一个栈上指针，就可以通过它来计算进程基址（stackjack攻击）。</p>
+<p>缺少变量初始化.</p>
+<p>内核函数中的本地变量声明后，默认不会被初始化。根据C99描述这块空间的内容是不确定的。实际上栈空间是被各函数复用的，因此未初始化变量的内容很可能保存的是上个函数栈上的数据。</p>
+<p>缺少对用户读操作的检查.</p>
+<p>当向用户空间拷贝数据时，没有做大小检查或者检查逻辑出现错误，都会导致Information <strong>Leak</strong>。这类漏洞通常称作“越界读”，它允许用户态读取不应该被访问的内核空间数据。</p>
+<p>其它bug导致的infoleaks.</p>
+<p>其它的Information <strong>Leak</strong>原因这里不做研究，但提一下。比如/proc/,/sys/和/boot/文件系统中也提供了内核符号地址，它们已经靠kptr_restrict机制保护，但也可能因为bug而绕过。另外系统缓存，日志等都有可能导致Information <strong>Leak</strong>.</p>
+<p>上面说到Information <strong>Leak</strong>可能危害保证StackGuard和ASLR可靠基础的“秘密”，下面分析一下内核中的Information <strong>Leak</strong>确切会影响哪些数据。</p>
+<p>Data段.</p>
+<p>内核中的data段保存了编译时就确定的全局变量，data段的泄漏可能导致静态内核symbols的泄漏，比如某些用于配置的变量。</p>
+<p>栈</p>
+<p>内核栈是根据ABI约定，运行时分配的。里面包含了函数返回地址，栈指针和一些其它数据。比如函数调用的参数，StackGuard机制的“canary”等。另外如果没有实现栈地址随机化，还会泄漏栈布局。</p>
+<p>堆</p>
+<p>内核中的堆是由内存分配器管理，在需要的地方动态分配。这些堆分配器通常使用双向链表来管理这些堆内存。Information <strong>Leak</strong>会漏洞这些堆存储的内容，还有可能泄漏用于堆管理的结构数据。</p>
+<h4 id="3-栈的Information-Leak漏洞检测技术"><a href="#3-栈的Information-Leak漏洞检测技术" class="headerlink" title="3  栈的Information Leak漏洞检测技术"></a>3  栈的Information Leak漏洞检测技术</h4><p>分析目前的漏检测技术，发现通过数据流分析的方法，可以对Information <strong>Leak</strong>进行建模来进行漏洞检测。在模型里定义3个基本元素：数据源，数据接收方和传播路径。</p>
+<p>我们可以对程序进行语义分析来匹配这套模型，从而识别漏洞。语义分析这个工作，选用开源的Coccinelle工具。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">handler(<span class="keyword">...</span>) &#123;</div><div class="line"></div><div class="line"> &lt;<span class="keyword">...</span></div><div class="line"></div><div class="line"> <span class="literal">T</span> ID;</div><div class="line"></div><div class="line"> <span class="keyword">...</span> when != memset(&amp;ID, <span class="number">0</span>, <span class="keyword">...</span>)</div><div class="line"></div><div class="line"> when != ID = <span class="keyword">...</span></div><div class="line"></div><div class="line">* copy_to_user(EV, &amp;ID, EN)</div><div class="line"></div><div class="line"> <span class="keyword">...</span>&gt;&#125;</div></pre></td></tr></table></figure>
+<p>1)  数据源：ID变量</p>
+<p>2)  数据接收方：用户态指针EV</p>
+<p>3)  传播路径：我们想确定ID的内容没有被初始化。因此限定条件，ID在copy_to_user前没有memset()或初始化操作</p>
+<p>像其它基于数据流的静态检测技术类似，这种方法也存在缺陷。比如这种Information <strong>Leak</strong>检测方法假定漏洞发生在一个函数内的，因此这种方法覆盖不了多函数场景。但实际测试中，依然会发现很多Linux内核和三方Driver的Information <strong>Leak</strong>漏洞。</p>
 
       
     </div>
@@ -468,8 +458,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/21/Commix命令详解/" rel="next" title="Commix命令详解">
-                <i class="fa fa-chevron-left"></i> Commix命令详解
+              <a href="/2017/01/21/linux-csi-tools部署记录/" rel="next" title="linux-csi-tools部署记录">
+                <i class="fa fa-chevron-left"></i> linux-csi-tools部署记录
               </a>
             
           </div>
@@ -478,8 +468,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/01/22/Linux内核info-leak漏洞/" rel="prev" title="Linux内核info leak漏洞">
-                Linux内核info leak漏洞 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/01/22/替换homebrew默认源/" rel="prev" title="替换homebrew默认源">
+                替换homebrew默认源 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -506,8 +496,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/01/21/linux-csi-tools部署记录/"
-           data-title="linux-csi-tools部署记录" data-url="http://zer0yu.github.io/2017/01/21/linux-csi-tools部署记录/">
+      <div class="ds-thread" data-thread-key="2017/01/22/Linux内核info-leak漏洞/"
+           data-title="Linux内核info leak漏洞" data-url="http://zer0yu.github.io/2017/01/22/Linux内核info-leak漏洞/">
       </div>
     
   </div>
@@ -643,7 +633,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Install-necessary-packages-on-Ubuntu"><span class="nav-number">2.</span> <span class="nav-text">Install necessary packages on Ubuntu</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Download-configure-compile-and-install-our-custom-Linux-kernel"><span class="nav-number">3.</span> <span class="nav-text">Download, configure, compile, and install our custom Linux kernel</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Install-our-custom-firmware"><span class="nav-number">4.</span> <span class="nav-text">Install our custom firmware.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Download-and-compile-hostap"><span class="nav-number">5.</span> <span class="nav-text">Download and compile hostap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Install-the-userspace-logging-utility"><span class="nav-number">6.</span> <span class="nav-text">Install the userspace logging utility</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Let’s-try-it-out"><span class="nav-number">7.</span> <span class="nav-text">Let’s try it out!</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Information-Leak漏洞风险"><span class="nav-number">1.</span> <span class="nav-text">1  Information Leak漏洞风险</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Information-Leak漏洞分类"><span class="nav-number">2.</span> <span class="nav-text">2  Information Leak漏洞分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-栈的Information-Leak漏洞检测技术"><span class="nav-number">3.</span> <span class="nav-text">3  栈的Information Leak漏洞检测技术</span></a></li></ol></div>
             
 
           </div>

@@ -86,31 +86,15 @@
 
 
 
-<meta name="description" content="引言​    commix是一款很好用的命令注入的工具，前几天看了看国内对其的介绍和使用示例挺少的，所以最近有空就写了这一篇文章来列举几个使用的栗子。
-概念​    命令注入就是部分Web应用程序提供了一些命令执行的操作，那么在Web应用程序底层去调用系统操作命令时，如果没有过滤好用户输入的数据，就很有可能形成系统命令执行漏洞来直接执行操作系统命令。详细讲解参考Command Injection">
-<meta property="og:type" content="article">
-<meta property="og:title" content="commix-系统命令注入自动化测试实例">
-<meta property="og:url" content="http://zer0yu.github.io/2017/01/21/commix-系统命令注入自动化测试实例/index.html">
+<meta name="description" content="一只单线程HACKER">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ZEROYU">
+<meta property="og:url" content="http://zer0yu.github.io/page/3/index.html">
 <meta property="og:site_name" content="ZEROYU">
-<meta property="og:description" content="引言​    commix是一款很好用的命令注入的工具，前几天看了看国内对其的介绍和使用示例挺少的，所以最近有空就写了这一篇文章来列举几个使用的栗子。
-概念​    命令注入就是部分Web应用程序提供了一些命令执行的操作，那么在Web应用程序底层去调用系统操作命令时，如果没有过滤好用户输入的数据，就很有可能形成系统命令执行漏洞来直接执行操作系统命令。详细讲解参考Command Injection">
-<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/commix-1.png">
-<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/commix-2.png">
-<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/commix-3.png">
-<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/commix-4.png">
-<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/commix-5.png">
-<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/commix-8.png">
-<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/commix-9.png">
-<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/commix-10.png">
-<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/commix-11.png">
-<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/commix-12.png">
-<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/commix-13.png">
-<meta property="og:updated_time" content="2017-01-21T13:31:04.000Z">
+<meta property="og:description" content="一只单线程HACKER">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="commix-系统命令注入自动化测试实例">
-<meta name="twitter:description" content="引言​    commix是一款很好用的命令注入的工具，前几天看了看国内对其的介绍和使用示例挺少的，所以最近有空就写了这一篇文章来列举几个使用的栗子。
-概念​    命令注入就是部分Web应用程序提供了一些命令执行的操作，那么在Web应用程序底层去调用系统操作命令时，如果没有过滤好用户输入的数据，就很有可能形成系统命令执行漏洞来直接执行操作系统命令。详细讲解参考Command Injection">
-<meta name="twitter:image" content="http://ok44mzy2k.bkt.clouddn.com/commix-1.png">
+<meta name="twitter:title" content="ZEROYU">
+<meta name="twitter:description" content="一只单线程HACKER">
 
 
 
@@ -138,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://zer0yu.github.io/2017/01/21/commix-系统命令注入自动化测试实例/"/>
+  <link rel="canonical" href="http://zer0yu.github.io/page/3/"/>
 
 
 
 
 
-  <title> commix-系统命令注入自动化测试实例 | ZEROYU </title>
+  <title> ZEROYU </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -175,7 +159,9 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <div class="container one-collumn sidebar-position-left 
+   page-home 
+ ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -299,9 +285,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
 
@@ -310,7 +296,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/21/commix-系统命令注入自动化测试实例/">
+  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/21/3xp10it搭建指南/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="ZEROYU">
@@ -334,7 +320,10 @@
             
             
               
-                commix-系统命令注入自动化测试实例
+                
+                <a class="post-title-link" href="/2017/01/21/3xp10it搭建指南/" itemprop="url">
+                  3xp10it搭建指南
+                </a>
               
             
           </h1>
@@ -349,7 +338,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-21T21:14:09+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-21T21:05:18+08:00">
                 2017-01-21
               </time>
             
@@ -368,8 +357,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/01/21/commix-系统命令注入自动化测试实例/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/21/commix-系统命令注入自动化测试实例/" itemprop="commentCount"></span>
+                <a href="/2017/01/21/3xp10it搭建指南/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/21/3xp10it搭建指南/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -379,7 +368,7 @@
 
           
           
-             <span id="/2017/01/21/commix-系统命令注入自动化测试实例/" class="leancloud_visitors" data-flag-title="commix-系统命令注入自动化测试实例">
+             <span id="/2017/01/21/3xp10it搭建指南/" class="leancloud_visitors" data-flag-title="3xp10it搭建指南">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -406,77 +395,99 @@
       
 
       
-        <h4 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h4><p>​    commix是一款很好用的命令注入的工具，前几天看了看国内对其的介绍和使用示例挺少的，所以最近有空就写了这一篇文章来列举几个使用的栗子。</p>
-<h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><p>​    命令注入就是部分Web应用程序提供了一些命令执行的操作，那么在Web应用程序底层去调用系统操作命令时，如果没有过滤好用户输入的数据，就很有可能形成系统命令执行漏洞来直接执行操作系统命令。详细讲解参考<a href="https://www.owasp.org/index.php/Command_Injection" target="_blank" rel="external">Command Injection</a></p>
-<h4 id="commix简介"><a href="#commix简介" class="headerlink" title="commix简介"></a>commix简介</h4><p>​    此处就不详细介绍了如果想要了解可以看这两篇文章：</p>
-<p>​    <a href="http://www.mottoin.com/91981.html" target="_blank" rel="external">http://www.mottoin.com/91981.html</a></p>
-<p>​    <a href="http://www.mottoin.com/91806.html" target="_blank" rel="external">http://www.mottoin.com/91806.html</a></p>
-<h4 id="测试环境搭建"><a href="#测试环境搭建" class="headerlink" title="测试环境搭建"></a>测试环境搭建</h4><p>​    在这里你可以使用DVWA或者DWAPP来实战，当然我觉得要尽可能全的包含各种类型的命令注入漏洞才算完美所以我们在此处使用commix提供的一个测试平台<a href="https://github.com/commixproject/commix-testbed" target="_blank" rel="external">commix-testbed</a>。</p>
-<p>1.如果你在使用windows平台那么我推荐<a href="http://www.phpstudy.net/" target="_blank" rel="external">PHPStudy</a>来搭建环境</p>
-<p>安装完成后你只需要在phpstudy的www目录下打开cmd键入：</p>
-<p><code>git clone https://github.com/commixproject/commix-testbed.git</code></p>
-<p>(当然你要确保你安装了Git)</p>
-<p>之后只要启动phpstudy就可以在浏览器中访问了</p>
-<p>2.如果你使用的是Linux或者MacOS平台我推荐用xampp来搭建环境</p>
-<p>搭建好之后你就可以看到如下界面</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-1.png" alt="1"></p>
-<p>环境搭建好后我们来进行渗透测试</p>
-<h4 id="示例一：Results-based命令注入攻击"><a href="#示例一：Results-based命令注入攻击" class="headerlink" title="示例一：Results-based命令注入攻击"></a>示例一：Results-based命令注入攻击</h4><p>我们选择GET方式的Classic regular example</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-2.png" alt="2"></p>
-<p>ping下127.0.0.1试下</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-3.png" alt="3"></p>
-<p>复制url并打开commix开始hack</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-4.png" alt="4"></p>
-<p>渗透主机为win后期可以借助empire（不知道empire？？？没关系<a href="http://www.mottoin.com/?s=empire" target="_blank" rel="external">戳我</a>）</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-5.png" alt="5"></p>
-<p>可以使用</p>
-<p><code>commix -u &quot;http://192.168.1.108/commix-testbed/scenarios/regular/GET/classic.php?addr=127.0.0.1&quot; --hostname --current-user --sys-info</code></p>
-<p>含义：显示当前测试主机的主机名，用户名和系统信息</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-8.png" alt="8"></p>
-<p>如果渗透主机为Linux则后期可以借助msf(不会msf？？？没关系<a href="http://www.mottoin.com/18517.html" target="_blank" rel="external">戳我</a>)</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-9.png" alt="9"></p>
-<h4 id="示例二：User-Agent-HTTP头注入攻击"><a href="#示例二：User-Agent-HTTP头注入攻击" class="headerlink" title="示例二：User-Agent HTTP头注入攻击"></a>示例二：User-Agent HTTP头注入攻击</h4><p>选择User-Agent HTTP Header中的第一个Classic user-agent-based example</p>
-<p><code>http://192.168.1.108/commix-testbed/scenarios/user-agent/ua(classic).php</code></p>
-<p>然后开始使用commix注入：</p>
-<p><code>commix -u &quot;http://192.168.1.108/commix-testbed/scenarios/user-agent/ua(classic).php&quot; --data=&quot;addr=192.168.1.121&quot; --technique=&quot;c&quot;</code></p>
-<p>含义：post参数addr=192.168.1.121并指定要使用的进样技术</p>
-<p>效果如下：</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-10.png" alt="10"></p>
-<h4 id="示例三：Referer-HTTP头注入攻击"><a href="#示例三：Referer-HTTP头注入攻击" class="headerlink" title="示例三：Referer HTTP头注入攻击"></a>示例三：Referer HTTP头注入攻击</h4><p>选择Referer HTTP Header中的第一个Classic referer-based example</p>
-<p><code>http://192.168.1.108/commix-testbed/scenarios/referer/referer(classic).php</code></p>
-<p>然后开始使用commix注入：</p>
-<p><code>commix -u &quot;http://192.168.1.108/commix-testbed/scenarios/referer/referer(classic).php&quot; --data=&quot;addr=192.168.1.121&quot; --technique=&quot;c&quot;</code></p>
-<p>和上面的差不多不解释了</p>
-<p>效果如下：</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-11.png" alt="11"></p>
-<h4 id="示例四：Blind-命令注入攻击"><a href="#示例四：Blind-命令注入攻击" class="headerlink" title="示例四：Blind 命令注入攻击"></a>示例四：Blind 命令注入攻击</h4><p>选择Regular (GET / POST)中的Blind regular example</p>
-<p><code>http://192.168.1.108/commix-testbed/scenarios/regular/GET/blind.php?addr=127.0.0.1</code></p>
-<p>然后开始使用commix注入：</p>
-<p><code>commix -u &quot;http://192.168.1.108/commix-testbed/scenarios/regular/GET/blind.php?addr=127.0.0.1&quot; --technique=&quot;tf&quot; -v 1</code></p>
-<p>效果如下：</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-12.png" alt="12"></p>
-<p>执行命令：</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-13.png" alt="13"></p>
-<h4 id="彩蛋"><a href="#彩蛋" class="headerlink" title="彩蛋"></a>彩蛋</h4><p>上面的例子不是很全，有几个使用commix进行命令注入的视频，有兴趣可以下载看下</p>
-<p>链接: <a href="https://pan.baidu.com/s/1qXMNjZm" target="_blank" rel="external">https://pan.baidu.com/s/1qXMNjZm</a> 密码: 5peb</p>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="https://github.com/commixproject/commix-testbed" target="_blank" rel="external">https://github.com/commixproject/commix-testbed</a></p>
-<p><a href="https://github.com/commixproject/commix" target="_blank" rel="external">https://github.com/commixproject/commix</a></p>
-<p><a href="http://www.commixproject.com/" target="_blank" rel="external">http://www.commixproject.com/</a></p>
+        
+          
+            <h4 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h4><p>​    突然想到前几天看到<a href="https://github.com/We5ter/Scanners-Box/blob/master/README_CN.md" target="_blank" rel="external">Scanners-Box</a>有一款扫描器<a href="https://github.com/3xp10it/3xp10it" target="_blank" rel="external">3xp10it</a>于是就搭建使用了一下，刚觉还不错，就简要记录下我的搭建过程。（bing api key目前已经无法注册）</p>
+<h4 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h4><p>kali linux rolling 2016.2</p>
+<h4 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h4><p>1.安装git</p>
+<p><code>apt-get install git</code></p>
+<p>2.把3xp10it克隆到本合适的位置</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="keyword">clone</span> <span class="title">https</span>://github.com/<span class="number">3</span>xp10it/<span class="number">3</span>xp10it.git</div></pre></td></tr></table></figure>
+<p>3.安装相关依赖,第一次使用工具时需要运行,以后不用再运行</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">bash </span><span class="keyword">beforeWork.sh</span></div></pre></td></tr></table></figure>
+<p>4.python3安装</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">apt-<span class="built_in">get</span> install <span class="keyword">python3</span></div><div class="line">或:</div><div class="line">wget http<span class="variable">s:</span>//www.<span class="keyword">python</span>.org/ftp/<span class="keyword">python</span>/<span class="number">3.5</span>.<span class="number">2</span>/Python-<span class="number">3.5</span>.<span class="number">2</span>.tar.xz</div><div class="line">tar xJf Python-<span class="number">3.5</span>.<span class="number">2</span>.tar.xz</div><div class="line"><span class="keyword">cd</span> Python-<span class="number">3.5</span>.<span class="number">2</span></div><div class="line">./configure --prefix=/<span class="keyword">opt</span>/<span class="keyword">python3</span></div><div class="line"><span class="keyword">make</span> &amp;&amp; <span class="keyword">make</span> install</div><div class="line"><span class="keyword">ln</span> -s /<span class="keyword">opt</span>/<span class="keyword">python3</span>/bin/<span class="keyword">python3</span>.<span class="number">5</span> /usr/local/bin/<span class="keyword">python3</span></div></pre></td></tr></table></figure>
+<p>5.pip3安装</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">echo</span> <span class="string">"deb-src http://http.kali.org/kali kali main non-free contrib"</span> &gt;&gt; /etc/apt/sources.<span class="keyword">list</span></div><div class="line"><span class="keyword">echo</span> <span class="string">"deb-src http://security.kali.org/kali-security kali/updates main contrib non-free"</span> &gt;&gt;/etc/apt/sources.<span class="keyword">list</span></div><div class="line">apt-<span class="built_in">get</span> <span class="keyword">update</span></div><div class="line">apt-<span class="built_in">get</span> install <span class="keyword">python3</span>-pip</div></pre></td></tr></table></figure>
+<p>6.mysql</p>
+<p>需要mysql，如果mysql密码忘记了可以参考这篇文章<a href="http://zeroyu.xyz/2017/01/05/kali-linux-2016-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97%E4%BA%8C/" target="_blank" rel="external">《kali-linux-2016-使用指南二》</a></p>
+<p>7.运行主程序,工作时运行,第一次运行时需要先运行上面的beforeWork.sh</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">python3</span> <span class="number">3</span>xp10it.<span class="keyword">py</span></div></pre></td></tr></table></figure>
+<p>8.要新开一个终端运行以便于查看相关输出信息,该工具为web后台</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">python3</span> web.<span class="keyword">py</span></div></pre></td></tr></table></figure>
+<h4 id="效果示例"><a href="#效果示例" class="headerlink" title="效果示例"></a>效果示例</h4><p><img src="http://ok44mzy2k.bkt.clouddn.com/3xp10it.png" alt="2"></p>
+<h4 id="关于这款工具"><a href="#关于这款工具" class="headerlink" title="关于这款工具"></a>关于这款工具</h4><p>a)3xp10it是一个自动化渗透测试框架,目前没有做到完全自动化[自动上传漏洞利用框架和自动fuzz框架暂时没有加入]</p>
+<p>b)支持功能列表</p>
+<ul>
+<li>cdn真实ip查找模块</li>
+<li>旁站获取[如果在cdn模块中发现有cdn但是没有获取到真实ip则不进行旁站获取]</li>
+<li>子站获取</li>
+<li>高危漏洞扫描模块</li>
+<li>爬虫模块</li>
+<li>目标网站脚本类型检测</li>
+<li>目录扫描模块</li>
+<li>sqli扫描模块</li>
+<li>robots/sitemap自动收集</li>
+<li>cms识别与cms漏洞扫描模块</li>
+<li>自动识别管理员页面并爆破[支持自动识别简单验证码]</li>
+<li>webshell自动查找与爆破,支持asp,php,aspx,jsp,支持chopper一句话webshell和大马类型webshell</li>
+</ul>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">a)apache,iis,nginx,lighttpd在phpstudy中测试默认可接收<span class="number">1000</span>个post参数  </div><div class="line">b)一句话类型webshell根据上面的特点可以正常情况下(单线程)的<span class="number">1000</span>倍速度来爆破,可用大字典爆破,但是不能用多线程,</div><div class="line">  可能是因为用多线程会太快而让web server觉得每次的参数不止<span class="number">1000</span>个  </div><div class="line">c)其他类型web server未测试,暂用多线程<span class="number">1</span>倍速爆破,用最常用的webshell较小字典,<span class="number">17659</span>个左右  </div><div class="line">d)大马类型webshell由于表单名是一定的,所以不能以<span class="number">1000</span>倍速爆破,于是也用和c)中一样的小字典多线程<span class="number">1</span>倍速爆破</div></pre></td></tr></table></figure>
+<ul>
+<li>资源文件收集</li>
+<li>端口扫描模块</li>
+<li>whois信息收集</li>
+<li>支持人工渗透时记录笔记</li>
+</ul>
+<figure class="highlight coq"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">笔记功能需要额外安装phpmyadmin等可以编辑数据库的工具,访问数据库,在targets|<span class="type">xxx_pang</span>|<span class="type">xxx_sub</span>表中有一个note列可用</div><div class="line">于记录人工渗透时的笔记,查看扫描结果最好也用phpmyadmin来查看数据库的targets表和xxx_pang和xxx_sub表,如果不安装</div><div class="line">phpmyadmin也可由web.py在web后台中查看扫描结果</div></pre></td></tr></table></figure>
+<p>c)可选工作模式</p>
+<p>模式一:扫描目标和目标的所有旁站<br>模式二:扫描目标和目标的所有子站<br>模式三:扫描目标和目标的所有旁站和所有子站<br>模式四:只扫描目标</p>
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">默认使用模式一扫描<span class="comment">[在运行3xp10it后可自选]</span>,上面四种模式中的<span class="comment">[扫描目标]</span>里的目标支持批量导入多个目标和手工录入多个</div><div class="line">目标.四种工作模式中与旁站和子站相关的由程序自动完成<span class="comment">[eg.选择模式三工作时,将自动获取导入的目标的所有旁站和所有子</span></div><div class="line">站,并对这些旁站和子站依次遍历上面的各个扫描模块]</div></pre></td></tr></table></figure>
+<p>d)特点</p>
+<ul>
+<li>可在中断后重新运行时从断点附近接着上次的过程扫描,不用重新扫描</li>
+<li>运行3xp10it后自动从数据库中取出待完成的扫描任务进行扫描</li>
+<li>支持正常扫描和优先扫描两个扫描组,如果优先扫描组里有任务则先扫描优先扫描组里的目标,在添加任务时可选择将目标是 正常扫描还是优先扫描</li>
+<li>上述支持功能列表中的功能默认全部遍历扫描,如果要使用单个模块可在web界面使用</li>
+<li>3xp10it配备一个web后台,web页面可查询当前扫描结果与使用单个模块功能</li>
+<li>3xp10it独立于web运行,也即没有目录下的pannel文件夹也可运行</li>
+<li>目录下的pannel文件夹是Django为3xp10it写的一些相关界面,web界面使用在下面介绍</li>
+<li>支持找到高危漏洞邮件通知[eg.sqli,webshell爆破成功等]</li>
+</ul>
+<ul>
+<li>web后台相当于3xp10it的部分界面+分割的模块化工具+exp10it中没有的功能的附加工具的集合</li>
+<li>web后台由Django==1.10.3开发</li>
+<li>web后台中支持工具列表<ul>
+<li>targets:查看扫描目标,新增/删除扫描目标</li>
+<li>获取旁[子]站:获取旁站或子站模块</li>
+<li>xcdn:尝试识别cdn背后的真实ip</li>
+<li>高危漏扫:高危漏洞扫描模块</li>
+<li>sqli:sql注入模块</li>
+<li>扫目录:目录扫描模块</li>
+<li>cms漏扫:cms漏洞扫描模块</li>
+<li>webshell爆破:webshell爆破模块</li>
+<li>管理员登录爆破:管理员登录爆破模块</li>
+<li>waf爆破:waf自动爆破模块[3xp10it中没有这个功能]</li>
+<li>dbquery:数据库语句执行接口</li>
+<li>扫描结果:查看当前扫描结果</li>
+</ul>
+</li>
+</ul>
+<h4 id="详细"><a href="#详细" class="headerlink" title="详细"></a>详细</h4><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="number">1.3</span>xp10it需要用到bingapi,需要先申请好bingapi</div><div class="line"><span class="number">2</span>.上面的web.<span class="keyword">py</span>不一定要运行,核心功能在<span class="number">3</span>xp10it.<span class="keyword">py</span>文件中</div><div class="line"><span class="number">3</span>.如果要后台功能需运行<span class="keyword">python3</span> web.<span class="keyword">py</span></div><div class="line"><span class="number">4</span>.如果要使用web.<span class="keyword">py</span>,重新开机后需要重新运行web.<span class="keyword">py</span></div><div class="line"><span class="number">5</span>.运行web.<span class="keyword">py</span>常见错误:端口被占用.解决方法:</div><div class="line"><span class="keyword">a</span>)netstat -ntlp | <span class="keyword">grep</span> <span class="number">8000</span></div><div class="line"><span class="keyword">b</span>)在<span class="keyword">a</span>)中找到pid后kill -<span class="number">9</span> pid</div><div class="line"><span class="keyword">c</span>)重新运行<span class="keyword">python3</span> web.<span class="keyword">py</span></div><div class="line"><span class="number">6.3</span>xp10it中调用的是关键模块exp10it中的exp10itScanner,exp10it模块由pip3 install exp10it安装,安装路径一般如下:</div><div class="line">/usr/local/lib/<span class="keyword">python3</span>.<span class="number">5</span>/dist-packages</div><div class="line"><span class="number">7</span>.文件分布结构如下:</div><div class="line"></div><div class="line">当前目录</div><div class="line">.</div><div class="line">├── <span class="number">3</span>xp10it.<span class="keyword">py</span></div><div class="line">├── pannel</div><div class="line">│   ├── ghostdriver.<span class="built_in">log</span></div><div class="line">│   ├── manage.<span class="keyword">py</span></div><div class="line">│   ├── models.<span class="keyword">py</span>[web后台没有用django的模型]</div><div class="line">│   ├── pages[web页面的html文件,相当于django的template]</div><div class="line">│   └── pannel[django相关文件]</div><div class="line">│       ├── __init__.<span class="keyword">py</span></div><div class="line">│       ├── settings.<span class="keyword">py</span></div><div class="line">│       ├── urls.<span class="keyword">py</span>[django配置的访问与响应规则]</div><div class="line">│       ├── views.<span class="keyword">py</span>[django配置的关键函数]</div><div class="line">│       └── wsgi.<span class="keyword">py</span></div><div class="line">├── readme.md</div><div class="line">├── uninstall.<span class="keyword">py</span></div><div class="line">└── web.<span class="keyword">py</span></div><div class="line"></div><div class="line"></div><div class="line">/usr/local/lib/<span class="keyword">python3</span>.<span class="number">5</span>/dist-packages路径下相关文件</div><div class="line"></div><div class="line">├── cms_identify[cms识别模块相关文件]</div><div class="line">├── cms_scan[cms漏洞扫描模块相关文件]</div><div class="line">├── config.ini[配置文件]</div><div class="line">├── dicts[字典文件]</div><div class="line">├── dirsearch[目录扫描模块相关文件]</div><div class="line">├── exp10it.<span class="keyword">py</span>[关键模块文件]</div><div class="line">├── exps[<span class="built_in">exp</span>模块相关文件]</div><div class="line">├── <span class="built_in">log</span>[日志文件夹]</div><div class="line">├── tools[web后台中的各个工具]</div></pre></td></tr></table></figure>
+<h4 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h4><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">Q0:</span>config.ini 这个文件怎么没有找到?</div><div class="line"><span class="symbol">A0:</span>config.ini在python3 <span class="number">3</span>xp10it.py初次运行后会自动生成,用于设置bing API key,发邮件的帐号,数据库连接配置,扫描模式</div><div class="line">   等信息,一般会在/usr/local/<span class="class"><span class="keyword">lib</span>/<span class="title">python3</span>.5/<span class="title">dist</span>-<span class="title">packages</span>/<span class="title">config</span>.<span class="title">ini</span>这里,与<span class="title">python3</span>的安装路径有关</span></div><div class="line"></div><div class="line"><span class="symbol">Q1:</span>单个模块怎么使用?</div><div class="line"><span class="symbol">A1:</span>单个模块执行有<span class="number">2</span>种方法:</div><div class="line">   <span class="number">1</span>)web后台</div><div class="line">   <span class="number">2</span>)cd /usr/local/<span class="class"><span class="keyword">lib</span>/<span class="title">python3</span>.5/<span class="title">dist</span>-<span class="title">packages</span>/<span class="title">tools</span> &amp;&amp; <span class="title">ls</span> -<span class="title">al</span></span></div><div class="line"></div><div class="line"><span class="symbol">Q2:</span>为什么需要连接google才能用?</div><div class="line"><span class="symbol">A2:</span>要保证能直接ping通google证明可以绕过GFW,有些domain不连vpn会无法访问,这样的domain在正常情况下被GFW拦截时会影响</div><div class="line">   代码获取真实ip的效果,代码中强制要求连接vpn</div><div class="line"></div><div class="line"><span class="symbol">Q3:</span>bing api key怎么注册?网上的教程都是错的?</div><div class="line"><span class="symbol">A3:</span>好像是bing暂停注册了,这样的话只能向以前注册过的人要,如果bing一直这样,将考虑在代码中修改这个接口,但<span class="number">3</span>个月内暂</div><div class="line">   时不修改</div></pre></td></tr></table></figure>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="https://github.com/3xp10it/3xp10it" target="_blank" rel="external">https://github.com/3xp10it/3xp10it</a></p>
+<p><a href="http://zeroyu.xyz/2017/01/05/kali-linux-2016-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97%E4%BA%8C/" target="_blank" rel="external">http://zeroyu.xyz/2017/01/05/kali-linux-2016-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97%E4%BA%8C/</a></p>
 
+          
+        
       
     </div>
 
     <div>
       
-        
-
-      
     </div>
 
     <div>
-      
-        
-
       
     </div>
 
@@ -485,38 +496,23 @@
       
 
       
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/01/21/3xp10it搭建指南/" rel="next" title="3xp10it搭建指南">
-                <i class="fa fa-chevron-left"></i> 3xp10it搭建指南
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/01/21/Hexo-3-x-博客搭建指南-NEXT主题/" rel="prev" title="Hexo 3.x 博客搭建指南(NEXT主题)">
-                Hexo 3.x 博客搭建指南(NEXT主题) <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
 
       
+      
+        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
+
 
           
           </div>
@@ -524,14 +520,6 @@
 
 
           
-  <div class="comments" id="comments">
-    
-      <div class="ds-thread" data-thread-key="2017/01/21/commix-系统命令注入自动化测试实例/"
-           data-title="commix-系统命令注入自动化测试实例" data-url="http://zer0yu.github.io/2017/01/21/commix-系统命令注入自动化测试实例/">
-      </div>
-    
-  </div>
-
 
         </div>
         
@@ -551,17 +539,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -653,22 +632,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#概念"><span class="nav-number">2.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#commix简介"><span class="nav-number">3.</span> <span class="nav-text">commix简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试环境搭建"><span class="nav-number">4.</span> <span class="nav-text">测试环境搭建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例一：Results-based命令注入攻击"><span class="nav-number">5.</span> <span class="nav-text">示例一：Results-based命令注入攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例二：User-Agent-HTTP头注入攻击"><span class="nav-number">6.</span> <span class="nav-text">示例二：User-Agent HTTP头注入攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例三：Referer-HTTP头注入攻击"><span class="nav-number">7.</span> <span class="nav-text">示例三：Referer HTTP头注入攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例四：Blind-命令注入攻击"><span class="nav-number">8.</span> <span class="nav-text">示例四：Blind 命令注入攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#彩蛋"><span class="nav-number">9.</span> <span class="nav-text">彩蛋</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考"><span class="nav-number">10.</span> <span class="nav-text">参考</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
     </div>
@@ -781,10 +744,6 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
-
-
 
   
 
