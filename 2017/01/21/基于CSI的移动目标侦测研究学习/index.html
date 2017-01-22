@@ -400,9 +400,9 @@
         <h4 id="环境安装"><a href="#环境安装" class="headerlink" title="环境安装"></a>环境安装</h4><p>需要用到<a href="http://dhalperi.github.io/linux-80211n-csitool/" target="_blank" rel="external">CSI tool</a>，这是一个运行在Ubuntu上的利用Intel Wi-Fi Wireless Link 5300 802.11n来做分析的程序。这里可以使用作者网站中方法来安装，也可以下载<a href="http://pan.baidu.com/s/1dDhFuNJ" target="_blank" rel="external">清华的版本</a>。清华的版本附带了安装说明书，参考说明书上的方法，安装即可。</p>
 <p>需要注意的是，发射源路由器需要选择单天线支持802.11n的路由器，我使用的是TP-LINK TL-WR742N。</p>
 <h4 id="获取数据"><a href="#获取数据" class="headerlink" title="获取数据"></a>获取数据</h4><p>cd进入csitools文件夹，进入linux-80211n-csitool-supplementary/netlink，运行</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">sudo</span> ./log_to_file tmp.dat</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ./log_to_file tmp.dat</div></pre></td></tr></table></figure>
 <p>打开另一个终端，运行</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">ping</span> 192<span class="selector-class">.168</span><span class="selector-class">.1</span><span class="selector-class">.1</span> <span class="selector-tag">-i</span> 0<span class="selector-class">.2</span></div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ping 192.168.1.1 -i 0.2</div></pre></td></tr></table></figure>
 <p>netlink文件夹中的tmp.dat就是采集的原始数据。</p>
 <h4 id="读取数据"><a href="#读取数据" class="headerlink" title="读取数据"></a>读取数据</h4><p>使用Matlab读取数据，进入linux-80211n-csitool-supplementary/matlab文件夹，使用read_bf_file函数可以读取数据。</p>
 <p>一个例子数据包里包含</p>
@@ -410,9 +410,9 @@
 <h2 id="环境安装-1"><a href="#环境安装-1" class="headerlink" title="环境安装"></a>环境安装</h2><p>需要用到<a href="http://dhalperi.github.io/linux-80211n-csitool/" target="_blank" rel="external">CSI tool</a>，这是一个运行在Ubuntu上的利用Intel Wi-Fi Wireless Link 5300 802.11n来做分析的程序。这里可以使用作者网站中方法来安装，也可以下载<a href="http://pan.baidu.com/s/1dDhFuNJ" target="_blank" rel="external">清华的版本</a>。清华的版本附带了安装说明书，参考说明书上的方法，安装即可。</p>
 <p>需要注意的是，发射源路由器需要选择单天线支持802.11n的路由器，我使用的是TP-LINK TL-WR742N。</p>
 <h2 id="获取数据-1"><a href="#获取数据-1" class="headerlink" title="获取数据"></a>获取数据</h2><p>cd进入csitools文件夹，进入linux-80211n-csitool-supplementary/netlink，运行</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">sudo</span> ./log_to_file tmp.dat</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ./log_to_file tmp.dat</div></pre></td></tr></table></figure>
 <p>打开另一个终端，运行</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">ping</span> 192<span class="selector-class">.168</span><span class="selector-class">.1</span><span class="selector-class">.1</span> <span class="selector-tag">-i</span> 0<span class="selector-class">.2</span></div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ping 192.168.1.1 -i 0.2</div></pre></td></tr></table></figure>
 <p>netlink文件夹中的tmp.dat就是采集的原始数据。</p>
 <h2 id="读取数据-1"><a href="#读取数据-1" class="headerlink" title="读取数据"></a>读取数据</h2><p>使用Matlab读取数据，进入linux-80211n-csitool-supplementary/matlab文件夹，使用read_bf_file函数可以读取数据。</p>
 <p>一个例子数据包里包含</p>
