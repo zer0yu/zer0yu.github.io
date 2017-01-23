@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zer0yu.github.io/"/>
-  <updated>2017-01-22T04:40:59.000Z</updated>
+  <updated>2017-01-23T10:21:55.000Z</updated>
   <id>http://zer0yu.github.io/</id>
   
   <author>
@@ -14,6 +14,26 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>TO HER</title>
+    <link href="http://zer0yu.github.io/2017/01/23/TO-HER/"/>
+    <id>http://zer0yu.github.io/2017/01/23/TO-HER/</id>
+    <published>2017-01-23T10:04:15.000Z</published>
+    <updated>2017-01-23T10:21:55.000Z</updated>
+    
+    <content type="html"><![CDATA[<center>질량의 크기는 부피와 비례하지 않는다.<br><br>重量和大小不成比例<br><br>제비꽃 같은 조그만한 그 계집애가<br><br>像紫罗兰一般幼小的那丫头<br><br>꽃잎같이 하늘거리는 그계집애가<br><br>像花瓣一般轻曳的那丫头<br><br>지구보다 더 큰 질량으로 나를 끌어당긴다.<br><br>以超过地球的重量吸引着我<br><br>순간<br><br>瞬间，我<br><br>나는 뉴턴의 사과 처럼<br><br>就如同牛顿的苹果一样<br><br>사정없이 그녀에게로 굴러 떨어졌다.<br><br>不受控制的向她掉落滚去<br><br>쿵 소리를 내며 쿵쿵 소리를 내며<br><br>咚的一声 咚咚作响<br><br>심장이 하늘에서 땅까지<br><br>心脏  自天上到地下<br><br>아찔한 진자운동을 계속하였다.<br><br>持续着令人眩晕的摇摆运动<br><br>사랑이었다.<br><br>原来这就是是初恋啊</center>
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=447778944&auto=1&height=66"></iframe>]]></content>
+    
+    <summary type="html">
+    
+      &lt;center&gt;질량의 크기는 부피와 비례하지 않는다.&lt;br&gt;&lt;br&gt;重量和大小不成比例&lt;br&gt;&lt;br&gt;제비꽃 같은 조그만한 그 계집애가&lt;br&gt;&lt;br&gt;像紫罗兰一般幼小的那丫头&lt;br&gt;&lt;br&gt;꽃잎같이 하늘거리는 그계집애가&lt;br&gt;&lt;br&gt;像花瓣一般轻曳的那丫头&lt;br&gt;&lt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>BugScan插件编写</title>
