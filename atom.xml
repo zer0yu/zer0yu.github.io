@@ -853,7 +853,7 @@
     <link href="http://zer0yu.github.io/2017/01/21/%E5%9F%BA%E4%BA%8ECSI%E7%9A%84%E7%A7%BB%E5%8A%A8%E7%9B%AE%E6%A0%87%E4%BE%A6%E6%B5%8B%E7%A0%94%E7%A9%B6%E5%AD%A6%E4%B9%A0/"/>
     <id>http://zer0yu.github.io/2017/01/21/基于CSI的移动目标侦测研究学习/</id>
     <published>2017-01-21T14:48:58.000Z</published>
-    <updated>2017-01-21T14:51:58.000Z</updated>
+    <updated>2017-01-23T03:12:15.000Z</updated>
     
     <content type="html"><![CDATA[<h4 id="环境安装"><a href="#环境安装" class="headerlink" title="环境安装"></a>环境安装</h4><p>需要用到<a href="http://dhalperi.github.io/linux-80211n-csitool/" target="_blank" rel="external">CSI tool</a>，这是一个运行在Ubuntu上的利用Intel Wi-Fi Wireless Link 5300 802.11n来做分析的程序。这里可以使用作者网站中方法来安装，也可以下载<a href="http://pan.baidu.com/s/1dDhFuNJ" target="_blank" rel="external">清华的版本</a>。清华的版本附带了安装说明书，参考说明书上的方法，安装即可。</p>
 <p>需要注意的是，发射源路由器需要选择单天线支持802.11n的路由器，我使用的是TP-LINK TL-WR742N。</p>
@@ -865,17 +865,6 @@
 <h4 id="读取数据"><a href="#读取数据" class="headerlink" title="读取数据"></a>读取数据</h4><p>使用Matlab读取数据，进入linux-80211n-csitool-supplementary/matlab文件夹，使用read_bf_file函数可以读取数据。</p>
 <p>一个例子数据包里包含</p>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">timestamp_low: <span class="number">4</span> (In the sample trace, timestamp_low is invalid and always <span class="number">4.</span>)</div><div class="line">bfee_count: <span class="number">72</span></div><div class="line">Nrx: <span class="number">3</span></div><div class="line">Ntx: <span class="number">1</span></div><div class="line">rssi_a: <span class="number">33</span></div><div class="line">rssi_b: <span class="number">37</span></div><div class="line">rssi_c: <span class="number">41</span></div><div class="line">noise: <span class="number">-127</span></div><div class="line">agc: <span class="number">38</span></div><div class="line">perm: [<span class="number">3</span> <span class="number">2</span> <span class="number">1</span>]</div><div class="line">rate: <span class="number">256</span></div><div class="line">csi: [<span class="number">1</span>x3x30 double]</div></pre></td></tr></table></figure>
-<h2 id="环境安装-1"><a href="#环境安装-1" class="headerlink" title="环境安装"></a>环境安装</h2><p>需要用到<a href="http://dhalperi.github.io/linux-80211n-csitool/" target="_blank" rel="external">CSI tool</a>，这是一个运行在Ubuntu上的利用Intel Wi-Fi Wireless Link 5300 802.11n来做分析的程序。这里可以使用作者网站中方法来安装，也可以下载<a href="http://pan.baidu.com/s/1dDhFuNJ" target="_blank" rel="external">清华的版本</a>。清华的版本附带了安装说明书，参考说明书上的方法，安装即可。</p>
-<p>需要注意的是，发射源路由器需要选择单天线支持802.11n的路由器，我使用的是TP-LINK TL-WR742N。</p>
-<h2 id="获取数据-1"><a href="#获取数据-1" class="headerlink" title="获取数据"></a>获取数据</h2><p>cd进入csitools文件夹，进入linux-80211n-csitool-supplementary/netlink，运行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ./log_to_file tmp.dat</div></pre></td></tr></table></figure>
-<p>打开另一个终端，运行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ping 192.168.1.1 -i 0.2</div></pre></td></tr></table></figure>
-<p>netlink文件夹中的tmp.dat就是采集的原始数据。</p>
-<h2 id="读取数据-1"><a href="#读取数据-1" class="headerlink" title="读取数据"></a>读取数据</h2><p>使用Matlab读取数据，进入linux-80211n-csitool-supplementary/matlab文件夹，使用read_bf_file函数可以读取数据。</p>
-<p>一个例子数据包里包含</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">timestamp_low: <span class="number">4</span> (In the sample trace, timestamp_low is invalid and always <span class="number">4.</span>)</div><div class="line">bfee_count: <span class="number">72</span></div><div class="line">Nrx: <span class="number">3</span></div><div class="line">Ntx: <span class="number">1</span></div><div class="line">rssi_a: <span class="number">33</span></div><div class="line">rssi_b: <span class="number">37</span></div><div class="line">rssi_c: <span class="number">41</span></div><div class="line">noise: <span class="number">-127</span></div><div class="line">agc: <span class="number">38</span></div><div class="line">perm: [<span class="number">3</span> <span class="number">2</span> <span class="number">1</span>]</div><div class="line">rate: <span class="number">256</span></div><div class="line">csi: [<span class="number">1</span>x3x30 double]</div></pre></td></tr></table></figure>
-<p>其中:</p>
 <ul>
 <li><strong>timestamp_low</strong> 是时间戳</li>
 <li><strong>bfee_count</strong> 数据包数量</li>
