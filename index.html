@@ -296,6 +296,204 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/24/PORT-服务-漏洞/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ZEROYU">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ZEROYU">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/24/PORT-服务-漏洞/" itemprop="url">
+                  PORT=>服务/漏洞
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-24T15:29:05+08:00">
+                2017-01-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/24/PORT-服务-漏洞/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/24/PORT-服务-漏洞/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/24/PORT-服务-漏洞/" class="leancloud_visitors" data-flag-title="PORT=>服务/漏洞">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>范围：0-65535<br>固定端口：0-1023 1024保留<br>动态端口：1024-65535</p>
+<h4 id="常用端口"><a href="#常用端口" class="headerlink" title="常用端口"></a>常用端口</h4><p>21：FTP(爆破)</p>
+<p>22：SSH(爆破)</p>
+<p>23：Telnet(爆破)</p>
+<p>25：SMTP</p>
+<p>53：DNS（UDP）</p>
+<p>69：TFTP（cisco，类似FTP）</p>
+<p>79：Finger</p>
+<p>80：HTTP</p>
+<p>110：POP3</p>
+<p>111：RPC 远程过程调用</p>
+<p>113：windows 验证服务</p>
+<p>119：NNTP 网络新闻组传输协议</p>
+<p>135：RPC 远程过程调用</p>
+<p>137：NetBIOS</p>
+<p>139：windows文件和打印机共享，Unix中的samba服务</p>
+<p>161：SNMP 简单网络管理协议</p>
+<p>389：LDAP</p>
+<p>443：HTTPS</p>
+<p>445：SMB</p>
+<p>1080：socks代理服务</p>
+<p>2082/2083 cpanel主机管理系统登陆 (国外用较多)</p>
+<p>2222 DA虚拟主机管理系统登陆 (国外用较多)</p>
+<p>2601,2604：zebra路由，默认密码zebra</p>
+<p>3128 squid代理默认端口，如果没设置口令很可能就直接漫游内网了 </p>
+<p>3312/3311 kangle主机管理系统登陆 </p>
+<p>3389:远程桌面</p>
+<p>4440 rundeck 参考WooYun: 借用新浪某服务成功漫游新浪内网 </p>
+<p>5900：vnc</p>
+<p>6082 varnish 参考WooYun: Varnish HTTP accelerator CLI 未授权访问易导致网站被直接篡改或者作为代理进入内网</p>
+<p>7001,7002 WebLogic默认弱口令，反序列</p>
+<p>8000-9090 都是一些常见的web端口，有些运维喜欢把管理后台开在这些非80的端口上 </p>
+<p>8080：用户www代理服务,tomcat/WDCP主机管理系统，默认弱口令 </p>
+<p>8080,8089,9090 JBOSS</p>
+<p>8083 Vestacp主机管理系统 （国外用较多） </p>
+<p>8649 ganglia </p>
+<p>8888 amh/LuManager 主机管理系统默认端口 </p>
+<p>9200,9300 elasticsearch 参考WooYun: 多玩某服务器ElasticSearch命令执行漏洞 </p>
+<p>10000 Virtualmin/Webmin 服务器虚拟主机管理系统 </p>
+<p>11211 memcache未授权访问 </p>
+<p>27017,27018 Mongodb未授权访问 </p>
+<p>28017 mongodb统计页面 </p>
+<p>50000 SAP命令执行 </p>
+<p>50070,50030 hadoop默认端口未授权访问</p>
+<h4 id="木马病毒"><a href="#木马病毒" class="headerlink" title="木马病毒"></a>木马病毒</h4><p>5554：worm.Sasser病毒利用端口<br>7626：冰河病毒<br>8011：WAY2.4病毒<br>7306：Netspy3.0病毒<br>1024：YAI病毒</p>
+<h4 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h4><p>7001,7002：weblogic<br>9080：webshpere应用程序<br>9090：webshpere管理工具<br>8080：tomcat默认端口<br>Jboss通常占用的端口是1098，1099，4444，4445，8080，8009，8083，8093，默认为8080</p>
+<h4 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h4><p>3306：mysql<br>1433：mssqlserver<br>1434：sqlserver monitor<br>1521：oracle:(iSqlPlus Port:5560,7778)<br>5432：PostgreSQL<br>1158：ORACLE EMCTL<br>8080：Oracle XDB<br>2100：Oracle XDB FTP</p>
+<h4 id="特殊服务（漏洞）"><a href="#特殊服务（漏洞）" class="headerlink" title="特殊服务（漏洞）"></a>特殊服务（漏洞）</h4><p>443：SSL心脏滴血</p>
+<p>512,513,514：Rsync未授权访问</p>
+<p>873：Rsync未授权访问</p>
+<p>1025,111 NFS </p>
+<p>2375：docker remote api漏洞</p>
+<p>50000：SAP命令执行</p>
+<p>5984：CouchDB <a href="http://xxx:5984/_utils/" target="_blank" rel="external">http://xxx:5984/_utils/</a></p>
+<p>6379：redis未授权</p>
+<p>7001,7002：WebLogic 默认弱口令，反序列化</p>
+<p>9200,9300：elasticsearch未授权访问</p>
+<p>11211：memcache未授权访问</p>
+<p>27017,27018：Mongodb 未授权访问<br>28017：mongodb统计页面</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/23/TO-HER/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1644,167 +1842,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/洛书中的数字规律/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ZEROYU">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ZEROYU">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/22/洛书中的数字规律/" itemprop="url">
-                  洛书中的数字规律
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T10:57:34+08:00">
-                2017-01-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/01/22/洛书中的数字规律/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/洛书中的数字规律/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/01/22/洛书中的数字规律/" class="leancloud_visitors" data-flag-title="洛书中的数字规律">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://ok44mzy2k.bkt.clouddn.com/luoshu-1.png" alt="1"></p>
-<h2 id="数字规律"><a href="#数字规律" class="headerlink" title="数字规律"></a>数字规律</h2><p><a href="undefined">编辑</a></p>
-<p>那么<a href="http://baike.baidu.com/view/102528.htm" target="_blank" rel="external">河图洛书</a>中真的隐含着宇宙之理吗？其内容又是什么呢？我在这里只能先谈洛书，即<a href="http://baike.baidu.com/view/97444.htm" target="_blank" rel="external">九宫图</a>。把九宫图中的数字排列来进行详解一番，或可看出一定道理来。首先在九宫图中数字之和等于十五，这一点恐怕所有的人都知道，就是横坚斜相加都等于十五。</p>
-<p>4+9+2=15</p>
-<p>3+5+7=15</p>
-<p>8+1+6=15</p>
-<p>4+3+8=15</p>
-<p>9+5+1=15</p>
-<p>2+7+6=15</p>
-<p>4+5+6=15</p>
-<p>2+5+8=15</p>
-<p>除此之外，还有什么数字玄机呢？</p>
-<p>a+b+c=d+e+f</p>
-<p>a^2+b^2+c^2=d^2+e^2+f^2</p>
-<p>我们以左列的438与右列的276为例加以说明。当我们把数递变为两位数相加时，左右两列数字之和依然相等。即43+38+84=27+76+62。从下向上递变依然成立。即83+34+48=67+72+26。</p>
-<p>递变为三位数依然相等，即438+384+843=276+762+627。</p>
-<p>从下向上递数依然成立，即834+348+483=672+726+267。</p>
-<p>再这样递变下去为四位数、五位数、六位数，一百位数、一千位数依然成立。神奇之处还不在这里，更为神奇的是不管是一位，还是两位数三位数的平方相加和依然可以左右相等。比如两位数即43^2+38^2+84^2=27^2+76^2+62^2。</p>
-<p>三位数四位数平方和依然可以成立。也就是说一百位也好一千位也好都可以成立。这个数字的神奇排列真是让我莫名惊诧。</p>
-<p>再有就是把九宫图用行列式的方法计算，可以得到一个周天数360。在这些数字面前，我不敢想象，这样一个数字排竟然有着不可思议的魔力。</p>
-<p>det[4 ，9， 2；3，5，7；8，1，6]=360</p>
-<p>就是这样的一个九宫数的排列解开了美国数学家提出的数学怪题，严格等平方和的问题，当时可是无人能解的数学怪题，就连计算机都无能为力。结果被研究洛书的彭绍定数学教授攻克。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1852,7 +1889,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-count">32</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
