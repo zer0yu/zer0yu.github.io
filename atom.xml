@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zer0yu.github.io/"/>
-  <updated>2017-01-25T03:30:46.000Z</updated>
+  <updated>2017-01-25T03:35:57.000Z</updated>
   <id>http://zer0yu.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://zer0yu.github.io/2017/01/25/%E5%B8%B8%E8%A7%81Web%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2%E6%80%BB%E7%BB%93/"/>
     <id>http://zer0yu.github.io/2017/01/25/常见Web源码泄露总结/</id>
     <published>2017-01-25T02:50:24.000Z</published>
-    <updated>2017-01-25T03:30:46.000Z</updated>
+    <updated>2017-01-25T03:35:57.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>本文主要是记录一下常见的源码泄漏问题，这些经常在web渗透测试以及CTF中出现。</p>
 <h3 id="源码泄漏分类"><a href="#源码泄漏分类" class="headerlink" title="源码泄漏分类"></a>源码泄漏分类</h3><h4 id="hg源码泄漏"><a href="#hg源码泄漏" class="headerlink" title=".hg源码泄漏"></a>.hg源码泄漏</h4><h5 id="漏洞成因："><a href="#漏洞成因：" class="headerlink" title="漏洞成因："></a>漏洞成因：</h5><p>hg init的时候会生成.hg</p>
@@ -74,6 +74,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rip-bzr.pl -v -u http://www.example.com/.bzr/</div></pre></td></tr></table></figure>
 <h3 id="神器"><a href="#神器" class="headerlink" title="神器"></a>神器</h3><p><a href="[http://www.bitkeeper.com/installation.instructions](http://www.bitkeeper.com/installation.instructions">Bitkeeper</a>)</p>
 <p><a href="https://github.com/ring04h/weakfilescan" target="_blank" rel="external">weakfilescan</a></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://zhuanlan.zhihu.com/p/21296806?refer=Anonymous0" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/21296806?refer=Anonymous0</a></p>
+<p><a href="http://www.s2.sshz.org/post/source-code-leak/" target="_blank" rel="external">http://www.s2.sshz.org/post/source-code-leak/</a></p>
 ]]></content>
     
     <summary type="html">
