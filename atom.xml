@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zer0yu.github.io/"/>
-  <updated>2017-10-24T08:18:56.321Z</updated>
+  <updated>2017-10-24T08:20:08.958Z</updated>
   <id>http://zer0yu.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://zer0yu.github.io/2017/10/24/Webug%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/"/>
     <id>http://zer0yu.github.io/2017/10/24/Webug渗透基础教程/</id>
     <published>2017-10-24T08:14:18.000Z</published>
-    <updated>2017-10-24T08:18:56.321Z</updated>
+    <updated>2017-10-24T08:20:08.958Z</updated>
     
     <content type="html"><![CDATA[<p>####普通的GET注入</p>
 <p>解法一：使用sqlmap</p>
