@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zer0yu.github.io/"/>
-  <updated>2017-10-24T08:20:08.958Z</updated>
+  <updated>2017-10-28T12:43:07.044Z</updated>
   <id>http://zer0yu.github.io/</id>
   
   <author>
@@ -14,6 +14,211 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>密码破解系列</title>
+    <link href="http://zer0yu.github.io/2017/10/28/%E5%AF%86%E7%A0%81%E7%A0%B4%E8%A7%A3%E7%B3%BB%E5%88%97/"/>
+    <id>http://zer0yu.github.io/2017/10/28/密码破解系列/</id>
+    <published>2017-10-28T11:44:04.000Z</published>
+    <updated>2017-10-28T12:43:07.044Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>本文总结了有关Windows密码、Linux密码、网络设备密码、数据库密码、无线网络密码、web应用登陆密码的破解以及在线扫描服务的密码破解。</p>
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>####1.windows密码破解</p>
+<p>获取密码（抓取HASH）：pwdump、wce、mimikatz</p>
+<p>破解密码：hashcat、LC5、SAMInside.exe、Ophcrack、mimikatz、hashsuite</p>
+<p>密码抓取：</p>
+<p>环境：windows7</p>
+<p>前提：已经获取root权限</p>
+<p>工具：mimikatz</p>
+<p>操作：</p>
+<p>原理是从lsass.exe进程中直接获取密码信息进行破解，而且该破解应该并非穷举方式，而是直接根据算法进行反向计算。</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/9BDC799D-7107-4E3A-86CB-E65207AB9637.png" alt="9BDC799D-7107-4E3A-86CB-E65207AB9637"></p>
+<p>密码提取：</p>
+<p>原因：为了进行口令破解，必须首先运行一个工具，将Windows口令从SAM文件中提取出来，做这一步工作的原因在于Windows运行过程中SAM被锁定，不能直接复制或编辑这个文件(即使有管理员权限也不行)。</p>
+<p>环境：windows10（提取hash）、Windows7（破解hash）</p>
+<p>工具：Pwdump7，wce（Windows Credentials Editor）</p>
+<p>操作：</p>
+<p>用管理员权限打开Pwdump7，从而获得Windows口令</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-10-28%20%E4%B8%8B%E5%8D%888.09.05.png" alt="img"></p>
+<p>用管理员权限打开wce，从而获得Windows的NTML HASH</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-10-28%20%E4%B8%8B%E5%8D%888.10.25.png" alt="img"></p>
+<p>还可以利用wce直接获取Windows的密码（-w参数是通过摘要式认证缓存一个明文的密码）：</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/BDD60E9E-A4AA-4443-B846-B2217A7A0206.png" alt="img"></p>
+<p>密码破解：</p>
+<p>环境：Windows10（CPU：i5；GPU：gtx860）</p>
+<p>工具：hashcat、hashsuite</p>
+<p>操作：</p>
+<p>1.使用hashcat进行密码的破解</p>
+<p>hashcat参数简介：</p>
+<p>-m 这个是指定破解的hash的类型，具体的类型可以在–help参数中看到。 默认是0也就是MD5，而NTLM则是1000。 </p>
+<p>-a 指定破解的模式，默认是字典模式 </p>
+<p>-o 输出文件，破解成功的密码存放的文件 </p>
+<p>–remove移除破解成功的hash，当hash是从文本中读取时有用，避免自 己手工移除已经破解的hash</p>
+<p>–username 忽略用户名，如果你的hash文件中是username:hash这种格式只 需要指定这个参数，就不需要再手工编辑了 </p>
+<p>-r 指定规则文件，字典根据规则文件做变形，用于破解相似密码当-a指定为3 时，就是暴力破解模式，这个模式下需要自己指定mask和长度。</p>
+<p>Hashcat-plus中以?l表示小写字母，?d表示数字，?u表示大写字母，?s表示所有可打印符号，?a代表所有可打印字符，它等于?l?u?d?s加在一起。 </p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028814.png" alt="img"></p>
+<p>2.使用SAMInside.exe进行密码破解</p>
+<p>环境：Windows10</p>
+<p>1）使用管理员身份运行SAMInside.exe</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028815.png" alt="img"></p>
+<p>2）你可以选择使用Pwdump7获取口令之后将其导入SAMInside.exe进行破解；或者使用SAMInside.exe来直接获取本地口令进行破解（本例使用第二种方式，点击三个小人的图标然后选择import local users via scheduler将本地用户的hash导出来）。</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/62EA4762-1EEB-4C95-B04D-A092175F1118.png" alt="img"></p>
+<p>3）选择用户加载字典来进行爆破，最终可以看到已经破解了口令</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/B20BF1A6-DA9E-43C2-AA15-DC90419A748F.png" alt="img"></p>
+<p>注：由于我之前载入字典破解了本地密码所以在每次导入时均会显示已经破解了密码</p>
+<p>3.使用hashsuite可以直接进行windows的NTML HASH的抓取与破解。但是前提依旧是在管理员权限下进行</p>
+<p>环境：windows10</p>
+<p>1）首先以管理员身份运行hashsuite</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028818.png" alt="img"></p>
+<p>2）导入要破解的口令，在这里我们选择导入本地的口令（选择后软件会自动将口令进行提取）</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028819.png" alt="img"></p>
+<p>3）之后我们选择使用字典破解的方式对账户Assassin001的口令进行破解</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028820.png" alt="img"></p>
+<p>####2.Linux密码破解</p>
+<p>知识概要：</p>
+<p>▶ head -n 2 /etc/passwd</p>
+<p>root;x:0:0:root:/root:/usr/bin/zsh</p>
+<p>daemon:x;1:1:daemon:/usr/sbin:/usr/sbin/nologin</p>
+<p>以”:”分隔，共有七个字段：</p>
+<p>1.账号名称；2.密码（Linux早期密码存放地，现在均存在/etc/shadow中）；3.UID（用户标识符）；4.GID；5.用户信息说明列；6.主文件夹；7.shell</p>
+<p>▶ head -n 2 /etc/shadow</p>
+<p>root:$6$XrLBeXo2$iYJYakUC6eBvRl40PnFKlemX7IjI7QkFu7f3qTZjIr.RBy3dp3YT3QWkDYxmKBmmzQO8FUXXbK72lnaz.GeSB0:17304:0:99999:7:::</p>
+<p>daemon:*:17043:0:99999:7:::</p>
+<p>以”:”分隔，共有九个字段：</p>
+<p>1.账号名称；2.密码；3.最近更新密码的日期；4.密码不可被更动的天数；5.密码需要重新更改的天数；6.密码需要更改期限前的警告天数；7.密码过期后的账号宽限时间；8.账号失效日期；9.保留</p>
+<p>密码抓取：</p>
+<p>环境：kali linux</p>
+<p>前提：已经获取root权限(可以使用dirtycow.c等0day进行Linux的提权操作)</p>
+<p>工具：mimipenguin(Linux下的mimikatz)</p>
+<p>操作：</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-09-30%20%E4%B8%8A%E5%8D%8811.28.10.png" alt="img"></p>
+<p>密码破解：</p>
+<p>环境：kali linux</p>
+<p>前提：已经获取root权限(可以使用dirtycow.c等0day进行Linux的提权操作)</p>
+<p>工具：John the ripper</p>
+<p>操作：</p>
+<p>1.使用unshadow命令创建1个含有用户名和密码详细信息的文件</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-09-30%20%E4%B8%8A%E5%8D%8811.25.01.png" alt="img"></p>
+<p>2.使用John来破解</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-09-30%20%E4%B8%8A%E5%8D%8811.29.10.png" alt="img"></p>
+<p>####3.网络设备密码破解</p>
+<p>环境：windows7</p>
+<p>工具：Cain</p>
+<p>操作：</p>
+<p>破解Cisco中Password 7加密，密文为052C3C5F70420F1A0E</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028822.png" alt="img"></p>
+<p>环境：kali linux</p>
+<p>工具：John the ripper</p>
+<p>操作：</p>
+<p>1.将密文整理成cisco: $1$sqzM$q8vBgOd3KunqZw/D1Nq211，保存在文件中然后使用john进行破解</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028823.png" alt="img"></p>
+<p>####4.数据库密码破解</p>
+<p>环境：windows10 MSSQL数据库</p>
+<p>工具：Cain</p>
+<p>操作：</p>
+<p>1.添加Hash到队列</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028825.png" alt="img"></p>
+<p>2.开始暴力破解</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028826.png" alt="img"></p>
+<p>环境：windows10  MYSQL数据库</p>
+<p>工具：Cain</p>
+<p>操作：</p>
+<p>1.执行SELECT password,USER() FROM mysql.user;来获取密文</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028827.png" alt="img"></p>
+<p>2.将MYSQL的密文导入Cain</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028828.png" alt="img"></p>
+<p>3.使用字典攻击模式进行攻击</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028829.png" alt="img"></p>
+<p>环境：windows10 Oracle数据库</p>
+<p>工具：Cain</p>
+<p>操作：</p>
+<p>1.导入Oracle数据库账号密码</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028830.png" alt="img"></p>
+<p>2.进行暴力破解</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028831.png" alt="img"></p>
+<p>####5.无线密码破解</p>
+<p>环境：kali linux 、WPA/WPA2 PSK加密  无线路由器  TP-LINK_4D16、Windows10（hashcat进行GPU运算）</p>
+<p>工具：外置USB无线网卡  </p>
+<p>操作：</p>
+<ol>
+<li>把网卡切换为监听模式</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo airmon-ng start wlan0</div></pre></td></tr></table></figure>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028835.png" alt="img"></p>
+<p>2.监听网络流量信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo airodump-ng -w file wlan0mon</div></pre></td></tr></table></figure>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028836.png" alt="img"></p>
+<ol>
+<li>使用mdk3， 强制断线路由的所有链接， 此次操作是为了能让aircrack抓到wifi的握手信息 ， -c为需要强制断线的信道：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mdk3 wlan0mon d -c 11</div></pre></td></tr></table></figure>
+<p>过了几分钟， 可以看到， 用户重新连接上了901路由， 我们也捕获到了handshake信息， 上面airodump-ng的命令窗口顶部出现了以下信息 WPA handshake  ，此时直接ctrl＋c ，停止捕获信息</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028837.png" alt="img"></p>
+<p>在kali的Home目录下生成了了几个文件 ，此时的file-01.cap为最重要的文件：</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028838.png" alt="img"></p>
+<p>4.把文件转换为hccapx格式， 我们打开这个网站：<a href="https://hashcat.net/cap2hccapx/" target="_blank" rel="external">https://hashcat.net/cap2hccapx/</a> ， 然后选择cap文件并点击covert按钮， 并下载一个hccapx格式的文件</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028839.png" alt="img"></p>
+<p>5.网页会返回一个hccapx的文件， 使用hashcat命令破解， 参数dict.txt为生成的字典文件 ， -m参数2500代表破解的方式为WPA/WPA2， 999.hccapx为生成的文件， 最后破解出来的密码为whitehat：</p>
+<p>PS E:\MYSEC\hashcat-3.6.0&gt; .\hashcat64.exe -m 2500 999.hccapx dict.txt</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028840.png" alt="img"></p>
+<p>####6.web应用破解</p>
+<p>环境：Windows10（phpstudy搭建漏洞靶场DVWA的爆破模块）</p>
+<p>工具：burpsuite</p>
+<p>操作：</p>
+<p>1.使用burpsuite抓取登录时候的数据包</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-10-09%20%E4%B8%8B%E5%8D%885.39.49.png" alt="img"></p>
+<p>2.将数据包发送至Intruder模块并对攻击点进行标注</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-10-09%20%E4%B8%8B%E5%8D%885.40.02.png" alt="img"></p>
+<p>3.载入攻击字典并进行暴力破解</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-10-09%20%E4%B8%8B%E5%8D%885.40.13.png" alt="img"></p>
+<p>4.暴力破解后效果</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-10-09%20%E4%B8%8B%E5%8D%885.41.42.png" alt="img"></p>
+<p>5.验证破解密码是否正确（一般观察Length和Status来判断正确的密码）</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-10-09%20%E4%B8%8B%E5%8D%885.42.07.png" alt="img"></p>
+<p>6.如果密码不正确的页面截图</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-10-09%20%E4%B8%8B%E5%8D%885.42.20.png" alt="img"></p>
+<p>环境：Windows7</p>
+<p>工具：AWVS 10.5版本</p>
+<p>操作：</p>
+<p>1.设置浏览器代理访问登录界面使用burpsuite抓取登录请求包</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028850.png" alt="img"></p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028851.png" alt="img"></p>
+<p>2.在AWVS扫描器中的HTTP Fuzzer模块填入刚抓的登录过程的HTTP数据包</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028852.png" alt="img"></p>
+<p>3.在Generator中可以看到很多方式,可以使用AWVS自带的生成器,也可以选择File Generator来使用自己生成的字典.还可以设定是否编码.最后在需要穷举的地方指定变量,对应的是你Generator的name属性.图中的蓝色字体部分.</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028853.png" alt="img"></p>
+<p>4.点击start，观察响应体可以看出爆破成功密码为password</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028854.png" alt="img"></p>
+<p>####7.在线扫描破解hydra</p>
+<p>环境：Windows10（FileZilla Server搭建的ftp服务器）、kali linux（预装了hydra）</p>
+<p>测试用户：test：123456</p>
+<p>操作：</p>
+<p>1）启动ftp服务，启动成功后可以使用我添加的测试账户登录ftp读取我电脑E盘的文件</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028855.png" alt="img"></p>
+<p>2）使用hydra来进行爆破</p>
+<p>命令为：</p>
+<p>hydra -L ./user.txt -P ./pass.txt -t 20 -vV -e ns 192.168.169.1 ftp</p>
+<p>-l LOGIN 小写，用于指定破解的用户，对特定用户破解</p>
+<p>-L FILE 大写，用于指定用户的用户名字典</p>
+<p>-p PASS 小写，用于指定密码破解，少用，一般是采用密码字典</p>
+<p>-P FILE 大写，用于指定密码字典</p>
+<p>-vV为显示详细的爆破过程</p>
+<p>-e ns 额外的选项，n：空密码试探，s：使用指定账户和密码试探</p>
+<p>最后加上目标ip以及需要进行爆破的协议即可</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028856.png" alt="img"></p>
+<p>3）显示成功后进行登录验证，发现可以成功登录</p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/1028857.png" alt="img"></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;本文总结了有关Windows密码、Linux密码、网络设备密码、数据库密码、无线网络密码、web应用登陆密码的破解以及在线扫描服务的密码破解
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Webug渗透基础教程</title>
