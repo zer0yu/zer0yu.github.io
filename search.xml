@@ -4,7 +4,7 @@
     
     <entry>
       <title><![CDATA[EIS 2017 DNS101题解]]></title>
-      <url>%2F2017%2F11%2F02%2FEIS-2017-DNS101%E9%A2%98%E8%A7%A3%2F</url>
+      <url>%2F2017%2F11%2F02%2FEIS-2017-MISC%E9%A2%98%E8%A7%A3%2F</url>
       <content type="text"><![CDATA[前言今天跟大佬们在做EIS 2017运维挑战赛，我看的时候大佬们已经把web做的差不多了。所以我就来解决两道MISC。 RC4第一个是rc4的一个解密，挺简单的，手撸一个解密代码。 12345678910111213141516171819# -*- coding: utf-8 -*-#密文：下面十六进制的一串；密钥：hello worlddef rc4(data,key): j=0 s=range(256) for i in range(256): j=(j+s[i]+ord(key[i%len(key)]))%256 s[i],s[j]=s[j],s[i] i=0 j=0 out=[] for char in data: i=(i+1)%256 j=(j+s[i])%256 s[i],s[j]=s[j],s[i] out.append(chr(ord(char)^s[(s[i]+s[j])%256])) return ''.join(out)encodedata=rc4('\xCA\xEE\x86\x30\x48\xC4\xEC\x56\x3D\x22\x2A\xBC\x9A\x95\x70\x23\x39\x76\x3B\xEE\x09\x29\x2B\x01\x54\x00\x87\x5E\x37\x23\x3E\x79\x8B\x7B\xA9\x20\x78','hello world')print encodedata DNS 101这个题我是懵逼了一上午，dig了一早上TXT没想到玄机在与NSEC(DNSSEC 的一部分 — 用来验证一个未存在的服务器，使用与 NXT（已过时）记录的格式)。还有一点就是dig any的用法，这个当时也是没有考虑到。（多谢rebirth的指点） 12345678910111213141516171819202122# -*- coding: utf-8 -*-import reimport subprocesstarget = 'what.is.my.flag.src.edu-info.edu.cn'while 1: output = subprocess.Popen(['dig any'+' '+target],stdout=subprocess.PIPE,shell=True).communicate() #print output[0] result = re.findall(".*NSEC(.*). TXT.*",output[0]) print result[0].strip() target = result[0].strip() flag = subprocess.Popen(['dig'+' '+target+' '+'TXT'],stdout=subprocess.PIPE,shell=True).communicate() #EIS&#123;&#125;是flag的格式 if 'EIS' in flag[0]: print flag[0] break 最终结果：]]></content>
     </entry>
 
