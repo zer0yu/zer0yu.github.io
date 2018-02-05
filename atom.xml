@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>ZEROYU</title>
+  <title>Z3R0YU</title>
   
   
   <link href="/atom.xml" rel="self"/>
@@ -10,7 +10,7 @@
   <id>http://zer0yu.github.io/</id>
   
   <author>
-    <name>ZEROYU</name>
+    <name>z3r0yu</name>
     
   </author>
   

