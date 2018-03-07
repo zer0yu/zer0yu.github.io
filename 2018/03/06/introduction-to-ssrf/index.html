@@ -1,7 +1,9 @@
-<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 了解SSRF,这一篇就足够了 · Z3R0YU</title><meta name="description" content="了解SSRF,这一篇就足够了 - z3r0yu"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://zer0yu.github.io/atom.xml" title="Z3R0YU"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/Z3r0yu" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zer0yu" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">了解SSRF,这一篇就足够了</h1><div class="post-info">Mar 6, 2018</div><div class="post-content"><h3 id="0x00-定义与成因"><a href="#0x00-定义与成因" class="headerlink" title="0x00 定义与成因"></a>0x00 定义与成因</h3><p>SSRF(Server-Side Request Forgery:服务器端请求伪造) 是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。一般情况下，SSRF攻击的目标是从外网无法访问的内部系统。（正是因为它是由服务端发起的，所以它能够请求到与它相连而与外网隔离的内部系统）</p>
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 了解SSRF,这一篇就足够了 · Z3R0YU</title><meta name="description" content="了解SSRF,这一篇就足够了 - z3r0yu"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://zer0yu.github.io/atom.xml" title="Z3R0YU"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/Z3r0yu" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zer0yu" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">了解SSRF,这一篇就足够了</h1><div class="post-info">Mar 6, 2018</div><div class="post-content"><p>###0x00 定义与成因</p>
+<p>SSRF(Server-Side Request Forgery:服务器端请求伪造) 是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。一般情况下，SSRF攻击的目标是从外网无法访问的内部系统。（正是因为它是由服务端发起的，所以它能够请求到与它相连而与外网隔离的内部系统）</p>
 <p>SSRF 形成的原因大都是由于服务端提供了从其他服务器应用获取数据的功能且没有对目标地址做过滤与限制。比如从指定URL地址获取网页文本内容，加载指定地址的图片，下载等等。</p>
 <p>注释：除了http/https等方式可以造成ssrf，类似tcp connect 方式也可以探测内网一些ip 的端口是否开发服务，只不过危害比较小而已。</p>
-<h3 id="0x01-可能出现的地方"><a href="#0x01-可能出现的地方" class="headerlink" title="0x01 可能出现的地方"></a>0x01 可能出现的地方</h3><p>1.社交分享功能：获取超链接的标题等内容进行显示</p>
+<p>###0x01 可能出现的地方</p>
+<p>1.社交分享功能：获取超链接的标题等内容进行显示</p>
 <p>2.转码服务：通过URL地址把原地址的网页内容调优使其适合手机屏幕浏览</p>
 <p>3.在线翻译：给网址翻译对应网页的内容</p>
 <p>4.图片加载/下载：例如富文本编辑器中的点击下载图片到本地；通过URL地址加载或下载图片</p>
@@ -14,7 +16,8 @@
 <p>11.未公开的api实现以及其他扩展调用URL的功能：可以利用google 语法加上这些关键字去寻找SSRF漏洞</p>
 <p>一些的url中的关键字：share、wap、url、link、src、source、target、u、3g、display、sourceURl、imageURL、domain……</p>
 <p>12.从远程服务器请求资源（upload from url 如discuz！；import &amp; expost rss feed 如web blog；使用了xml引擎对象的地方 如wordpress xmlrpc.php）</p>
-<h3 id="0x03-漏洞验证"><a href="#0x03-漏洞验证" class="headerlink" title="0x03 漏洞验证"></a>0x03 漏洞验证</h3><p>1.排除法：浏览器f12查看源代码看是否是在本地进行了请求</p>
+<p>###0x02 漏洞验证</p>
+<p>1.排除法：浏览器f12查看源代码看是否是在本地进行了请求</p>
 <p>比如：该资源地址类型为 <a href="http://www.xxx.com/a.php?image=（地址）的就可能存在SSRF漏洞" target="_blank" rel="external">http://www.xxx.com/a.php?image=（地址）的就可能存在SSRF漏洞</a></p>
 <p>2.dnslog等工具进行测试，看是否被访问</p>
 <p>–可以在盲打后台用例中将当前准备请求的uri 和参数编码成base64，这样盲打后台解码后就知道是哪台机器哪个cgi触发的请求。</p>
@@ -23,14 +26,16 @@
 <p>–通过二级域名暴力猜解工具模糊猜测内网地址</p>
 <p>4.直接返回的Banner、title、content等信息</p>
 <p>5.留意bool型SSRF</p>
-<h3 id="0x04-利用方式"><a href="#0x04-利用方式" class="headerlink" title="0x04 利用方式"></a>0x04 利用方式</h3><p>1.让服务端去访问相应的网址</p>
+<p>###0x03 利用方式</p>
+<p>1.让服务端去访问相应的网址</p>
 <p>2.让服务端去访问自己所处内网的一些指纹文件来判断是否存在相应的cms</p>
 <p>3.可以使用file、dict、gopher[11]、ftp协议进行请求访问相应的文件</p>
 <p>4.攻击内网web应用（可以向内部任意主机的任意端口发送精心构造的数据包{payload}）</p>
 <p>5.攻击内网应用程序（利用跨协议通信技术）</p>
 <p>6.判断内网主机是否存活：方法是访问看是否有端口开放</p>
 <p>7.DoS攻击（请求大文件，始终保持连接keep-alive always）</p>
-<h3 id="0x05-绕过小技巧"><a href="#0x05-绕过小技巧" class="headerlink" title="0x05 绕过小技巧"></a>0x05 绕过小技巧</h3><p>注：参考[8]会有更详细的绕过方式总结</p>
+<p>###0x04 绕过小技巧</p>
+<p>注：参考[8]会有更详细的绕过方式总结</p>
 <p>1.<a href="http://baidu.com@www.baidu.com/与http://www.baidu.com/请求时是相同的" target="_blank" rel="external">http://baidu.com@www.baidu.com/与http://www.baidu.com/请求时是相同的</a></p>
 <p>2.各种IP地址的进制转换</p>
 <p>3.URL跳转绕过：<a href="http://www.hackersb.cn/redirect.php?url=http://192.168.0.1/" target="_blank" rel="external">http://www.hackersb.cn/redirect.php?url=http://192.168.0.1/</a></p>
@@ -40,22 +45,26 @@
 <p>6.限制了子网段，可以加 :80 端口绕过。<a href="http://tieba.baidu.com/f/commit/share/openShareApi?url=http://10.42.7.78:80" target="_blank" rel="external">http://tieba.baidu.com/f/commit/share/openShareApi?url=http://10.42.7.78:80</a></p>
 <p>7.探测内网域名，或者将自己的域名解析到内网ip</p>
 <p>8.例如 <a href="http://10.153.138.81/ts.php" target="_blank" rel="external">http://10.153.138.81/ts.php</a> , 修复时容易出现的获取host时以/分割来确定host，</p>
-<p>但这样可以用 <a href="http://abc" target="_blank" rel="external">http://abc</a>@10.153.138.81/ 绕过</p>
-<h3 id="0x06-漏洞示例"><a href="#0x06-漏洞示例" class="headerlink" title="0x06 漏洞示例"></a>0x06 漏洞示例</h3><p>1.Wordpress3.5.1以下版本 xmlrpc.php pingback的缺陷与ssrf</p>
+<p>但这样可以用 <a href="http://abc@10.153.138.81/" target="_blank" rel="external">http://abc@10.153.138.81/</a> 绕过</p>
+<p>###0x05 漏洞示例</p>
+<p>1.Wordpress3.5.1以下版本 xmlrpc.php pingback的缺陷与ssrf</p>
 <p>2.discuz！的ssrf （利用php的header函数来绕过，其实就是302跳转实现协议转换）</p>
 <p>3.weblogic的ssrf</p>
-<h3 id="0x07-漏洞修复"><a href="#0x07-漏洞修复" class="headerlink" title="0x07 漏洞修复"></a>0x07 漏洞修复</h3><p>1.禁止跳转</p>
+<p>###0x06 漏洞修复</p>
+<p>1.禁止跳转</p>
 <p>2.过滤返回信息，验证远程服务器对请求的响应是比较容易的方法。如果web应用是去获取某一种类型的文件。那么在把返回结果展示给用户之前先验证返回的信息是否符合标准。</p>
-<p>3.禁用不需要的协议，仅仅允许http和https请求。可以防止类似于file:///, gopher://, ftp:// 等引起的问题</p>
+<p>3.禁用不需要的协议，仅仅允许http和https请求。可以防止类似于file://, gopher://, ftp:// 等引起的问题</p>
 <p>4.设置URL白名单或者限制内网IP（使用gethostbyname()判断是否为内网IP）</p>
 <p>5.限制请求的端口为http常用的端口，比如 80、443、8080、8090</p>
 <p>6.统一错误信息，避免用户可以根据错误信息来判断远端服务器的端口状态。</p>
-<h3 id="0x08-漏洞利用中牵涉的小技巧"><a href="#0x08-漏洞利用中牵涉的小技巧" class="headerlink" title="0x08 漏洞利用中牵涉的小技巧"></a>0x08 漏洞利用中牵涉的小技巧</h3><p>crontab -l 显示当前计划任务</p>
+<p>###0x07 漏洞利用中牵涉的小技巧</p>
+<p>crontab -l 显示当前计划任务</p>
 <p>crontab -r 清除当前计划任务</p>
 <p>端口转发工具 socat</p>
 <p>在Apache配置文件中写入下面的内容，就可以将jpg文件当做PHP文件来执行</p>
-<p>AddType application/x-httpd-php .jpg</p>
-<h3 id="0x09-相关材料"><a href="#0x09-相关材料" class="headerlink" title="0x09 相关材料"></a>0x09 相关材料</h3><p>[1]<a href="http://blog.safebuff.com/2016/07/03/SSRF-Tips/" target="_blank" rel="external">http://blog.safebuff.com/2016/07/03/SSRF-Tips/</a></p>
+<p>AddType application/x-httpd-php .jpg<br>……</p>
+<p>###0x08 相关材料</p>
+<p>[1]<a href="http://blog.safebuff.com/2016/07/03/SSRF-Tips/" target="_blank" rel="external">http://blog.safebuff.com/2016/07/03/SSRF-Tips/</a></p>
 <p>[2]<a href="https://paper.seebug.org/393/" target="_blank" rel="external">https://paper.seebug.org/393/</a></p>
 <p>[3]<a href="https://www.hackerone.com/blog-How-To-Server-Side-Request-Forgery-SSRF" target="_blank" rel="external">https://www.hackerone.com/blog-How-To-Server-Side-Request-Forgery-SSRF</a></p>
 <p>[4]<a href="http://blog.blindspotsecurity.com/2017/02/advisory-javapython-ftp-injections.html" target="_blank" rel="external">http://blog.blindspotsecurity.com/2017/02/advisory-javapython-ftp-injections.html</a></p>
@@ -70,4 +79,6 @@
 <p>[13]<a href="http://bobao.360.cn/learning/detail/240.html" target="_blank" rel="external">http://bobao.360.cn/learning/detail/240.html</a></p>
 <p>[14]<a href="https://github.com/JnuSimba/MiscSecNotes/tree/master/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0" target="_blank" rel="external">https://github.com/JnuSimba/MiscSecNotes/tree/master/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0</a></p>
 <p>[15]<a href="https://github.com/ring04h/papers/blob/master/build_your_ssrf_exp_autowork--20160711.pdf" target="_blank" rel="external">https://github.com/ring04h/papers/blob/master/build_your_ssrf_exp_autowork--20160711.pdf</a></p>
-</div></article></div></main><footer><div class="paginator"><a href="/2017/12/02/Docker笔记—基础篇/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://zer0yu.github.io">z3r0yu</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
+<p>###0x09 后记</p>
+<p>这篇是我整理了之前的一篇笔记，这篇笔记中没有给出案例。后面有空了也会把自己的一些案例笔记整理下。</p>
+</div></article></div></main><footer><div class="paginator"><a href="/2017/12/02/Docker笔记—基础篇/" class="next">下一篇</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://zer0yu.github.io">z3r0yu</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
