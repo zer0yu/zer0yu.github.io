@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://zer0yu.github.io/2018/03/06/introduction-to-ssrf/</loc>
+    <loc>http://zer0yu.github.io/2017/01/21/kali-linux-2016-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97-%E4%BA%8C/</loc>
     
-    <lastmod>2018-03-07T09:59:45.663Z</lastmod>
+    <lastmod>2018-04-05T05:53:29.759Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://zer0yu.github.io/2018/03/10/php-ssrf-techniques-about-bypass/</loc>
+    
+    <lastmod>2018-03-14T12:02:37.016Z</lastmod>
     
   </url>
   
@@ -114,13 +121,6 @@
   </url>
   
   <url>
-    <loc>http://zer0yu.github.io/2017/01/22/%E5%8C%97%E4%BA%AC%E4%B9%8B%E8%A1%8C%E7%9A%84%E6%84%9F%E6%82%9F/</loc>
-    
-    <lastmod>2017-01-22T03:05:03.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://zer0yu.github.io/2017/01/22/Hacking-JasperReports-%E9%9A%90%E8%97%8Fshell%E7%9A%84%E7%89%B9%E5%BE%81/</loc>
     
     <lastmod>2017-01-22T03:04:18.000Z</lastmod>
@@ -222,13 +222,6 @@
     <loc>http://zer0yu.github.io/2017/01/21/commix%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B/</loc>
     
     <lastmod>2017-01-21T14:57:55.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://zer0yu.github.io/2017/01/21/kali-linux-2016-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97-%E4%BA%8C/</loc>
-    
-    <lastmod>2017-01-21T14:47:08.000Z</lastmod>
     
   </url>
   
