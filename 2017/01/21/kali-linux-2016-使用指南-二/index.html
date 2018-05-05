@@ -1,4 +1,154 @@
-<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> kali linux 2016 使用指南(二) · Z3R0YU</title><meta name="description" content="kali linux 2016 使用指南(二) - z3r0yu"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://zer0yu.github.io/atom.xml" title="Z3R0YU"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/Z3r0yu" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zer0yu" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">kali linux 2016 使用指南(二)</h1><div class="post-info">Jan 21, 2017</div><div class="post-content"><h4 id="虚拟机安装增强"><a href="#虚拟机安装增强" class="headerlink" title="虚拟机安装增强"></a>虚拟机安装增强</h4><h5 id="1-Kali-官方安装"><a href="#1-Kali-官方安装" class="headerlink" title="1.Kali 官方安装"></a>1.Kali 官方安装</h5><p>更新 /etc/apt/sources.list</p>
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="虚拟机安装增强1.Kali 官方安装更新 /etc/apt/sources.list
+你所添加的源，请确保是我在一中写的所有
+然后在线安装增强功能
+12345apt-get updateapt-get install -y virtualbox-guest-x11reboot
+2.VirtualBox自带包安装123456789apt-get update &amp;amp;&amp;amp; apt-get i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kali linux 2016 使用指南(二)">
+<meta property="og:url" content="http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/index.html">
+<meta property="og:site_name" content="Z3R0YU">
+<meta property="og:description" content="虚拟机安装增强1.Kali 官方安装更新 /etc/apt/sources.list
+你所添加的源，请确保是我在一中写的所有
+然后在线安装增强功能
+12345apt-get updateapt-get install -y virtualbox-guest-x11reboot
+2.VirtualBox自带包安装123456789apt-get update &amp;amp;&amp;amp; apt-get i">
+<meta property="og:updated_time" content="2018-04-05T05:53:29.759Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="kali linux 2016 使用指南(二)">
+<meta name="twitter:description" content="虚拟机安装增强1.Kali 官方安装更新 /etc/apt/sources.list
+你所添加的源，请确保是我在一中写的所有
+然后在线安装增强功能
+12345apt-get updateapt-get install -y virtualbox-guest-x11reboot
+2.VirtualBox自带包安装123456789apt-get update &amp;amp;&amp;amp; apt-get i">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>kali linux 2016 使用指南(二)</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml" />
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/01/21/基于CSI的移动目标侦测研究学习/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/01/21/kali-linux-2016-使用指南-一/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/&text=kali linux 2016 使用指南(二)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/&title=kali linux 2016 使用指南(二)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/&is_video=false&description=kali linux 2016 使用指南(二)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=kali linux 2016 使用指南(二)&body=Check out this article: http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/&title=kali linux 2016 使用指南(二)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/&title=kali linux 2016 使用指南(二)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/&title=kali linux 2016 使用指南(二)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/&title=kali linux 2016 使用指南(二)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/&name=kali linux 2016 使用指南(二)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#虚拟机安装增强"><span class="toc-number">1.</span> <span class="toc-text">虚拟机安装增强</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-Kali-官方安装"><span class="toc-number">1.1.</span> <span class="toc-text">1.Kali 官方安装</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-VirtualBox自带包安装"><span class="toc-number">1.2.</span> <span class="toc-text">2.VirtualBox自带包安装</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#内核头有问题自己手动安装过程"><span class="toc-number">2.</span> <span class="toc-text">内核头有问题自己手动安装过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#开启SSH服务"><span class="toc-number">3.</span> <span class="toc-text">开启SSH服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysql重置密码"><span class="toc-number">4.</span> <span class="toc-text">mysql重置密码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#metasploit-Database-not-connect问题解决"><span class="toc-number">5.</span> <span class="toc-text">metasploit Database not connect问题解决</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#kali-linux-apt-get-证书校验错误"><span class="toc-number">6.</span> <span class="toc-text">kali linux apt-get 证书校验错误</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        kali linux 2016 使用指南(二)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Z3R0YU</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-01-21T14:11:00.000Z" itemprop="datePublished">2017-01-21</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h4 id="虚拟机安装增强"><a href="#虚拟机安装增强" class="headerlink" title="虚拟机安装增强"></a>虚拟机安装增强</h4><h5 id="1-Kali-官方安装"><a href="#1-Kali-官方安装" class="headerlink" title="1.Kali 官方安装"></a>1.Kali 官方安装</h5><p>更新 /etc/apt/sources.list</p>
 <p>你所添加的源，请确保是我在一中写的所有</p>
 <p>然后在线安装增强功能</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">apt-get update</div><div class="line"></div><div class="line">apt-get install -y virtualbox-guest-x11</div><div class="line"></div><div class="line">reboot</div></pre></td></tr></table></figure>
@@ -61,4 +211,99 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">root@teamserver:~# apt-get update</div><div class="line">Get:1 http://mirror.neostrada.nl/kali kali-rolling InRelease [30.5 kB]</div><div class="line">Err:1 http://mirror.neostrada.nl/kali kali-rolling InRelease</div><div class="line">  The following signatures were invalid: EXPKEYSIG ED444FF07D8D0BF6 Kali Linux Repository &lt;devel@kali.org&gt;</div><div class="line">Fetched 30.5 kB in 1s (25.5 kB/s)</div><div class="line">Reading package lists... Done</div><div class="line">W: An error occurred during the signature verification. The repository is not updated and the previous index files will be used. GPG error: http://mirror.neostrada.nl/kali kali-rolling InRelease: The following signatures were invalid: EXPKEYSIG ED444FF07D8D0BF6 Kali Linux Repository &lt;devel@kali.org&gt;</div><div class="line">W: Failed to fetch http://http.kali.org/kali/dists/kali-rolling/InRelease  The following signatures were invalid: EXPKEYSIG ED444FF07D8D0BF6 Kali Linux Repository &lt;devel@kali.org&gt;</div><div class="line">W: Some index files failed to download. They have been ignored, or old ones used instead.</div></pre></td></tr></table></figure>
 <p>Kali 证书链过期 重新下载新的证书链</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget -q -O - archive.kali.org/archive-key.asc | apt-key add</div></pre></td></tr></table></figure>
-</div></article></div></main><footer><div class="paginator"><a href="/2017/01/21/基于CSI的移动目标侦测研究学习/" class="prev">PREV</a><a href="/2017/01/21/kali-linux-2016-使用指南-一/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://zer0yu.github.io">z3r0yu</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#虚拟机安装增强"><span class="toc-number">1.</span> <span class="toc-text">虚拟机安装增强</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-Kali-官方安装"><span class="toc-number">1.1.</span> <span class="toc-text">1.Kali 官方安装</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-VirtualBox自带包安装"><span class="toc-number">1.2.</span> <span class="toc-text">2.VirtualBox自带包安装</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#内核头有问题自己手动安装过程"><span class="toc-number">2.</span> <span class="toc-text">内核头有问题自己手动安装过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#开启SSH服务"><span class="toc-number">3.</span> <span class="toc-text">开启SSH服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysql重置密码"><span class="toc-number">4.</span> <span class="toc-text">mysql重置密码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#metasploit-Database-not-connect问题解决"><span class="toc-number">5.</span> <span class="toc-text">metasploit Database not connect问题解决</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#kali-linux-apt-get-证书校验错误"><span class="toc-number">6.</span> <span class="toc-text">kali linux apt-get 证书校验错误</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/&text=kali linux 2016 使用指南(二)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/&title=kali linux 2016 使用指南(二)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/&is_video=false&description=kali linux 2016 使用指南(二)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=kali linux 2016 使用指南(二)&body=Check out this article: http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/&title=kali linux 2016 使用指南(二)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/&title=kali linux 2016 使用指南(二)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/&title=kali linux 2016 使用指南(二)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/&title=kali linux 2016 使用指南(二)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2017/01/21/kali-linux-2016-使用指南-二/&name=kali linux 2016 使用指南(二)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 z3r0yu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+

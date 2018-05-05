@@ -2,6 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     
+    
+    
   <url>
     <loc>http://zer0yu.github.io/2018/03/06/introduction-to-ssrf/</loc>
     <lastmod>2018-04-23T11:30:30.284Z</lastmod>
@@ -24,21 +26,6 @@
         <display>
         <title>kali linux 2016 使用指南(二)</title>
         <pubTime>2017-01-21T14:11:00.000Z</pubTime>
-        
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://zer0yu.github.io/2018/03/10/php-ssrf-techniques-about-bypass/</loc>
-    <lastmod>2018-03-14T12:02:37.016Z</lastmod>
-    <data>
-        <display>
-        <title>SSRF之如何bypass filter_var(),preg_match()and parse_url()</title>
-        <pubTime>2018-03-10T08:52:59.000Z</pubTime>
         
          
            

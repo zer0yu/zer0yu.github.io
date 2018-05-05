@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zer0yu.github.io/About/index.html</loc>
+    
+    <lastmod>2018-05-05T14:32:58.375Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://zer0yu.github.io/Search/index.html</loc>
+    
+    <lastmod>2018-05-05T14:30:47.082Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://zer0yu.github.io/2018/03/06/introduction-to-ssrf/</loc>
     
     <lastmod>2018-04-23T11:30:30.284Z</lastmod>
@@ -12,13 +26,6 @@
     <loc>http://zer0yu.github.io/2017/01/21/kali-linux-2016-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97-%E4%BA%8C/</loc>
     
     <lastmod>2018-04-05T05:53:29.759Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://zer0yu.github.io/2018/03/10/php-ssrf-techniques-about-bypass/</loc>
-    
-    <lastmod>2018-03-14T12:02:37.016Z</lastmod>
     
   </url>
   

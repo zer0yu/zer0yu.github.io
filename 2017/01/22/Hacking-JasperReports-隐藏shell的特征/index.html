@@ -1,4 +1,156 @@
-<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Hacking JasperReports-隐藏shell的特征 · Z3R0YU</title><meta name="description" content="Hacking JasperReports-隐藏shell的特征 - z3r0yu"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://zer0yu.github.io/atom.xml" title="Z3R0YU"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/Z3r0yu" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zer0yu" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Hacking JasperReports-隐藏shell的特征</h1><div class="post-info">Jan 22, 2017</div><div class="post-content"><p>不久前，我的同事跟我在对一个客户端进行渗透测试。我们确实发现的一件事是,他们留下了几个联网的JasperReports服务器。寻找默认管理帐户的用户名并没有花费太多的精力。<br><img src="https://foxglovesecurity.files.wordpress.com/2016/10/login.png?w=960" alt="login"></p>
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="不久前，我的同事跟我在对一个客户端进行渗透测试。我们确实发现的一件事是,他们留下了几个联网的JasperReports服务器。寻找默认管理帐户的用户名并没有花费太多的精力。
+也没有用多久我们就猜解出密码是“jasperadmin”
+我从前听过JasperReports但从来没有碰到过要对它进行渗透测试。一个快速的google搜索也没有对前期工作产生多大的作用。尽管这个管理界面很不常见但是它也没有摆">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hacking JasperReports-隐藏shell的特征">
+<meta property="og:url" content="http://zer0yu.github.io/2017/01/22/Hacking-JasperReports-隐藏shell的特征/index.html">
+<meta property="og:site_name" content="Z3R0YU">
+<meta property="og:description" content="不久前，我的同事跟我在对一个客户端进行渗透测试。我们确实发现的一件事是,他们留下了几个联网的JasperReports服务器。寻找默认管理帐户的用户名并没有花费太多的精力。
+也没有用多久我们就猜解出密码是“jasperadmin”
+我从前听过JasperReports但从来没有碰到过要对它进行渗透测试。一个快速的google搜索也没有对前期工作产生多大的作用。尽管这个管理界面很不常见但是它也没有摆">
+<meta property="og:image" content="https://foxglovesecurity.files.wordpress.com/2016/10/login.png?w=960">
+<meta property="og:image" content="https://foxglovesecurity.files.wordpress.com/2016/10/authd.png?w=960">
+<meta property="og:image" content="https://foxglovesecurity.files.wordpress.com/2016/10/resource.png?w=960">
+<meta property="og:image" content="https://foxglovesecurity.files.wordpress.com/2016/10/resources2.png?w=960">
+<meta property="og:image" content="https://foxglovesecurity.files.wordpress.com/2016/10/resourcesadded.png?w=960">
+<meta property="og:image" content="https://foxglovesecurity.files.wordpress.com/2016/10/listener.png?w=960">
+<meta property="og:image" content="https://foxglovesecurity.files.wordpress.com/2016/10/shell1.png?w=960">
+<meta property="og:updated_time" content="2017-01-22T03:04:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hacking JasperReports-隐藏shell的特征">
+<meta name="twitter:description" content="不久前，我的同事跟我在对一个客户端进行渗透测试。我们确实发现的一件事是,他们留下了几个联网的JasperReports服务器。寻找默认管理帐户的用户名并没有花费太多的精力。
+也没有用多久我们就猜解出密码是“jasperadmin”
+我从前听过JasperReports但从来没有碰到过要对它进行渗透测试。一个快速的google搜索也没有对前期工作产生多大的作用。尽管这个管理界面很不常见但是它也没有摆">
+<meta name="twitter:image" content="https://foxglovesecurity.files.wordpress.com/2016/10/login.png?w=960">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Hacking JasperReports-隐藏shell的特征</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml" />
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/01/22/win10只有edge可以打开网页/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/01/22/洛书中的数字规律/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2017/01/22/Hacking-JasperReports-隐藏shell的特征/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2017/01/22/Hacking-JasperReports-隐藏shell的特征/&text=Hacking JasperReports-隐藏shell的特征"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2017/01/22/Hacking-JasperReports-隐藏shell的特征/&title=Hacking JasperReports-隐藏shell的特征"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2017/01/22/Hacking-JasperReports-隐藏shell的特征/&is_video=false&description=Hacking JasperReports-隐藏shell的特征"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Hacking JasperReports-隐藏shell的特征&body=Check out this article: http://zer0yu.github.io/2017/01/22/Hacking-JasperReports-隐藏shell的特征/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2017/01/22/Hacking-JasperReports-隐藏shell的特征/&title=Hacking JasperReports-隐藏shell的特征"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2017/01/22/Hacking-JasperReports-隐藏shell的特征/&title=Hacking JasperReports-隐藏shell的特征"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2017/01/22/Hacking-JasperReports-隐藏shell的特征/&title=Hacking JasperReports-隐藏shell的特征"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2017/01/22/Hacking-JasperReports-隐藏shell的特征/&title=Hacking JasperReports-隐藏shell的特征"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2017/01/22/Hacking-JasperReports-隐藏shell的特征/&name=Hacking JasperReports-隐藏shell的特征&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#代码和小脚本"><span class="toc-number">1.</span> <span class="toc-text">代码和小脚本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编辑模板"><span class="toc-number">2.</span> <span class="toc-text">编辑模板</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#部署这个新的“Report”"><span class="toc-number">3.</span> <span class="toc-text">部署这个新的“Report”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Shellz"><span class="toc-number">4.</span> <span class="toc-text">Shellz!</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Hacking JasperReports-隐藏shell的特征
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Z3R0YU</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-01-22T02:59:14.000Z" itemprop="datePublished">2017-01-22</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>不久前，我的同事跟我在对一个客户端进行渗透测试。我们确实发现的一件事是,他们留下了几个联网的JasperReports服务器。寻找默认管理帐户的用户名并没有花费太多的精力。<br><img src="https://foxglovesecurity.files.wordpress.com/2016/10/login.png?w=960" alt="login"></p>
 <p>也没有用多久我们就猜解出密码是“jasperadmin”</p>
 <p>我从前听过JasperReports但从来没有碰到过要对它进行渗透测试。一个快速的google搜索也没有对前期工作产生多大的作用。尽管这个管理界面很不常见但是它也没有摆脱以某种方式来执行代码，所以顺利成章的我们开始在渗透旅程中把JasperReports渗透测试添加进“容易成功”的列表。</p>
 <h4 id="代码和小脚本"><a href="#代码和小脚本" class="headerlink" title="代码和小脚本"></a>代码和小脚本</h4><p>JasperReports的目的是提取数据从各种各样的来源，例如：databases, xml, flat files等等，并且基于用户定义的模板用某种方式生成一份漂亮的报告。模板在JasperReports被定义为“JRXML”文件，任何拥有创建编辑报告权限的用户都可以上传它。</p>
@@ -25,4 +177,99 @@
 <h4 id="Shellz"><a href="#Shellz" class="headerlink" title="Shellz!"></a>Shellz!</h4><p>先别激动，在你运行这个report之前，你还要开个监听端口去捕捉你的shell！！！<br><img src="https://foxglovesecurity.files.wordpress.com/2016/10/listener.png?w=960" alt="listener.png"></p>
 <p>之后单击你创建的report，它将会运行Java代码，如果没有什么问题，你就可以看到反弹的shell了。</p>
 <p><img src="https://foxglovesecurity.files.wordpress.com/2016/10/shell1.png?w=960" alt="shell"></p>
-</div></article></div></main><footer><div class="paginator"><a href="/2017/01/22/win10只有edge可以打开网页/" class="prev">PREV</a><a href="/2017/01/22/洛书中的数字规律/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://zer0yu.github.io">z3r0yu</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#代码和小脚本"><span class="toc-number">1.</span> <span class="toc-text">代码和小脚本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编辑模板"><span class="toc-number">2.</span> <span class="toc-text">编辑模板</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#部署这个新的“Report”"><span class="toc-number">3.</span> <span class="toc-text">部署这个新的“Report”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Shellz"><span class="toc-number">4.</span> <span class="toc-text">Shellz!</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2017/01/22/Hacking-JasperReports-隐藏shell的特征/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2017/01/22/Hacking-JasperReports-隐藏shell的特征/&text=Hacking JasperReports-隐藏shell的特征"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2017/01/22/Hacking-JasperReports-隐藏shell的特征/&title=Hacking JasperReports-隐藏shell的特征"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2017/01/22/Hacking-JasperReports-隐藏shell的特征/&is_video=false&description=Hacking JasperReports-隐藏shell的特征"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Hacking JasperReports-隐藏shell的特征&body=Check out this article: http://zer0yu.github.io/2017/01/22/Hacking-JasperReports-隐藏shell的特征/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2017/01/22/Hacking-JasperReports-隐藏shell的特征/&title=Hacking JasperReports-隐藏shell的特征"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2017/01/22/Hacking-JasperReports-隐藏shell的特征/&title=Hacking JasperReports-隐藏shell的特征"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2017/01/22/Hacking-JasperReports-隐藏shell的特征/&title=Hacking JasperReports-隐藏shell的特征"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2017/01/22/Hacking-JasperReports-隐藏shell的特征/&title=Hacking JasperReports-隐藏shell的特征"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2017/01/22/Hacking-JasperReports-隐藏shell的特征/&name=Hacking JasperReports-隐藏shell的特征&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 z3r0yu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+

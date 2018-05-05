@@ -1,4 +1,199 @@
-<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Webug渗透基础教程 · Z3R0YU</title><meta name="description" content="Webug渗透基础教程 - z3r0yu"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://zer0yu.github.io/atom.xml" title="Z3R0YU"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/Z3r0yu" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zer0yu" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Webug渗透基础教程</h1><div class="post-info">Oct 24, 2017</div><div class="post-content"><p>####普通的GET注入</p>
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="####普通的GET注入
+解法一：使用sqlmap
+1）sqlmap -u”http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=1“ -b –current-db –current-user
+可以看到当前的数据库名称以及用户名称
+
+2）sqlmap -u”http://172.16.193.128/pentest/test/sqli/sq">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Webug渗透基础教程">
+<meta property="og:url" content="http://zer0yu.github.io/2017/10/24/Webug渗透基础教程/index.html">
+<meta property="og:site_name" content="Z3R0YU">
+<meta property="og:description" content="####普通的GET注入
+解法一：使用sqlmap
+1）sqlmap -u”http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=1“ -b –current-db –current-user
+可以看到当前的数据库名称以及用户名称
+
+2）sqlmap -u”http://172.16.193.128/pentest/test/sqli/sq">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/webug1-1.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/webug1-2.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/webug1-3.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/webug1-4.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/webug1-5.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/webug1-6.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/webug1-7.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/webug1-8.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/webug1-9.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/webug1-10.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/webug1-11.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/webug1-12.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/webug1-13.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/webug1-14.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/webug1-15.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/webug1-16.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/webug1-17.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/webug1-18.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/webug1-19.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-10-22%20%E4%B8%8B%E5%8D%888.44.47.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/12017-10-22%20%E4%B8%8B%E5%8D%888.51.55.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/22017-10-22%20%E4%B8%8B%E5%8D%889.02.58.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/32017-10-22%20%E4%B8%8B%E5%8D%889.05.03.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/42017-10-22%20%E4%B8%8B%E5%8D%8810.11.33.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/52017-10-24%20%E4%B8%8A%E5%8D%8810.39.23.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/62017-10-24%20%E4%B8%8A%E5%8D%8810.42.42.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/72017-10-24%20%E4%B8%8A%E5%8D%8810.42.57.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/82017-10-24%20%E4%B8%8A%E5%8D%8810.43.04.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/92017-10-24%20%E4%B8%8A%E5%8D%8810.54.40.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/102017-10-24%20%E4%B8%8A%E5%8D%8810.59.28.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/112017-10-24%20%E4%B8%8A%E5%8D%8811.08.29.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/122017-10-24%20%E4%B8%8A%E5%8D%8811.10.34.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/132017-10-24%20%E4%B8%8A%E5%8D%8811.13.29.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/12017-10-24%20%E4%B8%8A%E5%8D%8811.54.08.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/22017-10-24%20%E4%B8%8B%E5%8D%8812.00.24.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/32017-10-24%20%E4%B8%8B%E5%8D%8812.12.35.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/42017-10-24%20%E4%B8%8B%E5%8D%8812.16.02.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/62017-10-24%20%E4%B8%8B%E5%8D%883.05.40.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/72017-10-24%20%E4%B8%8B%E5%8D%883.05.56.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/82017-10-24%20%E4%B8%8B%E5%8D%883.14.16.png">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/52017-10-24%20%E4%B8%8B%E5%8D%883.01.40.png">
+<meta property="og:updated_time" content="2017-12-02T11:54:21.905Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Webug渗透基础教程">
+<meta name="twitter:description" content="####普通的GET注入
+解法一：使用sqlmap
+1）sqlmap -u”http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=1“ -b –current-db –current-user
+可以看到当前的数据库名称以及用户名称
+
+2）sqlmap -u”http://172.16.193.128/pentest/test/sqli/sq">
+<meta name="twitter:image" content="http://ok44mzy2k.bkt.clouddn.com/webug1-1.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Webug渗透基础教程</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml" />
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/10/28/密码破解系列/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/10/24/南京邮电CTF题解/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2017/10/24/Webug渗透基础教程/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2017/10/24/Webug渗透基础教程/&text=Webug渗透基础教程"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2017/10/24/Webug渗透基础教程/&title=Webug渗透基础教程"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2017/10/24/Webug渗透基础教程/&is_video=false&description=Webug渗透基础教程"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Webug渗透基础教程&body=Check out this article: http://zer0yu.github.io/2017/10/24/Webug渗透基础教程/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2017/10/24/Webug渗透基础教程/&title=Webug渗透基础教程"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2017/10/24/Webug渗透基础教程/&title=Webug渗透基础教程"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2017/10/24/Webug渗透基础教程/&title=Webug渗透基础教程"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2017/10/24/Webug渗透基础教程/&title=Webug渗透基础教程"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2017/10/24/Webug渗透基础教程/&name=Webug渗透基础教程&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Webug渗透基础教程
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Z3R0YU</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-10-24T08:14:18.000Z" itemprop="datePublished">2017-10-24</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>####普通的GET注入</p>
 <p>解法一：使用sqlmap</p>
 <p>1）sqlmap -u”<a href="http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=1" target="_blank" rel="external">http://172.16.193.128/pentest/test/sqli/sqltamp.php?gid=1</a>“ -b –current-db –current-user</p>
 <p>可以看到当前的数据库名称以及用户名称</p>
@@ -133,4 +328,99 @@
 <figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(strstr($url,<span class="string">"www.taobao.com"</span>))&#123;</div><div class="line">		<span class="keyword">if</span>($_SERVER[<span class="string">'HTTP_HOST'</span>]==<span class="string">"10.10.10.10"</span>)&#123;</div><div class="line">		<span class="keyword">if</span>(strstr($_SERVER[<span class="string">'HTTP_REFERER'</span>],<span class="string">"www.baidu.com"</span>))&#123;</div><div class="line">		<span class="keyword">if</span>(strstr($_SERVER[<span class="string">'HTTP_REFERER'</span>],<span class="string">"www.baidu.com"</span>))&#123;</div><div class="line">		<span class="keyword">echo</span> <span class="string">"剁手了，请记录截图!!!flag:83242lkjKJ(*&amp;*^*&amp;k0"</span>.<span class="string">"&lt;br/&gt;"</span>;</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		<span class="keyword">echo</span> <span class="string">"不想剁手了"</span>.<span class="string">"&lt;br/&gt;"</span>;</div><div class="line">	&#125;</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		<span class="keyword">echo</span> <span class="string">"nono"</span>.<span class="string">"&lt;br/&gt;"</span>;</div><div class="line">	&#125;</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		<span class="keyword">echo</span> <span class="string">"哎呀，这里只允许10.10.10.10访问！！！"</span>.<span class="string">"&lt;br/&gt;"</span>;</div><div class="line">	&#125;</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		<span class="keyword">echo</span> <span class="string">"这个地方剁手不好，换个地方！"</span>;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
 <p>一目了然，只需要将几个关键地方设置正确即可：</p>
 <p><img src="http://ok44mzy2k.bkt.clouddn.com/52017-10-24%20%E4%B8%8B%E5%8D%883.01.40.png" alt="屏幕快照 2017-10-24 下午3.01.40"></p>
-</div></article></div></main><footer><div class="paginator"><a href="/2017/10/28/密码破解系列/" class="prev">PREV</a><a href="/2017/10/24/南京邮电CTF题解/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://zer0yu.github.io">z3r0yu</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2017/10/24/Webug渗透基础教程/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2017/10/24/Webug渗透基础教程/&text=Webug渗透基础教程"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2017/10/24/Webug渗透基础教程/&title=Webug渗透基础教程"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2017/10/24/Webug渗透基础教程/&is_video=false&description=Webug渗透基础教程"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Webug渗透基础教程&body=Check out this article: http://zer0yu.github.io/2017/10/24/Webug渗透基础教程/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2017/10/24/Webug渗透基础教程/&title=Webug渗透基础教程"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2017/10/24/Webug渗透基础教程/&title=Webug渗透基础教程"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2017/10/24/Webug渗透基础教程/&title=Webug渗透基础教程"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2017/10/24/Webug渗透基础教程/&title=Webug渗透基础教程"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2017/10/24/Webug渗透基础教程/&name=Webug渗透基础教程&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 z3r0yu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
