@@ -20,7 +20,7 @@
 然后在线安装增强功能
 12345apt-get updateapt-get install -y virtualbox-guest-x11reboot
 2.VirtualBox自带包安装123456789apt-get update &amp;amp;&amp;amp; apt-get i">
-<meta property="og:updated_time" content="2018-04-05T05:53:29.759Z">
+<meta property="og:updated_time" content="2018-05-13T14:03:59.897Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="kali linux 2016 使用指南(二)">
 <meta name="twitter:description" content="虚拟机安装增强1.Kali 官方安装更新 /etc/apt/sources.list
@@ -211,6 +211,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">root@teamserver:~# apt-get update</div><div class="line">Get:1 http://mirror.neostrada.nl/kali kali-rolling InRelease [30.5 kB]</div><div class="line">Err:1 http://mirror.neostrada.nl/kali kali-rolling InRelease</div><div class="line">  The following signatures were invalid: EXPKEYSIG ED444FF07D8D0BF6 Kali Linux Repository &lt;devel@kali.org&gt;</div><div class="line">Fetched 30.5 kB in 1s (25.5 kB/s)</div><div class="line">Reading package lists... Done</div><div class="line">W: An error occurred during the signature verification. The repository is not updated and the previous index files will be used. GPG error: http://mirror.neostrada.nl/kali kali-rolling InRelease: The following signatures were invalid: EXPKEYSIG ED444FF07D8D0BF6 Kali Linux Repository &lt;devel@kali.org&gt;</div><div class="line">W: Failed to fetch http://http.kali.org/kali/dists/kali-rolling/InRelease  The following signatures were invalid: EXPKEYSIG ED444FF07D8D0BF6 Kali Linux Repository &lt;devel@kali.org&gt;</div><div class="line">W: Some index files failed to download. They have been ignored, or old ones used instead.</div></pre></td></tr></table></figure>
 <p>Kali 证书链过期 重新下载新的证书链</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget -q -O - archive.kali.org/archive-key.asc | apt-key add</div></pre></td></tr></table></figure>
+<p>####安装32位运行库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dpkg --add-architecture i386</div><div class="line">apt-get update</div><div class="line">apt-get install lib32z1 lib32ncurses5</div></pre></td></tr></table></figure>
 
   </div>
 </article>

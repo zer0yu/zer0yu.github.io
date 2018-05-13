@@ -2,6 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     
+  <url>
+    <loc>http://zer0yu.github.io/2017/01/21/kali-linux-2016-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97-%E4%BA%8C/</loc>
+    <lastmod>2018-05-13T14:03:59.897Z</lastmod>
+    <data>
+        <display>
+        <title>kali linux 2016 使用指南(二)</title>
+        <pubTime>2017-01-21T14:11:00.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
     
     
   <url>
@@ -11,21 +26,6 @@
         <display>
         <title>了解SSRF,这一篇就足够了</title>
         <pubTime>2018-03-06T13:28:42.000Z</pubTime>
-        
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://zer0yu.github.io/2017/01/21/kali-linux-2016-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97-%E4%BA%8C/</loc>
-    <lastmod>2018-04-05T05:53:29.759Z</lastmod>
-    <data>
-        <display>
-        <title>kali linux 2016 使用指南(二)</title>
-        <pubTime>2017-01-21T14:11:00.000Z</pubTime>
         
          
            
@@ -305,42 +305,12 @@
 
     
   <url>
-    <loc>http://zer0yu.github.io/2017/01/22/win7%E4%BD%BF%E7%94%A8wget/</loc>
-    <lastmod>2017-01-22T02:50:16.000Z</lastmod>
-    <data>
-        <display>
-        <title>win7使用wget</title>
-        <pubTime>2017-01-22T02:49:17.000Z</pubTime>
-        
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://zer0yu.github.io/2017/01/22/Linux%E4%B8%8B%E4%BD%BF%E7%94%A8%E9%94%90%E6%8D%B7%E7%9A%84%E6%96%B9%E6%B3%95/</loc>
     <lastmod>2017-01-22T02:48:08.000Z</lastmod>
     <data>
         <display>
         <title>Linux下使用锐捷的方法</title>
         <pubTime>2017-01-22T02:45:46.000Z</pubTime>
-        
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://zer0yu.github.io/2017/01/22/Weblogic-SSRF/</loc>
-    <lastmod>2017-01-22T02:45:33.000Z</lastmod>
-    <data>
-        <display>
-        <title>Weblogic_SSRF</title>
-        <pubTime>2017-01-22T02:44:43.000Z</pubTime>
         
          
            
