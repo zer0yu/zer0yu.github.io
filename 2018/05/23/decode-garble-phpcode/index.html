@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="###0x00 前言
+被混淆PHP代码见的很多了，但以前比较懒总是用扩展直接decode掉，最近就想手动操作下看看不使用扩展怎么进行解密。
+0x01 原理一般来说PHP的混淆都会通过多次eval来还原并执行php代码，所以我们可以通过hook PHP的eval函数来打印其参数来解密代码。
+0x02 环境配置OS: ubuntu 18.04
+PHP: 5.6.36
+首先要安装PHP，此处安装的版本为">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解密混淆的PHP代码">
+<meta property="og:url" content="http://zer0yu.github.io/2018/05/23/decode-garble-phpcode/index.html">
+<meta property="og:site_name" content="Z3R0YU">
+<meta property="og:description" content="###0x00 前言
+被混淆PHP代码见的很多了，但以前比较懒总是用扩展直接decode掉，最近就想手动操作下看看不使用扩展怎么进行解密。
+0x01 原理一般来说PHP的混淆都会通过多次eval来还原并执行php代码，所以我们可以通过hook PHP的eval函数来打印其参数来解密代码。
+0x02 环境配置OS: ubuntu 18.04
+PHP: 5.6.36
+首先要安装PHP，此处安装的版本为">
+<meta property="og:updated_time" content="2018-05-23T12:27:29.802Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="解密混淆的PHP代码">
+<meta name="twitter:description" content="###0x00 前言
+被混淆PHP代码见的很多了，但以前比较懒总是用扩展直接decode掉，最近就想手动操作下看看不使用扩展怎么进行解密。
+0x01 原理一般来说PHP的混淆都会通过多次eval来还原并执行php代码，所以我们可以通过hook PHP的eval函数来打印其参数来解密代码。
+0x02 环境配置OS: ubuntu 18.04
+PHP: 5.6.36
+首先要安装PHP，此处安装的版本为">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>解密混淆的PHP代码</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml" />
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2018/03/06/introduction-to-ssrf/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2018/05/23/decode-garble-phpcode/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2018/05/23/decode-garble-phpcode/&text=解密混淆的PHP代码"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2018/05/23/decode-garble-phpcode/&title=解密混淆的PHP代码"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2018/05/23/decode-garble-phpcode/&is_video=false&description=解密混淆的PHP代码"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=解密混淆的PHP代码&body=Check out this article: http://zer0yu.github.io/2018/05/23/decode-garble-phpcode/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2018/05/23/decode-garble-phpcode/&title=解密混淆的PHP代码"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2018/05/23/decode-garble-phpcode/&title=解密混淆的PHP代码"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2018/05/23/decode-garble-phpcode/&title=解密混淆的PHP代码"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2018/05/23/decode-garble-phpcode/&title=解密混淆的PHP代码"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2018/05/23/decode-garble-phpcode/&name=解密混淆的PHP代码&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-原理"><span class="toc-number">1.</span> <span class="toc-text">0x01 原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-环境配置"><span class="toc-number">2.</span> <span class="toc-text">0x02 环境配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x03-开始Hook"><span class="toc-number">3.</span> <span class="toc-text">0x03 开始Hook</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x04-小结"><span class="toc-number">4.</span> <span class="toc-text">0x04 小结</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        解密混淆的PHP代码
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Z3R0YU</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-05-23T09:06:48.000Z" itemprop="datePublished">2018-05-23</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>###0x00 前言</p>
+<p>被混淆PHP代码见的很多了，但以前比较懒总是用扩展直接decode掉，最近就想手动操作下看看不使用扩展怎么进行解密。</p>
+<h3 id="0x01-原理"><a href="#0x01-原理" class="headerlink" title="0x01 原理"></a>0x01 原理</h3><p>一般来说PHP的混淆都会通过多次<code>eval</code>来还原并执行php代码，所以我们可以通过hook PHP的<code>eval</code>函数来打印其参数来解密代码。</p>
+<h3 id="0x02-环境配置"><a href="#0x02-环境配置" class="headerlink" title="0x02 环境配置"></a>0x02 环境配置</h3><p>OS: ubuntu 18.04</p>
+<p>PHP: 5.6.36</p>
+<p>首先要安装PHP，此处安装的版本为5.6.36</p>
+<p>1.安装相关的依赖库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install libxml2-dev build-essential openssl libssl-dev make curl  libcurl4-gnutls-dev libjpeg-dev libpng-dev libtool-bin bison php-fpm</div></pre></td></tr></table></figure>
+<p>2.编译安装libiconv</p>
+<p>在<a href="http://www.gnu.org/software/libiconv/#TOCdownloading" target="_blank" rel="external">libiconv官网</a>下载压缩包，放到<code>/usr/local/src</code>下，解压，编译安装，这里下载的是<code>libiconv-1.15.tar.gz</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">sudo tar zxvf libiconv-1.15.tar.gz</div><div class="line"><span class="built_in">cd</span> libiconv-1.15</div><div class="line">sudo ./configure --prefix=/usr/<span class="built_in">local</span></div><div class="line">sudo make</div><div class="line">sudo make install</div><div class="line">sudo ldconfig // 刷新动态链接库缓存</div></pre></td></tr></table></figure>
+<p>注意，这里是将<code>libiconv</code>安装到了系统默认的<code>lib</code>目录下，安装路径<code>/usr/local</code>不可随意更改，否则后面会出现编译错误。另外，执行<code>sudo make</code>之后会有如下warning</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">warning: remember too run &apos;libtool --finish /usr/local/lib&apos;</div></pre></td></tr></table></figure>
+<p>按照warning的提示执行一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">libtool --finish /usr/local/lib</div></pre></td></tr></table></figure>
+<p>3.编译安装PHP</p>
+<p>去<a href="http://php.net/" target="_blank" rel="external">PHP官网</a>下载<code>php5.6.36</code>压缩包放到<code>/usr/local/src</code>下，解压，编译安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">sudo tar zxvf php-5.6.36.tar.gz</div><div class="line"><span class="built_in">cd</span> php-5.6.36</div><div class="line"><span class="comment">#由于我们后面要进行调试，所以要在编译时加上-g参数，加调试符号</span></div><div class="line">sudo ./configure CFLAGS=<span class="string">"-g"</span> CXXFLAGS=<span class="string">"-g"</span></div><div class="line">sudo make ZEND_EXTRA_LIBS=<span class="string">'-liconv'</span> -j16</div><div class="line">sudo make install</div></pre></td></tr></table></figure>
+<p>4.补充下扩展的编译安装</p>
+<p>在此处以zlib的编译安装为例，由于我们的PHP是编译安装的，所以在路径<code>php-5.6.36/ext/zlib/</code>下就有所需要的文件。如果要安装的扩展在php源码ext目录中没有，可以从<a href="http://pecl.php.net/" target="_blank" rel="external">PECL</a>上搜索你需要的扩展进行编译安装。</p>
+<p>1.在对应的扩展目录运行<code>phpize</code>命令(如果没有提示autoconf记得apt安装)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">zeroyu@ubuntu:~/Desktop/php-5.6.36/ext/zlib$ phpize </div><div class="line">Configuring <span class="keyword">for</span>:</div><div class="line">PHP Api Version:         20131106</div><div class="line">Zend Module Api No:      20131226</div><div class="line">Zend Extension Api No:   220131226</div></pre></td></tr></table></figure>
+<p>2.运行<code>configure</code>命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">zeroyu@ubuntu:~/Desktop/php-5.6.36/ext/zlib$ ./configure</div><div class="line">checking <span class="keyword">for</span> grep that handles long lines and -e... /bin/grep</div><div class="line">checking <span class="keyword">for</span> egrep... /bin/grep -E</div></pre></td></tr></table></figure>
+<p>3.运行<code>make</code>命令(之后可以运行也可以不运行make test)</p>
+<p>4.运行<code>make install</code>命令</p>
+<p>5.配置ini文件</p>
+<p>通过运行 <code>php --ini</code>查找php.ini文件位置，然后在文件中添加<code>extension=zlib.so</code></p>
+<p>通过编译安装的PHP是没有php.ini文件的，但是可以通过<code>php --ini</code>查看配置文件的路径，例如:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">zeroyu@ubuntu:~/Desktop/php-5.6.36/ext/zlib$ php --ini</div><div class="line">Configuration File (php.ini) Path: /usr/<span class="built_in">local</span>/lib</div><div class="line">Loaded Configuration File:         (none)</div><div class="line">Scan <span class="keyword">for</span> additional .ini files <span class="keyword">in</span>: (none)</div><div class="line">Additional .ini files parsed:      (none)</div></pre></td></tr></table></figure>
+<p>可以看到此时Configuration File显示的是none。这种情况你只需要将之前在PHP官网下载的PHP文件中的php.ini拷贝一份到Configuration File (php.ini) Path路径下就可以了。操作完之后再执行<code>php --ini</code>可以看到如下显示:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">zeroyu@ubuntu:~/Desktop/php-5.6.36/ext/zlib$ php --ini</div><div class="line">Configuration File (php.ini) Path: /usr/local/lib</div><div class="line">Loaded Configuration File:         /usr/local/lib/php.ini</div><div class="line">Scan for additional .ini files in: (none)</div><div class="line">Additional .ini files parsed:      (none)</div></pre></td></tr></table></figure>
+<h3 id="0x03-开始Hook"><a href="#0x03-开始Hook" class="headerlink" title="0x03 开始Hook"></a>0x03 开始Hook</h3><p>PHP中的eval函数在Zend里需要调用<code>zend_compile_string</code>函数，我们先看下<code>zend_compile_string</code>函数的位置。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">zeroyu@ubuntu:~/Desktop/php-5.6.36/Zend$ grep -rn <span class="string">"zend_compile_string"</span> *</div><div class="line">Binary file zend_alloc.o matches</div><div class="line">Binary file zend_API.o matches</div><div class="line">Binary file zend_ast.o matches</div><div class="line">Binary file zend_builtin_functions.o matches</div><div class="line">zend.c:693:	zend_compile_string = compile_string;</div><div class="line">Binary file zend_closures.o matches</div><div class="line">zend_compile.c:98:ZEND_API zend_op_array *(*zend_compile_string)(zval *source_string, char *filename TSRMLS_DC);</div></pre></td></tr></table></figure>
+<p>我们发现<code>zend_compile_string</code>函数其实就是<code>compile_string</code>函数。所以我在这儿测试一个前几天偶然间得到的被混淆的PHP代码，如下所示可以看到在<code>compile_string</code>中已经获取到<code>eval</code>参数的值。</p>
+<p>我们可以看到程序断下来后，<code>compile_string</code>的第一个参数<code>source_string</code>为php代码中<code>eval</code>函数的参数在Zend中的结构——即<code>zval_struct</code>。<code>source_string.value.str.val</code>即为参数的字符串形式。所以之后修改修改<code>compile_string</code>函数来打印<code>eval</code>的参数就可以得到解密后的代码了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div></pre></td><td class="code"><pre><div class="line">zeroyu@ubuntu:~/Desktop$ gdb php</div><div class="line">gdb-peda$ <span class="built_in">set</span> args a.php </div><div class="line">gdb-peda$ b compile_string</div><div class="line">Breakpoint 1 at 0x46e73f: file Zend/zend_language_scanner.l, line 716.</div><div class="line">gdb-peda$ r</div><div class="line">Starting program: /usr/<span class="built_in">local</span>/bin/php a.php </div><div class="line">[Thread debugging using libthread_db enabled]</div><div class="line">Using host libthread_db library <span class="string">"/lib/x86_64-linux-gnu/libthread_db.so.1"</span>.</div><div class="line"></div><div class="line">[----------------------------------registers-----------------------------------]</div><div class="line">RAX: 0x5555559c2726 (&lt;compile_string&gt;:	push   rbp)</div><div class="line">RBX: 0x555555a68767 (&lt;execute_ex&gt;:	push   rbp)</div><div class="line">RCX: 0x7ffff7e10e48 (<span class="string">"/home/zeroyu/Desktop/a.php(1) : assert code"</span>)</div><div class="line">RDX: 0x7fffffffa030 --&gt; 0x7ffff7fd22d0 (<span class="string">"return $\307\365㣋\217= eval(base64_decode($\240\202\206\345\215\331ׁ\307));;"</span>)</div><div class="line">RSI: 0x7ffff7e10e48 (<span class="string">"/home/zeroyu/Desktop/a.php(1) : assert code"</span>)</div><div class="line">RDI: 0x7fffffffa030 --&gt; 0x7ffff7fd22d0 (<span class="string">"return $\307\365㣋\217= eval(base64_decode($\240\202\206\345\215\331ׁ\307));;"</span>)</div><div class="line">RBP: 0x7fffffff9fa0 --&gt; 0x7fffffffa120 --&gt; 0x7fffffffa270 --&gt; 0x7fffffffa420 --&gt; 0x7fffffffa440 --&gt; 0x7fffffffa560 (--&gt; ...)</div><div class="line">RSP: 0x7fffffff9e80 --&gt; 0x7ffff7e10e48 (<span class="string">"/home/zeroyu/Desktop/a.php(1) : assert code"</span>)</div><div class="line">RIP: 0x5555559c273f (&lt;compile_string+25&gt;:	mov    rax,QWORD PTR fs:0x28)</div><div class="line">R8 : 0x7fffffff96c0 --&gt; 0xb (<span class="string">'\x0b'</span>)</div><div class="line">R9 : 0x555555f2<span class="built_in">cd</span>22 (<span class="string">"assert code"</span>)</div><div class="line">R10: 0x7 </div><div class="line">R11: 0xa (<span class="string">'\n'</span>)</div><div class="line">R12: 0x555555623210 (&lt;_start&gt;:	xor    ebp,ebp)</div><div class="line">R13: 0x7fffffffdfb0 --&gt; 0x2 </div><div class="line">R14: 0x0 </div><div class="line">R15: 0x0</div><div class="line">EFLAGS: 0x202 (carry parity adjust zero sign <span class="built_in">trap</span> INTERRUPT direction overflow)</div><div class="line">[-------------------------------------code-------------------------------------]</div><div class="line">   0x5555559c272a &lt;compile_string+4&gt;:	sub    rsp,0x120</div><div class="line">   0x5555559c2731 &lt;compile_string+11&gt;:	mov    QWORD PTR [rbp-0x118],rdi</div><div class="line">   0x5555559c2738 &lt;compile_string+18&gt;:	mov    QWORD PTR [rbp-0x120],rsi</div><div class="line">=&gt; 0x5555559c273f &lt;compile_string+25&gt;:	mov    rax,QWORD PTR fs:0x28</div><div class="line">   0x5555559c2748 &lt;compile_string+34&gt;:	mov    QWORD PTR [rbp-0x8],rax</div><div class="line">   0x5555559c274c &lt;compile_string+38&gt;:	xor    eax,eax</div><div class="line">   0x5555559c274e &lt;compile_string+40&gt;:	mov    edi,0xf8</div><div class="line">   0x5555559c2753 &lt;compile_string+45&gt;:	call   0x5555559e67f3 &lt;_emalloc&gt;</div><div class="line">[------------------------------------stack-------------------------------------]</div><div class="line">0000| 0x7fffffff9e80 --&gt; 0x7ffff7e10e48 (<span class="string">"/home/zeroyu/Desktop/a.php(1) : assert code"</span>)</div><div class="line">0008| 0x7fffffff9e88 --&gt; 0x7fffffffa030 --&gt; 0x7ffff7fd22d0 (<span class="string">"return $\307\365㣋\217= eval(base64_decode($\240\202\206\345\215\331ׁ\307));;"</span>)</div><div class="line">0016| 0x7fffffff9e90 --&gt; 0x8 </div><div class="line">0024| 0x7fffffff9e98 --&gt; 0x555556280608 --&gt; 0x0 </div><div class="line">0032| 0x7fffffff9ea0 --&gt; 0x7fffffff9ed0 --&gt; 0x7fffffff9f70 --&gt; 0x7fffffffa180 --&gt; 0x7ffff7fd6d08 --&gt; 0x3d8f8ba3e3f5c724 </div><div class="line">0040| 0x7fffffff9ea8 --&gt; 0x3d559e6d1a </div><div class="line">0048| 0x7fffffff9eb0 --&gt; 0x7fffffff9ed0 --&gt; 0x7fffffff9f70 --&gt; 0x7fffffffa180 --&gt; 0x7ffff7fd6d08 --&gt; 0x3d8f8ba3e3f5c724 </div><div class="line">0056| 0x7fffffff9eb8 --&gt; 0x5555559e6891 (&lt;_efree+78&gt;:	leave)</div><div class="line">[------------------------------------------------------------------------------]</div><div class="line">Legend: code, data, rodata, value</div><div class="line"></div><div class="line">Breakpoint 1, compile_string (source_string=0x7fffffffa030, filename=0x7ffff7e10e48 <span class="string">"/home/zeroyu/Desktop/a.php(1) : assert code"</span>) at Zend/zend_language_scanner.l:716</div><div class="line">716	&#123;</div><div class="line">gdb-peda$ p *source_string</div><div class="line"><span class="variable">$1</span> = &#123;</div><div class="line">  value = &#123;</div><div class="line">    lval = 0x7ffff7fd22d0, </div><div class="line">    dval = 6.953349167324743e-310, </div><div class="line">    str = &#123;</div><div class="line">      val = 0x7ffff7fd22d0 <span class="string">"return $\307\365㣋\217= eval(base64_decode($\240\202\206\345\215\331ׁ\307));;"</span>, </div><div class="line">      len = 0x31</div><div class="line">    &#125;, </div><div class="line">    ht = 0x7ffff7fd22d0, </div><div class="line">    obj = &#123;</div><div class="line">      handle = 0xf7fd22d0, </div><div class="line">      handlers = 0x31</div><div class="line">    &#125;, </div><div class="line">    ast = 0x7ffff7fd22d0</div><div class="line">  &#125;, </div><div class="line">  refcount__gc = 0xffffa060, </div><div class="line">  <span class="built_in">type</span> = 0x6, </div><div class="line">  is_ref__gc = 0x7f</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="0x04-小结"><a href="#0x04-小结" class="headerlink" title="0x04 小结"></a>0x04 小结</h3><p>​    混淆代码的解密就是类似于代码执行。最终还是要执行PHP代码，而执行PHP代码的方法很多，除了<code>eval</code>函数还有<code>assert</code>、<code>call_user_func</code>、<code>call_user_func_array</code>、<code>create_function</code>等。这些函数的底层也是调用了<code>zend_compile_string</code>，所以也可以利用hook <code>eval</code>来还原混淆后的加密代码。</p>
+<p>​    这篇也就是对这个解密操作了一下记了个笔记，环境搭建还是比较繁琐的事，所以写的详细了点。了解归了解，现实中为了效率还是使用扩展比较方便，使用的扩展可以参考<a href="https://www.leavesongs.com/PENETRATION/unobfuscated-phpjiami.html" target="_blank" rel="external">P牛</a>的，或者这个<a href="http://php-security.org/2010/05/13/article-decoding-a-user-space-encoded-php-script/index.html" target="_blank" rel="external">外国老哥</a>的。如果扩展需要编译的话，方法在上面说过了，编译后不想加入php.ini的话，可以在每次用的时候执行<code>php -d extension=evalhook.so a.php</code>。</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-原理"><span class="toc-number">1.</span> <span class="toc-text">0x01 原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-环境配置"><span class="toc-number">2.</span> <span class="toc-text">0x02 环境配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x03-开始Hook"><span class="toc-number">3.</span> <span class="toc-text">0x03 开始Hook</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x04-小结"><span class="toc-number">4.</span> <span class="toc-text">0x04 小结</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2018/05/23/decode-garble-phpcode/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2018/05/23/decode-garble-phpcode/&text=解密混淆的PHP代码"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2018/05/23/decode-garble-phpcode/&title=解密混淆的PHP代码"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2018/05/23/decode-garble-phpcode/&is_video=false&description=解密混淆的PHP代码"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=解密混淆的PHP代码&body=Check out this article: http://zer0yu.github.io/2018/05/23/decode-garble-phpcode/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2018/05/23/decode-garble-phpcode/&title=解密混淆的PHP代码"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2018/05/23/decode-garble-phpcode/&title=解密混淆的PHP代码"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2018/05/23/decode-garble-phpcode/&title=解密混淆的PHP代码"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2018/05/23/decode-garble-phpcode/&title=解密混淆的PHP代码"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2018/05/23/decode-garble-phpcode/&name=解密混淆的PHP代码&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 z3r0yu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
