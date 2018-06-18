@@ -3,8 +3,23 @@
 
     
   <url>
+    <loc>http://zer0yu.github.io/2018/06/18/upload-labs-note/</loc>
+    <lastmod>2018-06-18T07:18:59.554Z</lastmod>
+    <data>
+        <display>
+        <title>文件上传漏洞天书</title>
+        <pubTime>2018-06-18T07:00:26.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://zer0yu.github.io/2018/05/24/ctf-awd-note/</loc>
-    <lastmod>2018-05-26T02:29:39.783Z</lastmod>
+    <lastmod>2018-05-26T02:30:19.935Z</lastmod>
     <data>
         <display>
         <title>CTF AWD模式攻防Note</title>
