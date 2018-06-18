@@ -34,7 +34,8 @@
 <meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-06-17%20%E4%B8%8B%E5%8D%8811.14.44.png">
 <meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-06-18%20%E4%B8%8B%E5%8D%882.10.05.png">
 <meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-06-18%20%E4%B8%8B%E5%8D%882.35.54.png">
-<meta property="og:updated_time" content="2018-06-18T07:18:59.554Z">
+<meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/fileupload2.png">
+<meta property="og:updated_time" content="2018-06-18T07:27:01.983Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="文件上传漏洞天书">
 <meta name="twitter:description" content="0x00 前言文件上传漏洞可以说是getshell的一种好方式了，也是常见漏洞之一，本文结合upload-labs来对此种漏洞在PHP中的表现做一讲解。本文列出的参考链接都是一些不错的文章，像关于一些waf的上传bypass在本文不作讲解但是在参考链接的文章中就有包含。
@@ -83,13 +84,13 @@
     <span id="nav">
       <ul>
          
-          <li><a href="/">Home</a></li>
+          <li><a href="/">Inicio</a></li>
          
-          <li><a href="/About/">About</a></li>
+          <li><a href="/About/">Acerca de</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">Articulos</a></li>
          
-          <li><a href="https://github.com/zer0yu">Projects</a></li>
+          <li><a href="https://github.com/zer0yu">Proyectos</a></li>
         
       </ul>
     </span>
@@ -103,10 +104,10 @@
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
+      <span id="i-prev" class="info" style="display:none;">Post Anterior</span>
+      <span id="i-next" class="info" style="display:none;">Post Siguiente</span>
+      <span id="i-top" class="info" style="display:none;">Arriba</span>
+      <span id="i-share" class="info" style="display:none;">Compartir Post</span>
     </span>
     <br/>
     <div id="share" style="display: none">
@@ -247,6 +248,7 @@
 <h3 id="0x20-总结"><a href="#0x20-总结" class="headerlink" title="0x20 总结"></a>0x20 总结</h3><p>bypass思路–考虑三个地方的特性：代码、容器、操作系统</p>
 <p>危害–getshell、xss(如果文件名被存入数据库的话，可以造成xss)</p>
 <p>PS:upload-labs的GitHub上写的是不是前端验证看速度，我感觉说的不好，应该右键看眼源码就好了，速度这种东西谁说的准呢。</p>
+<p>最后附一张上传漏洞的脑图<br><img src="http://ok44mzy2k.bkt.clouddn.com/fileupload2.png" alt="image"></p>
 <h3 id="0x21-参考"><a href="#0x21-参考" class="headerlink" title="0x21 参考"></a>0x21 参考</h3><p><a href="https://www.cnblogs.com/engeng/articles/5948089.html" target="_blank" rel="external">https://www.cnblogs.com/engeng/articles/5948089.html</a><br><a href="https://paper.tuisec.win/detail/d511228cd560003" target="_blank" rel="external">https://paper.tuisec.win/detail/d511228cd560003</a><br><a href="https://paper.tuisec.win/detail/e5e5fd3a08d8ff7" target="_blank" rel="external">https://paper.tuisec.win/detail/e5e5fd3a08d8ff7</a><br><a href="http://www.freebuf.com/vuls/128846.html" target="_blank" rel="external">http://www.freebuf.com/vuls/128846.html</a><br><a href="http://www.freebuf.com/articles/web/54086.html" target="_blank" rel="external">http://www.freebuf.com/articles/web/54086.html</a></p>
 
   </div>
@@ -262,13 +264,13 @@
     <div id="nav-footer" style="display: none">
       <ul>
          
-          <li><a href="/">Home</a></li>
+          <li><a href="/">Inicio</a></li>
          
-          <li><a href="/About/">About</a></li>
+          <li><a href="/About/">Acerca de</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">Articulos</a></li>
          
-          <li><a href="https://github.com/zer0yu">Projects</a></li>
+          <li><a href="https://github.com/zer0yu">Proyectos</a></li>
         
       </ul>
     </div>
@@ -296,7 +298,7 @@
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
         <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Compartir</a>
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
     </div>
 
@@ -312,13 +314,13 @@
     <nav>
       <ul>
          
-          <li><a href="/">Home</a></li>
+          <li><a href="/">Inicio</a></li>
          
-          <li><a href="/About/">About</a></li>
+          <li><a href="/About/">Acerca de</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">Articulos</a></li>
          
-          <li><a href="https://github.com/zer0yu">Projects</a></li>
+          <li><a href="https://github.com/zer0yu">Proyectos</a></li>
         
       </ul>
     </nav>
