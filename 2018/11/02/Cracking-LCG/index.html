@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="0x00 前言目前我们在编程中经常会使用随机数，但是其中会不会存在什么问题呢？要知道CPU计算中的各种状态都是确定的，在其中的随机数不是凭空产生的，所以这种随机数真的随机吗？目前生成随机数的方式主要分为以下几种:
+
+硬件随机数生成器
+利用现有硬件，从非预期方式产生随机数(比如利用音频的产生、硬盘寻址时间等)
+伪随机数
+量子技术
+
+PS: RDRAND指令产生的随机数目前存在争议，在此不做详细讨论。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="攻击线性同余生成器(LCG)">
+<meta property="og:url" content="http://zer0yu.github.io/2018/11/02/Cracking-LCG/index.html">
+<meta property="og:site_name" content="Z3R0YU">
+<meta property="og:description" content="0x00 前言目前我们在编程中经常会使用随机数，但是其中会不会存在什么问题呢？要知道CPU计算中的各种状态都是确定的，在其中的随机数不是凭空产生的，所以这种随机数真的随机吗？目前生成随机数的方式主要分为以下几种:
+
+硬件随机数生成器
+利用现有硬件，从非预期方式产生随机数(比如利用音频的产生、硬盘寻址时间等)
+伪随机数
+量子技术
+
+PS: RDRAND指令产生的随机数目前存在争议，在此不做详细讨论。">
+<meta property="og:image" content="https://wikimedia.org/api/rest_v1/media/math/render/svg/0977413db70881e55ed0f0dd154d7314f0f4499a">
+<meta property="og:updated_time" content="2018-11-01T16:20:22.580Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="攻击线性同余生成器(LCG)">
+<meta name="twitter:description" content="0x00 前言目前我们在编程中经常会使用随机数，但是其中会不会存在什么问题呢？要知道CPU计算中的各种状态都是确定的，在其中的随机数不是凭空产生的，所以这种随机数真的随机吗？目前生成随机数的方式主要分为以下几种:
+
+硬件随机数生成器
+利用现有硬件，从非预期方式产生随机数(比如利用音频的产生、硬盘寻址时间等)
+伪随机数
+量子技术
+
+PS: RDRAND指令产生的随机数目前存在争议，在此不做详细讨论。">
+<meta name="twitter:image" content="https://wikimedia.org/api/rest_v1/media/math/render/svg/0977413db70881e55ed0f0dd154d7314f0f4499a">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>攻击线性同余生成器(LCG)</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml" />
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2018/10/29/SECCON-2018-Qualis-GhostKingdom/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2018/11/02/Cracking-LCG/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2018/11/02/Cracking-LCG/&text=攻击线性同余生成器(LCG)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2018/11/02/Cracking-LCG/&title=攻击线性同余生成器(LCG)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2018/11/02/Cracking-LCG/&is_video=false&description=攻击线性同余生成器(LCG)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=攻击线性同余生成器(LCG)&body=Check out this article: http://zer0yu.github.io/2018/11/02/Cracking-LCG/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2018/11/02/Cracking-LCG/&title=攻击线性同余生成器(LCG)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2018/11/02/Cracking-LCG/&title=攻击线性同余生成器(LCG)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2018/11/02/Cracking-LCG/&title=攻击线性同余生成器(LCG)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2018/11/02/Cracking-LCG/&title=攻击线性同余生成器(LCG)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2018/11/02/Cracking-LCG/&name=攻击线性同余生成器(LCG)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-前言"><span class="toc-number">1.</span> <span class="toc-text">0x00 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-线性同余生成器-LCG"><span class="toc-number">2.</span> <span class="toc-text">0x01 线性同余生成器(LCG)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-线性同余方法"><span class="toc-number">2.1.</span> <span class="toc-text">1.线性同余方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Python代码实现"><span class="toc-number">2.2.</span> <span class="toc-text">2.Python代码实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-LCG的优缺点"><span class="toc-number">2.3.</span> <span class="toc-text">3.LCG的优缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-攻击LCG"><span class="toc-number">3.</span> <span class="toc-text">0x02 攻击LCG</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-对于A、B、M以及N0已知的情况"><span class="toc-number">3.1.</span> <span class="toc-text">1. 对于A、B、M以及N0已知的情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-增量未知"><span class="toc-number">3.2.</span> <span class="toc-text">2.增量未知</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-增量和乘数都未知"><span class="toc-number">3.3.</span> <span class="toc-text">3.增量和乘数都未知</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-增量，乘数和模数均未知"><span class="toc-number">3.4.</span> <span class="toc-text">4.增量，乘数和模数均未知</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-总结"><span class="toc-number">4.</span> <span class="toc-text">0x03 总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-参考"><span class="toc-number">5.</span> <span class="toc-text">0x04 参考</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        攻击线性同余生成器(LCG)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Z3R0YU</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-11-01T16:19:50.000Z" itemprop="datePublished">2018-11-02</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>目前我们在编程中经常会使用随机数，但是其中会不会存在什么问题呢？要知道CPU计算中的各种状态都是确定的，在其中的随机数不是凭空产生的，所以这种随机数真的随机吗？目前生成随机数的方式主要分为以下几种:</p>
+<ul>
+<li>硬件随机数生成器</li>
+<li>利用现有硬件，从非预期方式产生随机数(比如利用音频的产生、硬盘寻址时间等)</li>
+<li>伪随机数</li>
+<li>量子技术</li>
+</ul>
+<p>PS: RDRAND指令产生的随机数目前存在争议，在此不做详细讨论。有兴趣可以参考 <a href="https://zh.wikipedia.org/wiki/RdRand" target="_blank" rel="external">RdRand</a></p>
+<p>虽然选择很多，但是目前还是主要采用伪随机数的方式来应对实际开发中需要的场景。用于产生这些看起来随机但实际是由确定性算法生成数字的机制被称为”伪随机数发生器”，简称为PRNG。</p>
+<p>PRNG的中心是确定的，如果攻击者知道其内部的完整状态，则可以对未来的值和过去的值进行预测。如果PRNG被用于加密密钥、生成证书等场景，就会出现安全问题。</p>
+<p>接下来我将详细讲解对线性同余发生器的攻击。</p>
+<h2 id="0x01-线性同余生成器-LCG"><a href="#0x01-线性同余生成器-LCG" class="headerlink" title="0x01 线性同余生成器(LCG)"></a>0x01 线性同余生成器(LCG)</h2><h3 id="1-线性同余方法"><a href="#1-线性同余方法" class="headerlink" title="1.线性同余方法"></a>1.线性同余方法</h3><p>线性同余方法（LCG）是个产生伪随机数的方法。</p>
+<p>它是根据递归公式：</p>
+<p><html><br><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/0977413db70881e55ed0f0dd154d7314f0f4499a" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -1.005ex; width:33.874ex; height:3.009ex;" alt="N_NaN\equiv (A\times N_{j}+B){\pmod  {M}}"><br></html><br>其中A,B,M是产生器设定的常数。</p>
+<p>LCG的周期最大为 M，但大部分情况都会少于M。要令LCG达到最大周期，应符合以下条件：</p>
+<ol>
+<li>B,M互质；</li>
+<li>M的所有质因数都能整除A-1；</li>
+<li>若M是4的倍数，A-1也是；</li>
+<li>A,B,N[0]都比M小；</li>
+<li>A,B是正整数。</li>
+</ol>
+<h3 id="2-Python代码实现"><a href="#2-Python代码实现" class="headerlink" title="2.Python代码实现"></a>2.Python代码实现</h3><p>由上面的原理我们可以看到，其中最重要的是定义了三个整数，乘数A、增量B和模数M，因此我们在此用简单的几行Python代码实现一下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">class prng_lcg:</div><div class="line">    m = 672257317069504227  # &quot;乘数&quot;</div><div class="line">    c = 7382843889490547368  # &quot;增量&quot;</div><div class="line">    n = 9223372036854775783  # &quot;模数&quot;</div><div class="line"></div><div class="line">    def __init__(self, seed):</div><div class="line">        self.state = seed  # the &quot;seed&quot;</div><div class="line"></div><div class="line">    def next(self):</div><div class="line">        self.state = (self.state * self.m + self.c) % self.n</div><div class="line">        return self.state</div><div class="line"></div><div class="line"></div><div class="line">def test():</div><div class="line">    gen = prng_lcg(123)  # seed = 123</div><div class="line">    print gen.next()  # 第一个生成值</div><div class="line">    print gen.next()  # 第二个生成值</div><div class="line">    print gen.next()  # 第三个生成值</div></pre></td></tr></table></figure>
+<h3 id="3-LCG的优缺点"><a href="#3-LCG的优缺点" class="headerlink" title="3.LCG的优缺点"></a>3.LCG的优缺点</h3><p>LCG目前是分流行，得益于其在数学表达实现上十分优雅、非常容易理解并且容易设计实现、计算速度可以非常快。但是它也存在一些缺点，比如它在加密安全性方面十分弱。接下来将从以下几种情况对其进行攻击。</p>
+<h2 id="0x02-攻击LCG"><a href="#0x02-攻击LCG" class="headerlink" title="0x02 攻击LCG"></a>0x02 攻击LCG</h2><h3 id="1-对于A、B、M以及N0已知的情况"><a href="#1-对于A、B、M以及N0已知的情况" class="headerlink" title="1. 对于A、B、M以及N0已知的情况"></a>1. 对于A、B、M以及N0已知的情况</h3><p>假设我们观察到有一个LCG系统产生了以下三组连续的值，并且我们知道内部的参数如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># 三组连续的值</div><div class="line">s0 = 2300417199649672133</div><div class="line">s1 = 2071270403368304644</div><div class="line">s2 = 5907618127072939765</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># 内部的参数</div><div class="line">m = 672257317069504227   # the &quot;multiplier&quot;</div><div class="line">c = 7382843889490547368  # the &quot;increment&quot;</div><div class="line">n = 9223372036854775783  # the &quot;modulus&quot;</div></pre></td></tr></table></figure>
+<p>在已知了这些参数之后我们可以很快的推算出未来的数值或者之前的某个数值，所以还是存在安全问题的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">In [1]: m = 672257317069504227</div><div class="line"></div><div class="line">In [2]: c = 7382843889490547368</div><div class="line"></div><div class="line">In [3]: n = 9223372036854775783</div><div class="line"></div><div class="line">In [4]: s0 = 2300417199649672133</div><div class="line"></div><div class="line">In [5]: s1 = (s0*m + c) % n</div><div class="line"></div><div class="line">In [6]: s2 = (s1*m + c) % n</div><div class="line"></div><div class="line">In [7]: s3 = (s2*m + c) % n</div><div class="line"></div><div class="line">In [8]: s4 = (s3*m + c) % n</div><div class="line"></div><div class="line">In [9]: s1</div><div class="line">Out[9]: 2071270403368304644L</div><div class="line"></div><div class="line">In [10]: s2</div><div class="line">Out[10]: 5907618127072939765L</div><div class="line"></div><div class="line">In [11]: s3</div><div class="line">Out[11]: 5457707446309988294L</div></pre></td></tr></table></figure>
+<h3 id="2-增量未知"><a href="#2-增量未知" class="headerlink" title="2.增量未知"></a>2.增量未知</h3><p>我们不清楚增量，但是我们知道以下信息:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">m = 81853448938945944</div><div class="line">c = # unknown</div><div class="line">n = 9223372036854775783</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># 初值和第一个计算值</div><div class="line">s0 = 4501678582054734753</div><div class="line">s1 = 4371244338968431602</div></pre></td></tr></table></figure>
+<p>我们稍稍改写下公式就可以将目标c计算出来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">s1 = s0*m + c   (mod n)</div><div class="line"></div><div class="line">c  = s1 - s0*m  (mod n)</div></pre></td></tr></table></figure>
+<p>此种类型Python攻击代码如下所示:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">def crack_unknown_increment(states, modulus, multiplier):</div><div class="line">    increment = (states[1] - states[0]*multiplier) % modulus</div><div class="line">    return modulus, multiplier, increment</div><div class="line"></div><div class="line">print crack_unknown_increment([4501678582054734753, 4371244338968431602], 9223372036854775783, 81853448938945944)</div></pre></td></tr></table></figure>
+<h3 id="3-增量和乘数都未知"><a href="#3-增量和乘数都未知" class="headerlink" title="3.增量和乘数都未知"></a>3.增量和乘数都未知</h3><p>我们虽然不知道增量和乘数但是我们知道以下数值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">m = # unknown</div><div class="line">c = # unknown</div><div class="line">n = 9223372036854775783</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># LCG生成的初值和后面生成的两个值</div><div class="line">s0 = 6473702802409947663</div><div class="line">s1 = 6562621845583276653</div><div class="line">s2 = 4483807506768649573</div></pre></td></tr></table></figure>
+<p>解决办法很简单，想想怎么解线性方程组就好了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">s_1 = s0*m + c  (mod n)</div><div class="line">s_2 = s1*m + c  (mod n)</div><div class="line"></div><div class="line">s_2 - s_1 = s1*m - s0*m  (mod n)</div><div class="line">s_2 - s_1 = m*(s1 - s0)  (mod n)</div><div class="line">m = (s_2 - s_1)/(s_1 - s_0)  (mod n)</div></pre></td></tr></table></figure>
+<p>此种类型Python攻击代码如下所示:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">def crack_unknown_multiplier(states, modulus):</div><div class="line">    multiplier = (states[2] - states[1]) * modinv(states[1] - states[0], modulus) % modulus</div><div class="line">    return crack_unknown_increment(states, modulus, multiplier)</div><div class="line"></div><div class="line">print crack_unknown_multiplier([6473702802409947663, 6562621845583276653, 4483807506768649573], 9223372036854775783)</div></pre></td></tr></table></figure>
+<p>这个算法中应用到了求模，所以我们就需要逆推。详情参考: <a href="https://en.wikibooks.org/wiki/Algorithm_Implementation/Mathematics/Extended_Euclidean_algorithm#Python" target="_blank" rel="external">Recursive algorithm</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">def egcd(a, b):</div><div class="line">    if a == 0:</div><div class="line">        return (b, 0, 1)</div><div class="line">    else:</div><div class="line">        g, x, y = egcd(b % a, a)</div><div class="line">        return (g, y - (b // a) * x, x)</div><div class="line"></div><div class="line">def modinv(b, n):</div><div class="line">    g, x, _ = egcd(b, n)</div><div class="line">    if g == 1:</div><div class="line">        return x % n</div></pre></td></tr></table></figure>
+<h3 id="4-增量，乘数和模数均未知"><a href="#4-增量，乘数和模数均未知" class="headerlink" title="4.增量，乘数和模数均未知"></a>4.增量，乘数和模数均未知</h3><p>现在内部状态基本是都不知道了，但是我们知道初值和随后LCG产生的连续的几个值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">m = # unknown</div><div class="line">c = # unknown</div><div class="line">n = # unknown</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">s0 = 2818206783446335158</div><div class="line">s1 = 3026581076925130250</div><div class="line">s2 = 136214319011561377</div><div class="line">s3 = 359019108775045580</div><div class="line">s4 = 2386075359657550866</div><div class="line">s5 = 1705259547463444505</div><div class="line">s6 = 2102452637059633432</div></pre></td></tr></table></figure>
+<p>这次用线性方程式不好解决的了，因为对于每一个方程，我们是不知道前一个模数，因此我们将形成的每个方程都会引入新的未知量：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">s1 = s0*m + c  (mod n)</div><div class="line">s2 = s1*m + c  (mod n)</div><div class="line">s3 = s2*m + c  (mod n)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">s1 - (s0*m + c) = k_1 * n</div><div class="line">s2 - (s1*m + c) = k_2 * n</div><div class="line">s3 - (s2*m + c) = k_3 * n</div></pre></td></tr></table></figure>
+<p>这就相当于六个未知数和三个方程。所以线性方程组是不可能行得通的了，但是数论里面有一条很有用:如果有几个随机数分别乘以n，那么这几个数的欧几里德算法(gcd)就很可能等于n。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">In [944]: n = 123456789</div><div class="line"></div><div class="line">In [945]: reduce(gcd, [randint(1, 1000000)*n, randint(1, 1000000)*n, randint(1, 1000000)*n])</div><div class="line">Out[945]: 123456789</div></pre></td></tr></table></figure>
+<p>某些取模运算是会等于0的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">X = 0 (mod n)</div></pre></td></tr></table></figure>
+<p>然后，根据定义，这相当于：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">X = k*n</div></pre></td></tr></table></figure>
+<p>所以这种X != 0但是X = 0 (mod n)的情况就很有趣。我们只需要取几个这样的值进行gcd运算，我们就可以解出n的值。这种是在模数未知的情况下十分常用的方法。</p>
+<p>我们在此引入一个序列 – T(n) = S(n+1) - S(n):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">t0 = s1 - s0</div><div class="line">t1 = s2 - s1 = (s1*m + c) - (s0*m + c) = m*(s1 - s0) = m*t0 (mod n)</div><div class="line">t2 = s3 - s2 = (s2*m + c) - (s1*m + c) = m*(s2 - s1) = m*t1 (mod n)</div><div class="line">t3 = s4 - s3 = (s3*m + c) - (s2*m + c) = m*(s3 - s2) = m*t2 (mod n)</div></pre></td></tr></table></figure>
+<p>之后我们就可以得到我们想要的效果了:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">t2*t0 - t1*t1 = (m*m*t0 * t0) - (m*t0 * m*t0) = 0 (mod n)</div></pre></td></tr></table></figure>
+<p>然后我们就可以生成几个这样模是0的值，进而利用我们上文讲述的技巧，此种类型Python攻击代码如下所示:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">def crack_unknown_modulus(states):</div><div class="line">    diffs = [s1 - s0 for s0, s1 in zip(states, states[1:])]</div><div class="line">    zeroes = [t2*t0 - t1*t1 for t0, t1, t2 in zip(diffs, diffs[1:], diffs[2:])]</div><div class="line">    modulus = abs(reduce(gcd, zeroes))</div><div class="line">    return crack_unknown_multiplier(states, modulus)</div><div class="line"></div><div class="line">print crack_unknown_modulus([2818206783446335158, 3026581076925130250,</div><div class="line">    136214319011561377, 359019108775045580, 2386075359657550866, 1705259547463444505])</div></pre></td></tr></table></figure>
+<h2 id="0x03-总结"><a href="#0x03-总结" class="headerlink" title="0x03 总结"></a>0x03 总结</h2><p>此处我们简述了对LCG的攻击方式，这种方式刚在P.W.N CTF中出现过，具体的题目以及解答可以参考我的下一篇文章–《P.W.N. CTF》中的LCG and the X题目解析。</p>
+<h2 id="0x04-参考"><a href="#0x04-参考" class="headerlink" title="0x04 参考"></a>0x04 参考</h2><p><a href="https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_generator" target="_blank" rel="external">Cryptographically secure pseudorandom number generator</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Lenstra%E2%80%93Lenstra%E2%80%93Lov%C3%A1sz_lattice_basis_reduction_algorithm" target="_blank" rel="external">Lenstra–Lenstra–Lovász lattice basis reduction algorithm</a></p>
+<p><a href="https://tailcall.net/blog/cracking-randomness-lcgs/" target="_blank" rel="external">Cracking RNGs: Linear Congruential Generators</a></p>
+<p><a href="https://en.wikibooks.org/wiki/Algorithm_Implementation/Mathematics/Extended_Euclidean_algorithm#Python" target="_blank" rel="external">Algorithm Implementation/Mathematics/Extended Euclidean algorithm</a></p>
+<p><a href="https://zh.wikipedia.org/wiki/%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E6%96%B9%E6%B3%95" target="_blank" rel="external">线性同余方法</a></p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-前言"><span class="toc-number">1.</span> <span class="toc-text">0x00 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-线性同余生成器-LCG"><span class="toc-number">2.</span> <span class="toc-text">0x01 线性同余生成器(LCG)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-线性同余方法"><span class="toc-number">2.1.</span> <span class="toc-text">1.线性同余方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Python代码实现"><span class="toc-number">2.2.</span> <span class="toc-text">2.Python代码实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-LCG的优缺点"><span class="toc-number">2.3.</span> <span class="toc-text">3.LCG的优缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-攻击LCG"><span class="toc-number">3.</span> <span class="toc-text">0x02 攻击LCG</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-对于A、B、M以及N0已知的情况"><span class="toc-number">3.1.</span> <span class="toc-text">1. 对于A、B、M以及N0已知的情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-增量未知"><span class="toc-number">3.2.</span> <span class="toc-text">2.增量未知</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-增量和乘数都未知"><span class="toc-number">3.3.</span> <span class="toc-text">3.增量和乘数都未知</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-增量，乘数和模数均未知"><span class="toc-number">3.4.</span> <span class="toc-text">4.增量，乘数和模数均未知</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-总结"><span class="toc-number">4.</span> <span class="toc-text">0x03 总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-参考"><span class="toc-number">5.</span> <span class="toc-text">0x04 参考</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2018/11/02/Cracking-LCG/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2018/11/02/Cracking-LCG/&text=攻击线性同余生成器(LCG)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2018/11/02/Cracking-LCG/&title=攻击线性同余生成器(LCG)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2018/11/02/Cracking-LCG/&is_video=false&description=攻击线性同余生成器(LCG)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=攻击线性同余生成器(LCG)&body=Check out this article: http://zer0yu.github.io/2018/11/02/Cracking-LCG/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2018/11/02/Cracking-LCG/&title=攻击线性同余生成器(LCG)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2018/11/02/Cracking-LCG/&title=攻击线性同余生成器(LCG)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2018/11/02/Cracking-LCG/&title=攻击线性同余生成器(LCG)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2018/11/02/Cracking-LCG/&title=攻击线性同余生成器(LCG)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2018/11/02/Cracking-LCG/&name=攻击线性同余生成器(LCG)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 z3r0yu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
