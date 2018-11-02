@@ -3,8 +3,23 @@
 
     
   <url>
+    <loc>http://zer0yu.github.io/2018/11/02/P-W-N-CTF-note/</loc>
+    <lastmod>2018-11-02T10:33:59.134Z</lastmod>
+    <data>
+        <display>
+        <title>P.W.N. CTF Writeup</title>
+        <pubTime>2018-11-02T10:33:15.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://zer0yu.github.io/2018/11/02/Cracking-LCG/</loc>
-    <lastmod>2018-11-01T16:20:22.580Z</lastmod>
+    <lastmod>2018-11-02T10:11:11.208Z</lastmod>
     <data>
         <display>
         <title>攻击线性同余生成器(LCG)</title>

