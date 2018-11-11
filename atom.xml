@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zer0yu.github.io/"/>
-  <updated>2018-11-11T15:20:35.212Z</updated>
+  <updated>2018-11-11T16:12:30.586Z</updated>
   <id>http://zer0yu.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>project zero talk note</title>
+    <link href="http://zer0yu.github.io/2018/11/12/pz-talk-note/"/>
+    <id>http://zer0yu.github.io/2018/11/12/pz-talk-note/</id>
+    <published>2018-11-11T16:11:24.000Z</published>
+    <updated>2018-11-11T16:12:30.586Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="0x01-定位"><a href="#0x01-定位" class="headerlink" title="0x01 定位"></a>0x01 定位</h2><p>任务:让0day更难</p><p>工作:</p><ul><li>漏洞研究</li><li>exploit开发</li><li>缓解设计和审查</li></ul><h2 id="0x02-Project-Zero如何找bug"><a href="#0x02-Project-Zero如何找bug" class="headerlink" title="0x02 Project Zero如何找bug"></a>0x02 Project Zero如何找bug</h2><h3 id="1-我应该从哪儿找？"><a href="#1-我应该从哪儿找？" class="headerlink" title="1.我应该从哪儿找？"></a>1.我应该从哪儿找？</h3><ul><li>优先级。 攻击者会在哪里看？重视单个研究人员的经验+专业知识</li><li>找到新的攻击面，或迭代已知的攻击面。</li></ul><h3 id="2-我应该怎么找？-也就是怎么找到一个切入角度"><a href="#2-我应该怎么找？-也就是怎么找到一个切入角度" class="headerlink" title="2.我应该怎么找？  也就是怎么找到一个切入角度"></a>2.我应该怎么找？  也就是怎么找到一个切入角度</h3><ul><li>选择处理不可信数据的输入点并找到其bugs。</li><li>选择一个bug类来查找实例。</li><li>选择一个功能/规范，找出不同实现中的常见缺陷。</li><li>查找已知问题的变形。</li></ul><h3 id="3-CVE-2018-10751"><a href="#3-CVE-2018-10751" class="headerlink" title="3.CVE-2018-10751"></a>3.CVE-2018-10751</h3><ul><li>三星Galaxy S7 Edge中的OMACP溢出–由短信触发</li><li>通过寻找处理SMS的Intent找到</li><li>一年前，Contextis报道了一个类似的错误</li></ul><h3 id="4-Fuzzing"><a href="#4-Fuzzing" class="headerlink" title="4.Fuzzing"></a>4.Fuzzing</h3><p>Canonical mutation fuzzing(大概意思是利用经典数据的变种来进行fuzz)：语料库创建，参数优化，模糊测试，覆盖反馈，崩溃分析。</p><p>自定义模糊测试，如定制生成器或文件格式突变感知。</p><h3 id="5-手动审查"><a href="#5-手动审查" class="headerlink" title="5.手动审查"></a>5.手动审查</h3><p>有时是线性的：枚举函数列表并前向分析。</p><p>有时横向：找到一些脆弱属性的实例（错误类，重复错误，非标准模式），稍后建立“触发点”。</p><h2 id="0x03-对未来的预测"><a href="#0x03-对未来的预测" class="headerlink" title="0x03 对未来的预测"></a>0x03 对未来的预测</h2><ol><li>手动分析方式不会改变</li><li>基本模糊测试结果不会很好</li><li>代码覆盖率反语料库推动新工作</li><li>静态分析对VR来说效率仍然不高</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;0x01-定位&quot;&gt;&lt;a href=&quot;#0x01-定位&quot; class=&quot;headerlink&quot; title=&quot;0x01 定位&quot;&gt;&lt;/a&gt;0x01 定位&lt;/h2&gt;&lt;p&gt;任务:让0day更难&lt;/p&gt;
+&lt;p&gt;工作:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;漏洞研究&lt;/li&gt;
+&lt;li&gt;e
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>汇编笔记</title>

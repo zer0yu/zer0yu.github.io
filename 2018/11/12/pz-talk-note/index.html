@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="0x01 定位任务:让0day更难
+工作:
+
+漏洞研究
+exploit开发
+缓解设计和审查
+
+0x02 Project Zero如何找bug1.我应该从哪儿找？
+优先级。 攻击者会在哪里看？重视单个研究人员的经验+专业知识
+找到新的攻击面，或迭代已知的攻击面。
+
+2.我应该怎么找？  也就是怎么找到一个切入角度
+选择处理不可信数据的输入点并找到其bugs。
+选择一个bug类来查找实例。
+选择一个功">
+<meta property="og:type" content="article">
+<meta property="og:title" content="project zero talk note">
+<meta property="og:url" content="http://zer0yu.github.io/2018/11/12/pz-talk-note/index.html">
+<meta property="og:site_name" content="Z3R0YU">
+<meta property="og:description" content="0x01 定位任务:让0day更难
+工作:
+
+漏洞研究
+exploit开发
+缓解设计和审查
+
+0x02 Project Zero如何找bug1.我应该从哪儿找？
+优先级。 攻击者会在哪里看？重视单个研究人员的经验+专业知识
+找到新的攻击面，或迭代已知的攻击面。
+
+2.我应该怎么找？  也就是怎么找到一个切入角度
+选择处理不可信数据的输入点并找到其bugs。
+选择一个bug类来查找实例。
+选择一个功">
+<meta property="og:updated_time" content="2018-11-11T16:12:30.586Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="project zero talk note">
+<meta name="twitter:description" content="0x01 定位任务:让0day更难
+工作:
+
+漏洞研究
+exploit开发
+缓解设计和审查
+
+0x02 Project Zero如何找bug1.我应该从哪儿找？
+优先级。 攻击者会在哪里看？重视单个研究人员的经验+专业知识
+找到新的攻击面，或迭代已知的攻击面。
+
+2.我应该怎么找？  也就是怎么找到一个切入角度
+选择处理不可信数据的输入点并找到其bugs。
+选择一个bug类来查找实例。
+选择一个功">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>project zero talk note</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml" />
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2018/11/11/assembly-note/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2018/11/12/pz-talk-note/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2018/11/12/pz-talk-note/&text=project zero talk note"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2018/11/12/pz-talk-note/&title=project zero talk note"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2018/11/12/pz-talk-note/&is_video=false&description=project zero talk note"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=project zero talk note&body=Check out this article: http://zer0yu.github.io/2018/11/12/pz-talk-note/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2018/11/12/pz-talk-note/&title=project zero talk note"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2018/11/12/pz-talk-note/&title=project zero talk note"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2018/11/12/pz-talk-note/&title=project zero talk note"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2018/11/12/pz-talk-note/&title=project zero talk note"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2018/11/12/pz-talk-note/&name=project zero talk note&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-定位"><span class="toc-number">1.</span> <span class="toc-text">0x01 定位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-Project-Zero如何找bug"><span class="toc-number">2.</span> <span class="toc-text">0x02 Project Zero如何找bug</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-我应该从哪儿找？"><span class="toc-number">2.1.</span> <span class="toc-text">1.我应该从哪儿找？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-我应该怎么找？-也就是怎么找到一个切入角度"><span class="toc-number">2.2.</span> <span class="toc-text">2.我应该怎么找？  也就是怎么找到一个切入角度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-CVE-2018-10751"><span class="toc-number">2.3.</span> <span class="toc-text">3.CVE-2018-10751</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Fuzzing"><span class="toc-number">2.4.</span> <span class="toc-text">4.Fuzzing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-手动审查"><span class="toc-number">2.5.</span> <span class="toc-text">5.手动审查</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-对未来的预测"><span class="toc-number">3.</span> <span class="toc-text">0x03 对未来的预测</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        project zero talk note
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Z3R0YU</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-11-11T16:11:24.000Z" itemprop="datePublished">2018-11-12</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="0x01-定位"><a href="#0x01-定位" class="headerlink" title="0x01 定位"></a>0x01 定位</h2><p>任务:让0day更难</p>
+<p>工作:</p>
+<ul>
+<li>漏洞研究</li>
+<li>exploit开发</li>
+<li>缓解设计和审查</li>
+</ul>
+<h2 id="0x02-Project-Zero如何找bug"><a href="#0x02-Project-Zero如何找bug" class="headerlink" title="0x02 Project Zero如何找bug"></a>0x02 Project Zero如何找bug</h2><h3 id="1-我应该从哪儿找？"><a href="#1-我应该从哪儿找？" class="headerlink" title="1.我应该从哪儿找？"></a>1.我应该从哪儿找？</h3><ul>
+<li>优先级。 攻击者会在哪里看？重视单个研究人员的经验+专业知识</li>
+<li>找到新的攻击面，或迭代已知的攻击面。</li>
+</ul>
+<h3 id="2-我应该怎么找？-也就是怎么找到一个切入角度"><a href="#2-我应该怎么找？-也就是怎么找到一个切入角度" class="headerlink" title="2.我应该怎么找？  也就是怎么找到一个切入角度"></a>2.我应该怎么找？  也就是怎么找到一个切入角度</h3><ul>
+<li>选择处理不可信数据的输入点并找到其bugs。</li>
+<li>选择一个bug类来查找实例。</li>
+<li>选择一个功能/规范，找出不同实现中的常见缺陷。</li>
+<li>查找已知问题的变形。</li>
+</ul>
+<h3 id="3-CVE-2018-10751"><a href="#3-CVE-2018-10751" class="headerlink" title="3.CVE-2018-10751"></a>3.CVE-2018-10751</h3><ul>
+<li>三星Galaxy S7 Edge中的OMACP溢出–由短信触发</li>
+<li>通过寻找处理SMS的Intent找到</li>
+<li>一年前，Contextis报道了一个类似的错误</li>
+</ul>
+<h3 id="4-Fuzzing"><a href="#4-Fuzzing" class="headerlink" title="4.Fuzzing"></a>4.Fuzzing</h3><p>Canonical mutation fuzzing(大概意思是利用经典数据的变种来进行fuzz)：语料库创建，参数优化，模糊测试，覆盖反馈，崩溃分析。</p>
+<p>自定义模糊测试，如定制生成器或文件格式突变感知。</p>
+<h3 id="5-手动审查"><a href="#5-手动审查" class="headerlink" title="5.手动审查"></a>5.手动审查</h3><p>有时是线性的：枚举函数列表并前向分析。</p>
+<p>有时横向：找到一些脆弱属性的实例（错误类，重复错误，非标准模式），稍后建立“触发点”。</p>
+<h2 id="0x03-对未来的预测"><a href="#0x03-对未来的预测" class="headerlink" title="0x03 对未来的预测"></a>0x03 对未来的预测</h2><ol>
+<li>手动分析方式不会改变</li>
+<li>基本模糊测试结果不会很好</li>
+<li>代码覆盖率反语料库推动新工作</li>
+<li>静态分析对VR来说效率仍然不高</li>
+</ol>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-定位"><span class="toc-number">1.</span> <span class="toc-text">0x01 定位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-Project-Zero如何找bug"><span class="toc-number">2.</span> <span class="toc-text">0x02 Project Zero如何找bug</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-我应该从哪儿找？"><span class="toc-number">2.1.</span> <span class="toc-text">1.我应该从哪儿找？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-我应该怎么找？-也就是怎么找到一个切入角度"><span class="toc-number">2.2.</span> <span class="toc-text">2.我应该怎么找？  也就是怎么找到一个切入角度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-CVE-2018-10751"><span class="toc-number">2.3.</span> <span class="toc-text">3.CVE-2018-10751</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Fuzzing"><span class="toc-number">2.4.</span> <span class="toc-text">4.Fuzzing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-手动审查"><span class="toc-number">2.5.</span> <span class="toc-text">5.手动审查</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-对未来的预测"><span class="toc-number">3.</span> <span class="toc-text">0x03 对未来的预测</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2018/11/12/pz-talk-note/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2018/11/12/pz-talk-note/&text=project zero talk note"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2018/11/12/pz-talk-note/&title=project zero talk note"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2018/11/12/pz-talk-note/&is_video=false&description=project zero talk note"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=project zero talk note&body=Check out this article: http://zer0yu.github.io/2018/11/12/pz-talk-note/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2018/11/12/pz-talk-note/&title=project zero talk note"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2018/11/12/pz-talk-note/&title=project zero talk note"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2018/11/12/pz-talk-note/&title=project zero talk note"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2018/11/12/pz-talk-note/&title=project zero talk note"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2018/11/12/pz-talk-note/&name=project zero talk note&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 z3r0yu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
