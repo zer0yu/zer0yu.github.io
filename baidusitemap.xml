@@ -3,6 +3,36 @@
 
     
   <url>
+    <loc>http://zer0yu.github.io/2018/11/13/what-phpinfo-can-tell-we/</loc>
+    <lastmod>2018-11-12T16:12:31.750Z</lastmod>
+    <data>
+        <display>
+        <title>phpinfo可以告诉我们什么</title>
+        <pubTime>2018-11-12T16:09:33.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://zer0yu.github.io/2018/03/06/introduction-to-ssrf/</loc>
+    <lastmod>2018-11-12T11:54:21.452Z</lastmod>
+    <data>
+        <display>
+        <title>了解SSRF,这一篇就足够了</title>
+        <pubTime>2018-03-06T13:28:42.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://zer0yu.github.io/2018/11/12/pz-talk-note/</loc>
     <lastmod>2018-11-11T16:12:30.586Z</lastmod>
     <data>
@@ -168,21 +198,6 @@
     </url>
 
     
-    
-  <url>
-    <loc>http://zer0yu.github.io/2018/03/06/introduction-to-ssrf/</loc>
-    <lastmod>2018-04-23T11:30:30.284Z</lastmod>
-    <data>
-        <display>
-        <title>了解SSRF,这一篇就足够了</title>
-        <pubTime>2018-03-06T13:28:42.000Z</pubTime>
-        
-         
-           
-        </display>
-    </data>
-    </url>
-
     
   <url>
     <loc>http://zer0yu.github.io/2017/12/02/Docker%E7%AC%94%E8%AE%B0%E2%80%94%E5%9F%BA%E7%A1%80%E7%AF%87/</loc>

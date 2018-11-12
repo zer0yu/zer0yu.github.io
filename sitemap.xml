@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zer0yu.github.io/2018/11/13/what-phpinfo-can-tell-we/</loc>
+    
+    <lastmod>2018-11-12T16:12:31.750Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://zer0yu.github.io/2018/03/06/introduction-to-ssrf/</loc>
+    
+    <lastmod>2018-11-12T11:54:21.452Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://zer0yu.github.io/2018/11/12/pz-talk-note/</loc>
     
     <lastmod>2018-11-11T16:12:30.586Z</lastmod>
@@ -89,13 +103,6 @@
     <loc>http://zer0yu.github.io/Search/index.html</loc>
     
     <lastmod>2018-05-05T14:30:47.082Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://zer0yu.github.io/2018/03/06/introduction-to-ssrf/</loc>
-    
-    <lastmod>2018-04-23T11:30:30.284Z</lastmod>
     
   </url>
   
