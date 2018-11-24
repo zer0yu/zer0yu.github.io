@@ -9,14 +9,14 @@
     <meta name="description" content="0x01 http头xff的时间盲注题目代码如下，从题目分析可以看到$ip是从xxf参数中获取的，并再使用explode函数处理后(注意在这里使用了,号作为分隔符，因而我们插入的sql语句中不能出现,号了)，直接代入sql语句，因而是存在sql注入漏洞。因为关闭了报错，因而只能采用时间盲注的方式。
 因为,号不能使用，所以就意味着limit 0,1不能使用，但是可以使用from 0 for 1进行代">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CTF中的SQLi笔记">
+<meta property="og:title" content="CTF中的SQLi">
 <meta property="og:url" content="http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/index.html">
 <meta property="og:site_name" content="Z3R0YU">
 <meta property="og:description" content="0x01 http头xff的时间盲注题目代码如下，从题目分析可以看到$ip是从xxf参数中获取的，并再使用explode函数处理后(注意在这里使用了,号作为分隔符，因而我们插入的sql语句中不能出现,号了)，直接代入sql语句，因而是存在sql注入漏洞。因为关闭了报错，因而只能采用时间盲注的方式。
 因为,号不能使用，所以就意味着limit 0,1不能使用，但是可以使用from 0 for 1进行代">
-<meta property="og:updated_time" content="2018-11-24T10:02:35.484Z">
+<meta property="og:updated_time" content="2018-11-24T12:40:01.917Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CTF中的SQLi笔记">
+<meta name="twitter:title" content="CTF中的SQLi">
 <meta name="twitter:description" content="0x01 http头xff的时间盲注题目代码如下，从题目分析可以看到$ip是从xxf参数中获取的，并再使用explode函数处理后(注意在这里使用了,号作为分隔符，因而我们插入的sql语句中不能出现,号了)，直接代入sql语句，因而是存在sql注入漏洞。因为关闭了报错，因而只能采用时间盲注的方式。
 因为,号不能使用，所以就意味着limit 0,1不能使用，但是可以使用from 0 for 1进行代">
     
@@ -38,7 +38,7 @@
         
     
     <!-- title -->
-    <title>CTF中的SQLi笔记</title>
+    <title>CTF中的SQLi</title>
     <!-- styles -->
     <link rel="stylesheet" href="/css/style.css">
     <!-- persian styles -->
@@ -61,13 +61,13 @@
     <span id="nav">
       <ul>
          
-          <li><a href="/">Home</a></li>
+          <li><a href="/">Inicio</a></li>
          
-          <li><a href="/About/">About</a></li>
+          <li><a href="/About/">Acerca de</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">Articulos</a></li>
          
-          <li><a href="https://github.com/zer0yu">Projects</a></li>
+          <li><a href="https://github.com/zer0yu">Proyectos</a></li>
         
       </ul>
     </span>
@@ -81,24 +81,24 @@
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
+      <span id="i-prev" class="info" style="display:none;">Post Anterior</span>
+      <span id="i-next" class="info" style="display:none;">Post Siguiente</span>
+      <span id="i-top" class="info" style="display:none;">Arriba</span>
+      <span id="i-share" class="info" style="display:none;">Compartir Post</span>
     </span>
     <br/>
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&text=CTF中的SQLi笔记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&title=CTF中的SQLi笔记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&is_video=false&description=CTF中的SQLi笔记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=CTF中的SQLi笔记&body=Check out this article: http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&title=CTF中的SQLi笔记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&title=CTF中的SQLi笔记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&title=CTF中的SQLi笔记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&title=CTF中的SQLi笔记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&name=CTF中的SQLi笔记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&text=CTF中的SQLi"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&title=CTF中的SQLi"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&is_video=false&description=CTF中的SQLi"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CTF中的SQLi&body=Check out this article: http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&title=CTF中的SQLi"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&title=CTF中的SQLi"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&title=CTF中的SQLi"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&title=CTF中的SQLi"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&name=CTF中的SQLi&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -115,7 +115,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        CTF中的SQLi笔记
+        CTF中的SQLi
     </h1>
 
 
@@ -317,7 +317,7 @@
 
     <div class="blog-post-comments">
         <div id="disqus_thread">
-            <noscript>Please enable JavaScript to view the comments.</noscript>
+            <noscript>Por favor activa JavaScript para ver el contenido.</noscript>
         </div>
     </div>
 
@@ -330,13 +330,13 @@
     <div id="nav-footer" style="display: none">
       <ul>
          
-          <li><a href="/">Home</a></li>
+          <li><a href="/">Inicio</a></li>
          
-          <li><a href="/About/">About</a></li>
+          <li><a href="/About/">Acerca de</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">Articulos</a></li>
          
-          <li><a href="https://github.com/zer0yu">Projects</a></li>
+          <li><a href="https://github.com/zer0yu">Proyectos</a></li>
         
       </ul>
     </div>
@@ -348,15 +348,15 @@
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&text=CTF中的SQLi笔记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&title=CTF中的SQLi笔记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&is_video=false&description=CTF中的SQLi笔记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=CTF中的SQLi笔记&body=Check out this article: http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&title=CTF中的SQLi笔记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&title=CTF中的SQLi笔记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&title=CTF中的SQLi笔记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&title=CTF中的SQLi笔记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&name=CTF中的SQLi笔记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&text=CTF中的SQLi"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&title=CTF中的SQLi"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&is_video=false&description=CTF中的SQLi"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CTF中的SQLi&body=Check out this article: http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&title=CTF中的SQLi"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&title=CTF中的SQLi"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&title=CTF中的SQLi"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&title=CTF中的SQLi"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/&name=CTF中的SQLi&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -364,7 +364,7 @@
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
         <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Compartir</a>
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
     </div>
 
@@ -380,13 +380,13 @@
     <nav>
       <ul>
          
-          <li><a href="/">Home</a></li>
+          <li><a href="/">Inicio</a></li>
          
-          <li><a href="/About/">About</a></li>
+          <li><a href="/About/">Acerca de</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">Articulos</a></li>
          
-          <li><a href="https://github.com/zer0yu">Projects</a></li>
+          <li><a href="https://github.com/zer0yu">Proyectos</a></li>
         
       </ul>
     </nav>
