@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zer0yu.github.io/2018/11/24/SQLi-in-CTF/</loc>
+    
+    <lastmod>2018-11-24T10:02:35.484Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://zer0yu.github.io/2018/11/23/2018-The-Second-HNCyber-Web-writeup/</loc>
     
     <lastmod>2018-11-23T12:34:14.611Z</lastmod>
