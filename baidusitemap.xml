@@ -2,6 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     
+  <url>
+    <loc>http://zer0yu.github.io/2019/03/06/wordpress-5-0-0-rce-aanalysis/</loc>
+    <lastmod>2019-03-05T17:23:38.914Z</lastmod>
+    <data>
+        <display>
+        <title>wordpress 5.0.0 RCE分析与复现</title>
+        <pubTime>2019-03-05T17:15:35.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
     
   <url>
     <loc>http://zer0yu.github.io/2018/05/24/ctf-awd-note/</loc>
