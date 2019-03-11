@@ -3,8 +3,23 @@
 
     
   <url>
+    <loc>http://zer0yu.github.io/2019/03/11/NAVEX-Precise-and-Scalable-Exploit-Generation-for-Dynamic-Web-Applications/</loc>
+    <lastmod>2019-03-11T12:20:25.407Z</lastmod>
+    <data>
+        <display>
+        <title>NAVEX->Precise and Scalable Exploit Generation for Dynamic Web Applications</title>
+        <pubTime>2019-03-11T12:01:16.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://zer0yu.github.io/2019/03/06/wordpress-5-0-0-rce-aanalysis/</loc>
-    <lastmod>2019-03-05T17:23:38.914Z</lastmod>
+    <lastmod>2019-03-06T04:48:44.699Z</lastmod>
     <data>
         <display>
         <title>wordpress 5.0.0 RCE分析与复现</title>

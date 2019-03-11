@@ -61,13 +61,13 @@
     <span id="nav">
       <ul>
          
-          <li><a href="/">خانه</a></li>
+          <li><a href="/">Home</a></li>
          
-          <li><a href="/About/">درباره</a></li>
+          <li><a href="/About/">About</a></li>
          
-          <li><a href="/archives/">نوشته‌ها</a></li>
+          <li><a href="/archives/">Writing</a></li>
          
-          <li><a href="https://github.com/zer0yu">پروژه‌ها</a></li>
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
         
       </ul>
     </span>
@@ -83,10 +83,10 @@
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
-      <span id="i-prev" class="info" style="display:none;">پست پیشین</span>
-      <span id="i-next" class="info" style="display:none;">پست یعدی</span>
-      <span id="i-top" class="info" style="display:none;">بازگشت به بالا</span>
-      <span id="i-share" class="info" style="display:none;">اشتراک‌گذاری</span>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
     </span>
     <br/>
     <div id="share" style="display: none">
@@ -288,7 +288,7 @@
 <p>注意当数字过长是可以采用截取字符串的方式，八位八位的获取数据结果，公式:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select conv(hex(substr(user(),1 + (n-1) * 8, 8 * n)), 16, 10);</div></pre></td></tr></table></figure>
 <p>参考：<a href="http://www.zhutougg.com/2018/02/23/mysqlkuai-su-mang-zhu-xiao-ji-qiao/" target="_blank" rel="external">http://www.zhutougg.com/2018/02/23/mysqlkuai-su-mang-zhu-xiao-ji-qiao/</a></p>
-<h2 id="0x16-update注入"><a href="#0x16-update注入" class="headerlink" title="0x16 update注入"></a>0x16 update注入</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$link = mysqli_connect(<span class="string">'localhost'</span>, <span class="string">'root'</span>, <span class="string">'root'</span>);</div><div class="line">mysqli_select_db($link, <span class="string">'code'</span>);</div><div class="line"></div><div class="line">$table = addslashes($_GET[<span class="string">'table'</span>]);</div><div class="line">$sql = <span class="string">"UPDATE `&#123;$table&#125;` </span></div><div class="line">        SET `username`='admin'</div><div class="line">        WHERE id=1";</div><div class="line"><span class="keyword">if</span>(!mysqli_query($link, $sql)) &#123;</div><div class="line">    <span class="keyword">echo</span>(mysqli_error($link));</div><div class="line">&#125;</div><div class="line">mysqli_close($link);</div></pre></td></tr></table></figure>
+<h2 id="0x16-update注入"><a href="#0x16-update注入" class="headerlink" title="0x16 update注入"></a>0x16 update注入</h2><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">$link = mysqli_connect('localhost', 'root', 'root');</div><div class="line">mysqli_select_db($link, 'code');</div><div class="line"></div><div class="line">$table = addslashes($_GET['table']);</div><div class="line">$sql = "UPDATE `&#123;$table&#125;` </div><div class="line">        SET `username`='admin'</div><div class="line">        WHERE id=1";</div><div class="line">if(!mysqli_query($link, $sql)) &#123;</div><div class="line">    echo(mysqli_error($link));</div><div class="line">&#125;</div><div class="line">mysqli_close($link);</div></pre></td></tr></table></figure>
 <p>关键点:</p>
 <ol>
 <li>update注入，且sql语句没有写在一行代码里面 =&gt; left join</li>
@@ -319,7 +319,7 @@
 
     <div class="blog-post-comments">
         <div id="disqus_thread">
-            <noscript>برای مشاهده دیدگاه‌ها، لطفا جاوااسکریپت را فعال کنید.</noscript>
+            <noscript>Please enable JavaScript to view the comments.</noscript>
         </div>
     </div>
 
@@ -332,13 +332,13 @@
     <div id="nav-footer" style="display: none">
       <ul>
          
-          <li><a href="/">خانه</a></li>
+          <li><a href="/">Home</a></li>
          
-          <li><a href="/About/">درباره</a></li>
+          <li><a href="/About/">About</a></li>
          
-          <li><a href="/archives/">نوشته‌ها</a></li>
+          <li><a href="/archives/">Writing</a></li>
          
-          <li><a href="https://github.com/zer0yu">پروژه‌ها</a></li>
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
         
       </ul>
     </div>
@@ -364,10 +364,10 @@
     </div>
 
     <div id="actions-footer">
-        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> منو</a>
-        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> محتوا</a>
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> اشتراک‌گذاری</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> بالا</a>
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
     </div>
 
   </div>
@@ -376,19 +376,19 @@
     
     <footer id="footer">
   <div class="footer-left">
-    حق‌کپی &copy; 2019 z3r0yu
+    Copyright &copy; 2019 z3r0yu
   </div>
   <div class="footer-right">
     <nav>
       <ul>
          
-          <li><a href="/">خانه</a></li>
+          <li><a href="/">Home</a></li>
          
-          <li><a href="/About/">درباره</a></li>
+          <li><a href="/About/">About</a></li>
          
-          <li><a href="/archives/">نوشته‌ها</a></li>
+          <li><a href="/archives/">Writing</a></li>
          
-          <li><a href="https://github.com/zer0yu">پروژه‌ها</a></li>
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
         
       </ul>
     </nav>
