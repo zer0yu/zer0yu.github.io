@@ -7,13 +7,13 @@
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="0x00 概述RIPS于2月20日在博客上披露了一个关于WordPress 5.0.0的远程代码执行漏洞。此漏洞由Post Meta变量覆盖、目录穿越写文件、模板包含组合后构成远程代码执行漏洞。
-1.漏洞触发条件（1）根据LoRexxar’的文章来看，存在漏洞的wordpress版本如下：WordPress commit \&amp;lt;= 43bdb0e193955145a5ab1137890bb79">
+1.漏洞触发条件（1）存在漏洞的wordpress版本如下：WordPress commit \&amp;lt;= 43bdb0e193955145a5ab1137890bb798bce5f0d2 （WordPr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="wordpress 5.0.0 RCE分析与复现">
 <meta property="og:url" content="http://zer0yu.github.io/2019/03/06/wordpress-5-0-0-rce-aanalysis/index.html">
 <meta property="og:site_name" content="Z3R0YU">
 <meta property="og:description" content="0x00 概述RIPS于2月20日在博客上披露了一个关于WordPress 5.0.0的远程代码执行漏洞。此漏洞由Post Meta变量覆盖、目录穿越写文件、模板包含组合后构成远程代码执行漏洞。
-1.漏洞触发条件（1）根据LoRexxar’的文章来看，存在漏洞的wordpress版本如下：WordPress commit \&amp;lt;= 43bdb0e193955145a5ab1137890bb79">
+1.漏洞触发条件（1）存在漏洞的wordpress版本如下：WordPress commit \&amp;lt;= 43bdb0e193955145a5ab1137890bb798bce5f0d2 （WordPr">
 <meta property="og:image" content="https://i.loli.net/2019/03/03/5c7b439ce5b3c.png">
 <meta property="og:image" content="https://i.loli.net/2019/03/03/5c7b4799e13b4.png">
 <meta property="og:image" content="https://i.loli.net/2019/03/03/5c7b5cab0f798.png">
@@ -58,11 +58,11 @@
 <meta property="og:image" content="https://i.loli.net/2019/03/05/5c7e96422d642.png">
 <meta property="og:image" content="https://i.loli.net/2019/03/05/5c7e96c489671.png">
 <meta property="og:image" content="https://i.loli.net/2019/03/06/5c7ea650cf4c9.png">
-<meta property="og:updated_time" content="2019-03-05T17:23:38.914Z">
+<meta property="og:updated_time" content="2019-03-06T04:48:44.699Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="wordpress 5.0.0 RCE分析与复现">
 <meta name="twitter:description" content="0x00 概述RIPS于2月20日在博客上披露了一个关于WordPress 5.0.0的远程代码执行漏洞。此漏洞由Post Meta变量覆盖、目录穿越写文件、模板包含组合后构成远程代码执行漏洞。
-1.漏洞触发条件（1）根据LoRexxar’的文章来看，存在漏洞的wordpress版本如下：WordPress commit \&amp;lt;= 43bdb0e193955145a5ab1137890bb79">
+1.漏洞触发条件（1）存在漏洞的wordpress版本如下：WordPress commit \&amp;lt;= 43bdb0e193955145a5ab1137890bb798bce5f0d2 （WordPr">
 <meta name="twitter:image" content="https://i.loli.net/2019/03/03/5c7b439ce5b3c.png">
     
     
@@ -106,13 +106,13 @@
     <span id="nav">
       <ul>
          
-          <li><a href="/">Home</a></li>
+          <li><a href="/">خانه</a></li>
          
-          <li><a href="/About/">About</a></li>
+          <li><a href="/About/">درباره</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">نوشته‌ها</a></li>
          
-          <li><a href="https://github.com/zer0yu">Projects</a></li>
+          <li><a href="https://github.com/zer0yu">پروژه‌ها</a></li>
         
       </ul>
     </span>
@@ -126,10 +126,10 @@
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
+      <span id="i-prev" class="info" style="display:none;">پست پیشین</span>
+      <span id="i-next" class="info" style="display:none;">پست یعدی</span>
+      <span id="i-top" class="info" style="display:none;">بازگشت به بالا</span>
+      <span id="i-share" class="info" style="display:none;">اشتراک‌گذاری</span>
     </span>
     <br/>
     <div id="share" style="display: none">
@@ -183,12 +183,12 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="0x00-概述"><a href="#0x00-概述" class="headerlink" title="0x00 概述"></a>0x00 概述</h2><p>RIPS于2月20日在博客上披露了一个关于WordPress 5.0.0的远程代码执行漏洞。此漏洞由Post Meta变量覆盖、目录穿越写文件、模板包含组合后构成远程代码执行漏洞。</p>
-<h3 id="1-漏洞触发条件"><a href="#1-漏洞触发条件" class="headerlink" title="1.漏洞触发条件"></a>1.漏洞触发条件</h3><p>（1）根据LoRexxar’的文章来看，存在漏洞的wordpress版本如下：<br><a href="https://github.com/WordPress/WordPress/commit/43bdb0e193955145a5ab1137890bb798bce5f0d2" target="_blank" rel="external">WordPress commit \&lt;= 43bdb0e193955145a5ab1137890bb798bce5f0d2 （WordPress 5.1-alpha-44280）</a><br>（2）需要作者权限的账号</p>
+<h3 id="1-漏洞触发条件"><a href="#1-漏洞触发条件" class="headerlink" title="1.漏洞触发条件"></a>1.漏洞触发条件</h3><p>（1）存在漏洞的wordpress版本如下：<br><a href="https://github.com/WordPress/WordPress/commit/43bdb0e193955145a5ab1137890bb798bce5f0d2" target="_blank" rel="external">WordPress commit \&lt;= 43bdb0e193955145a5ab1137890bb798bce5f0d2 （WordPress 5.1-alpha-44280）</a><br>（2）需要作者权限的账号</p>
 <h3 id="2-漏洞的影响范围"><a href="#2-漏洞的影响范围" class="headerlink" title="2.漏洞的影响范围"></a>2.漏洞的影响范围</h3><p>受影响的wordpress版本为：<br>1.WordPress 5.1-alpha-44280更新后<br>2.未更新的4.9.9~5.0.0的WordPress<br>服务端：windows、linux、mac<br>图片处理库：gd/imagick</p>
 <h2 id="0x01-环境配置"><a href="#0x01-环境配置" class="headerlink" title="0x01 环境配置"></a>0x01 环境配置</h2><p>wordpress在某个版本以后，就增加了自动升级小版本的功能。所以安装好wp以后，需要手工在wp-config.php中加个<code>define(&#39;AUTOMATIC_UPDATER_DISABLED&#39;,true);</code>，禁止其自动更新。</p>
 <p>代码下载最好到对应的<a href="https://cn.wordpress.org/" target="_blank" rel="external">wordpress网站</a>下载，因为官方github release版本都被patch了。此处的分析采用的是从wordpress中文网下载的4.9.4版本代码。</p>
 <p>本文的环境搭建：macOS+php7+wordpress4.9.4+imagick6.9.7</p>
-<h2 id="0x02-漏洞分析"><a href="#0x02-漏洞分析" class="headerlink" title="0x02 漏洞分析"></a>0x02 漏洞分析</h2><h3 id="1-Post-Meta变量覆盖"><a href="#1-Post-Meta变量覆盖" class="headerlink" title="1.Post Meta变量覆盖"></a>1.Post Meta变量覆盖</h3><p>此处的漏洞点出现在wordpress 媒体功能在更新被编辑的图片处，我们上传图片之后，图片的保存路径是<code>wp-content/uploads/years/month</code>，同时会在数据库的<code>wp_postmeta</code>表中<code>_wp_attached_file</code>和<code>_wp_attachment_metadata</code>插入对应的值，第一个值是图片的路径+图片名，第二个是图片的相关信息被序列化后的值，具体信息如下图所示。<br><img src="https://i.loli.net/2019/03/03/5c7b439ce5b3c.png" alt="屏幕快照 2019-03-03 上午11.01.17.png"><br>接下来我们定位到此处的漏洞点，在编辑并更新图片的时候会调用edit_post()函数，wp-admin/includes/post.php:187<br><img src="https://i.loli.net/2019/03/03/5c7b4799e13b4.png" alt="屏幕快照 2019-03-03 上午11.18.30.png"><br>从中可以看到该方法的参数来自<code>$_POST</code>,并且此处也没有任何的过滤，在赋值给<code>$post_data</code>之后，被带入到<code>wp_update_post()</code>函数。我们动态调试跟一下这个函数的调用栈。首先我们直接让程序运行到<code>update_post_meta()</code>这个函数，这个函数根据<code>$post_ID</code>修改<code>post meta field</code>，接着调用<code>update_metadata()</code>更新meta数据，完成之后更新post数据。但是在此处并没有对post的数据进行过滤，我们的<code>$post_data[&quot;meta_input&quot;][&quot;_wp_attached_file&quot;]</code>的值也没有被剔除掉。<br><img src="https://i.loli.net/2019/03/03/5c7b5cab0f798.png" alt="屏幕快照 2019-03-03 下午12.48.07.png"><br>我们继续跟进<code>wp_update_post()</code>函数，点击步进后进入<code>wp_update_post()</code>函数，wp-includes/post.php:3611<br><img src="https://i.loli.net/2019/03/03/5c7b5f1b5cdf7.png" alt="屏幕快照 2019-03-03 下午12.57.47.png"><br>我们可以看到在这个函数的末尾处，如果post_type的值是attachment类型就会调用<code>wp_insert_attachment()</code>函数，wp-includes/post.php:4898。<br><img src="https://i.loli.net/2019/03/03/5c7b606a0a0e3.png" alt="屏幕快照 2019-03-03 下午1.04.31.png"><br>我们继续步进跟一下这个函数，可以看到它接着调用了<code>wp_insert_post()</code>函数，wp-includes/post.php:3044<br>在第3434行可以看到对于meta_input参数，此处遍历传入<code>update_post_meta()</code>函数，我们继续跟进。<br><img src="https://i.loli.net/2019/03/03/5c7b630b3a4cc.png" alt="屏幕快照 2019-03-03 下午1.15.42.png"><br><code>update_post_meta()</code>函数，wp-includes/post.php:1799<br>发现其中调用了<code>update_metadata()</code>函数来做进一步的处理，跟进后发现<code>update_metadata()</code>使用来将数据库中对应的键值进行更新操作，而且在这个过程中没有对<code>meta_input</code>的值做任何的过滤，所以我们可以传入指定的 key 来设置它的值。<br><img src="https://i.loli.net/2019/03/03/5c7b703fb6665.png" alt="屏幕快照 2019-03-03 下午2.11.11.png"><br><img src="https://i.loli.net/2019/03/03/5c7b71445620f.png" alt="屏幕快照 2019-03-03 下午2.16.24.png"><br>在此我们回顾一下这个调用栈<br><img src="https://i.loli.net/2019/03/03/5c7b7228a57e9.png" alt="屏幕快照 2019-03-03 下午2.20.10.png"><br>因此我们构造POST数据包就可以覆盖掉<code>_wp_attached_file</code>的值，覆盖效果及操作如下所示：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#将这个附加到POST数据后</span></div><div class="line">&amp;meta_input[_wp_attached_file]=2019/03/z3r0yu.jpg?/../../../../themes/z3r0yu.jpg</div></pre></td></tr></table></figure></p>
+<h2 id="0x02-漏洞分析"><a href="#0x02-漏洞分析" class="headerlink" title="0x02 漏洞分析"></a>0x02 漏洞分析</h2><h3 id="1-Post-Meta变量覆盖"><a href="#1-Post-Meta变量覆盖" class="headerlink" title="1.Post Meta变量覆盖"></a>1.Post Meta变量覆盖</h3><p>此处的漏洞点出现在wordpress 媒体功能在更新被编辑的图片处，我们上传图片之后，图片的保存路径是<code>wp-content/uploads/years/month</code>，同时会在数据库的<code>wp_postmeta</code>表中<code>_wp_attached_file</code>和<code>_wp_attachment_metadata</code>插入对应的值，第一个值是图片的路径+图片名，第二个是图片的相关信息被序列化后的值，具体信息如下图所示。<br><img src="https://i.loli.net/2019/03/03/5c7b439ce5b3c.png" alt="屏幕快照 2019-03-03 上午11.01.17.png"><br>接下来我们定位到此处的漏洞点，在编辑并更新图片的时候会调用edit_post()函数，wp-admin/includes/post.php:187<br><img src="https://i.loli.net/2019/03/03/5c7b4799e13b4.png" alt="屏幕快照 2019-03-03 上午11.18.30.png"><br>从中可以看到该方法的参数来自<code>$_POST</code>,并且此处也没有任何的过滤，在赋值给<code>$post_data</code>之后，被带入到<code>wp_update_post()</code>函数。我们动态调试跟一下这个函数的调用栈。首先我们直接让程序运行到<code>update_post_meta()</code>这个函数，这个函数根据<code>$post_ID</code>修改<code>post meta field</code>，接着调用<code>update_metadata()</code>更新meta数据，完成之后更新post数据。但是在此处并没有对post的数据进行过滤，我们的<code>$post_data[&quot;meta_input&quot;][&quot;_wp_attached_file&quot;]</code>的值也没有被过滤掉。<br><img src="https://i.loli.net/2019/03/03/5c7b5cab0f798.png" alt="屏幕快照 2019-03-03 下午12.48.07.png"><br>我们继续跟进<code>wp_update_post()</code>函数，点击步进后进入<code>wp_update_post()</code>函数，wp-includes/post.php:3611<br><img src="https://i.loli.net/2019/03/03/5c7b5f1b5cdf7.png" alt="屏幕快照 2019-03-03 下午12.57.47.png"><br>我们可以看到在这个函数的末尾处，如果post_type的值是attachment类型就会调用<code>wp_insert_attachment()</code>函数，wp-includes/post.php:4898。<br><img src="https://i.loli.net/2019/03/03/5c7b606a0a0e3.png" alt="屏幕快照 2019-03-03 下午1.04.31.png"><br>我们继续步进跟一下这个函数，可以看到它接着调用了<code>wp_insert_post()</code>函数，wp-includes/post.php:3044<br>在第3434行可以看到对于meta_input参数，此处遍历传入<code>update_post_meta()</code>函数，我们继续跟进。<br><img src="https://i.loli.net/2019/03/03/5c7b630b3a4cc.png" alt="屏幕快照 2019-03-03 下午1.15.42.png"><br><code>update_post_meta()</code>函数，wp-includes/post.php:1799<br>发现其中调用了<code>update_metadata()</code>函数来做进一步的处理，跟进后发现<code>update_metadata()</code>使用来将数据库中对应的键值进行更新操作，而且在这个过程中没有对<code>meta_input</code>的值做任何的过滤，所以我们可以传入指定的 key 来设置它的值。<br><img src="https://i.loli.net/2019/03/03/5c7b703fb6665.png" alt="屏幕快照 2019-03-03 下午2.11.11.png"><br><img src="https://i.loli.net/2019/03/03/5c7b71445620f.png" alt="屏幕快照 2019-03-03 下午2.16.24.png"><br>在此我们回顾一下这个调用栈<br><img src="https://i.loli.net/2019/03/03/5c7b7228a57e9.png" alt="屏幕快照 2019-03-03 下午2.20.10.png"><br>因此我们构造POST数据包就可以覆盖掉<code>_wp_attached_file</code>的值，覆盖效果及操作如下所示：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#将这个附加到POST数据后</span></div><div class="line">&amp;meta_input[_wp_attached_file]=2019/03/z3r0yu.jpg?/../../../../themes/z3r0yu.jpg</div></pre></td></tr></table></figure></p>
 <p><img src="https://i.loli.net/2019/03/03/5c7b735ce8c23.png" alt="屏幕快照 2019-03-03 下午2.24.01.png"><br><img src="https://i.loli.net/2019/03/03/5c7b735cdc061.png" alt="屏幕快照 2019-03-03 下午2.24.34.png"><br><img src="https://i.loli.net/2019/03/03/5c7b735cdcbbd.png" alt="屏幕快照 2019-03-03 下午2.25.13.png"><br>到此为止第处漏洞点的分析利用已经完成，漏洞触发最重要原因就是没有做好过滤，因此该处的补丁为：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">array_diff_key( $post_data, array_flip( <span class="keyword">array</span>( <span class="string">'meta_input'</span>, <span class="string">'file'</span>, <span class="string">'guid'</span> ) ) );</div></pre></td></tr></table></figure></p>
 <p>从补丁上可以看到对<code>meta_input</code>做了过滤(PS:你下载的代码中要是出现这个就说明是被patch过了)。</p>
 <h3 id="2-目录穿越造成文件写入"><a href="#2-目录穿越造成文件写入" class="headerlink" title="2.目录穿越造成文件写入"></a>2.目录穿越造成文件写入</h3><p>该问题是建立在之前我们Post Meta变量覆盖漏洞之上的。因为在之前我们是可以在<code>_wp_attached_file</code>处写入任意值的，因此只需要一个方法将我们写入的值进行利用一下就好。<br>在wordpress的图片裁剪功能中，可以实现本地文件读取和远程文件读取。但是远程文件读取这个位置很有意思，如果目标图片在该目录不存在，则通过<strong>本地服务器</strong>下载该图片，如从<code>http://127.0.0.1/wp494/wp-content/uploads/2019/03/2233.jpg</code>下载，裁剪后重新保存。此处我们可以构造一个带参数的url，比如<code>http://127.0.0.1/wp494/wp-content/uploads/2019/03/2233.jpg?z3r0yu</code>，在远程读取的时候会忽略?号之后的内容，从而只对2233.jpg进行剪切后保存。目录穿越问题就存在于此，如果我们构造如下所示的url<code>http://127.0.0.1/wp494/wp-content/uploads/2019/03/2233.jpg?/../../../../themes/twentysixteen/z3r0yu.jpg</code>，wordpress将裁减后的图片保存至<code>wp-content/themes/twentysixteen/</code>目录下，如果图片中包含恶意代码就可能被进一步的利用。</p>
@@ -233,7 +233,7 @@
 
     <div class="blog-post-comments">
         <div id="disqus_thread">
-            <noscript>Please enable JavaScript to view the comments.</noscript>
+            <noscript>برای مشاهده دیدگاه‌ها، لطفا جاوااسکریپت را فعال کنید.</noscript>
         </div>
     </div>
 
@@ -246,13 +246,13 @@
     <div id="nav-footer" style="display: none">
       <ul>
          
-          <li><a href="/">Home</a></li>
+          <li><a href="/">خانه</a></li>
          
-          <li><a href="/About/">About</a></li>
+          <li><a href="/About/">درباره</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">نوشته‌ها</a></li>
          
-          <li><a href="https://github.com/zer0yu">Projects</a></li>
+          <li><a href="https://github.com/zer0yu">پروژه‌ها</a></li>
         
       </ul>
     </div>
@@ -278,10 +278,10 @@
     </div>
 
     <div id="actions-footer">
-        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
-        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> منو</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> محتوا</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> اشتراک‌گذاری</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> بالا</a>
     </div>
 
   </div>
@@ -290,19 +290,19 @@
     
     <footer id="footer">
   <div class="footer-left">
-    Copyright &copy; 2019 z3r0yu
+    حق‌کپی &copy; 2019 z3r0yu
   </div>
   <div class="footer-right">
     <nav>
       <ul>
          
-          <li><a href="/">Home</a></li>
+          <li><a href="/">خانه</a></li>
          
-          <li><a href="/About/">About</a></li>
+          <li><a href="/About/">درباره</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">نوشته‌ها</a></li>
          
-          <li><a href="https://github.com/zer0yu">Projects</a></li>
+          <li><a href="https://github.com/zer0yu">پروژه‌ها</a></li>
         
       </ul>
     </nav>
