@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="出处：2017 IEEE Symposium on Security and Privacy (SP)作者：Najmeh Miramirkhani, Mahathi Priya Appini, Nick Nikiforakis, Michalis Polychronakis单位：Stony Brook University资料：Paper 
+1.Abstract &amp;amp; INTRODUCTIO">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spotless Sandboxes->Evading Malware Analysis Systems using Wear-and-Tear Artifacts">
+<meta property="og:url" content="http://zer0yu.github.io/2019/03/20/Spotless-Sandboxes/index.html">
+<meta property="og:site_name" content="Z3R0YU">
+<meta property="og:description" content="出处：2017 IEEE Symposium on Security and Privacy (SP)作者：Najmeh Miramirkhani, Mahathi Priya Appini, Nick Nikiforakis, Michalis Polychronakis单位：Stony Brook University资料：Paper 
+1.Abstract &amp;amp; INTRODUCTIO">
+<meta property="og:image" content="https://i.loli.net/2019/03/20/5c91ebb3a0f41.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/20/5c91ebd9f2459.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/20/5c91ebf611d6b.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/20/5c91ec1191b91.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/20/5c91ec2ee2d88.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/20/5c91ec4613e0d.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/20/5c91ec5d88eee.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/20/5c91ec794e2f8.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/20/5c91ec96391e3.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/20/5c91ecb059a15.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/20/5c91ecc913f22.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/20/5c91ecdfea41f.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/20/5c91ecf70f6f7.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/20/5c91ed105f20b.png">
+<meta property="og:updated_time" content="2019-03-20T07:39:15.369Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spotless Sandboxes->Evading Malware Analysis Systems using Wear-and-Tear Artifacts">
+<meta name="twitter:description" content="出处：2017 IEEE Symposium on Security and Privacy (SP)作者：Najmeh Miramirkhani, Mahathi Priya Appini, Nick Nikiforakis, Michalis Polychronakis单位：Stony Brook University资料：Paper 
+1.Abstract &amp;amp; INTRODUCTIO">
+<meta name="twitter:image" content="https://i.loli.net/2019/03/20/5c91ebb3a0f41.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Spotless Sandboxes-&gt;Evading Malware Analysis Systems using Wear-and-Tear Artifacts</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml" />
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2019/03/11/NAVEX-Precise-and-Scalable-Exploit-Generation-for-Dynamic-Web-Applications/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2019/03/20/Spotless-Sandboxes/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2019/03/20/Spotless-Sandboxes/&text=Spotless Sandboxes-&gt;Evading Malware Analysis Systems using Wear-and-Tear Artifacts"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2019/03/20/Spotless-Sandboxes/&title=Spotless Sandboxes-&gt;Evading Malware Analysis Systems using Wear-and-Tear Artifacts"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2019/03/20/Spotless-Sandboxes/&is_video=false&description=Spotless Sandboxes-&gt;Evading Malware Analysis Systems using Wear-and-Tear Artifacts"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Spotless Sandboxes-&gt;Evading Malware Analysis Systems using Wear-and-Tear Artifacts&body=Check out this article: http://zer0yu.github.io/2019/03/20/Spotless-Sandboxes/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2019/03/20/Spotless-Sandboxes/&title=Spotless Sandboxes-&gt;Evading Malware Analysis Systems using Wear-and-Tear Artifacts"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2019/03/20/Spotless-Sandboxes/&title=Spotless Sandboxes-&gt;Evading Malware Analysis Systems using Wear-and-Tear Artifacts"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2019/03/20/Spotless-Sandboxes/&title=Spotless Sandboxes-&gt;Evading Malware Analysis Systems using Wear-and-Tear Artifacts"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2019/03/20/Spotless-Sandboxes/&title=Spotless Sandboxes-&gt;Evading Malware Analysis Systems using Wear-and-Tear Artifacts"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2019/03/20/Spotless-Sandboxes/&name=Spotless Sandboxes-&gt;Evading Malware Analysis Systems using Wear-and-Tear Artifacts&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Abstract-amp-INTRODUCTION"><span class="toc-number">1.</span> <span class="toc-text">1.Abstract & INTRODUCTION</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BACKGROUND-AND-RELATED-WORK"><span class="toc-number">2.</span> <span class="toc-text">BACKGROUND AND RELATED WORK</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-Virtualization-and-Instrumentation-Artifacts"><span class="toc-number">2.1.</span> <span class="toc-text">A. Virtualization and Instrumentation Artifacts</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-Environmental-and-User-Interaction-Artifacts"><span class="toc-number">2.2.</span> <span class="toc-text">B. Environmental and User Interaction Artifacts</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-Sandbox-Fingerprinting"><span class="toc-number">2.3.</span> <span class="toc-text">C. Sandbox Fingerprinting</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#III-WEAR-AND-TEAR-ARTIFACTS"><span class="toc-number">3.</span> <span class="toc-text">III. WEAR AND TEAR ARTIFACTS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-Probing-for-Artifacts-while-Preserving-User-Privacy"><span class="toc-number">3.1.</span> <span class="toc-text">A. Probing for Artifacts while Preserving User Privacy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-Artifact-Categories"><span class="toc-number">3.2.</span> <span class="toc-text">B. Artifact Categories</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IV-DATA-COLLECTION"><span class="toc-number">4.</span> <span class="toc-text">IV. DATA COLLECTION</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-Probe-Tool-Implementation"><span class="toc-number">4.1.</span> <span class="toc-text">A. Probe Tool Implementation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-IRB-Approval-and-User-Involvement"><span class="toc-number">4.2.</span> <span class="toc-text">B. IRB Approval and User Involvement</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-Data-Collection"><span class="toc-number">4.3.</span> <span class="toc-text">C. Data Collection</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#D-Dataset-Statistics"><span class="toc-number">4.4.</span> <span class="toc-text">D. Dataset Statistics</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#V-EVADING-MALWARE-SANDBOXES"><span class="toc-number">5.</span> <span class="toc-text">V. EVADING MALWARE SANDBOXES</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-Setup-and-Classifier"><span class="toc-number">5.1.</span> <span class="toc-text">A. Setup and Classifier</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-Evaluation"><span class="toc-number">5.2.</span> <span class="toc-text">B. Evaluation</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VI-ESTIMATING-ACTUAL-SYSTEM-AGE"><span class="toc-number">6.</span> <span class="toc-text">VI. ESTIMATING ACTUAL SYSTEM AGE</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-Correlation-Between-Age-and-Artifacts"><span class="toc-number">6.1.</span> <span class="toc-text">A. Correlation Between Age and Artifacts</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-Regression"><span class="toc-number">6.2.</span> <span class="toc-text">B. Regression</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VII-DISCUSSION"><span class="toc-number">7.</span> <span class="toc-text">VII. DISCUSSION</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-Ethical-Considerations-and-Coordinated-Disclosure"><span class="toc-number">7.1.</span> <span class="toc-text">A. Ethical Considerations and Coordinated Disclosure</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-Probing-Stealthiness"><span class="toc-number">7.2.</span> <span class="toc-text">B. Probing Stealthiness</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-OS-Dependability"><span class="toc-number">7.3.</span> <span class="toc-text">C. OS Dependability</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#D-Defenses"><span class="toc-number">7.4.</span> <span class="toc-text">D. Defenses</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VIII-CONCLUSION-AND-FUTURE-WORK"><span class="toc-number">8.</span> <span class="toc-text">VIII. CONCLUSION AND FUTURE WORK</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Spotless Sandboxes-&gt;Evading Malware Analysis Systems using Wear-and-Tear Artifacts
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Z3R0YU</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-03-20T07:38:10.000Z" itemprop="datePublished">2019-03-20</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>出处：2017 IEEE Symposium on Security and Privacy (SP)<br>作者：Najmeh Miramirkhani, Mahathi Priya Appini, Nick Nikiforakis, Michalis Polychronakis<br>单位：Stony Brook University<br>资料：<a href="https://ieeexplore.ieee.org/abstract/document/7958622" target="_blank" rel="external">Paper</a> </p>
+<h2 id="1-Abstract-amp-INTRODUCTION"><a href="#1-Abstract-amp-INTRODUCTION" class="headerlink" title="1.Abstract &amp; INTRODUCTION"></a>1.Abstract &amp; INTRODUCTION</h2><p>动态恶意代码分析系统通过将每个样本加载到称为沙箱的大量仪器环境中来操作，并以不同的粒度级别（例如，I/O活动，系统调用，机器指令）监视其操作。 恶意软件沙箱通常使用API hooking机制、CPU仿真器、虚拟机、甚至是专用的裸机主机来构建。</p>
+<p>攻击者角度:</p>
+<ol>
+<li>使用打包、多态以及其他代码混淆技术规避基于静态代码分析的恶意软件扫描技术；</li>
+<li>在恶意软件中加入一定的“环境感知能力”来规避恶意软件沙箱环境的分析(在发现身处沙箱环境后采用直接崩溃或者展示“良性”行为)。</li>
+</ol>
+<p>防御者角度:</p>
+<ol>
+<li>一般而言用实际值替换分析环境的特有属性并隐藏检测工具，来尝试避免被恶意软件感知；</li>
+<li>针对使用仿真或者虚拟技术的产品而言，使用清除特定的驱动程序、进程以及其它虚拟技术指示器来实现防规避；</li>
+<li>使用裸机(在进行一定的隔离后，直接使用物理计算机)。</li>
+</ol>
+<p>防御者角度的问题缺陷:</p>
+<ol>
+<li>用于分析的操作系统几乎是原始状态的；</li>
+<li>每次进行过二进制分析之后就会将系统回滚至最初状态(浏览器记录、系统日志等信息均被回滚)。</li>
+</ol>
+<p>PS:以上内容之所以说是缺陷，是因为真实环境中用户不可能主动去将”缓存”(广义缓存，泛指日志、注册表等)的记录进行回滚或者初始化。</p>
+<p>因此在本文中作者提出了一种利用操作系统“wear and tear”(使用痕迹的含义，后文简称为磨损)和“aging”(使用年份的含义，后文简称为老化)的特征来规避sandbox(恶意软件沙箱环境)的方法。</p>
+<p>本文的两项研究成果:</p>
+<ol>
+<li>构建决策树模型，使恶意软件稳定地避免所有经过测试的沙箱的准确率提升至92.86％；</li>
+<li>构建的统计模型可以根据系统使用指标预测系统的年龄，并可用于将现有的人造沙箱“老化”到所需的年限范围。</li>
+</ol>
+<h2 id="BACKGROUND-AND-RELATED-WORK"><a href="#BACKGROUND-AND-RELATED-WORK" class="headerlink" title="BACKGROUND AND RELATED WORK"></a>BACKGROUND AND RELATED WORK</h2><h3 id="A-Virtualization-and-Instrumentation-Artifacts"><a href="#A-Virtualization-and-Instrumentation-Artifacts" class="headerlink" title="A. Virtualization and Instrumentation Artifacts"></a>A. Virtualization and Instrumentation Artifacts</h3><ol>
+<li>防御者D: 使用系统仿真器和虚拟机构建恶意软件沙箱十分方便</li>
+<li>攻击者A: 使用静态启发式检查某些系统属性，例如特定于VM的设备驱动程序和硬件配置，固定标识符（包括MAC地址），IMEI（用于移动恶意软件分析系统），用户/主机名，VM特定加载的模块和流程（例如VMware的VMware Tools）和注册表项等</li>
+<li>防御者D: 配置动态分析系统时以避免出现期望值和配置</li>
+<li>攻击者A: 这对虚拟化指令的时序属性、运行时使用小代码片段等底层属性作用不大</li>
+</ol>
+<h3 id="B-Environmental-and-User-Interaction-Artifacts"><a href="#B-Environmental-and-User-Interaction-Artifacts" class="headerlink" title="B. Environmental and User Interaction Artifacts"></a>B. Environmental and User Interaction Artifacts</h3><p>防御者D: 我的两种方案:</p>
+<ol>
+<li>在多个不同的分析系统上运行每个样本来检测恶意软件的“分裂个性”；</li>
+<li>避免完全使用仿真或虚拟化，并选择“裸机”系统来保持分析环境的真实性。</li>
+</ol>
+<p>攻击者A: 目前虚拟化技术的广泛使用，应当认为VM和非VM是具有同样的感染价值的，从而减少对VM检测技巧的使用，转而采取如下几种启发式方法:</p>
+<ol>
+<li>检查鼠标光标是否在屏幕中央保持静止；</li>
+<li>是否存在“最近打开文件”；</li>
+<li>异常低数量的进程；</li>
+<li>不受限制的互联网连接，并尝试解析已知的不存在的域名(比如WannaCry)。</li>
+</ol>
+<p>防御者D: 我的两种对策:</p>
+<ol>
+<li>模拟用户行为；</li>
+<li>暴露更真实的网络环境</li>
+</ol>
+<p>防御者D对策的缺陷: 系统正常使用而预计会发生磨损和老化特征未被考虑。</p>
+<h3 id="C-Sandbox-Fingerprinting"><a href="#C-Sandbox-Fingerprinting" class="headerlink" title="C. Sandbox Fingerprinting"></a>C. Sandbox Fingerprinting</h3><p>SandFinger: 使用移动设备属性来作为沙箱指纹来规避Google的Bouncer沙箱。</p>
+<p>AVLeak: 使用侧信道的方式捕获AV引擎中的指纹。</p>
+<p>SandPrint: 提取Windows沙箱中的硬件配置参数，恶意软件样本调用机制的特征，可执行文件的文件名等特征进行聚类分析，进而识别沙箱。</p>
+<p>如果沙箱操作员将沙箱的特征值进行多样化处理，致使是指纹失效。那么攻击者下一步会考虑怎么方法进行规避? 这种方式就是本文中所提到的真实系统才具有的“磨损”和“老化”特征。</p>
+<h2 id="III-WEAR-AND-TEAR-ARTIFACTS"><a href="#III-WEAR-AND-TEAR-ARTIFACTS" class="headerlink" title="III. WEAR AND TEAR ARTIFACTS"></a>III. WEAR AND TEAR ARTIFACTS</h2><p>文中选用的artifact的特点: 恶意软件可以轻松探测</p>
+<p>artifact的选择策略: 哪些在系统的正常使用中会被影响</p>
+<h3 id="A-Probing-for-Artifacts-while-Preserving-User-Privacy"><a href="#A-Probing-for-Artifacts-while-Preserving-User-Privacy" class="headerlink" title="A. Probing for Artifacts while Preserving User Privacy"></a>A. Probing for Artifacts while Preserving User Privacy</h3><p>从artifact地选择上来看可以分为两种:一种是直接源于用户活动；另一种是来自系统活动(用户活动的间接表现)。</p>
+<p>直接来源是针对用户行为的定性指标：</p>
+<ol>
+<li>文档文件夹是否包含具有预期文件扩展名的合理数量的文件；</li>
+<li>检查流行文档查看应用程序中最近打开的文档；</li>
+<li>最近键入的在线搜索引擎查询；</li>
+<li>系统范围的搜索查询</li>
+<li>即时消息；</li>
+<li>电子邮件消息内容<br>但是这些将会对用户的隐私造成侵犯，所以本文的方案将使用间接来源(比如:统计cookie、访问的URL数量等方式)</li>
+</ol>
+<h3 id="B-Artifact-Categories"><a href="#B-Artifact-Categories" class="headerlink" title="B. Artifact Categories"></a>B. Artifact Categories</h3><p>本文主要针对Windows操作系统进行研究，所以采用的artifact类别集合如下表所示:</p>
+<p><img src="https://i.loli.net/2019/03/20/5c91ebb3a0f41.png" alt="C8483676-8960-47A8-86DB-0BA4C555E98B.png"></p>
+<h2 id="IV-DATA-COLLECTION"><a href="#IV-DATA-COLLECTION" class="headerlink" title="IV. DATA COLLECTION"></a>IV. DATA COLLECTION</h2><h3 id="A-Probe-Tool-Implementation"><a href="#A-Probe-Tool-Implementation" class="headerlink" title="A. Probe Tool Implementation"></a>A. Probe Tool Implementation</h3><p>为了从真实用户系统和恶意软件沙箱中收集以上类别的artifact数据集，作者实现了一个只使用系统API、不需要安装并且兼容Windows XP到Windows 10的探针程序。这个程序主要有以下几个特点:</p>
+<ol>
+<li>使用HTTPS信道传输收集到的artifact数据防止沙箱拦截请求；</li>
+<li>收集一些BIOS供应商等其他信息用于VM启发式检测，来去除用户集中可能存在的VM结果集；</li>
+<li>唯一的嵌入式ID来识别同一供应商的多次提交(一些砂箱会将程序放在多个不同的环境中进行动态分析，进而检测其行为)；</li>
+<li>基于操作系统安装日期，Windows版本，BIOS供应商等信息的组合来区分不同的操作系统。</li>
+</ol>
+<h3 id="B-IRB-Approval-and-User-Involvement"><a href="#B-IRB-Approval-and-User-Involvement" class="headerlink" title="B. IRB Approval and User Involvement"></a>B. IRB Approval and User Involvement</h3><p>这部分主要讲述作者在申请IRB批准，从而让真实用户参与进这个项目中。</p>
+<h3 id="C-Data-Collection"><a href="#C-Data-Collection" class="headerlink" title="C. Data Collection"></a>C. Data Collection</h3><p><strong>第一个数据集（Dreal）-&gt;</strong> 270个真实用户机器，其中有89.4％是Amazon Mechanical Turk workers。国家分布为美国（44％），印度（18％），GB（10％），CA（8％），NL（1％），PK （1％），RU（1％）和其他28个频率低于1％的国家/地区(这种国家分析代表了从发达国家到发展中国家的计算机使用磨损特性)。表II中显示了用户系统的BIOS供应商分布。</p>
+<p><img src="https://i.loli.net/2019/03/20/5c91ebd9f2459.png" alt="C78622AB-6BEF-4026-BD60-443C678D64C4.png"></p>
+<p>PS:后面作者发现Amazon Mechanical Turk workers是一种跟搜索引擎相结合的沙箱，因此将这一部分的数据标记为“crawlers”并合并到后面的沙箱数据集中。</p>
+<p><strong>第二个数据集（Dsand）-&gt;</strong> 来自15个可以收集到信息的恶意软件沙箱，表III是沙箱与对应探针回收的信息。</p>
+<p><img src="https://i.loli.net/2019/03/20/5c91ebf611d6b.png" alt="F93245B2-9D5E-4021-8193-C786CCB797B6.png"></p>
+<p>PS:有的沙箱环境会在底层使用不同版本的操作系统来分别进行分析。</p>
+<p><strong>第三个数据集（Dbase）-&gt;</strong> 基准数据集，数据来自多个全新安装的Microsoft Windows版本(包括Azure和AWS提供的云Windows服务器)。</p>
+<h3 id="D-Dataset-Statistics"><a href="#D-Dataset-Statistics" class="headerlink" title="D. Dataset Statistics"></a>D. Dataset Statistics</h3><p>表IV显示了我们三个收集的数据集中不同Microsoft Windows版本的数量。(可以看出沙箱的系统分布与真实用户的是不相同的)。</p>
+<p><img src="https://i.loli.net/2019/03/20/5c91ec1191b91.png" alt="245E7896-EF5A-4113-9D57-9B52A7CBAF1C.png"></p>
+<p>图1显示了三个数据集（Dreal，Dsand和Dbase）中每个磨损artifact值的分布。从中可以看到:1.大多数artifact在真实用户系统中的值大于沙箱和基线中的值，因此可以用来区分真实用户和沙箱；2.真实用户的artifact值分布更宽，因此可以用来预测系统年龄。</p>
+<p>PS: 可以看到沙箱的appdiffdays和sysdiffdays值比真实用户高很多，因此沙箱系统一般比真实用户系统“老化”程度更高。</p>
+<p><img src="https://i.loli.net/2019/03/20/5c91ec2ee2d88.png" alt="14E8B219-A888-4C3C-B543-F662C51B6938.png"></p>
+<p>图2显示了Mann-Whitney U检验显示的Dreal和Dsand分布之间差异的影响大小。0.3和0.5之间的效果被认为是“中等”效应的特征，而高于0.5的效应被认为是“强”效应。 </p>
+<p><img src="https://i.loli.net/2019/03/20/5c91ec4613e0d.png" alt="35DDDF7E-590D-43D1-908D-68EE9F072667.png"></p>
+<h2 id="V-EVADING-MALWARE-SANDBOXES"><a href="#V-EVADING-MALWARE-SANDBOXES" class="headerlink" title="V. EVADING MALWARE SANDBOXES"></a>V. EVADING MALWARE SANDBOXES</h2><p>以上的统计信息说明了作者所选用的artifact是可以作为特征来分辨沙箱的，因此接下来将使用有监督机器学习方式，训练决策树模型来进一步完成对沙箱的规避工作。</p>
+<h3 id="A-Setup-and-Classifier"><a href="#A-Setup-and-Classifier" class="headerlink" title="A. Setup and Classifier"></a>A. Setup and Classifier</h3><ol>
+<li>使用决策树模型。因为决策树模型可以表现为一系列的if-else语句，从而将恶意软件的整体足迹保持在最小。</li>
+<li>计算皮尔森相关系数（r）来检查特征对的相关性。虽然有4对特征具有很强的相关性（r&gt; 0.7），但是为了尽可能的规避所有沙箱，作者还是采用了所有的特征。</li>
+<li>训练集：49个沙箱环境实例，22个新安装操作系统的实例，71个真实用户实例；测试集：剩余的49个沙箱环境实例，49个真实用户随机样本。</li>
+<li>使用10-trial adaptive boosting算法(创建多个树，每个树专注改进前一棵树的结果)和adaptive boosting决策树算法(覆盖单棵树不能到达的边界)来提升分类器准确性。</li>
+<li>指定成本矩阵减少漏报的出现(原则是宁可不感染到某些真实用户，也尽量不能被沙箱捕获)。</li>
+</ol>
+<p>PS: FP 误报-&gt;没有感染真实用户主机；FN 漏报-&gt;尝试感染沙箱</p>
+<h3 id="B-Evaluation"><a href="#B-Evaluation" class="headerlink" title="B. Evaluation"></a>B. Evaluation</h3><p>模型在测试集上达到了92.86％的准确率，假阴性率（FNR）为4.08％，假阳性率（FPR）为10.20％。 十个构建的树的平均树大小为4.6分裂，最短的树具有3个分裂，最长的树分裂为5个。 表V显示了对算法最有用的功能，以及使用任何给定功能的树的百分比。</p>
+<p><img src="https://i.loli.net/2019/03/20/5c91ec5d88eee.png" alt="A9DDAD20-0A49-4538-A0F3-82D1761AAD55.png"></p>
+<p>之后作者从两个思路出发:<br>一、评估我们的算法对沙盒环境中增量变化的稳健性<br>方法: 每次只删除一个特征，将以上分类器训练过程重复30次。<br>目的: 对于攻击者而言量化恶意软件区分沙箱和真实用户的能力；对于防御者而言可以使用在此处识别的最有价值的artifact磨损程度来模仿真实的用户系统。<br>效果: 图4显示了准确性，误报率和漏报率如何变化。可以看到即使删除多达20个特征，分类器的整体准确性仍高于90%。</p>
+<p><img src="https://i.loli.net/2019/03/20/5c91ec794e2f8.png" alt="5449284B-9778-47B5-AD73-8A4192F83FEF.png"></p>
+<p>二、每种类型的工件如何影响分类器的准确性<br>方法: 一次仅使用<strong>一种</strong>类型的工件重新训练我们的模型。<br>目的: 让恶意软件作者可以选择他们想要关注的artifact类别，但这种选择不会影响恶意软件的规避能力。<br>效果: 表VI显示了每个类别的artifact数量以及每个分类器在测试数据集上的性能。</p>
+<p><img src="https://i.loli.net/2019/03/20/5c91ec96391e3.png" alt="7045C7A1-D656-47AB-9A00-EF01DD79BE20.png"></p>
+<h2 id="VI-ESTIMATING-ACTUAL-SYSTEM-AGE"><a href="#VI-ESTIMATING-ACTUAL-SYSTEM-AGE" class="headerlink" title="VI. ESTIMATING ACTUAL SYSTEM AGE"></a>VI. ESTIMATING ACTUAL SYSTEM AGE</h2><p>在之前的数据分析中，可以发现沙箱环境的“老化”程度与用户的真实环境是截然不同的。而且理论上“磨损”程度和“老化”程度应该是相匹配的，如果不匹配那么是沙箱的概率则很大。对于攻击者可以使用者一特点进行沙箱规避；对于防御者则可以对沙箱做更好的调整。</p>
+<h3 id="A-Correlation-Between-Age-and-Artifacts"><a href="#A-Correlation-Between-Age-and-Artifacts" class="headerlink" title="A. Correlation Between Age and Artifacts"></a>A. Correlation Between Age and Artifacts</h3><p>目的: 得出artifact的磨损与系统年龄之间的关系</p>
+<p>图5显示了用户系统和恶意软件沙箱“年龄”的累积分布函数。可以看到平均而言用户系统比沙箱更“新”。</p>
+<p><img src="https://i.loli.net/2019/03/20/5c91ecb059a15.png" alt="955EEF8C-F9A3-484B-BED1-E9639103F436.png"></p>
+<p>图6显示了报告的年龄与真实用户系统的每个artifact磨损程度之间的皮尔森相关系数。此处假设从真实用户系统收集的报告年龄是准确的。</p>
+<p><img src="https://i.loli.net/2019/03/20/5c91ecc913f22.png" alt="BB57F337-F65C-4E51-97DA-6D705ADBD54E.png"></p>
+<p>观测结果分析:</p>
+<ol>
+<li>许多非常成功地区分真实机器和沙箱的工件实际上与机器的年龄无关；</li>
+<li>一些与用户活动直接相关的artifact不能很好的反映系统的年龄，比如cookie的数量(用户可以主动清除)；</li>
+<li>一些不太容易被用户修改的artifact将跟系统年龄成正相关，比如连接过的USB数量。</li>
+</ol>
+<h3 id="B-Regression"><a href="#B-Regression" class="headerlink" title="B. Regression"></a>B. Regression</h3><p>目的: 确定组合它们的原始值来估计系统的实际年龄的合适方法。<br>数据集处理: </p>
+<ol>
+<li>删除具有缺失值的artifact；</li>
+<li>删除丢失率超过80％的artifact。</li>
+</ol>
+<p>(1) Linear Regression:</p>
+<ul>
+<li>公式: Y =β0+β1X1+β2X2+ … +ε (Xi是给定的artifact值，βi是对应的权重，Y是预测的年龄)</li>
+<li>数据集: 训练（60％），测试（40％）</li>
+<li>评估: 十折交叉验证</li>
+<li>结果: 真实系统的预测年龄的最终均方误差（MSE）是1.88，而沙箱的MSE非常高，为6.25。</li>
+<li>结论: 使用artifact的磨损程度来预测系统年龄是可行的，也就是说使用预测年龄和系统的生成年龄的对比来识别沙箱是可行的。</li>
+</ul>
+<p>PS: 十折交叉验证，英文名叫做10-fold cross-validation，用来测试算法准确性。是常用的测试方法。将数据集分成十份，轮流将其中9份作为训练数据，1份作为测试数据，进行试验。</p>
+<p>表VII中报告了模型的系数及其p值。 我们看到13种artifact磨损程度与机器的年龄相关，具有统计学意义。</p>
+<p><img src="https://i.loli.net/2019/03/20/5c91ecdfea41f.png" alt="979FD293-1188-4E1A-9CBD-B71774AE2479.png"></p>
+<p>图7显示了在Dreal和Dsand系统上应用线性回归模型时残差值的累积分布函数(CDF)。可以看到在尝试预测沙箱年龄时的残差值是非常高的。</p>
+<p><img src="https://i.loli.net/2019/03/20/5c91ecf70f6f7.png" alt="78E7479C-A68A-4E2E-A22A-30EEB34D017A.png"></p>
+<p>(2) Lasso Regression</p>
+<ul>
+<li>目的: 验证复杂的回归模型是否会带来更好的预测准确性</li>
+<li>套索回归的优点: 比线性回归使用更少的预测变量，这降低了整体模型的复杂性。 对于恶意软件，较小的功能集意味着对底层操作系统的API调用较少，从而减少了触发可疑活动监视器的机会。</li>
+<li>数据集: 训练集，评估集和测试集</li>
+<li>方法: 交叉验证来找到最佳的λ值</li>
+<li>结果: Dreal集的MSE为0.749，Dsand集上的MSE为4.45，优于线性回归</li>
+<li>结论: Lasso模型可以更好地辨别沙箱。</li>
+</ul>
+<p>表VIII显示了Lasso模型选择的八个特征，它们是系统年龄及其相应系数的良好预测因子。</p>
+<p><img src="https://i.loli.net/2019/03/20/5c91ed105f20b.png" alt="D81E841A-08BA-45BF-8A4E-B01D07FEE934.png"></p>
+<p>小结: 使用artifact磨损程度来预测系统年龄是可行的，这一方面可以用于辨识沙箱；另一方面是可以帮助sandbox开发人员创建系统年龄相符的沙箱环境</p>
+<h2 id="VII-DISCUSSION"><a href="#VII-DISCUSSION" class="headerlink" title="VII. DISCUSSION"></a>VII. DISCUSSION</h2><h3 id="A-Ethical-Considerations-and-Coordinated-Disclosure"><a href="#A-Ethical-Considerations-and-Coordinated-Disclosure" class="headerlink" title="A. Ethical Considerations and Coordinated Disclosure"></a>A. Ethical Considerations and Coordinated Disclosure</h3><p>本文主要讲述了这种新的规避技术的有效性，并且目前已经出现了此类相关工作的恶意软件。但是本文主要是为了帮助创建更强大的恶意软件分析系统。</p>
+<h3 id="B-Probing-Stealthiness"><a href="#B-Probing-Stealthiness" class="headerlink" title="B. Probing Stealthiness"></a>B. Probing Stealthiness</h3><p>1.总是存在不受监控的artifact集；<br>2.虽然最小特权原则造成的系统API调用限制，可访问的环境限制，但是依旧可以从其他不受限制的artifact集获取大量信息；</p>
+<h3 id="C-OS-Dependability"><a href="#C-OS-Dependability" class="headerlink" title="C. OS Dependability"></a>C. OS Dependability</h3><p>文章虽然是基于Windows平台在进行artifact的分析，但其中的一些artifact并不是其特有的，在其它系统例如Linux，Mac，Android等也同样适用。如果想适用Java等编写跨平台的恶意软件，就可以去关注那些不依赖于特定系统而存在的artifact。</p>
+<h3 id="D-Defenses"><a href="#D-Defenses" class="headerlink" title="D. Defenses"></a>D. Defenses</h3><ol>
+<li>克隆真实用户系统并将其用作恶意软件沙箱的基础。<br>缺点:<br>i) 隐私问题（如何在克隆之前或之后擦除所有私人信息，但保留磨损工件完整？）；<br>ii) artifact的老化问题(攻击者可以使用我们提出的统计模型来检测声称的年龄与磨损程度不匹配的情况)。</li>
+<li>从新安装的操作系统映像开始，通过自动模拟用户操作人为地使其老化。<br>缺点:尚不清楚这种人工老化在多大程度上会产生与真实系统相似的artifact情况。</li>
+</ol>
+<h2 id="VIII-CONCLUSION-AND-FUTURE-WORK"><a href="#VIII-CONCLUSION-AND-FUTURE-WORK" class="headerlink" title="VIII. CONCLUSION AND FUTURE WORK"></a>VIII. CONCLUSION AND FUTURE WORK</h2><p>本文主要做了两个方面工作:</p>
+<ol>
+<li>攻击者角度:将Windows系统的一些不涉及用户隐私的artifact作为特征，使用决策树分类器进行训练，最终可以在92.86％的准确度上来识别沙箱环境。</li>
+<li>防御者角度:将系统的artifact特征与系统的年龄进行联系并提出统计模型，从而帮助沙箱操作人员对系统进行微调，使其具有更逼真的磨损特性。</li>
+</ol>
+<p>未来工作:</p>
+<ol>
+<li>克隆真实用户系统并将其用作恶意软件沙箱的基础。</li>
+<li>自动模拟用户操作人为地使系统其老化到所需程度。</li>
+<li>不同的桌面操作系统以及移动设备中评估基于artifact磨损特性的沙盒规避的有效性。</li>
+</ol>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Abstract-amp-INTRODUCTION"><span class="toc-number">1.</span> <span class="toc-text">1.Abstract & INTRODUCTION</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BACKGROUND-AND-RELATED-WORK"><span class="toc-number">2.</span> <span class="toc-text">BACKGROUND AND RELATED WORK</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-Virtualization-and-Instrumentation-Artifacts"><span class="toc-number">2.1.</span> <span class="toc-text">A. Virtualization and Instrumentation Artifacts</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-Environmental-and-User-Interaction-Artifacts"><span class="toc-number">2.2.</span> <span class="toc-text">B. Environmental and User Interaction Artifacts</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-Sandbox-Fingerprinting"><span class="toc-number">2.3.</span> <span class="toc-text">C. Sandbox Fingerprinting</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#III-WEAR-AND-TEAR-ARTIFACTS"><span class="toc-number">3.</span> <span class="toc-text">III. WEAR AND TEAR ARTIFACTS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-Probing-for-Artifacts-while-Preserving-User-Privacy"><span class="toc-number">3.1.</span> <span class="toc-text">A. Probing for Artifacts while Preserving User Privacy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-Artifact-Categories"><span class="toc-number">3.2.</span> <span class="toc-text">B. Artifact Categories</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IV-DATA-COLLECTION"><span class="toc-number">4.</span> <span class="toc-text">IV. DATA COLLECTION</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-Probe-Tool-Implementation"><span class="toc-number">4.1.</span> <span class="toc-text">A. Probe Tool Implementation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-IRB-Approval-and-User-Involvement"><span class="toc-number">4.2.</span> <span class="toc-text">B. IRB Approval and User Involvement</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-Data-Collection"><span class="toc-number">4.3.</span> <span class="toc-text">C. Data Collection</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#D-Dataset-Statistics"><span class="toc-number">4.4.</span> <span class="toc-text">D. Dataset Statistics</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#V-EVADING-MALWARE-SANDBOXES"><span class="toc-number">5.</span> <span class="toc-text">V. EVADING MALWARE SANDBOXES</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-Setup-and-Classifier"><span class="toc-number">5.1.</span> <span class="toc-text">A. Setup and Classifier</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-Evaluation"><span class="toc-number">5.2.</span> <span class="toc-text">B. Evaluation</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VI-ESTIMATING-ACTUAL-SYSTEM-AGE"><span class="toc-number">6.</span> <span class="toc-text">VI. ESTIMATING ACTUAL SYSTEM AGE</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-Correlation-Between-Age-and-Artifacts"><span class="toc-number">6.1.</span> <span class="toc-text">A. Correlation Between Age and Artifacts</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-Regression"><span class="toc-number">6.2.</span> <span class="toc-text">B. Regression</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VII-DISCUSSION"><span class="toc-number">7.</span> <span class="toc-text">VII. DISCUSSION</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-Ethical-Considerations-and-Coordinated-Disclosure"><span class="toc-number">7.1.</span> <span class="toc-text">A. Ethical Considerations and Coordinated Disclosure</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-Probing-Stealthiness"><span class="toc-number">7.2.</span> <span class="toc-text">B. Probing Stealthiness</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-OS-Dependability"><span class="toc-number">7.3.</span> <span class="toc-text">C. OS Dependability</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#D-Defenses"><span class="toc-number">7.4.</span> <span class="toc-text">D. Defenses</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VIII-CONCLUSION-AND-FUTURE-WORK"><span class="toc-number">8.</span> <span class="toc-text">VIII. CONCLUSION AND FUTURE WORK</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2019/03/20/Spotless-Sandboxes/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2019/03/20/Spotless-Sandboxes/&text=Spotless Sandboxes-&gt;Evading Malware Analysis Systems using Wear-and-Tear Artifacts"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2019/03/20/Spotless-Sandboxes/&title=Spotless Sandboxes-&gt;Evading Malware Analysis Systems using Wear-and-Tear Artifacts"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2019/03/20/Spotless-Sandboxes/&is_video=false&description=Spotless Sandboxes-&gt;Evading Malware Analysis Systems using Wear-and-Tear Artifacts"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Spotless Sandboxes-&gt;Evading Malware Analysis Systems using Wear-and-Tear Artifacts&body=Check out this article: http://zer0yu.github.io/2019/03/20/Spotless-Sandboxes/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2019/03/20/Spotless-Sandboxes/&title=Spotless Sandboxes-&gt;Evading Malware Analysis Systems using Wear-and-Tear Artifacts"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2019/03/20/Spotless-Sandboxes/&title=Spotless Sandboxes-&gt;Evading Malware Analysis Systems using Wear-and-Tear Artifacts"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2019/03/20/Spotless-Sandboxes/&title=Spotless Sandboxes-&gt;Evading Malware Analysis Systems using Wear-and-Tear Artifacts"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2019/03/20/Spotless-Sandboxes/&title=Spotless Sandboxes-&gt;Evading Malware Analysis Systems using Wear-and-Tear Artifacts"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2019/03/20/Spotless-Sandboxes/&name=Spotless Sandboxes-&gt;Evading Malware Analysis Systems using Wear-and-Tear Artifacts&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 z3r0yu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-129276044-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?8415e69cf54ba93c9ddb2eb597859c7d";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'z3r0yu';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
