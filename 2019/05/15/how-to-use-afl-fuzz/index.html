@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="0x00 前言二进制分析方面主要利用技术包括：动态分析(Dynamic Analysis)、静态分析(Static Analysis)、符号化执行(Symbolic Execution)、Constraint Solving、资讯流追踪技术(Data Flow Tracking)以及自动化测试(Fuzz Testing)
+AFL原理介绍参考：《AFL漏洞挖掘技术漫谈（一）：用AFL开始你的第一次F">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AFL使用指南">
+<meta property="og:url" content="http://zer0yu.github.io/2019/05/15/how-to-use-afl-fuzz/index.html">
+<meta property="og:site_name" content="Z3R0YU">
+<meta property="og:description" content="0x00 前言二进制分析方面主要利用技术包括：动态分析(Dynamic Analysis)、静态分析(Static Analysis)、符号化执行(Symbolic Execution)、Constraint Solving、资讯流追踪技术(Data Flow Tracking)以及自动化测试(Fuzz Testing)
+AFL原理介绍参考：《AFL漏洞挖掘技术漫谈（一）：用AFL开始你的第一次F">
+<meta property="og:image" content="https://i.loli.net/2019/05/15/5cdc17c37edfd11335.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/15/5cdc17e6d731a12930.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/15/5cdc1819e028a13399.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/15/5cdc18323104a44582.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/15/5cdc1890b95d940410.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/15/5cdc18a6085c235233.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/15/5cdc18bd9a06782571.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/15/5cdc18d239e5642604.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/15/5cdc18ecc0cc062251.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/15/5cdc19514eecd50209.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/15/5cdc1963129fc31389.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/15/5cdc197fb417a82164.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/15/5cdc199e5ce5630635.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/15/5cdc1aa2edc5a77745.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/15/5cdc1abdd38ea24456.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/15/5cdc1ad66119394310.png">
+<meta property="og:updated_time" content="2019-05-15T13:58:09.822Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AFL使用指南">
+<meta name="twitter:description" content="0x00 前言二进制分析方面主要利用技术包括：动态分析(Dynamic Analysis)、静态分析(Static Analysis)、符号化执行(Symbolic Execution)、Constraint Solving、资讯流追踪技术(Data Flow Tracking)以及自动化测试(Fuzz Testing)
+AFL原理介绍参考：《AFL漏洞挖掘技术漫谈（一）：用AFL开始你的第一次F">
+<meta name="twitter:image" content="https://i.loli.net/2019/05/15/5cdc17c37edfd11335.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>AFL使用指南</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml" />
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2019/04/03/VolgaCTF-2019-Qualifier-Web/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2019/05/15/how-to-use-afl-fuzz/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2019/05/15/how-to-use-afl-fuzz/&text=AFL使用指南"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2019/05/15/how-to-use-afl-fuzz/&title=AFL使用指南"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2019/05/15/how-to-use-afl-fuzz/&is_video=false&description=AFL使用指南"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=AFL使用指南&body=Check out this article: http://zer0yu.github.io/2019/05/15/how-to-use-afl-fuzz/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2019/05/15/how-to-use-afl-fuzz/&title=AFL使用指南"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2019/05/15/how-to-use-afl-fuzz/&title=AFL使用指南"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2019/05/15/how-to-use-afl-fuzz/&title=AFL使用指南"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2019/05/15/how-to-use-afl-fuzz/&title=AFL使用指南"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2019/05/15/how-to-use-afl-fuzz/&name=AFL使用指南&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-前言"><span class="toc-number">1.</span> <span class="toc-text">0x00 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-AFL的基本使用"><span class="toc-number">2.</span> <span class="toc-text">0x01 AFL的基本使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-使用afl-gcc"><span class="toc-number">2.1.</span> <span class="toc-text">1. 使用afl-gcc</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-使用AFL插桩程序"><span class="toc-number">2.1.1.</span> <span class="toc-text">1.1 使用AFL插桩程序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-开始fuzz"><span class="toc-number">2.1.2.</span> <span class="toc-text">1.2 开始fuzz</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-fuzz的结果"><span class="toc-number">2.1.3.</span> <span class="toc-text">1.3 fuzz的结果</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-crash分析"><span class="toc-number">2.1.4.</span> <span class="toc-text">1.4 crash分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-语料库蒸馏-Corpus-Distillation"><span class="toc-number">2.1.5.</span> <span class="toc-text">1.5 语料库蒸馏(Corpus Distillation)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-LLVM-Mode模式"><span class="toc-number">2.2.</span> <span class="toc-text">2. LLVM Mode模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-启用llvm"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.1 启用llvm</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-使用LLVM-Mode模式进行fuzz"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2 使用LLVM Mode模式进行fuzz</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-下载目标代码"><span class="toc-number">2.2.2.1.</span> <span class="toc-text">1. 下载目标代码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-进行编译插桩"><span class="toc-number">2.2.2.2.</span> <span class="toc-text">2. 进行编译插桩</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-进行源代码的修改"><span class="toc-number">2.2.2.3.</span> <span class="toc-text">3. 进行源代码的修改</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-构造一个输入点"><span class="toc-number">2.2.2.4.</span> <span class="toc-text">4. 构造一个输入点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-根据上述的构造点构造输入数据"><span class="toc-number">2.2.2.5.</span> <span class="toc-text">5. 根据上述的构造点构造输入数据</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-开始fuzz"><span class="toc-number">2.2.2.6.</span> <span class="toc-text">6. 开始fuzz</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-分析crash"><span class="toc-number">2.2.2.7.</span> <span class="toc-text">7. 分析crash</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-黑盒测试"><span class="toc-number">2.3.</span> <span class="toc-text">3. 黑盒测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-并行测试"><span class="toc-number">2.4.</span> <span class="toc-text">4. 并行测试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-单系统并行"><span class="toc-number">2.4.1.</span> <span class="toc-text">4.1 单系统并行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-多系统并行"><span class="toc-number">2.4.2.</span> <span class="toc-text">4.2 多系统并行</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-Fuzz结果分析和代码覆盖率"><span class="toc-number">3.</span> <span class="toc-text">0x02 Fuzz结果分析和代码覆盖率</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-工作状态"><span class="toc-number">3.1.</span> <span class="toc-text">1. 工作状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-fuzz结束判断"><span class="toc-number">3.2.</span> <span class="toc-text">2. fuzz结束判断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-输出结果说明"><span class="toc-number">3.3.</span> <span class="toc-text">3. 输出结果说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-对crash结果的简单分析和分类"><span class="toc-number">3.4.</span> <span class="toc-text">4. 对crash结果的简单分析和分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-代码覆盖率"><span class="toc-number">3.5.</span> <span class="toc-text">5. 代码覆盖率</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        AFL使用指南
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Z3R0YU</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-05-15T13:41:00.000Z" itemprop="datePublished">2019-05-15</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>二进制分析方面主要利用技术包括：动态分析(Dynamic Analysis)、静态分析(Static Analysis)、符号化执行(Symbolic Execution)、Constraint Solving、资讯流追踪技术(Data Flow Tracking)以及自动化测试(Fuzz Testing)</p>
+<p>AFL原理介绍参考：<br><a href="https://www.freebuf.com/articles/system/191536.html" target="_blank" rel="external">《AFL漏洞挖掘技术漫谈（一）：用AFL开始你的第一次Fuzzing》</a></p>
+<p>本指南使用的环境是 kali linux 2019.1</p>
+<h2 id="0x01-AFL的基本使用"><a href="#0x01-AFL的基本使用" class="headerlink" title="0x01 AFL的基本使用"></a>0x01 AFL的基本使用</h2><h3 id="1-使用afl-gcc"><a href="#1-使用afl-gcc" class="headerlink" title="1. 使用afl-gcc"></a>1. 使用afl-gcc</h3><h4 id="1-1-使用AFL插桩程序"><a href="#1-1-使用AFL插桩程序" class="headerlink" title="1.1 使用AFL插桩程序"></a>1.1 使用AFL插桩程序</h4><p>目标程序</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span> </span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span> </span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span> </span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span> </span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span> </span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">vuln</span><span class="params">(<span class="keyword">char</span> *str)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> len = <span class="built_in">strlen</span>(str);</div><div class="line">    <span class="keyword">if</span>(str[<span class="number">0</span>] == <span class="string">'A'</span> &amp;&amp; len == <span class="number">66</span>)</div><div class="line">    &#123;</div><div class="line">        raise(SIGSEGV);</div><div class="line">        <span class="comment">//如果输入的字符串的首字符为A并且长度为66，则异常退出</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(str[<span class="number">0</span>] == <span class="string">'F'</span> &amp;&amp; len == <span class="number">6</span>)</div><div class="line">    &#123;</div><div class="line">        raise(SIGSEGV);</div><div class="line">        <span class="comment">//如果输入的字符串的首字符为F并且长度为6，则异常退出</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">    &#123;</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"it is good!\n"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">char</span> buf[<span class="number">100</span>]=&#123;<span class="number">0</span>&#125;;</div><div class="line">    gets(buf);<span class="comment">//存在栈溢出漏洞</span></div><div class="line">    <span class="built_in">printf</span>(buf);<span class="comment">//存在格式化字符串漏洞</span></div><div class="line">    vuln(buf);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使用afl-gcc进行插桩编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">afl-gcc -g -o ./zerotest/vuln ./zerotest/vuln.c</div></pre></td></tr></table></figure>
+<p>PS:<br>如果目标程序中有Makefile，那么分两种情况:</p>
+<ol>
+<li>程序是用autoconf构建，那么此时只需要执行如下即可</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./configure CC=&quot;afl-gcc&quot; CXX=&quot;afl-g++&quot;</div></pre></td></tr></table></figure>
+<p>此外，还可以执行如下语句设置LD_LIBRARY_PATH让程序加载经过AFL插桩的.so文件，进行静态构建而不是动态链接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./configure --disable-shared CC=&quot;afl-gcc&quot; CXX=&quot;afl-g++&quot;</div></pre></td></tr></table></figure>
+<ol>
+<li>程序不是用autoconf构建，那么直接修改Makefile文件中的编译器为<code>afl-gcc/g++</code>。</li>
+</ol>
+<p>为了后期更好的分析crash，在此处可以开启Address Sanitizer(ASAN)这个内存检测工具，此工具可以更好的检测出缓存区溢出、UAF 等内存漏洞，开启方法如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">AFL_USE_ASAN=1 ./configure CC=afl-gcc CXX=afl-g++ LD=afl-gcc--disable-shared</div><div class="line">AFL_USE_ASAN=1 make</div></pre></td></tr></table></figure>
+<p>不使用 AFL 编译插桩时，可使用以下方式开启 Address Sanitizer。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">./configure CC=gcc CXX=g++ CFLAGS=&quot;-g -fsanitize=address&quot;</div><div class="line">make</div></pre></td></tr></table></figure>
+<h4 id="1-2-开始fuzz"><a href="#1-2-开始fuzz" class="headerlink" title="1.2 开始fuzz"></a>1.2 开始fuzz</h4><p>fuzz的语法一般情况是两种:</p>
+<ol>
+<li>直接从stdin读取输入的目标程序</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./afl-fuzz -i testcase_dir -o findings_dir /path/to/program […params…]</div></pre></td></tr></table></figure>
+<ol>
+<li>从文件读取输入的目标程序，@@就是占位符，表示输入替换的位置</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./afl-fuzz -i testcase_dir -o findings_dir /path/to/program @@</div></pre></td></tr></table></figure>
+<p>此处我采用第一种方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">afl-fuzz -m 300 -i ./zerotest/fuzz_in -o ./zerotest/fuzz_out ./zerotest/vuln -f</div></pre></td></tr></table></figure>
+<p>PS: 常见参数的含义如下</p>
+<ul>
+<li>-f参数表示：testcase的内容会作为afl_test的stdin</li>
+<li>-m参数表示分配的内存空间</li>
+<li>-i 指定测试样本的路径</li>
+<li>-o 指定输出结果的路径</li>
+<li>/dev/null 使错误信息不输出到屏幕</li>
+<li>-t：设置程序运行超时值，单位为 ms</li>
+<li>-M：运行主(Master) Fuzzer</li>
+<li>-S：运行从属(Slave) Fuzzer</li>
+</ul>
+<h4 id="1-3-fuzz的结果"><a href="#1-3-fuzz的结果" class="headerlink" title="1.3 fuzz的结果"></a>1.3 fuzz的结果</h4><p><img src="https://i.loli.net/2019/05/15/5cdc17c37edfd11335.png" alt="60889809-4D22-4C14-AF3C-E98D2C5EB60D.png"></p>
+<p>从界面上主要注意以下几点:</p>
+<ol>
+<li>last new path 如果报错那么要及时修正命令行参数，不然继续fuzz也是徒劳（因为路径是不会改变的）；</li>
+<li>cycles done 如果变绿就说明后面及时继续fuzz，出现crash的几率也很低了，可以选择在这个时候停止</li>
+<li>uniq crashes 代表的是crash的数量</li>
+</ol>
+<h4 id="1-4-crash分析"><a href="#1-4-crash分析" class="headerlink" title="1.4 crash分析"></a>1.4 crash分析</h4><p>PS: xxd命令的作用就是将一个文件以十六进制的形式显示出来</p>
+<p><img src="https://i.loli.net/2019/05/15/5cdc17e6d731a12930.png" alt="1FF9D91F-F823-4DF7-B716-C68B58134D65.png"></p>
+<p>可以看到已经得到的几个crash文件，那么分析的话只需要将其作为之前vuln文件的输入，使用gdb调试分析就可以得到详细结果了，但是在这之前可以使用xxd看一下其中数据的内容做一个初步的判断。</p>
+<p>分别看一下这几个crash的信息</p>
+<ol>
+<li>可以看到应该是满足了开头是F且字符串长度为6的异常退出情况<br><img src="https://i.loli.net/2019/05/15/5cdc1819e028a13399.png" alt="63005FA6-59BD-48BD-8B19-F5EF08C84D4E.png"></li>
+<li>看这个数据情况可能是栈溢出<br><img src="https://i.loli.net/2019/05/15/5cdc18323104a44582.png" alt="D74734D1-F13E-4256-B47C-260817BE102E.png"></li>
+<li>栈溢出<br><img src="https://i.loli.net/2019/05/15/5cdc1890b95d940410.png" alt="B909DBCF-66FF-4C37-BF39-1ED413A6B0C3.png"></li>
+<li>符合首字符为A且栈溢出<br><img src="https://i.loli.net/2019/05/15/5cdc18a6085c235233.png" alt="8213201E-7B35-45D7-9057-5493978CCABB.png"></li>
+<li>格式化字符串?可能<br><img src="https://i.loli.net/2019/05/15/5cdc18bd9a06782571.png" alt="C7F22A69-F1E6-4863-B9BD-08D88A82C789.png"></li>
+<li>符合首字符为A且字符串长度为66的异常退出情况<br><img src="https://i.loli.net/2019/05/15/5cdc18d239e5642604.png" alt="41BAF060-7874-4D52-93CC-49FD86AF26D3.png"></li>
+</ol>
+<p>主要参考:<br><a href="https://xz.aliyun.com/t/4314" target="_blank" rel="external">《初探Fuzz-AFL》</a></p>
+<h4 id="1-5-语料库蒸馏-Corpus-Distillation"><a href="#1-5-语料库蒸馏-Corpus-Distillation" class="headerlink" title="1.5 语料库蒸馏(Corpus Distillation)"></a>1.5 语料库蒸馏(Corpus Distillation)</h4><p>一般来说在进行fuzz之前构建一份有效的语料库是十分有必要的，这将作为程序开始时的种子。</p>
+<p>语料库的信息来源主要如下:</p>
+<ul>
+<li>使用项目自身提供的测试用例</li>
+<li>目标程序bug提交页面</li>
+<li>使用格式转换器，用从现有的文件格式生成一些不容易找到的文件格式：</li>
+<li>afl源码的testcases目录下提供了一些测试用例</li>
+<li>其他开源的语料库</li>
+</ul>
+<p>收集完后可以使用afl提供的工具来对语料库进行进一步的处理:</p>
+<ol>
+<li>afl-cmin: 移除执行相同代码的输入文件<br>afl-cmin的核心思想是: 尝试找到与语料库全集具有相同覆盖范围的最小子集。<br>它一般的两种执行模式是:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">afl-cmin -i input_dir -o output_dir -- /path/to/tested/program [params]</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">afl-cmin -i input_dir -o output_dir -- /path/to/tested/program [params] @@</div></pre></td></tr></table></figure>
+<ol>
+<li>afl-tmin: 减小单个输入文件的大小<br>它有两种工作模式: instrumented mode和crash mode。默认的工作方式是instrumented mode</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># instrumented mode</div><div class="line">afl-tmin -i input_file -o output_file -- /path/to/tested/program [params] @@</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># crash mode 将会剔除导致crash的文件</div><div class="line">afl-tmin -x -i input_file -o output_file -- /path/to/tested/program [params] @@</div></pre></td></tr></table></figure>
+<p>由于只能针对单个目标进行使用，因此使用如下shell脚本进行批量处理</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> *; <span class="keyword">do</span> afl-tmin -i <span class="variable">$i</span> -o tmin-<span class="variable">$i</span> -- ~/path/to/tested/program [params] @@; <span class="keyword">done</span>;</div></pre></td></tr></table></figure>
+<p>或者修改如下的Python脚本进行预处理</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"><span class="keyword">import</span> shutil</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">cmin</span><span class="params">()</span>:</span></div><div class="line">    command = <span class="string">' -m 300 -t 5000 ./utilities/magick convert @@ /dev/null'</span> </div><div class="line">    os.system(<span class="string">'afl-cmin -i seeds/tmin -o seeds/cmin '</span> + command)</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">tmin</span><span class="params">()</span>:</span></div><div class="line">    command = <span class="string">' -m 300 -t 5000 ./utilities/magick convert @@ /dev/null'</span> </div><div class="line">    seed_list = os.listdir(<span class="string">'seeds/all_format'</span>)</div><div class="line">    <span class="keyword">for</span> seed <span class="keyword">in</span> seed_list:</div><div class="line">        in_file = os.path.join(<span class="string">'seeds/all_format'</span>, seed)</div><div class="line">        out_file = os.path.join(<span class="string">'seeds/tmin'</span>, seed)</div><div class="line">        <span class="keyword">if</span> os.path.getsize(in_file) &gt; <span class="number">1024</span>*<span class="number">1</span>:</div><div class="line">            <span class="keyword">if</span> os.path.getsize(in_file) &lt; <span class="number">1024</span>*<span class="number">3</span> <span class="keyword">and</span> <span class="keyword">not</span> seed.endswith(<span class="string">'.txt'</span>):</div><div class="line">                os.system(<span class="string">'afl-tmin -i '</span> + in_file + <span class="string">' -o '</span> + out_file + command)</div><div class="line">                print(<span class="string">'afl-tmin -i '</span> + in_file + <span class="string">' -o '</span> + out_file + command)</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                <span class="keyword">pass</span></div><div class="line">        <span class="keyword">elif</span> os.path.getsize(in_file) &gt; <span class="number">0</span>:</div><div class="line">            shutil.copyfile(in_file,out_file)</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            <span class="keyword">pass</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">convert</span><span class="params">(origin_seeds)</span>:</span></div><div class="line">    seed_list = os.listdir(origin_seeds)</div><div class="line">    <span class="keyword">for</span> seed <span class="keyword">in</span> seed_list:</div><div class="line">        seed_in = os.path.join(origin_seeds, seed)</div><div class="line">        file_name = (os.path.splitext(seed)[<span class="number">0</span>])</div><div class="line">        coder_list = os.listdir(<span class="string">'coders'</span>)</div><div class="line">        <span class="keyword">for</span> cfile <span class="keyword">in</span> coder_list:</div><div class="line">            <span class="keyword">if</span> cfile.endswith(<span class="string">'.c'</span>):</div><div class="line">                extern = cfile[:cfile.find(<span class="string">'.c'</span>)]</div><div class="line">                seed_out = <span class="string">'seeds/all_format/'</span> + file_name + <span class="string">'.'</span> + extern</div><div class="line">                os.system(<span class="string">'utilities/magick convert '</span> + seed_in + <span class="string">' '</span> + seed_out)</div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    <span class="keyword">if</span> len(sys.argv) &lt; <span class="number">2</span>:</div><div class="line">        <span class="keyword">print</span> <span class="string">'Usage: '</span> + sys.argv[<span class="number">0</span>] + <span class="string">' origin_seeds_dir'</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        origin_seeds_dir = sys.argv[<span class="number">1</span>]</div><div class="line">        <span class="keyword">try</span>:</div><div class="line">            os.mkdir(<span class="string">'seeds'</span>)</div><div class="line">            seeds_path = os.path.join(os.path.abspath(<span class="string">'.'</span>),<span class="string">'seeds'</span>)</div><div class="line">            os.mkdir(os.path.join(seeds_path,<span class="string">'all_format'</span>))</div><div class="line">            os.mkdir(os.path.join(seeds_path,<span class="string">'cmin'</span>))</div><div class="line">            os.mkdir(os.path.join(seeds_path,<span class="string">'tmin'</span>))</div><div class="line">        <span class="keyword">except</span>:</div><div class="line">            <span class="keyword">print</span> <span class="string">'make dir fail!'</span></div><div class="line">        convert(origin_seeds_dir)</div><div class="line">        tmin()</div><div class="line">        cmin()</div></pre></td></tr></table></figure>
+<p>预处理脚本来自:<a href="http://0x4c43.cn/2018/0722/use-afl-for-fuzz-testing/" target="_blank" rel="external">《使用 AFL 进行模糊测试》</a></p>
+<h3 id="2-LLVM-Mode模式"><a href="#2-LLVM-Mode模式" class="headerlink" title="2. LLVM Mode模式"></a>2. LLVM Mode模式</h3><h4 id="2-1-启用llvm"><a href="#2-1-启用llvm" class="headerlink" title="2.1 启用llvm"></a>2.1 启用llvm</h4><p>LLVM Mode模式编译程序可以获得更快的Fuzzing速度，因此针对大型项目可以考虑启用。</p>
+<p>下载必要的安装包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">wget http://releases.llvm.org/8.0.0/llvm-8.0.0.src.tar.xz</div><div class="line">wget http://releases.llvm.org/8.0.0/compiler-rt-8.0.0.src.tar.xz</div><div class="line">wget http://releases.llvm.org/8.0.0/clang-tools-extra-8.0.0.src.tar.xz</div><div class="line">wget http://releases.llvm.org/8.0.0/cfe-8.0.0.src.tar.xz</div></pre></td></tr></table></figure>
+<p>解压缩</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">xz -d ./*</div><div class="line">tar xvf cfe-8.0.0.src.tar</div><div class="line">tar xvf clang-tools-extra-8.0.0.src.tar</div><div class="line">tar xvf llvm-8.0.0.src.tar</div><div class="line">tar xvf compiler-rt-8.0.0.src.tar</div></pre></td></tr></table></figure>
+<p>源码合并</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mv cfe-8.0.0.src clang</div><div class="line">mv clang llvm-8.0.0.src/tools</div><div class="line">mv clang-tools-extra-8.0.0.src extra</div><div class="line">mv extra llvm-8.0.0.src/tools/clang</div><div class="line">mv compiler-rt-8.0.0.src compiler-rt</div><div class="line">mv compiler-rt llvm-8.0.0.src/projects</div></pre></td></tr></table></figure>
+<p>编译安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">mkdir build-8.0</div><div class="line">cmake ../llvm-8.0.0.src/</div><div class="line">cmake --build .</div><div class="line">cmake --build . --target install</div><div class="line">cmake -DCMAKE_INSTALL_PREFIX=/tmp/llvm -P cmake_install.cmake</div></pre></td></tr></table></figure>
+<p>上面的编译安装对硬件配置和硬盘的空间要求比较高，所以你可以直接使用源进行安装，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt install llvm clang</div></pre></td></tr></table></figure>
+<p>编译安装afl的llvm模块<br>(我的使用的是kali linux 2019.1进行编译的，clang版本过高会失败，使用clang++也会失败，所以最终发现下面方法可行)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cd afl/llvm_mode</div><div class="line">export CXX=/usr/bin/g++</div><div class="line">export CC=/usr/bin/clang-6.0</div><div class="line">make</div></pre></td></tr></table></figure>
+<p>因为clang没有办法使用<code>update-alternatives</code>，因此我直接修改软连接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ln -s /usr/bin/clang-6.0 /usr/bin/clang</div><div class="line">ln -sb /usr/bin/clang++-6.0 /usr/bin/clang++</div></pre></td></tr></table></figure>
+<p>之后就可以正常使用afl-clang-fast了<br><img src="https://i.loli.net/2019/05/15/5cdc18ecc0cc062251.png" alt="9B83B620-E1A2-420F-81CA-FC6C4777F4EB.png"></p>
+<p>其实以上均太费劲，还有更简单的方法，kali linux的源中包含了afl，所以可以直接apt进行安装，装好之后afl-clang-fast也就有了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt install afl</div></pre></td></tr></table></figure>
+<h4 id="2-2-使用LLVM-Mode模式进行fuzz"><a href="#2-2-使用LLVM-Mode模式进行fuzz" class="headerlink" title="2.2 使用LLVM Mode模式进行fuzz"></a>2.2 使用LLVM Mode模式进行fuzz</h4><p>编译插桩</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@kali-z ~/Desktop/fuzz/afl$ ./afl-clang-fast -g -o ./zerotest/vuln-fast ./zerotest/vuln.c</div></pre></td></tr></table></figure>
+<p>之后重复上面的方式进行fuzz即可，接下来展示一个使用此模式fuzz php内核代码的例子。</p>
+<h5 id="1-下载目标代码"><a href="#1-下载目标代码" class="headerlink" title="1. 下载目标代码"></a>1. 下载目标代码</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget https://github.com/php/php-src/archive/php-7.2.11.tar.gz &amp;&amp; tar xf php-7.2.11.tar.gz</div></pre></td></tr></table></figure>
+<h5 id="2-进行编译插桩"><a href="#2-进行编译插桩" class="headerlink" title="2. 进行编译插桩"></a>2. 进行编译插桩</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cd php-src-php-7.2.11</div><div class="line">./buildconf --force</div><div class="line">CC=afl-clang-fast CXX=afl-clang-fast++ ./configure</div><div class="line">AFL_USE_ASAN=1 make</div></pre></td></tr></table></figure>
+<p>PS: 如果报错缺失libconv，则在<code>Makefile</code>中的<code>EXTRA_LIBS =</code>添加<code>-liconv</code></p>
+<h5 id="3-进行源代码的修改"><a href="#3-进行源代码的修改" class="headerlink" title="3. 进行源代码的修改"></a>3. 进行源代码的修改</h5><p>未修改之前  sapi/cli/php_cli.c<br><img src="https://i.loli.net/2019/05/15/5cdc19514eecd50209.png" alt="BB750539-176B-4A52-A437-D370814C7CCE.png"><br>修改之后   sapi/cli/php_cli.c<br><img src="https://i.loli.net/2019/05/15/5cdc1963129fc31389.png" alt="C21FA188-6FFE-440A-B0AD-BA0F8C60312C.png"><br>修改完之后执行如下进行rebuild</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">AFL_USE_ASAN=1 make</div></pre></td></tr></table></figure>
+<p>PS: 之所以进行这样的修改，是因为我们使用<code>php -r</code>来eval php string，因此定位到<code>sapi/cli/php_cli.c</code>进行代码的修改离开提升后期fuzz的效率。</p>
+<h5 id="4-构造一个输入点"><a href="#4-构造一个输入点" class="headerlink" title="4. 构造一个输入点"></a>4. 构造一个输入点</h5><p>我们想在fuzz的时候从stdin进行数据的输入，因此构造如下输入点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">unserialize(file_get_contents(“php://stdin”));</div></pre></td></tr></table></figure>
+<h5 id="5-根据上述的构造点构造输入数据"><a href="#5-根据上述的构造点构造输入数据" class="headerlink" title="5. 根据上述的构造点构造输入数据"></a>5. 根据上述的构造点构造输入数据</h5><p>此处账户要考虑构造不同类类型的输入数据，构造如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mkdir serialized_data &amp;&amp; cd serialized_data</div><div class="line">../sapi/cli/php -r &apos;echo serialize(&quot;a&quot;);&apos; &gt; string</div><div class="line">../sapi/cli/php -r &apos;echo serialize(1);&apos; &gt; number</div><div class="line">../sapi/cli/php -r &apos;echo serialize([1,2]);&apos; &gt; array_of_num</div><div class="line">../sapi/cli/php -r &apos;echo serialize([&quot;1&quot;,&quot;2&quot;]);&apos; &gt; array_of_str</div><div class="line">../sapi/cli/php -r &apos;echo serialize([[&quot;1&quot;,&quot;2&quot;],[&quot;3&quot;,&quot;4&quot;],[1,2]]);&apos; &gt; array_of_array</div><div class="line">echo &apos;O:6:&quot;zeroyu&quot;:1:&#123;s:4:&quot;test&quot;;O:7:&quot;npusec2&quot;:1:&#123;s:5:&quot;test2&quot;;s:10:&quot;phpinfo();&quot;;&#125;&#125;&apos; &gt; class</div></pre></td></tr></table></figure>
+<h5 id="6-开始fuzz"><a href="#6-开始fuzz" class="headerlink" title="6. 开始fuzz"></a>6. 开始fuzz</h5><p>为了从地址清理(ASAN)中获得有用的结果，有必要设置一个环境变量，以便PHP禁用其自定义内存分配器，从而使内存安全问题对ASAN可见。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">USE_ZEND_ALLOC=0 screen -S zeroyu</div></pre></td></tr></table></figure>
+<p>使用screen可以随时进入查看fuzz的结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">screen -r zeroyu</div></pre></td></tr></table></figure>
+<p>使用如下命令开始fuzz</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd..</div><div class="line">afl-fuzz -i serialized_data -o basic_fuzz -m none -- ./sapi/cli/php -r &apos;unserialize(file_get_contents(&quot;php://stdin&quot;));&apos;</div></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/05/15/5cdc197fb417a82164.png" alt="11B4692E-E516-4743-9FAC-B39AB1C03ED0.png"></p>
+<h5 id="7-分析crash"><a href="#7-分析crash" class="headerlink" title="7. 分析crash"></a>7. 分析crash</h5><p>用是使用如下bash脚本来寻找可能是bug的crash，因为有些是良性的crash，是由于ASAN无法分配足够的内存。这是因为ASAN需要额外的内存来跟踪所有分配，而精心编制的序列化对象可能会触发大内存分配。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> FILE <span class="keyword">in</span> $(ls id*); <span class="keyword">do</span> cat <span class="variable">$FILE</span> | ../../sapi/cli/php -r <span class="string">"unserialize(file_get_contents('php://stdin'));"</span> 2&gt;&amp;1 | grep -E <span class="string">"SUMMARY|ERROR"</span> | grep -v <span class="string">"LargeMmap"</span> &amp;&amp; <span class="built_in">echo</span> <span class="variable">$FILE</span>; <span class="keyword">done</span></div></pre></td></tr></table></figure>
+<p>参考: <a href="https://www.tripwire.com/state-of-security/vert/fuzzing-php-for-fun-and-profit/" target="_blank" rel="external">《Fuzzing PHP for Fun and Profit》</a></p>
+<h3 id="3-黑盒测试"><a href="#3-黑盒测试" class="headerlink" title="3. 黑盒测试"></a>3. 黑盒测试</h3><p>参考：<a href="https://paper.tuisec.win/detail/45e6d0a790d79da" target="_blank" rel="external">《AFL漏洞挖掘技术漫谈（一）：用AFL开始你的第一次Fuzzing》</a></p>
+<h3 id="4-并行测试"><a href="#4-并行测试" class="headerlink" title="4. 并行测试"></a>4. 并行测试</h3><h4 id="4-1-单系统并行"><a href="#4-1-单系统并行" class="headerlink" title="4.1 单系统并行"></a>4.1 单系统并行</h4><p>查看系统核心数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat /proc/cpuinfo| grep &quot;cpu cores&quot;| uniq</div></pre></td></tr></table></figure>
+<p>afl-fuzz并行Fuzzing，一般的做法是通过-M参数指定一个主Fuzzer(Master Fuzzer)、通过-S参数指定多个从Fuzzer(Slave Fuzzer)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ screen afl-fuzz -i testcases/ -o sync_dir/ -M fuzzer1 -- ./program</div><div class="line">$ screen afl-fuzz -i testcases/ -o sync_dir/ -S fuzzer2 -- ./program</div><div class="line">$ screen afl-fuzz -i testcases/ -o sync_dir/ -S fuzzer3 -- ./program</div></pre></td></tr></table></figure>
+<p>PS: -o指定的是一个同步目录，并行测试中，所有的Fuzzer将相互协作，在找到新的代码路径时，相互传递新的测试用例。所以不用担心重复的问题</p>
+<p>两个辅助工具:</p>
+<ul>
+<li><code>afl-whatsup</code>工具可以查看每个fuzzer的运行状态和总体运行概况，加上-s选项只显示概况，其中的数据都是所有fuzzer的总和。</li>
+<li><code>afl-gotcpu</code>工具可以查看每个核心使用状态。</li>
+</ul>
+<h4 id="4-2-多系统并行"><a href="#4-2-多系统并行" class="headerlink" title="4.2 多系统并行"></a>4.2 多系统并行</h4><p>压缩每个fuzzer实例目录中queue下的文件，通过如下SSH脚本同步分发到其他机器上解压。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/sh</span></div><div class="line"></div><div class="line"><span class="comment"># authorized_keys的方式进行ssh认证</span></div><div class="line"><span class="comment"># 所有要同步的主机</span></div><div class="line">FUZZ_HOSTS=<span class="string">'172.21.5.101 172.21.5.102'</span></div><div class="line"><span class="comment"># SSH user</span></div><div class="line">FUZZ_USER=root</div><div class="line"><span class="comment"># 同步目录</span></div><div class="line">SYNC_DIR=<span class="string">'/root/syncdir'</span></div><div class="line"><span class="comment"># 同步间隔时间</span></div><div class="line">SYNC_INTERVAL=$((30 * 60))</div><div class="line"></div><div class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$AFL_ALLOW_TMP</span>"</span> = <span class="string">""</span> ]; <span class="keyword">then</span></div><div class="line">  <span class="keyword">if</span> [ <span class="string">"<span class="variable">$PWD</span>"</span> = <span class="string">"/tmp"</span> -o <span class="string">"<span class="variable">$PWD</span>"</span> = <span class="string">"/var/tmp"</span> ]; <span class="keyword">then</span></div><div class="line">    <span class="built_in">echo</span> <span class="string">"[-] Error: do not use shared /tmp or /var/tmp directories with this script."</span> 1&gt;&amp;2</div><div class="line">    <span class="built_in">exit</span> 1</div><div class="line">  <span class="keyword">fi</span></div><div class="line"><span class="keyword">fi</span></div><div class="line"></div><div class="line">rm -rf .sync_tmp 2&gt;/dev/null</div><div class="line">mkdir .sync_tmp || <span class="built_in">exit</span> 1</div><div class="line"></div><div class="line"><span class="keyword">while</span> :; <span class="keyword">do</span></div><div class="line"></div><div class="line">  <span class="comment"># 打包所有机器上的数据</span></div><div class="line">  <span class="keyword">for</span> host <span class="keyword">in</span> <span class="variable">$FUZZ_HOSTS</span>; <span class="keyword">do</span></div><div class="line">    <span class="built_in">echo</span> <span class="string">"[*] Retrieving data from <span class="variable">$&#123;host&#125;</span>..."</span></div><div class="line">    ssh -o <span class="string">'passwordauthentication no'</span> <span class="variable">$&#123;FUZZ_USER&#125;</span>@<span class="variable">$&#123;host&#125;</span> \</div><div class="line">      <span class="string">"cd '<span class="variable">$SYNC_DIR</span>' &amp;&amp; tar -czf - SESSION*"</span> &gt;<span class="string">".sync_tmp/<span class="variable">$&#123;host&#125;</span>.tgz"</span></div><div class="line">  <span class="keyword">done</span></div><div class="line"></div><div class="line">  <span class="comment"># 分发数据</span></div><div class="line"></div><div class="line">  <span class="keyword">for</span> dst_host <span class="keyword">in</span> <span class="variable">$FUZZ_HOSTS</span>; <span class="keyword">do</span></div><div class="line">    <span class="built_in">echo</span> <span class="string">"[*] Distributing data to <span class="variable">$&#123;dst_host&#125;</span>..."</span></div><div class="line">    <span class="keyword">for</span> src_host <span class="keyword">in</span> <span class="variable">$FUZZ_HOSTS</span>; <span class="keyword">do</span></div><div class="line">      <span class="built_in">test</span> <span class="string">"<span class="variable">$src_host</span>"</span> = <span class="string">"<span class="variable">$dst_host</span>"</span> &amp;&amp; <span class="built_in">continue</span></div><div class="line">      <span class="built_in">echo</span> <span class="string">"    Sending fuzzer data from <span class="variable">$&#123;src_host&#125;</span>..."</span></div><div class="line">      ssh -o <span class="string">'passwordauthentication no'</span> <span class="variable">$&#123;FUZZ_USER&#125;</span>@<span class="variable">$dst_host</span> \</div><div class="line">        <span class="string">"cd '<span class="variable">$SYNC_DIR</span>' &amp;&amp; tar -xkzf - &amp;&gt;/dev/null"</span> &lt;<span class="string">".sync_tmp/<span class="variable">$&#123;src_host&#125;</span>.tgz"</span></div><div class="line">    <span class="keyword">done</span></div><div class="line">  <span class="keyword">done</span></div><div class="line"></div><div class="line">  <span class="built_in">echo</span> <span class="string">"[+] Done. Sleeping for <span class="variable">$SYNC_INTERVAL</span> seconds (Ctrl-C to quit)."</span></div><div class="line">  sleep <span class="variable">$SYNC_INTERVAL</span></div><div class="line">  </div><div class="line"><span class="keyword">done</span></div></pre></td></tr></table></figure>
+<h2 id="0x02-Fuzz结果分析和代码覆盖率"><a href="#0x02-Fuzz结果分析和代码覆盖率" class="headerlink" title="0x02 Fuzz结果分析和代码覆盖率"></a>0x02 Fuzz结果分析和代码覆盖率</h2><h3 id="1-工作状态"><a href="#1-工作状态" class="headerlink" title="1. 工作状态"></a>1. 工作状态</h3><p>afl-fuzz永远不会停止，所以何时停止测试很多时候就是依靠afl-fuzz提供的状态来决定的。具体的几种方式如下所示:</p>
+<ul>
+<li>状态窗口的<code>cycles done</code>变为绿色;</li>
+<li><code>afl-whatsup</code>查看afl-fuzz状态;</li>
+<li><code>afl-stat</code>得到类似于afl-whatsup的输出结果;</li>
+<li>定制<code>afl-whatsup</code>-&gt;在所有代码外面加个循环就好;</li>
+<li>用<code>afl-plot</code>绘制各种状态指标的直观变化趋势;</li>
+<li><code>pythia</code>估算发现新crash和path概率。</li>
+</ul>
+<h3 id="2-fuzz结束判断"><a href="#2-fuzz结束判断" class="headerlink" title="2. fuzz结束判断"></a>2. fuzz结束判断</h3><ul>
+<li>状态窗口中”cycles done”字段颜色变为绿色该字段的颜色可以作为何时停止测试的参考;</li>
+<li>距上一次发现新路径（或者崩溃）已经过去很长时间了，至于具体多少时间还是需要自己把握;</li>
+<li>目标程序的代码几乎被测试用例完全覆盖，这种情况好像很少见;</li>
+<li>pythia提供的各种数据中，path covera达到99或者correctness的值达到1e-08(含义: 从上次发现path/uniq crash到下一次发现之间大约需要1亿次执行)</li>
+</ul>
+<h3 id="3-输出结果说明"><a href="#3-输出结果说明" class="headerlink" title="3. 输出结果说明"></a>3. 输出结果说明</h3><blockquote>
+<p>queue：存放所有具有独特执行路径的测试用例。</p>
+<p>crashes：导致目标接收致命signal而崩溃的独特测试用例。</p>
+<p>crashes/README.txt：保存了目标执行这些crash文件的命令行参数。</p>
+<p>hangs：导致目标超时的独特测试用例。</p>
+<p>fuzzer_stats：afl-fuzz的运行状态。</p>
+<p>plot_data：用于afl-plot绘图。</p>
+</blockquote>
+<h3 id="4-对crash结果的简单分析和分类"><a href="#4-对crash结果的简单分析和分类" class="headerlink" title="4. 对crash结果的简单分析和分类"></a>4. 对crash结果的简单分析和分类</h3><ol>
+<li>crash exploration mode<br>afl-fuzz的一种运行模式，也称为peruvian rabbit mode，用于确定bug的可利用性，其输入的是crash的信息，之后使用<code>-C</code>启用这种模式，afl会自动探索并创造与之相关的crash来帮助你进行分析，比如判断能够控制某块内存地址的长度。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">afl-fuzz -m none -C -i ./fuzz_out/crashes -o ./peruvian-were-rabbit_out -- ./vuln -f</div></pre></td></tr></table></figure>
+<ol>
+<li>triage_crashes.sh<br>AFL源码的experimental目录中有一个名为triage_crashes.sh的脚本，可以帮助我们触发收集到的crashes。</li>
+</ol>
+<p>直接使用脚本跟参数的话，我们可以看到相关crash情况的寄存器等信息，但是如果只是大致分类的话，可以使用如下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/root/Desktop/fuzz/afl/experimental/crash_triage/triage_crashes.sh ./fuzz_out ./vuln 2&gt;&amp;1 | grep SIGNAL</div></pre></td></tr></table></figure>
+<p>效果如下，11代表了SIGSEGV信号，有可能是因为缓冲区溢出导致进程引用了无效的内存<br><img src="https://i.loli.net/2019/05/15/5cdc199e5ce5630635.png" alt="0C1CB900-EA6C-4814-A67E-1FBE5994AB87.png"></p>
+<ol>
+<li>crashwalk<br>优点:可以显示更为详细的信息<br>项目地址: <a href="https://github.com/bnagy/crashwalk" target="_blank" rel="external">https://github.com/bnagy/crashwalk</a></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># 手动模式</div><div class="line">~/go/bin/cwtriage -root ./fuzz_out/crashes -match id -- ./vuln -f</div><div class="line"># afl自动化模式</div><div class="line">~/go/bin/cwtriage -root ./fuzz_out/crashes -afl</div></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/05/15/5cdc1aa2edc5a77745.png" alt="6DD9C8EA-E494-4633-9F84-3F6B7959CD74.png"></p>
+<ol>
+<li>afl-collect</li>
+</ol>
+<p>项目地址: <a href="https://github.com/rc0r/afl-utils" target="_blank" rel="external">https://github.com/rc0r/afl-utils</a><br>afl-collect基于exploitable来检查crashes的可利用性。它可以自动删除无效的crash样本、删除重复样本以及自动化样本分类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">afl-collect -j 8 -d crashes.db -e gdb_script ./fuzz_out ./fuzz_in --  ./vuln --target-opts</div></pre></td></tr></table></figure>
+<p>效果如下</p>
+<p><img src="https://i.loli.net/2019/05/15/5cdc1abdd38ea24456.png" alt="D9712AE7-55FB-4A82-B974-0D418D4C85D7.png"></p>
+<h3 id="5-代码覆盖率"><a href="#5-代码覆盖率" class="headerlink" title="5. 代码覆盖率"></a>5. 代码覆盖率</h3><p>原理部分参考:<br><a href="https://www.freebuf.com/column/197672.html" target="_blank" rel="external">《AFL漏洞挖掘技术漫谈（二）：Fuzz结果分析和代码覆盖率》</a></p>
+<p>afl-cov的使用说明如下:<br>首先使用gcov重新编译源码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gcc -fprofile-arcs -ftest-coverage vuln.c -o vuln_cov</div></pre></td></tr></table></figure>
+<p>如果遇到需要make进行编译的文件，执行如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ make clean</div><div class="line">$ ./configure --prefix=/root/tiff-4.0.10/build-cov CC=&quot;gcc&quot; CXX=&quot;g++&quot; CFLAGS=&quot;-fprofile-arcs -ftest-coverage&quot; --disable-shared</div><div class="line">$ make</div><div class="line">$ make install</div></pre></td></tr></table></figure>
+<p>之后使用afl-cov来计算覆盖率</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">afl-cov -d ./fuzz_out --live --enable-branch-coverage -c . -e &quot;cat AFL_FILE | ./vuln_cov AFL_FILE&quot;</div></pre></td></tr></table></figure>
+<p>同时进行对插桩过的<code>vuln</code>的fuzz</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">afl-fuzz -i ./fuzz_in -o ./fuzz_out ./vuln -f</div></pre></td></tr></table></figure>
+<p>最终效果如下<br><img src="https://i.loli.net/2019/05/15/5cdc1ad66119394310.png" alt="60FD6E10-65F2-4CC1-B270-218F679D59B0.png"></p>
+<p>生成的报告会保存在<code>/path/to/afl-fuzz-output/cov/web/lcov-web-final</code>路径下。</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-前言"><span class="toc-number">1.</span> <span class="toc-text">0x00 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-AFL的基本使用"><span class="toc-number">2.</span> <span class="toc-text">0x01 AFL的基本使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-使用afl-gcc"><span class="toc-number">2.1.</span> <span class="toc-text">1. 使用afl-gcc</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-使用AFL插桩程序"><span class="toc-number">2.1.1.</span> <span class="toc-text">1.1 使用AFL插桩程序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-开始fuzz"><span class="toc-number">2.1.2.</span> <span class="toc-text">1.2 开始fuzz</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-fuzz的结果"><span class="toc-number">2.1.3.</span> <span class="toc-text">1.3 fuzz的结果</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-crash分析"><span class="toc-number">2.1.4.</span> <span class="toc-text">1.4 crash分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-语料库蒸馏-Corpus-Distillation"><span class="toc-number">2.1.5.</span> <span class="toc-text">1.5 语料库蒸馏(Corpus Distillation)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-LLVM-Mode模式"><span class="toc-number">2.2.</span> <span class="toc-text">2. LLVM Mode模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-启用llvm"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.1 启用llvm</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-使用LLVM-Mode模式进行fuzz"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2 使用LLVM Mode模式进行fuzz</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-下载目标代码"><span class="toc-number">2.2.2.1.</span> <span class="toc-text">1. 下载目标代码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-进行编译插桩"><span class="toc-number">2.2.2.2.</span> <span class="toc-text">2. 进行编译插桩</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-进行源代码的修改"><span class="toc-number">2.2.2.3.</span> <span class="toc-text">3. 进行源代码的修改</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-构造一个输入点"><span class="toc-number">2.2.2.4.</span> <span class="toc-text">4. 构造一个输入点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-根据上述的构造点构造输入数据"><span class="toc-number">2.2.2.5.</span> <span class="toc-text">5. 根据上述的构造点构造输入数据</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-开始fuzz"><span class="toc-number">2.2.2.6.</span> <span class="toc-text">6. 开始fuzz</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-分析crash"><span class="toc-number">2.2.2.7.</span> <span class="toc-text">7. 分析crash</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-黑盒测试"><span class="toc-number">2.3.</span> <span class="toc-text">3. 黑盒测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-并行测试"><span class="toc-number">2.4.</span> <span class="toc-text">4. 并行测试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-单系统并行"><span class="toc-number">2.4.1.</span> <span class="toc-text">4.1 单系统并行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-多系统并行"><span class="toc-number">2.4.2.</span> <span class="toc-text">4.2 多系统并行</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-Fuzz结果分析和代码覆盖率"><span class="toc-number">3.</span> <span class="toc-text">0x02 Fuzz结果分析和代码覆盖率</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-工作状态"><span class="toc-number">3.1.</span> <span class="toc-text">1. 工作状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-fuzz结束判断"><span class="toc-number">3.2.</span> <span class="toc-text">2. fuzz结束判断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-输出结果说明"><span class="toc-number">3.3.</span> <span class="toc-text">3. 输出结果说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-对crash结果的简单分析和分类"><span class="toc-number">3.4.</span> <span class="toc-text">4. 对crash结果的简单分析和分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-代码覆盖率"><span class="toc-number">3.5.</span> <span class="toc-text">5. 代码覆盖率</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2019/05/15/how-to-use-afl-fuzz/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2019/05/15/how-to-use-afl-fuzz/&text=AFL使用指南"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2019/05/15/how-to-use-afl-fuzz/&title=AFL使用指南"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2019/05/15/how-to-use-afl-fuzz/&is_video=false&description=AFL使用指南"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=AFL使用指南&body=Check out this article: http://zer0yu.github.io/2019/05/15/how-to-use-afl-fuzz/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2019/05/15/how-to-use-afl-fuzz/&title=AFL使用指南"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2019/05/15/how-to-use-afl-fuzz/&title=AFL使用指南"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2019/05/15/how-to-use-afl-fuzz/&title=AFL使用指南"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2019/05/15/how-to-use-afl-fuzz/&title=AFL使用指南"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2019/05/15/how-to-use-afl-fuzz/&name=AFL使用指南&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 z3r0yu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-129276044-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?8415e69cf54ba93c9ddb2eb597859c7d";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'z3r0yu';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

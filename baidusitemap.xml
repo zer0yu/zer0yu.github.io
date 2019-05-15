@@ -2,6 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     
+  <url>
+    <loc>http://zer0yu.github.io/2019/05/15/how-to-use-afl-fuzz/</loc>
+    <lastmod>2019-05-15T13:58:09.822Z</lastmod>
+    <data>
+        <display>
+        <title>AFL使用指南</title>
+        <pubTime>2019-05-15T13:41:00.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
     
   <url>
     <loc>http://zer0yu.github.io/2019/04/03/VolgaCTF-2019-Qualifier-Web/</loc>
