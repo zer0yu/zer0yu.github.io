@@ -3,8 +3,23 @@
 
     
   <url>
+    <loc>http://zer0yu.github.io/2019/06/30/Razzer-Finding-Kernel-Race-Bugs-through-Fuzzing/</loc>
+    <lastmod>2019-06-30T13:18:15.754Z</lastmod>
+    <data>
+        <display>
+        <title>Razzer-Finding Kernel Race Bugs through Fuzzing</title>
+        <pubTime>2019-06-30T13:12:32.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://zer0yu.github.io/2019/05/15/how-to-use-afl-fuzz/</loc>
-    <lastmod>2019-05-15T13:58:09.822Z</lastmod>
+    <lastmod>2019-05-15T15:28:07.404Z</lastmod>
     <data>
         <display>
         <title>AFL使用指南</title>
