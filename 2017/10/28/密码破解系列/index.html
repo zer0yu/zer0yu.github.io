@@ -1,27 +1,18 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="前言本文总结了有关Windows密码、Linux密码、网络设备密码、数据库密码、无线网络密码、web应用登陆密码的破解以及在线扫描服务的密码破解。
-正文####1.windows密码破解
-获取密码（抓取HASH）：pwdump、wce、mimikatz
-破解密码：hashcat、LC5、SAMInside.exe、Ophcrack、mimikatz、hashsuite
-密码抓取：
-环境：windo">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="前言本文总结了有关Windows密码、Linux密码、网络设备密码、数据库密码、无线网络密码、web应用登陆密码的破解以及在线扫描服务的密码破解。 正文####1.windows密码破解 获取密码（抓取HASH）：pwdump、wce、mimikatz 破解密码：hashcat、LC5、SAMInside.exe、Ophcrack、mimikatz、hashsuite 密码抓取： 环境：windo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="密码破解系列">
 <meta property="og:url" content="http://zer0yu.github.io/2017/10/28/密码破解系列/index.html">
 <meta property="og:site_name" content="Z3R0YU">
-<meta property="og:description" content="前言本文总结了有关Windows密码、Linux密码、网络设备密码、数据库密码、无线网络密码、web应用登陆密码的破解以及在线扫描服务的密码破解。
-正文####1.windows密码破解
-获取密码（抓取HASH）：pwdump、wce、mimikatz
-破解密码：hashcat、LC5、SAMInside.exe、Ophcrack、mimikatz、hashsuite
-密码抓取：
-环境：windo">
+<meta property="og:description" content="前言本文总结了有关Windows密码、Linux密码、网络设备密码、数据库密码、无线网络密码、web应用登陆密码的破解以及在线扫描服务的密码破解。 正文####1.windows密码破解 获取密码（抓取HASH）：pwdump、wce、mimikatz 破解密码：hashcat、LC5、SAMInside.exe、Ophcrack、mimikatz、hashsuite 密码抓取： 环境：windo">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/9BDC799D-7107-4E3A-86CB-E65207AB9637.png">
 <meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-10-28%20%E4%B8%8B%E5%8D%888.09.05.png">
 <meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-10-28%20%E4%B8%8B%E5%8D%888.10.25.png">
@@ -68,12 +59,7 @@
 <meta property="og:updated_time" content="2017-12-02T11:52:31.074Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="密码破解系列">
-<meta name="twitter:description" content="前言本文总结了有关Windows密码、Linux密码、网络设备密码、数据库密码、无线网络密码、web应用登陆密码的破解以及在线扫描服务的密码破解。
-正文####1.windows密码破解
-获取密码（抓取HASH）：pwdump、wce、mimikatz
-破解密码：hashcat、LC5、SAMInside.exe、Ophcrack、mimikatz、hashsuite
-密码抓取：
-环境：windo">
+<meta name="twitter:description" content="前言本文总结了有关Windows密码、Linux密码、网络设备密码、数据库密码、无线网络密码、web应用登陆密码的破解以及在线扫描服务的密码破解。 正文####1.windows密码破解 获取密码（抓取HASH）：pwdump、wce、mimikatz 破解密码：hashcat、LC5、SAMInside.exe、Ophcrack、mimikatz、hashsuite 密码抓取： 环境：windo">
 <meta name="twitter:image" content="http://ok44mzy2k.bkt.clouddn.com/9BDC799D-7107-4E3A-86CB-E65207AB9637.png">
     
     
@@ -104,7 +90,7 @@
     <!-- rss -->
     
     
-      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml" />
+      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml">
     
 </head>
 
@@ -317,20 +303,20 @@
 <ol>
 <li>把网卡切换为监听模式</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo airmon-ng start wlan0</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo airmon-ng start wlan0</span><br></pre></td></tr></table></figure>
 <p><img src="http://ok44mzy2k.bkt.clouddn.com/1028835.png" alt="img"></p>
 <p>2.监听网络流量信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo airodump-ng -w file wlan0mon</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo airodump-ng -w file wlan0mon</span><br></pre></td></tr></table></figure>
 <p><img src="http://ok44mzy2k.bkt.clouddn.com/1028836.png" alt="img"></p>
-<ol>
+<ol start="3">
 <li>使用mdk3， 强制断线路由的所有链接， 此次操作是为了能让aircrack抓到wifi的握手信息 ， -c为需要强制断线的信道：</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mdk3 wlan0mon d -c 11</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mdk3 wlan0mon d -c 11</span><br></pre></td></tr></table></figure>
 <p>过了几分钟， 可以看到， 用户重新连接上了901路由， 我们也捕获到了handshake信息， 上面airodump-ng的命令窗口顶部出现了以下信息 WPA handshake  ，此时直接ctrl＋c ，停止捕获信息</p>
 <p><img src="http://ok44mzy2k.bkt.clouddn.com/1028837.png" alt="img"></p>
 <p>在kali的Home目录下生成了了几个文件 ，此时的file-01.cap为最重要的文件：</p>
 <p><img src="http://ok44mzy2k.bkt.clouddn.com/1028838.png" alt="img"></p>
-<p>4.把文件转换为hccapx格式， 我们打开这个网站：<a href="https://hashcat.net/cap2hccapx/" target="_blank" rel="external">https://hashcat.net/cap2hccapx/</a> ， 然后选择cap文件并点击covert按钮， 并下载一个hccapx格式的文件</p>
+<p>4.把文件转换为hccapx格式， 我们打开这个网站：<a href="https://hashcat.net/cap2hccapx/" target="_blank" rel="noopener">https://hashcat.net/cap2hccapx/</a> ， 然后选择cap文件并点击covert按钮， 并下载一个hccapx格式的文件</p>
 <p><img src="http://ok44mzy2k.bkt.clouddn.com/1028839.png" alt="img"></p>
 <p>5.网页会返回一个hccapx的文件， 使用hashcat命令破解， 参数dict.txt为生成的字典文件 ， -m参数2500代表破解的方式为WPA/WPA2， 999.hccapx为生成的文件， 最后破解出来的密码为whitehat：</p>
 <p>PS E:\MYSEC\hashcat-3.6.0&gt; .\hashcat64.exe -m 2500 999.hccapx dict.txt</p>

@@ -1,21 +1,18 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="出处：S&amp;amp;P 2019 
-作者：Dae R. Jeong, Kyungtae Kim, Basavesh Shivakumar, Byoungyoung Lee, Insik Shin 
-单位：Computer Science, KAIST, Computer Science, Purdue University, Electrical and Computer Engineering,">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="出处：S&amp;amp;P 2019  作者：Dae R. Jeong, Kyungtae Kim, Basavesh Shivakumar, Byoungyoung Lee, Insik Shin  单位：Computer Science, KAIST, Computer Science, Purdue University, Electrical and Computer Engineering,">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Razzer-Finding Kernel Race Bugs through Fuzzing">
 <meta property="og:url" content="http://zer0yu.github.io/2019/06/30/Razzer-Finding-Kernel-Race-Bugs-through-Fuzzing/index.html">
 <meta property="og:site_name" content="Z3R0YU">
-<meta property="og:description" content="出处：S&amp;amp;P 2019 
-作者：Dae R. Jeong, Kyungtae Kim, Basavesh Shivakumar, Byoungyoung Lee, Insik Shin 
-单位：Computer Science, KAIST, Computer Science, Purdue University, Electrical and Computer Engineering,">
+<meta property="og:description" content="出处：S&amp;amp;P 2019  作者：Dae R. Jeong, Kyungtae Kim, Basavesh Shivakumar, Byoungyoung Lee, Insik Shin  单位：Computer Science, KAIST, Computer Science, Purdue University, Electrical and Computer Engineering,">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2019/06/30/5d18b5a88ce6d62057.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/30/5d18b5cea1ddc33409.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/30/5d18b5e89fc7f54203.png">
@@ -29,9 +26,7 @@
 <meta property="og:updated_time" content="2019-06-30T13:18:15.754Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Razzer-Finding Kernel Race Bugs through Fuzzing">
-<meta name="twitter:description" content="出处：S&amp;amp;P 2019 
-作者：Dae R. Jeong, Kyungtae Kim, Basavesh Shivakumar, Byoungyoung Lee, Insik Shin 
-单位：Computer Science, KAIST, Computer Science, Purdue University, Electrical and Computer Engineering,">
+<meta name="twitter:description" content="出处：S&amp;amp;P 2019  作者：Dae R. Jeong, Kyungtae Kim, Basavesh Shivakumar, Byoungyoung Lee, Insik Shin  单位：Computer Science, KAIST, Computer Science, Purdue University, Electrical and Computer Engineering,">
 <meta name="twitter:image" content="https://i.loli.net/2019/06/30/5d18b5a88ce6d62057.png">
     
     
@@ -62,7 +57,7 @@
     <!-- rss -->
     
     
-      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml" />
+      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml">
     
 </head>
 
@@ -119,7 +114,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#摘要"><span class="toc-number">1.</span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#I-介绍"><span class="toc-number">2.</span> <span class="toc-text">I 介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#II-问题定义-amp-设计需求"><span class="toc-number">3.</span> <span class="toc-text">II 问题定义&设计需求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-问题定义"><span class="toc-number">3.1.</span> <span class="toc-text">A.问题定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-设计需求"><span class="toc-number">3.2.</span> <span class="toc-text">B.设计需求</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#III-设计-amp-实现"><span class="toc-number">4.</span> <span class="toc-text">III. 设计&实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-静态分析识别潜在竞争点"><span class="toc-number">4.1.</span> <span class="toc-text">A. 静态分析识别潜在竞争点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-Hypervisor中的每核心调度程序"><span class="toc-number">4.2.</span> <span class="toc-text">B. Hypervisor中的每核心调度程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-通过两个阶段的Fuzz来发现竞争漏洞"><span class="toc-number">4.3.</span> <span class="toc-text">C. 通过两个阶段的Fuzz来发现竞争漏洞</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#D-实现"><span class="toc-number">4.4.</span> <span class="toc-text">D. 实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IV-评估"><span class="toc-number">5.</span> <span class="toc-text">IV. 评估</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#V-相关工作"><span class="toc-number">6.</span> <span class="toc-text">V. 相关工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VI-讨论"><span class="toc-number">7.</span> <span class="toc-text">VI.讨论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VII-结论"><span class="toc-number">8.</span> <span class="toc-text">VII.结论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#REFERENCES"><span class="toc-number">9.</span> <span class="toc-text">REFERENCES</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#摘要"><span class="toc-number">1.</span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#I-介绍"><span class="toc-number">2.</span> <span class="toc-text">I 介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#II-问题定义-amp-设计需求"><span class="toc-number">3.</span> <span class="toc-text">II 问题定义&amp;设计需求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-问题定义"><span class="toc-number">3.1.</span> <span class="toc-text">A.问题定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-设计需求"><span class="toc-number">3.2.</span> <span class="toc-text">B.设计需求</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#III-设计-amp-实现"><span class="toc-number">4.</span> <span class="toc-text">III. 设计&amp;实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-静态分析识别潜在竞争点"><span class="toc-number">4.1.</span> <span class="toc-text">A. 静态分析识别潜在竞争点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-Hypervisor中的每核心调度程序"><span class="toc-number">4.2.</span> <span class="toc-text">B. Hypervisor中的每核心调度程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-通过两个阶段的Fuzz来发现竞争漏洞"><span class="toc-number">4.3.</span> <span class="toc-text">C. 通过两个阶段的Fuzz来发现竞争漏洞</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#D-实现"><span class="toc-number">4.4.</span> <span class="toc-text">D. 实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IV-评估"><span class="toc-number">5.</span> <span class="toc-text">IV. 评估</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#V-相关工作"><span class="toc-number">6.</span> <span class="toc-text">V. 相关工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VI-讨论"><span class="toc-number">7.</span> <span class="toc-text">VI.讨论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VII-结论"><span class="toc-number">8.</span> <span class="toc-text">VII.结论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#REFERENCES"><span class="toc-number">9.</span> <span class="toc-text">REFERENCES</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -156,7 +151,7 @@
     <p>出处：S&amp;P 2019 </p>
 <p>作者：Dae R. Jeong, Kyungtae Kim, Basavesh Shivakumar, Byoungyoung Lee, Insik Shin </p>
 <p>单位：Computer Science, KAIST, Computer Science, Purdue University, Electrical and Computer Engineering, Seoul National University </p>
-<p>资料：<a href="https://github.com/fengjixuchui/FuzzingPaper/blob/master/Paper/SP19_Razzer.pdf" target="_blank" rel="external">Paper</a> </p>
+<p>资料：<a href="https://github.com/fengjixuchui/FuzzingPaper/blob/master/Paper/SP19_Razzer.pdf" target="_blank" rel="noopener">Paper</a> </p>
 <h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>内核中的数据竞争是一类严重的bug，会影响相关系统的可靠性和安全性。利用内核中的竞争，简单的可以是内核变得没有响应， 严重的则会触发权限提升攻击以获取root权限。</p>
 <p>本文将主要基于RAZZER，一种在内核中查找竞争漏洞的工具，来介绍对内核数据竞争漏洞的模糊测试。一般的模糊测试是通过输入畸形数据来触发目标程序的崩溃进而再通过手动分析确定是否存在安全问题的，但是这种方式不仅很难对竞争漏洞进行针对性测试，而且很难发现由于竞争漏洞而导致的潜在安全问题。与传统方案的不同，RAZZER的核心思想是引导Fuzzing工具去执行可能存在数据竞争漏洞的代码。具体来说就是采用静态分析和确定性线程交错技术。静态分析技术来对潜在的内核数据竞争点进行定位，从而引导Fuzz器更有效地对内核中的数据竞争点进行Fuzz。确定性线程交错技术则是用来控制线程调度，以提供精确的并行执行信息，降低不确定性，从而保证内核竞争的稳定触发。但是此项工作并没有解决同步机制对多线程模糊测试的影响。</p>
 <h2 id="I-介绍"><a href="#I-介绍" class="headerlink" title="I 介绍"></a>I 介绍</h2><p>数据竞争对底层系统的可靠性和安全性会造成影响，具体来说主要是以下三个方面：</p>
@@ -195,7 +190,7 @@
 </ol>
 <p><img src="https://i.loli.net/2019/06/30/5d18b5e89fc7f54203.png" alt="5E705F2C-2A22-49B7-84DA-E6F804C3895A.png"></p>
 <p>图3：RAZZER管理程序的工作流程</p>
-<ol>
+<ol start="3">
 <li>检查guest内核是否确实发生了竞争:当两个断点同时被触发时，我们的管理程序检查给定的RacePaircand是否实际导致竞争。 更具体地说，当RacePaircand中的两个存储器指令都命中断点时，我们的管理程序会对这些指令要访问的目标地址进行分析。 如果这些地址相同，那么RAZZER会得出结论，给定的RacePaircand真正参加竞争，将这样的一对推广到RacePairtrue。 从技术上讲，我们的虚拟机管理程序通过反汇编每个RacePaircand位置的指令并获得存储在每个vCPU中的具体寄存器值来计算目标地址值。</li>
 </ol>
 <h3 id="C-通过两个阶段的Fuzz来发现竞争漏洞"><a href="#C-通过两个阶段的Fuzz来发现竞争漏洞" class="headerlink" title="C. 通过两个阶段的Fuzz来发现竞争漏洞"></a>C. 通过两个阶段的Fuzz来发现竞争漏洞</h3><p>RAZZER的模糊测试分两个阶段进行：<br>（i）单线程模糊测试阶段找到一个触发任何RacePaircand的单线程用户程序;<br>（ii）多线程模糊测试阶段最终找到一个多线程用户程序，该程序根据单线程阶段的结果触发一次攻击竞争。<br>要注意每个模糊测试阶段由两个组件组成，即生成器和执行器，其中生成器创建用户程序，然后执行程序运行程序。</p>
@@ -221,27 +216,27 @@
 </ol>
 <p><img src="https://i.loli.net/2019/06/30/5d18b61b13acd91907.png" alt="60EEAB57-10C6-45BB-BCCA-7A14B2528780.png"></p>
 <p>图5：RAZZER新发现可以造成安全缺陷的竞争漏洞清单</p>
-<ol>
+<ol start="2">
 <li>图6展示了RAZZER发现新的有害竞争的效率。在这个图中，主要描绘了两类bug：（i）通过单线程模糊测试发现的非竞争bug; （ii）通过多线程模糊测试发现的竞争bug。</li>
 </ol>
 <p><img src="https://i.loli.net/2019/06/30/5d18b62f4991954310.png" alt="80335BF3-5851-4D38-A49C-751272C623E7.png"></p>
 <p>图7：随时间变化的唯一崩溃次数</p>
-<ol>
+<ol start="3">
 <li>为了证明RAZZER分区分析的有效性，作者测量了从整个内核获取所有RacePairscand所需的时间，如图8所示。</li>
 </ol>
 <p><img src="https://i.loli.net/2019/06/30/5d18b6444f5a458116.png" alt="8D7C37A3-6D05-4F8A-A2F5-CAEC90794E3A.png"></p>
 <p>图8：RAZZER静态分析的性能</p>
-<ol>
+<ol start="4">
 <li>鉴于RAZZER利用超级调用来启用vCPU的确定性行为，因此需要额外的开销来与管理程序进行通信。为了了解由于管理程序引起的开销，测量了每次超级调用的经过时间100M次并计算了平均值。图9显示了RAZZER的超级调用的性能开销。</li>
 </ol>
 <p><img src="https://i.loli.net/2019/06/30/5d18b6566afad24683.png" alt="BC14696C-9949-4936-BB5B-E5C7487E06C2.png"></p>
 <p>图9：执行RAZZER的超级调用时的性能开销</p>
-<ol>
+<ol start="5">
 <li>模糊测试的执行吞吐量可能是模糊技术效率的间接测量，但更直接和重要的测量应该是找到bug所需的时间（即本文中的有害竞争）。 为了证明这一点，我们测量了发现以前已知的有害竞争CVE-2017-2636，CVE-2016-8655和CVE2017-17712所需的执行次数，同时运行了10个小时。如图10所示，RAZZER发现所有这些以前已知的竞争具有合理的执行次数（即从246 K到1,170 K）以及在合理的时间内（即从7分钟到26分钟）。 然而，Syzkaller未能找到所有这些案例，尽管在10小时内从5 M到37 M生成/突变程序执行。 特别是基于这些CVE案例，表明RAZZER比Syzkaller更快，至少为23至85倍。</li>
 </ol>
 <p><img src="https://i.loli.net/2019/06/30/5d18b66b3b52350327.png" alt="21F6932C-A538-4609-B7E9-C3977510B3B7.png"></p>
 <p>图10：Syzkaller和RAZZER在查找触发竞争的用户程序时的效率。 作者测量了执行总次数和找到之前已知竞争所需的时间。 RAZZER在合理的时间内找到了所有已知的竞争，而Syzkaller在10小时的给定时间内没有发现任何竞争（v4.8）。</p>
-<ol>
+<ol start="6">
 <li>图11显示了在运行RAZZER和SKIEmu时触发每个竞争所需的执行次数。 由于RAZZER仅探索与RacePairscand相关的线程交错（通过运行给定的用户程序发现），因此探索的线程交错情况要少得多，RAZZER所需的执行次数远少于SKIEmu，范围从30次减少到398次。 这个结果还表明，SKIEmu探索的许多线程交错案例与竞争无关，这标志着RAZZER在满足R2方面的有效性。</li>
 </ol>
 <p><img src="https://i.loli.net/2019/06/30/5d18b67e85ebe59307.png" alt="90A08220-0F1A-4C50-81A8-5B4F79A34399.png"></p>
@@ -256,15 +251,15 @@
 <p><strong>将RAZZER应用于其他系统</strong>  RAZZER是一种灰盒模糊测试，所以只要源代码和对应的虚拟环境的支持，将RAZZER应用于其他现代操作系统（如Windows，MacOSX，FreeBSD，以及一些开源内核）是很容易的。 从介绍以及开源的代码上来看RAZZER只是在处理系统调用调用模型的时候是针对Linux的，其余所有设计都是平台无关的，因为其核心机制可以离线（即静态分析）或透明（即定制执行系统管理程序）。</p>
 <p><strong>变异策略</strong>  如果将RAZZER测试内核竞争漏洞的思想应用于用户程序，可能不需要在识别竞争后再使用其他变异策略。 因为与偶尔允许使用竞争提高性能的Linux内核不同，大多数用户程序中都会存在数据竞争这样的bug。</p>
 <h2 id="VII-结论"><a href="#VII-结论" class="headerlink" title="VII.结论"></a>VII.结论</h2><p>本文基于RAZZER这种结合静态分析和动态模糊测试的方案，来对内核竞争漏洞的模糊测试技术做了介绍。RAZZER是一款为竞争漏洞量身定制的模糊测试工具，不仅其实现方案极具代表性，其实的实际效果也非常的好。 它利用静态分析来发现潜在的数据竞争点，以指导模糊器识别竞争。 此外，它修改底层管理程序以确定性地触发竞争。 对RAZZER的评估证明了其强大的检测竞争的能力。 它已经在Linux内核中发现了30个新的竞争，并且与其他最先进的工具（特别是Syzkaller和SKI）进行了比较研究，证明了它在检测内核中的竞争漏洞方面的出色表现。</p>
-<h2 id="REFERENCES"><a href="#REFERENCES" class="headerlink" title="REFERENCES"></a>REFERENCES</h2><p>[1] MITRE. CVE-2016-8655., 2016. <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-8655" target="_blank" rel="external">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-8655</a>.</p>
-<p>[2] MITRE. CVE-2017-2636., 2017. <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-2636" target="_blank" rel="external">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-2636</a>.</p>
-<p>[3] MITRE. CVE-2017-17712., 2017. <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-17712" target="_blank" rel="external">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-17712</a>.</p>
+<h2 id="REFERENCES"><a href="#REFERENCES" class="headerlink" title="REFERENCES"></a>REFERENCES</h2><p>[1] MITRE. CVE-2016-8655., 2016. <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-8655" target="_blank" rel="noopener">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-8655</a>.</p>
+<p>[2] MITRE. CVE-2017-2636., 2017. <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-2636" target="_blank" rel="noopener">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-2636</a>.</p>
+<p>[3] MITRE. CVE-2017-17712., 2017. <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-17712" target="_blank" rel="noopener">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-17712</a>.</p>
 <p>[4] Fonseca P , Rodrigues R , Björn B. Brandenburg. SKI: exposing kernel concurrency bugs through systematic schedule exploration[C]// Usenix Conference on Operating Systems Design &amp; Implementation. USENIX Association, 2014.</p>
 <p>[5] Burckhardt S , Kothari P , Musuvathi M , et al. A randomized scheduler with probabilistic guarantees of finding bugs[J]. ACM SIGARCH Computer Architecture News, 2010, 38(1):167.</p>
-<p>[6] I. Molnar. Runtime locking correctness validator, 2018. <a href="https://www.kernel.org/doc/Documentation/locking/lockdep-design.txt" target="_blank" rel="external">https://www.kernel.org/doc/Documentation/locking/lockdep-design.txt</a>.</p>
-<p>[7] Kernel address sanitizer, 2018. <a href="https://github.com/google/kasan/wiki" target="_blank" rel="external">https://github.com/google/kasan/wiki</a>.</p>
+<p>[6] I. Molnar. Runtime locking correctness validator, 2018. <a href="https://www.kernel.org/doc/Documentation/locking/lockdep-design.txt" target="_blank" rel="noopener">https://www.kernel.org/doc/Documentation/locking/lockdep-design.txt</a>.</p>
+<p>[7] Kernel address sanitizer, 2018. <a href="https://github.com/google/kasan/wiki" target="_blank" rel="noopener">https://github.com/google/kasan/wiki</a>.</p>
 <p>[8] Sui Y , Xue J . [ACM Press the 25th International Conference - Barcelona, Spain (2016.03.17-2016.03.18)] Proceedings of the 25th International Conference on Compiler Construction - CC 2016 - SVF: interprocedural static value-flow analysis in LLVM[J]. 2016:265-266.</p>
-<p>[9] D. Vyukov. Syzkaller, 2015. <a href="https://github.com/google/syzkaller" target="_blank" rel="external">https://github.com/google/syzkaller</a>.</p>
+<p>[9] D. Vyukov. Syzkaller, 2015. <a href="https://github.com/google/syzkaller" target="_blank" rel="noopener">https://github.com/google/syzkaller</a>.</p>
 <p>[10] 史记, 曾昭龙, 杨从保, et al. Fuzzing 测试技术综述[J]. 信息网络安全, 2014(3):87-91.</p>
 <p>[11] Pham V T , Roychoudhury A . Coverage-based Greybox Fuzzing as Markov Chain[C]// Acm Sigsac Conference on Computer &amp; Communications Security. ACM, 2016.</p>
 <p>[12] You W , Zong P , Chen K , et al. SemFuzz: Semantics-based Automatic Generation of Proof-of-Concept Exploits[C]// Acm Sigsac Conference. ACM, 2017.</p>
@@ -309,7 +304,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#摘要"><span class="toc-number">1.</span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#I-介绍"><span class="toc-number">2.</span> <span class="toc-text">I 介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#II-问题定义-amp-设计需求"><span class="toc-number">3.</span> <span class="toc-text">II 问题定义&设计需求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-问题定义"><span class="toc-number">3.1.</span> <span class="toc-text">A.问题定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-设计需求"><span class="toc-number">3.2.</span> <span class="toc-text">B.设计需求</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#III-设计-amp-实现"><span class="toc-number">4.</span> <span class="toc-text">III. 设计&实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-静态分析识别潜在竞争点"><span class="toc-number">4.1.</span> <span class="toc-text">A. 静态分析识别潜在竞争点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-Hypervisor中的每核心调度程序"><span class="toc-number">4.2.</span> <span class="toc-text">B. Hypervisor中的每核心调度程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-通过两个阶段的Fuzz来发现竞争漏洞"><span class="toc-number">4.3.</span> <span class="toc-text">C. 通过两个阶段的Fuzz来发现竞争漏洞</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#D-实现"><span class="toc-number">4.4.</span> <span class="toc-text">D. 实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IV-评估"><span class="toc-number">5.</span> <span class="toc-text">IV. 评估</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#V-相关工作"><span class="toc-number">6.</span> <span class="toc-text">V. 相关工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VI-讨论"><span class="toc-number">7.</span> <span class="toc-text">VI.讨论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VII-结论"><span class="toc-number">8.</span> <span class="toc-text">VII.结论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#REFERENCES"><span class="toc-number">9.</span> <span class="toc-text">REFERENCES</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#摘要"><span class="toc-number">1.</span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#I-介绍"><span class="toc-number">2.</span> <span class="toc-text">I 介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#II-问题定义-amp-设计需求"><span class="toc-number">3.</span> <span class="toc-text">II 问题定义&amp;设计需求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-问题定义"><span class="toc-number">3.1.</span> <span class="toc-text">A.问题定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-设计需求"><span class="toc-number">3.2.</span> <span class="toc-text">B.设计需求</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#III-设计-amp-实现"><span class="toc-number">4.</span> <span class="toc-text">III. 设计&amp;实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-静态分析识别潜在竞争点"><span class="toc-number">4.1.</span> <span class="toc-text">A. 静态分析识别潜在竞争点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-Hypervisor中的每核心调度程序"><span class="toc-number">4.2.</span> <span class="toc-text">B. Hypervisor中的每核心调度程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-通过两个阶段的Fuzz来发现竞争漏洞"><span class="toc-number">4.3.</span> <span class="toc-text">C. 通过两个阶段的Fuzz来发现竞争漏洞</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#D-实现"><span class="toc-number">4.4.</span> <span class="toc-text">D. 实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IV-评估"><span class="toc-number">5.</span> <span class="toc-text">IV. 评估</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#V-相关工作"><span class="toc-number">6.</span> <span class="toc-text">V. 相关工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VI-讨论"><span class="toc-number">7.</span> <span class="toc-text">VI.讨论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VII-结论"><span class="toc-number">8.</span> <span class="toc-text">VII.结论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#REFERENCES"><span class="toc-number">9.</span> <span class="toc-text">REFERENCES</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">

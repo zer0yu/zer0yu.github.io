@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="引言​    commix是一款很好用的命令注入的工具，前几天看了看国内对其的介绍和使用示例挺少的，所以最近有空就写了这一篇文章来列举几个使用的栗子。
-概念​    命令注入就是部分Web应用程序提供了一些命令执行的操作，那么在Web应用程序底层去调用系统操作命令时，如果没有过滤好用户输入的数据，就很有可能形成系统命令执行漏洞来直接执行操作系统命令。详细讲解参考Command Injection">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="引言​    commix是一款很好用的命令注入的工具，前几天看了看国内对其的介绍和使用示例挺少的，所以最近有空就写了这一篇文章来列举几个使用的栗子。 概念​    命令注入就是部分Web应用程序提供了一些命令执行的操作，那么在Web应用程序底层去调用系统操作命令时，如果没有过滤好用户输入的数据，就很有可能形成系统命令执行漏洞来直接执行操作系统命令。详细讲解参考Command Injection">
 <meta property="og:type" content="article">
 <meta property="og:title" content="commix-系统命令注入自动化测试实例">
 <meta property="og:url" content="http://zer0yu.github.io/2017/01/21/commix-系统命令注入自动化测试实例/index.html">
 <meta property="og:site_name" content="Z3R0YU">
-<meta property="og:description" content="引言​    commix是一款很好用的命令注入的工具，前几天看了看国内对其的介绍和使用示例挺少的，所以最近有空就写了这一篇文章来列举几个使用的栗子。
-概念​    命令注入就是部分Web应用程序提供了一些命令执行的操作，那么在Web应用程序底层去调用系统操作命令时，如果没有过滤好用户输入的数据，就很有可能形成系统命令执行漏洞来直接执行操作系统命令。详细讲解参考Command Injection">
+<meta property="og:description" content="引言​    commix是一款很好用的命令注入的工具，前几天看了看国内对其的介绍和使用示例挺少的，所以最近有空就写了这一篇文章来列举几个使用的栗子。 概念​    命令注入就是部分Web应用程序提供了一些命令执行的操作，那么在Web应用程序底层去调用系统操作命令时，如果没有过滤好用户输入的数据，就很有可能形成系统命令执行漏洞来直接执行操作系统命令。详细讲解参考Command Injection">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/commix-1.png">
 <meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/commix-2.png">
 <meta property="og:image" content="http://ok44mzy2k.bkt.clouddn.com/commix-3.png">
@@ -28,8 +27,7 @@
 <meta property="og:updated_time" content="2017-01-21T13:31:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="commix-系统命令注入自动化测试实例">
-<meta name="twitter:description" content="引言​    commix是一款很好用的命令注入的工具，前几天看了看国内对其的介绍和使用示例挺少的，所以最近有空就写了这一篇文章来列举几个使用的栗子。
-概念​    命令注入就是部分Web应用程序提供了一些命令执行的操作，那么在Web应用程序底层去调用系统操作命令时，如果没有过滤好用户输入的数据，就很有可能形成系统命令执行漏洞来直接执行操作系统命令。详细讲解参考Command Injection">
+<meta name="twitter:description" content="引言​    commix是一款很好用的命令注入的工具，前几天看了看国内对其的介绍和使用示例挺少的，所以最近有空就写了这一篇文章来列举几个使用的栗子。 概念​    命令注入就是部分Web应用程序提供了一些命令执行的操作，那么在Web应用程序底层去调用系统操作命令时，如果没有过滤好用户输入的数据，就很有可能形成系统命令执行漏洞来直接执行操作系统命令。详细讲解参考Command Injection">
 <meta name="twitter:image" content="http://ok44mzy2k.bkt.clouddn.com/commix-1.png">
     
     
@@ -60,7 +58,7 @@
     <!-- rss -->
     
     
-      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml" />
+      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml">
     
 </head>
 
@@ -150,12 +148,12 @@
 
   <div class="content" itemprop="articleBody">
     <h4 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h4><p>​    commix是一款很好用的命令注入的工具，前几天看了看国内对其的介绍和使用示例挺少的，所以最近有空就写了这一篇文章来列举几个使用的栗子。</p>
-<h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><p>​    命令注入就是部分Web应用程序提供了一些命令执行的操作，那么在Web应用程序底层去调用系统操作命令时，如果没有过滤好用户输入的数据，就很有可能形成系统命令执行漏洞来直接执行操作系统命令。详细讲解参考<a href="https://www.owasp.org/index.php/Command_Injection" target="_blank" rel="external">Command Injection</a></p>
+<h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><p>​    命令注入就是部分Web应用程序提供了一些命令执行的操作，那么在Web应用程序底层去调用系统操作命令时，如果没有过滤好用户输入的数据，就很有可能形成系统命令执行漏洞来直接执行操作系统命令。详细讲解参考<a href="https://www.owasp.org/index.php/Command_Injection" target="_blank" rel="noopener">Command Injection</a></p>
 <h4 id="commix简介"><a href="#commix简介" class="headerlink" title="commix简介"></a>commix简介</h4><p>​    此处就不详细介绍了如果想要了解可以看这两篇文章：</p>
-<p>​    <a href="http://www.mottoin.com/91981.html" target="_blank" rel="external">http://www.mottoin.com/91981.html</a></p>
-<p>​    <a href="http://www.mottoin.com/91806.html" target="_blank" rel="external">http://www.mottoin.com/91806.html</a></p>
-<h4 id="测试环境搭建"><a href="#测试环境搭建" class="headerlink" title="测试环境搭建"></a>测试环境搭建</h4><p>​    在这里你可以使用DVWA或者DWAPP来实战，当然我觉得要尽可能全的包含各种类型的命令注入漏洞才算完美所以我们在此处使用commix提供的一个测试平台<a href="https://github.com/commixproject/commix-testbed" target="_blank" rel="external">commix-testbed</a>。</p>
-<p>1.如果你在使用windows平台那么我推荐<a href="http://www.phpstudy.net/" target="_blank" rel="external">PHPStudy</a>来搭建环境</p>
+<p>​    <a href="http://www.mottoin.com/91981.html" target="_blank" rel="noopener">http://www.mottoin.com/91981.html</a></p>
+<p>​    <a href="http://www.mottoin.com/91806.html" target="_blank" rel="noopener">http://www.mottoin.com/91806.html</a></p>
+<h4 id="测试环境搭建"><a href="#测试环境搭建" class="headerlink" title="测试环境搭建"></a>测试环境搭建</h4><p>​    在这里你可以使用DVWA或者DWAPP来实战，当然我觉得要尽可能全的包含各种类型的命令注入漏洞才算完美所以我们在此处使用commix提供的一个测试平台<a href="https://github.com/commixproject/commix-testbed" target="_blank" rel="noopener">commix-testbed</a>。</p>
+<p>1.如果你在使用windows平台那么我推荐<a href="http://www.phpstudy.net/" target="_blank" rel="noopener">PHPStudy</a>来搭建环境</p>
 <p>安装完成后你只需要在phpstudy的www目录下打开cmd键入：</p>
 <p><code>git clone https://github.com/commixproject/commix-testbed.git</code></p>
 <p>(当然你要确保你安装了Git)</p>
@@ -170,13 +168,13 @@
 <p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-3.png" alt="3"></p>
 <p>复制url并打开commix开始hack</p>
 <p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-4.png" alt="4"></p>
-<p>渗透主机为win后期可以借助empire（不知道empire？？？没关系<a href="http://www.mottoin.com/?s=empire" target="_blank" rel="external">戳我</a>）</p>
+<p>渗透主机为win后期可以借助empire（不知道empire？？？没关系<a href="http://www.mottoin.com/?s=empire" target="_blank" rel="noopener">戳我</a>）</p>
 <p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-5.png" alt="5"></p>
 <p>可以使用</p>
 <p><code>commix -u &quot;http://192.168.1.108/commix-testbed/scenarios/regular/GET/classic.php?addr=127.0.0.1&quot; --hostname --current-user --sys-info</code></p>
 <p>含义：显示当前测试主机的主机名，用户名和系统信息</p>
 <p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-8.png" alt="8"></p>
-<p>如果渗透主机为Linux则后期可以借助msf(不会msf？？？没关系<a href="http://www.mottoin.com/18517.html" target="_blank" rel="external">戳我</a>)</p>
+<p>如果渗透主机为Linux则后期可以借助msf(不会msf？？？没关系<a href="http://www.mottoin.com/18517.html" target="_blank" rel="noopener">戳我</a>)</p>
 <p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-9.png" alt="9"></p>
 <h4 id="示例二：User-Agent-HTTP头注入攻击"><a href="#示例二：User-Agent-HTTP头注入攻击" class="headerlink" title="示例二：User-Agent HTTP头注入攻击"></a>示例二：User-Agent HTTP头注入攻击</h4><p>选择User-Agent HTTP Header中的第一个Classic user-agent-based example</p>
 <p><code>http://192.168.1.108/commix-testbed/scenarios/user-agent/ua(classic).php</code></p>
@@ -201,10 +199,10 @@
 <p>执行命令：</p>
 <p><img src="http://ok44mzy2k.bkt.clouddn.com/commix-13.png" alt="13"></p>
 <h4 id="彩蛋"><a href="#彩蛋" class="headerlink" title="彩蛋"></a>彩蛋</h4><p>上面的例子不是很全，有几个使用commix进行命令注入的视频，有兴趣可以下载看下</p>
-<p>链接: <a href="https://pan.baidu.com/s/1qXMNjZm" target="_blank" rel="external">https://pan.baidu.com/s/1qXMNjZm</a> 密码: 5peb</p>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="https://github.com/commixproject/commix-testbed" target="_blank" rel="external">https://github.com/commixproject/commix-testbed</a></p>
-<p><a href="https://github.com/commixproject/commix" target="_blank" rel="external">https://github.com/commixproject/commix</a></p>
-<p><a href="http://www.commixproject.com/" target="_blank" rel="external">http://www.commixproject.com/</a></p>
+<p>链接: <a href="https://pan.baidu.com/s/1qXMNjZm" target="_blank" rel="noopener">https://pan.baidu.com/s/1qXMNjZm</a> 密码: 5peb</p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="https://github.com/commixproject/commix-testbed" target="_blank" rel="noopener">https://github.com/commixproject/commix-testbed</a></p>
+<p><a href="https://github.com/commixproject/commix" target="_blank" rel="noopener">https://github.com/commixproject/commix</a></p>
+<p><a href="http://www.commixproject.com/" target="_blank" rel="noopener">http://www.commixproject.com/</a></p>
 
   </div>
 </article>
