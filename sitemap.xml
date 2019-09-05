@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zer0yu.github.io/2019/09/05/2019-suctf-writeup/</loc>
+    
+    <lastmod>2019-09-05T14:08:47.419Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://zer0yu.github.io/About/index.html</loc>
     
     <lastmod>2019-08-30T03:16:13.931Z</lastmod>
