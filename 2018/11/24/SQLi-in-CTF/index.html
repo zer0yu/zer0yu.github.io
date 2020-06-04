@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="Z3R0YU">
 <meta property="og:description" content="0x01 http头xff的时间盲注题目代码如下，从题目分析可以看到$ip是从xxf参数中获取的，并再使用explode函数处理后(注意在这里使用了,号作为分隔符，因而我们插入的sql语句中不能出现,号了)，直接代入sql语句，因而是存在sql注入漏洞。因为关闭了报错，因而只能采用时间盲注的方式。 因为,号不能使用，所以就意味着limit 0,1不能使用，但是可以使用from 0 for 1进行代">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-24T12:40:01.918Z">
+<meta property="og:updated_time" content="2018-11-24T12:40:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CTF中的SQLi">
 <meta name="twitter:description" content="0x01 http头xff的时间盲注题目代码如下，从题目分析可以看到$ip是从xxf参数中获取的，并再使用explode函数处理后(注意在这里使用了,号作为分隔符，因而我们插入的sql语句中不能出现,号了)，直接代入sql语句，因而是存在sql注入漏洞。因为关闭了报错，因而只能采用时间盲注的方式。 因为,号不能使用，所以就意味着limit 0,1不能使用，但是可以使用from 0 for 1进行代">
@@ -374,7 +374,7 @@
     
     <footer id="footer">
   <div class="footer-left">
-    Copyright &copy; 2019 z3r0yu
+    Copyright &copy; 2020 z3r0yu
   </div>
   <div class="footer-right">
     <nav>

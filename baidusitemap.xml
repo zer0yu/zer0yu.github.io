@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://zer0yu.github.io/2020/06/04/FUSE-Finding-File-Upload-Bugs-via-Penetration-Testing/</loc>
+    <lastmod>2020-06-04</lastmod>
+  </url>  <url>
+    <loc>http://zer0yu.github.io/2020/06/04/Code-breaking-Puzzles-2018-Note/</loc>
+    <lastmod>2020-06-04</lastmod>
+  </url>  <url>
     <loc>http://zer0yu.github.io/2019/09/15/2019-starctf-writeup/</loc>
     <lastmod>2019-09-14</lastmod>
   </url>  <url>
