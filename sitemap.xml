@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zer0yu.github.io/2020/06/25/Gelato-Feedback-driven-and-Guided-Security-Analysis-of-Client-side-Web-Applications/</loc>
+    
+    <lastmod>2020-06-25T12:21:51.301Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://zer0yu.github.io/2020/06/04/FUSE-Finding-File-Upload-Bugs-via-Penetration-Testing/</loc>
     
     <lastmod>2020-06-04T03:05:18.490Z</lastmod>

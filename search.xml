@@ -1,6 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Gelato->Feedback-driven and Guided Security Analysis of Client-side Web Applications</title>
+    <url>/2020/06/25/Gelato-Feedback-driven-and-Guided-Security-Analysis-of-Client-side-Web-Applications/</url>
+    <content><![CDATA[<p>笔记作者：z3r0yu<br>论文作者：Behnaz Hassanshahi, Hyunjun Lee, Paddy Krishnan, Jörn Güy Suß<br>论文链接：<a href="https://arxiv.org/abs/2004.06292" target="_blank" rel="noopener">https://arxiv.org/abs/2004.06292</a><br>论文来源：2020年发表在预发表平台arxiv上</p>
+<h3 id="0x01-主要内容"><a href="#0x01-主要内容" class="headerlink" title="0x01 主要内容"></a>0x01 主要内容</h3><ol>
+<li>总结了安全感知的客户端分析爬虫应该支持的最关键的功能(15个)</li>
+<li>GELATO:检测建立在复杂库和框架上的现代客户端JavaScript应用的漏洞(DOM XSS漏洞)</li>
+<li>反馈驱动的安全感知引导的爬虫技术</li>
+<li>新的轻量级客户端污点分析方法，直接对JS进行插桩，无需修改浏览器内核，可以对JavaScript应用程序上的非平凡(non-trivial)污点流进行报告</li>
+<li>新颖的分阶段污点推理分析，能够高精度地检测基于DOM的潜在XSS漏洞</li>
+</ol>
+<h3 id="0x02-FEEDBACK-DRIVEN-GUIDED-AND-SECURITY-AWARE-CRAWLING-OF-MODERN-WEB-APPLICATIONS"><a href="#0x02-FEEDBACK-DRIVEN-GUIDED-AND-SECURITY-AWARE-CRAWLING-OF-MODERN-WEB-APPLICATIONS" class="headerlink" title="0x02 FEEDBACK-DRIVEN , GUIDED , AND SECURITY-AWARE CRAWLING OF MODERN WEB APPLICATIONS"></a>0x02 FEEDBACK-DRIVEN , GUIDED , AND SECURITY-AWARE CRAWLING OF MODERN WEB APPLICATIONS</h3><p>Gelato: 利用反馈驱动的方法，根据目标安全分析的要求，自动引导状态感知爬虫。</p>
+<p>算法的输入：一个网络应用的URL、一个目标安全分析TA和一组爬虫应该被引导的程序位置Loc<br>输出：目标分析的结果 (循环一直持续到爬虫到达一个ﬁxpoint，并且没有更多的新状态可以访问)</p>
+<p>在每次迭代时，我们对给定状态S(这个S是页面的状态改变)中的JavaScript和HTML代码运行目标安全分析TA，并收集结果。</p>
+<p>同时，作者对新发现的JavaScript代码运行近似的调用图分析，并使用轻量级工具收集执行跟踪。执行跟踪帮助我们确定实际的（真阳性）函数调用，从而去除假阳性调用图边缘，并将新发现的调用图添加到ACG中，ACG中包含了应用程序中已探索部分的调用图。PrioritizeEvent(S，ACG)根据使用ACG和当前状态S来决定下一步应该触发哪个事件。 </p>
+<p><img src="https://i.loli.net/2020/06/25/Pibk5QWs2OzGnyI.png" alt="-w413"></p>
+<h4 id="A-State-representation-and-comparison"><a href="#A-State-representation-and-comparison" class="headerlink" title="A. State representation and comparison"></a>A. State representation and comparison</h4><p>状态感知爬虫最重要的就是对状态的表示。理想情况下，我们希望存储整个浏览器和服务器的状态，以便能够在状态之间优雅地来回切换。然而，在每个状态中保存如此庞大的信息量是不现实的。为了解决这个挑战，作者尝试通过只存储状态的大小来保持最小化。表示状态的关键元素是(1)URL；(2)DOM树。作者记录了对父状态和子状态的引用，以便能够重放为达到当前状态而触发的事件序列。</p>
+<p>判断当前状态是否已经访问过了的启发式方法：<br>(1)URL的路径段相同；<br>(2)DOM树的大小没有发生巨大变化(小于阈值)；<br>(3)DOM树的哈希计算结果完全相同，或者DOM树结构的差异小于阈值。</p>
+<h4 id="B-Search-strategy"><a href="#B-Search-strategy" class="headerlink" title="B. Search strategy"></a>B. Search strategy</h4><p>深度优先搜索（DFS）来探索状态S。回到已访问状态的一种方法是重放事件序列，从根部一路到达特定状态。这种方法需要触发许多不必要的事件，这会极大地影响爬虫的效率。</p>
+<p>一种启发式方法将浏览器带到之前访问过的状态：<br>(1)检查是否可以通过触发当前状态的另一个事件来达到目标状态；<br>(2)计算状态图中达到目标状态的最短路径。</p>
+<h4 id="C-Call-graph-reﬁnement"><a href="#C-Call-graph-reﬁnement" class="headerlink" title="C. Call graph reﬁnement"></a>C. Call graph reﬁnement</h4><ol>
+<li>cg是静态构成的(也就是ComputeACG函数)，它就是状态S中执行的JavaScript代码生成一个近似的调用图</li>
+<li>在爬虫与用户界面的交互过程中，收集函数调用作为执行跟踪的一部分。接下来对这个执行跟踪进行处理，以检查调用图中是否有一条边缺失或为假阳性。调用图会根据这些新信息进行更新。(也就是refineACG函数)</li>
+</ol>
+<h4 id="D-Prioritization"><a href="#D-Prioritization" class="headerlink" title="D. Prioritization"></a>D. Prioritization</h4><p>如果当下的状态S包含我们需要的Loc(目标位置)，那么就使用ACG图中的最短路径进行触发事件序列(引导爬虫到达目标位置)</p>
+<h4 id="E-Input-value-generation"><a href="#E-Input-value-generation" class="headerlink" title="E. Input value generation"></a>E. Input value generation</h4><p>前端JavaScript一般接受的输入值：表单、URL、Cookie、本地存储等。但是一般对应的代码会有防护措施，比如处理掉一些不允许的字符。这里要检测的是DOM XSS漏洞，那么它就必须对前端的过滤(这里也不是严格的过滤，其实就是针对处理字符的函数)进行一个bypass。作者就使用对URL类型输入值的生成作为例子讲述此处的分析算法(这个算法的输入是当前状态S和目标分析TA)。</p>
+<p>为了bypass路径上的guards：</p>
+<ol>
+<li>在执行过程中收集感兴趣的运行时值，构造路径约束，并求解它们以生成输入值</li>
+<li>运行时值的例子是条件语句中的操作数和字符串函数调用中的参数（例如，string.substring内置函数），它们在执行路径上被触发来对我们的输入做校验。</li>
+<li>这些运行时收集的值将会作为约束，在后面约束输入的生成。</li>
+</ol>
+<h4 id="F-Support-for-other-features"><a href="#F-Support-for-other-features" class="headerlink" title="F. Support for other features"></a>F. Support for other features</h4><p><strong>动态事件处理程序注册</strong>。我们执行动态分析来收集运行时的值、痕迹，并捕获静态难以检测的事件。为了执行动态分析，我们对JavaScript代码进行工具化处理以收集痕迹，并hook事件处理程序以捕获那些在运行时无法发现的事件。还有很多情况下，事件注册是在库中通过复杂的机制完成的，并不直接（例如jQuery中的事件委托机制）。在这种情况下，我们使用常见的库和框架的模型，允许我们从其内部数据存储中提取所需的信息。</p>
+<p><strong>静态链接提取</strong>。与大多数现有的爬虫类似，我们从HTML页面中静态提取链接。此外，我们将静态链接提取与状态优先级相结合，具体如下。在状态感知抓取开始之前，GELATO从URL开始静态提取HTML页面的链接。这一步让我们可以检索到Web应用的部分和粗粒度结构。我们还为提取的页面的JavaScript代码静态地建立调用图，如果它们包含用户指定的目标位置（算法1中的Loc），则将它们优先用于状态感知抓取</p>
+<p><strong>表单填写</strong>。GELATO用提供的有效载荷作为conﬁguration填充表单。此处就是就使用了输入值生成技术。</p>
+<h3 id="0x03-TARGET-SECURITY-ANALYSIS-DOM-BASED-XSS-DETECTION"><a href="#0x03-TARGET-SECURITY-ANALYSIS-DOM-BASED-XSS-DETECTION" class="headerlink" title="0x03 TARGET SECURITY ANALYSIS: DOM-BASED XSS DETECTION"></a>0x03 TARGET SECURITY ANALYSIS: DOM-BASED XSS DETECTION</h3><p>动态污点分析是检测动态语言编写的应用程序中注入漏洞的常用技术。然而，在实践中，必须解决几个<strong>技术挑战</strong>，以实现能够分析实际应用的动态污点分析。</p>
+<ol>
+<li><p>通过non-instrumented代码跟踪污点。因为JavaScript引擎通常是用低级语言（C，C++）实现的，所以基于工具的动态分析将无法插桩所有的内置函数（例如，数组修改和字符串操作）。此外，出于效率的原因，通常最好不要对整个应用程序进行插桩处理，难免留下一些模块。因此，分析需要模拟未插桩代码中发生的情况，并相应地更新污点标签。处理未插桩代码的一种常见方法是使用手动创建的模型。所以模型就决定了动态分析结果的好坏。但是现有研究的模型不是包含错误就是不完整。</p>
+</li>
+<li><p>将污点标签附加到原始值上。原始值是不能用附加属性进行扩展的，所以常见的方式就是讲原始值包装在一个对象中，这个对象上标识了该处值的污点标签属性。但是这是一个会改变原始程序执行的侵入性过程，所以必须注意不要改变其语义。但是在保留原始程序语义的同时封装原始值是极具挑战性的。可能是因为这些问题的存在Jalangi2中已经不采用封装原始值的方式。</p>
+</li>
+</ol>
+<p>本文的解决方案：基于源代码插桩；非侵入式(不改变语义)动态污点推理</p>
+<p>关键是关联source和sink的值，观察程序的行为而不是附加和跟踪污点标签来推断污点(就是判断经过过滤之后对应位置是否还是一个污点，因为并不是存在敏感点的位置就是一个污点的位置)。本文提出了一个阶段性的方法，主要可以划分为以下几个阶段(一个菱形块儿是一个阶段)：</p>
+<p><img src="https://i.loli.net/2020/06/25/GvgJ3pQsRMjUkOa.png" alt="-w417"></p>
+<h3 id="0x04-实验评估"><a href="#0x04-实验评估" class="headerlink" title="0x04 实验评估"></a>0x04 实验评估</h3><p>评估是针对如下问题进行验证：</p>
+<ul>
+<li>RQ1：GELATO的反馈驱动和引导爬行技术在覆盖率和性能方面的效果如何？</li>
+<li>RQ2：GELATO与其他工具相比，发现的URL数量如何？</li>
+<li>RQ3: 与最先进的污点分析技术相比，GELATO基于DOM的XSS检测技术在精度和召回方面的效果如何？</li>
+</ul>
+<h4 id="A-Choosing-benchmarks"><a href="#A-Choosing-benchmarks" class="headerlink" title="A. Choosing benchmarks"></a>A. Choosing benchmarks</h4><p>篇文章的benchmark的来源为：vulnerable open-source applications, vulnerable libraries, our in-house applications, and micro-benchmarks</p>
+<h4 id="B-RQ1-effectiveness-of-our-feedback-driven-and-guided-crawling-technique"><a href="#B-RQ1-effectiveness-of-our-feedback-driven-and-guided-crawling-technique" class="headerlink" title="B. RQ1: effectiveness of our feedback-driven and guided crawling technique"></a>B. RQ1: effectiveness of our feedback-driven and guided crawling technique</h4><p>测量应用程序上AJAX调用(每个策略随时间变化的不同AJAX调用次数)的性能和覆盖率，来评估本文的反馈驱动和引导式抓取技术的有效性。</p>
+<p>下图显示了本文的引导式爬虫策略与非引导式随机爬虫策略的比较。请注意，随机策略仍然得益于我们的动态分析技术，只是用随机选择代替了算法1中的状态和事件优先级函数。</p>
+<p>评估了三个版本的引导式爬行技术：<br>(1) ACG + Models，当近似调用图无法有效分析库时，使用手动制作的模型，如jQuery；<br>(2) ACG + EA，这是我们的反馈驱动的边缘添加技术，在运行时执行过程中重新定义静态生成的调用图，并添加新发现的边缘；<br>(3) ACG + BOTH，同时使用Models和EA。通过比较这三个版本，我们评估了我们新颖的ACG边缘添加技术的有效性，该技术是完全自动的，可以在手工制作的库模型不可用时使用。</p>
+<p><img src="https://i.loli.net/2020/06/25/Qtl6HraowvVEX5s.png" alt="-w425"></p>
+<p>从实验结果可以看出<strong>引导式爬行策略</strong>比随机策略在所有三个应用中更快地找到AJAX调用，这三个应用都使用了现代技术，而且爬行的速度非同小可。此外，我们的反馈驱动边缘加法（ACG EA）技术也被证明是有效的：该技术发现的AJAX调用数量与精心构建的人工模型处于相同的范围内。</p>
+<h4 id="C-Results-for-DOM-based-XSS-detection"><a href="#C-Results-for-DOM-based-XSS-detection" class="headerlink" title="C. Results for DOM-based XSS detection"></a>C. Results for DOM-based XSS detection</h4><p>这个部分主要是评估本文的阶段性污点推理技术在具有已知基于DOM的XSS漏洞的微型基准和库上的有效性。</p>
+<p>benchmark: Google的Firing Range和IBM的基准。</p>
+<p>比较对象：DexterJS中的动态污点跟踪；CTT（Chromium Taint Tracking）[16年的USENIX]</p>
+<p>表三显示本年的框架比DexterJS和CTT发现了更多的污点。这在urldom测试用例中尤其明显，文本的框架能够检测到明显更多的URL可控测试用例。<br><img src="https://i.loli.net/2020/06/25/TKFiADd5va3IzMq.png" alt="-w427"></p>
+<p>表四的结果表明，在0x03中讨论的减少假阳性的策略在降低假阳性率和提高精度方面非常有效。<br><img src="https://i.loli.net/2020/06/25/BQLniF68sEhGHxz.png" alt="-w428"></p>
+<p>表五报告了本文的污点推理机制在一些存在已知漏洞的JavaScript库上的有效性<br><img src="https://i.loli.net/2020/06/25/hJecjMiAydOW8C5.png" alt="-w436"></p>
+<p>表六显示，GELATO可以成功检测到非平凡的现代web应用中基于DOM的XSS漏洞，而其他工具却没有报告这些漏洞。为了检测这些应用中的漏洞，需要一个状态感知的爬虫来触发脆弱路径。在这个实验中，GELATO是唯一一个拥有有效的状态感知爬虫的工具，成功地探索了应用程序并触发了脆弱路径。<br><img src="https://i.loli.net/2020/06/25/vZYzsTA2UCbJcaq.png" alt="-w423"></p>
+<p>表七：比较我们基于DOM的XSS检测的引导爬行策略（ACG）和随机策略（Random）。<br><img src="https://i.loli.net/2020/06/25/DzNQH4bR2J3dPxo.png" alt="-w431"></p>
+<h3 id="0x05-总结"><a href="#0x05-总结" class="headerlink" title="0x05 总结"></a>0x05 总结</h3><p>在本文中，我们提出了一个动态分析工具GELATO，可以检测现代和复杂的<strong>客户端JavaScript应用程序中的漏洞</strong>，这些应用程序通常建立在库和框架之上。我们研究了最先进的工具，并提出了一个<strong>安全感知的客户端分析应该支持的最关键功能</strong>。作者提出了<strong>第一个安全引导的客户端分析</strong>，通过采取<strong>反馈驱动</strong>的方法，<strong>结合静态和动态分析</strong>来自动分析复杂的框架，并有效地提高程序中安全敏感部分的覆盖率，从而缩小了状态感知爬行和客户端安全分析之间的差距。作者对GELATO进行了不同复杂程度的应用和基准的评估，结果显示其<strong>性能优于现有的爬虫</strong>。最后，我们提出了一种新的轻量级<strong>非侵入式客户端污点分析方法</strong>，它可以报告现代JavaScript应用中的非平凡污点，并且与现有的动态客户端污点分析工具相比具有更高的准确性。</p>
+]]></content>
+  </entry>
+  <entry>
     <title>FUSE->Finding File Upload Bugs via Penetration Testing</title>
     <url>/2020/06/04/FUSE-Finding-File-Upload-Bugs-via-Penetration-Testing/</url>
     <content><![CDATA[<p>笔记作者：z3r0yu</p>
