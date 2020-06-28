@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zer0yu.github.io/2020/06/28/Laravel-5-7%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E-CVE-2019-9081-2020%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4%E9%A2%98%E8%A7%A3/</loc>
+    
+    <lastmod>2020-06-28T00:19:48.431Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://zer0yu.github.io/2020/06/25/Gelato-Feedback-driven-and-Guided-Security-Analysis-of-Client-side-Web-Applications/</loc>
     
     <lastmod>2020-06-25T12:21:51.301Z</lastmod>
