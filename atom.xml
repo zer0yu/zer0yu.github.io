@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zer0yu.github.io/"/>
-  <updated>2020-06-28T00:19:48.431Z</updated>
+  <updated>2020-08-11T08:24:44.105Z</updated>
   <id>http://zer0yu.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>When TLS Hacks You -- BlackHat2020</title>
+    <link href="http://zer0yu.github.io/2020/08/11/When-TLS-Hacks-You-BlackHat2020/"/>
+    <id>http://zer0yu.github.io/2020/08/11/When-TLS-Hacks-You-BlackHat2020/</id>
+    <published>2020-08-11T08:23:56.000Z</published>
+    <updated>2020-08-11T08:24:44.105Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="When-TLS-Hacks-You"><a href="#When-TLS-Hacks-You" class="headerlink" title="When TLS Hacks You"></a>When TLS Hacks You</h1><h3 id="0x00-简介"><a href="#0x00-简介" class="headerlink" title="0x00 简介"></a>0x00 简介</h3><p>这是在blackhat2020上进行展示的一个关于SSRF+TLS rebinding的talk。具体来说就是利用TLS中的session id来承载payload对内网的应用进行攻击，它达到的目标跟之前 @<a href="https://twitter.com/orange_8361" target="_blank" rel="noopener">orangetw</a> 讲述的 SNI injection 方法是一样的，但是之前的方法是依赖于bug，而这种方法则依赖于TLS本身的特性。</p><p><a href="https://www.blackhat.com/us-20/briefings/schedule/#when-tls-hacks-you-19446" target="_blank" rel="noopener">演讲</a>|<a href="https://github.com/jmdx/TLS-poison/" target="_blank" rel="noopener">工具</a></p><h3 id="0x01-什么条件下可以实现这种攻击？"><a href="#0x01-什么条件下可以实现这种攻击？" class="headerlink" title="0x01 什么条件下可以实现这种攻击？"></a>0x01 什么条件下可以实现这种攻击？</h3><p><img src="https://i.loli.net/2020/08/11/uFdryGM9BAEhHZI.png" alt="-w373" style="zoom:50%;"></p><h4 id="1-首先是要有SSRF的常见攻击点"><a href="#1-首先是要有SSRF的常见攻击点" class="headerlink" title="1. 首先是要有SSRF的常见攻击点"></a>1. 首先是要有SSRF的常见攻击点</h4><ul><li>OIDC discovery</li><li>Webpush</li><li>Webmention</li><li>Apple Pay Web</li><li>In browsers, just phishing people (Then we call it CSRF)</li><li>Wificaptive portals</li><li>SSDP</li><li>SVG conversion</li><li>URL-based XXE</li><li>Scraping</li><li>Webhooks</li><li>PDF renderers with images enabled</li></ul><h4 id="2-看什么东西会缓存TLS-sessions"><a href="#2-看什么东西会缓存TLS-sessions" class="headerlink" title="2.看什么东西会缓存TLS sessions"></a>2.看什么东西会缓存TLS sessions</h4><p><img src="https://i.loli.net/2020/08/11/onY5MWAPBxuOdjm.png" alt="-w428" style="zoom:67%;"></p><h4 id="3-内网潜在的攻击对象有哪些"><a href="#3-内网潜在的攻击对象有哪些" class="headerlink" title="3. 内网潜在的攻击对象有哪些"></a>3. 内网潜在的攻击对象有哪些</h4><p><img src="https://i.loli.net/2020/08/11/D7XPLj1sNcvJlxo.png" alt="-w592" style="zoom:67%;"></p><h3 id="0x02-Real-world-SSRF"><a href="#0x02-Real-world-SSRF" class="headerlink" title="0x02 Real-world SSRF"></a>0x02 Real-world SSRF</h3><ol><li>Youtrack – <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-12852" target="_blank" rel="noopener">CVE-2019-12852</a></li><li>Nextcloud</li></ol><blockquote><p>Federated sharing:<br>@<a href="mailto:someone@example.com" target="_blank" rel="noopener">someone@example.com</a><br>@<a href="mailto:someone@example.com" target="_blank" rel="noopener">someone@example.com</a>:11211<br>Use TLS rebinding, write to memcached!<br>Fix: no great options<br>Still added a request timeout and gave me a bounty</p></blockquote><h3 id="0x03-Demo-Phishing-gt-CSRF-gt-RCE"><a href="#0x03-Demo-Phishing-gt-CSRF-gt-RCE" class="headerlink" title="0x03 Demo: Phishing-&gt;CSRF-&gt;RCE"></a>0x03 Demo: Phishing-&gt;CSRF-&gt;RCE</h3><p>这个Demo基于以下假设：</p><blockquote><p>受害者是一个使用django.core.cache的项目的开发者，并且使用了memcached。<br>受害者在Chrome等易受影响的浏览器中浏览电子邮件。<br>攻击者知道/猜到这一点。<br>受害者很聪明，不会下载附件。</p></blockquote><p>示例代码如下：<br><img src="https://i.loli.net/2020/08/11/XhUODkReNsKYq47.png" alt="-w511"></p><p><img src="https://i.loli.net/2020/08/11/O1z8AqQciShx52H.png" alt="-w470"></p><h3 id="0x04-未来的工作"><a href="#0x04-未来的工作" class="headerlink" title="0x04 未来的工作"></a>0x04 未来的工作</h3><ul><li>内存崩溃链</li><li>NAT pinning</li><li>DOS放大攻击</li><li>更好的测试基础设施</li><li>在物联网设备上基于Image的CSRF</li><li>使用session ticket承载payload攻击内部HTTP服务器</li><li>攻击消息队列</li></ul><h3 id="0x05-防御手段"><a href="#0x05-防御手段" class="headerlink" title="0x05 防御手段"></a>0x05 防御手段</h3><ol><li>改变缓存的key<ul><li>比如当前是(hostname,port)，可以修改为(hostname,port,ip_addr)</li><li>如果你关心大型TLS部署的问题那么可以修改为(hostname,port,addr_type(ip_addr))，这方面与<a href="https://wicg.github.io/cors-rfc1918/" target="_blank" rel="noopener">CORS and RFC1918</a>比较相似</li></ul></li><li>禁用出站TLS session resumption<ul><li>libcurl: CURLOPT_SSL_SESSIONID_CACHE=false</li><li>firefox: security.ssl.disable_session_identifiers=true</li><li>Tor browser: disabled by default</li><li>Java, Nodejs, Chrome, others: no option</li></ul></li><li>web app是没有办法禁止出站TLS session resumption的，所以只能：<ul><li>特别留意一下 webhooks, apple pay</li><li>对出站请求设置代理，例如使用<a href="https://github.com/stripe/smokescreen" target="_blank" rel="noopener">smokescreen</a></li><li>避免运行未经身份验证的内部TCP内容，特别是在使用换行分隔符时</li></ul></li></ol><h3 id="0x06-总结"><a href="#0x06-总结" class="headerlink" title="0x06 总结"></a>0x06 总结</h3><ol><li>TLS对SSRF攻击是十分有效的</li><li>遵循最新的规格是打破常规的好方法</li><li>我们需要重新考虑TLS session resumption的优点<br>PS: 本文是对议题做了一个简单的简述，如果有误还请指正</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;When-TLS-Hacks-You&quot;&gt;&lt;a href=&quot;#When-TLS-Hacks-You&quot; class=&quot;headerlink&quot; title=&quot;When TLS Hacks You&quot;&gt;&lt;/a&gt;When TLS Hacks You&lt;/h1&gt;&lt;h3 id=&quot;0
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Laravel 5.7反序列化漏洞(CVE-2019-9081+2020第五空间题解)</title>
